@@ -10,13 +10,13 @@ export function SignupFormPanel() {
           Loom
           <span className="mb-[3px] ml-0.5 size-1.5 rounded-full bg-[var(--accent)]" />
         </Link>
-        <a
-          href="#"
+        <Link
+          href="/signin"
           className="inline-flex items-center gap-1.5 rounded-full border border-transparent px-3.5 py-2 text-[13px] text-[var(--ink-soft)] no-underline transition-colors hover:border-[var(--rule)] hover:bg-[var(--paper-2)]"
         >
           Already have an account?
           <strong className="font-medium text-[var(--ink)]">Sign in</strong>
-        </a>
+        </Link>
       </header>
 
       <div className="flex flex-1 items-center justify-center">
