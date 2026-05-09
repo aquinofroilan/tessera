@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { SigninForm } from "./SigninForm";
 import { SparkleIcon } from "./icons";
 
@@ -13,23 +15,19 @@ export function SigninFormPanel() {
           Loom
           <span className="mb-[3px] ml-0.5 size-1.5 rounded-full bg-[var(--accent)]" />
         </Link>
-        <Link
-          href="/signup"
-          className="inline-flex items-center gap-1.5 rounded-full border border-transparent px-3.5 py-2 text-[13px] text-[var(--ink-soft)] no-underline transition-colors hover:border-[var(--rule)] hover:bg-[var(--paper-2)]"
-        >
-          New to Loom?
-          <strong className="font-medium text-[var(--ink)]">Start a trial</strong>
-        </Link>
+        <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
+          <Link href="/signup">
+            New to Loom?
+            <strong className="font-medium text-[var(--ink)]">Start a trial</strong>
+          </Link>
+        </Button>
       </header>
 
       <div className="flex flex-1 items-center justify-center">
         <div className="w-full max-w-[420px]">
-          <div className="mb-5 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-soft)]">
-            <span>Welcome back</span>
-            <span className="rounded-full bg-[var(--paper-3)] px-2.5 py-[3px] text-[10px] tracking-[0.1em] text-[var(--ink-soft)]">
-              v4.2 · live
-            </span>
-          </div>
+          <Eyebrow tag="v4.2 · live" tagTone="paper" className="mb-5">
+            Welcome back
+          </Eyebrow>
 
           <h1 className="font-display mb-3.5 text-[46px] leading-[0.98] font-[340] tracking-[-0.03em] max-sm:text-[38px]">
             Pick up where you{" "}
