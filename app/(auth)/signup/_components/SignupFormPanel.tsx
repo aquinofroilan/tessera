@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { SignupForm } from "./SignupForm";
 import { MigrationIcon } from "./icons";
 
@@ -6,27 +8,26 @@ export function SignupFormPanel() {
   return (
     <div className="relative flex flex-col px-7 pb-10 pt-7 md:px-10">
       <header className="mb-10 flex items-center justify-between md:mb-16">
-        <Link href="/" className="font-display inline-flex items-baseline gap-1 text-[26px] font-medium italic tracking-[-0.02em] text-[var(--ink)] no-underline">
+        <Link
+          href="/"
+          className="font-display inline-flex items-baseline gap-1 text-[26px] font-medium italic tracking-[-0.02em] text-[var(--ink)] no-underline"
+        >
           Loom
           <span className="mb-[3px] ml-0.5 size-1.5 rounded-full bg-[var(--accent)]" />
         </Link>
-        <Link
-          href="/signin"
-          className="inline-flex items-center gap-1.5 rounded-full border border-transparent px-3.5 py-2 text-[13px] text-[var(--ink-soft)] no-underline transition-colors hover:border-[var(--rule)] hover:bg-[var(--paper-2)]"
-        >
-          Already have an account?
-          <strong className="font-medium text-[var(--ink)]">Sign in</strong>
-        </Link>
+        <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
+          <Link href="/signin">
+            Already have an account?
+            <strong className="font-medium text-[var(--ink)]">Sign in</strong>
+          </Link>
+        </Button>
       </header>
 
       <div className="flex flex-1 items-center justify-center">
         <div className="w-full max-w-[420px]">
-          <div className="mb-5 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--ink-soft)]">
-            <span>Start your trial</span>
-            <span className="rounded-full bg-[var(--moss-soft)] px-2.5 py-[3px] text-[10px] tracking-[0.1em] text-[var(--moss)]">
-              30 days · free
-            </span>
-          </div>
+          <Eyebrow tag="30 days · free" tagTone="moss" className="mb-5">
+            Start your trial
+          </Eyebrow>
 
           <h1 className="font-display mb-3.5 text-[46px] leading-[0.98] font-[340] tracking-[-0.03em] sm:text-[46px] max-sm:text-[38px]">
             Run the whole shop on{" "}
