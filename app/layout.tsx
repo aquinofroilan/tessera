@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,7 +32,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${fraunces.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn(
+        "h-full antialiased font-sans",
+        inter.variable,
+        fraunces.variable,
+        geistMono.variable,
+      )}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
