@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
 export function FinalCtaSection() {
   return (
     <section className="relative border-t border-[var(--rule)] px-0 py-[140px] text-center">
@@ -12,12 +15,9 @@ export function FinalCtaSection() {
           Thirty days, every module, every feature. No card, no sales call, no &quot;let&apos;s hop on a quick demo.&quot;
         </p>
         <div className="reveal" data-reveal>
-          <a
-            href="#"
-            className="inline-flex items-center rounded-full bg-[var(--ink)] px-7 py-4 text-[15px] font-medium text-[var(--paper)] transition-all hover:-translate-y-px hover:bg-[var(--accent)]"
-          >
-            Start your trial →
-          </a>
+          <Button asChild variant="pill" size="pill-lg" className="px-7 py-4">
+            <Link href="/signup">Start your trial →</Link>
+          </Button>
         </div>
       </div>
     </section>

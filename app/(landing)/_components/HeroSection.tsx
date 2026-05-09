@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { trustedCompanies } from "./landing-data";
 import { CheckIcon } from "./icons";
 
@@ -27,18 +29,12 @@ export function HeroSection() {
         </p>
 
         <div className="reveal mt-9 flex flex-wrap items-center gap-3.5" data-reveal>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--ink)] px-[18px] py-2.5 text-sm font-medium text-[var(--paper)] transition-all hover:-translate-y-px hover:bg-[var(--accent)]"
-          >
-            Start a 30-day trial →
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center rounded-full border border-[var(--ink)] bg-transparent px-[18px] py-2.5 text-sm font-medium transition-all hover:-translate-y-px hover:bg-[var(--ink)] hover:text-[var(--paper)]"
-          >
-            Watch the 4-min tour
-          </a>
+          <Button asChild variant="pill" size="pill">
+            <Link href="/signup">Start a 30-day trial →</Link>
+          </Button>
+          <Button asChild variant="pill-outline" size="pill">
+            <a href="#">Watch the 4-min tour</a>
+          </Button>
         </div>
 
         <div className="reveal mt-[22px] flex flex-wrap gap-5 text-[13px] text-[var(--muted)]" data-reveal>

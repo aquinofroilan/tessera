@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const links = [
   { href: "#modules", label: "Modules" },
@@ -27,13 +29,13 @@ export function LandingNav() {
       } bg-[color:rgba(246,241,230,0.78)]`}
     >
       <div className="mx-auto flex h-[68px] w-full max-w-[1240px] items-center justify-between px-7">
-        <a
-          href="#"
+        <Link
+          href="/"
           className="font-display flex items-baseline gap-0.5 text-[26px] font-medium italic tracking-[-0.02em]"
         >
           Loom
           <span className="mb-[3px] ml-0.5 size-1.5 self-center rounded-full bg-[var(--accent)]" />
-        </a>
+        </Link>
 
         <ul className="hidden list-none gap-8 text-[14.5px] text-[var(--ink-soft)] min-[701px]:flex">
           {links.map((link) => (
@@ -46,18 +48,12 @@ export function LandingNav() {
         </ul>
 
         <div className="flex items-center gap-2.5">
-          <a
-            href="#"
-            className="inline-flex items-center rounded-full px-[18px] py-2.5 text-sm font-medium transition-all hover:-translate-y-px hover:bg-[var(--paper-2)]"
-          >
-            Sign in
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--ink)] px-[18px] py-2.5 text-sm font-medium text-[var(--paper)] transition-all hover:-translate-y-px hover:bg-[var(--accent)]"
-          >
-            Start a trial →
-          </a>
+          <Button asChild variant="pill-ghost" size="pill">
+            <Link href="/signin">Sign in</Link>
+          </Button>
+          <Button asChild variant="pill" size="pill">
+            <Link href="/signup">Start a trial →</Link>
+          </Button>
         </div>
       </div>
     </nav>
