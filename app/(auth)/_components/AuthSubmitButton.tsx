@@ -25,18 +25,18 @@ export function AuthSubmitButton({ status, idleLabel, submittingLabel, successLa
             {status === "idle" && (
                 <>
                     {idleLabel}
-                    <IconArrowRight className="h-4 w-4" />
+                    <IconArrowRight className="size-4 " />
                 </>
             )}
             {status === "submitting" && (
                 <>
-                    <IconLoader2 className="h-4 w-4 animate-[spin_0.9s_linear_infinite]" />
+                    <IconLoader2 className="size-4  animate-[spin_0.9s_linear_infinite]" />
                     {submittingLabel}
                 </>
             )}
             {status === "success" && (
                 <>
-                    <IconCheck className="h-4 w-4" />
+                    <IconCheck className="size-4 " />
                     {successLabel}
                 </>
             )}

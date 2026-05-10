@@ -117,7 +117,7 @@ export function SignupForm() {
                                     placeholder="Hollis & Dray Millwork"
                                     autoComplete="organization"
                                     disabled={disabled}
-                                    startIcon={<IconBuilding className="h-4 w-4" />}
+                                    startIcon={<IconBuilding className="size-4 " />}
                                     {...field}
                                 />
                             </FormControl>

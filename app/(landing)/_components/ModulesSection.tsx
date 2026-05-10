@@ -57,7 +57,7 @@ export function ModulesSection() {
                                 href="#"
                                 key={module.id}
                                 style={{ "--i": String(index) } as CSSProperties}
-                                className="group relative flex min-h-55 flex-col justify-between bg-(--paper) px-6 pt-7 pb-7 transition-colors hover:bg-(--paper-2)">
+                                className="group relative flex min-h-55 flex-col justify-between bg-(--paper) px-6 py-7  transition-colors hover:bg-(--paper-2)">
                                 <div>
                                     <div
                                         className={`mb-5 grid size-10.5 place-items-center rounded-[11px] text-(--paper) ${module.iconColor}`}>

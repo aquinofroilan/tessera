@@ -152,7 +152,7 @@ export function EditorialPanel({
                     {list.items.map((item) => (
                         <div key={item.title} className="flex items-center gap-3 text-sm text-[rgb(246_241_230_/_90%)]">
                             <span className="grid size-5.5 flex-none place-items-center rounded-full bg-[rgb(61_90_58_/_20%)] text-[#8FB58B]">
-                                <IconCheck className="h-3 w-3" stroke={2.4} />
+                                <IconCheck className="size-3 " stroke={2.4} />
                             </span>
                             <span>
                                 <strong className="font-medium text-(--paper)">{item.title}</strong>{" "}

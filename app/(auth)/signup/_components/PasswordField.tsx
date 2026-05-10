@@ -36,7 +36,7 @@ export function PasswordField({ control, disabled }: { control: Control<SignupVa
                 autoComplete="new-password"
                 placeholder="At least 10 characters"
                 disabled={disabled}
-                startIcon={<IconLock className="h-4 w-4" />}
+                startIcon={<IconLock className="size-4 " />}
                 endAdornment={
                     <Button
                         type="button"
@@ -45,7 +45,7 @@ export function PasswordField({ control, disabled }: { control: Control<SignupVa
                         onClick={() => setVisible((v) => !v)}
                         aria-label={visible ? "Hide password" : "Show password"}
                         className="rounded-md text-(--muted) hover:bg-(--paper-2) hover:text-(--ink)">
-                        {visible ? <IconEyeOff className="h-4 w-4" /> : <IconEye className="h-4 w-4" />}
+                        {visible ? <IconEyeOff className="size-4 " /> : <IconEye className="size-4 " />}
                     </Button>
                 }
                 {...field}

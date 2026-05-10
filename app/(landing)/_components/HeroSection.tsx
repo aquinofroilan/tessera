@@ -44,7 +44,7 @@ export function HeroSection() {
                         "Self-host or managed cloud",
                     ].map((text) => (
                         <span key={text} className="inline-flex items-center gap-2">
-                            <IconCheck className="h-3.5 w-3.5" />
+                            <IconCheck className="size-3.5 " />
                             {text}
                         </span>
                     ))}

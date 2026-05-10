@@ -37,7 +37,7 @@ export function SignupFormPanel() {
                     <SignupForm />
 
                     <AuthCallout
-                        icon={<IconReplace className="h-4 w-4" />}
+                        icon={<IconReplace className="size-4 " />}
                         title="Coming from QuickBooks, NetSuite, or SAP B1?">
                         Our migration team will move your data for you, free.{" "}
                         <a href="#" className="font-medium text-(--accent) no-underline">

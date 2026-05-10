@@ -36,7 +36,7 @@ export function SigninFormPanel() {
 
                     <SigninForm />
 
-                    <AuthCallout icon={<IconSparkles className="h-4 w-4" />} title="Don't have an account yet?">
+                    <AuthCallout icon={<IconSparkles className="size-4 " />} title="Don't have an account yet?">
                         Try Loom free for 30 days — every module, no credit card.{" "}
                         <Link href="/signup" className="font-medium text-(--accent) no-underline">
                             Start a trial →
