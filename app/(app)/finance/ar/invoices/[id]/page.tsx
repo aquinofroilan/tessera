@@ -40,14 +40,12 @@ export default async function InvoiceDetailPage({ params }: Props) {
                 ]}
             />
             <div className="flex-1 overflow-y-auto">
-                <div className="mx-auto w-full max-w-400 px-9 py-9">
+                <div className="mx-auto w-full max-w-400 p-9">
                     <PageHeader
                         eyebrow="Finance · Receivables · Invoices"
                         title={
                             <span className="inline-flex items-center gap-3">
-                                <span className="font-mono text-[28px] tracking-[0.02em]">
-                                    {invoice.invoiceNumber}
-                                </span>
+                                <span className="font-mono text-[28px] tracking-[0.02em]">{invoice.invoiceNumber}</span>
                                 <StatusBadge status={invoice.status} />
                             </span>
                         }
@@ -65,9 +63,7 @@ export default async function InvoiceDetailPage({ params }: Props) {
                         <InvoiceLinesTable invoice={invoice} />
                     </Block>
 
-                    <Block
-                        title="Receipts"
-                        description="Payments applied against this invoice.">
+                    <Block title="Receipts" description="Payments applied against this invoice.">
                         <InvoiceReceiptsTable receipts={receipts} currencyCode={invoice.currencyCode} />
                     </Block>
                 </div>

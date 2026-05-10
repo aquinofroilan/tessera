@@ -30,7 +30,7 @@ export function InvoiceSummaryCard({ invoice }: { invoice: InvoiceResponse }) {
                 <Field label="Tax">{formatMoney(invoice.taxAmount, invoice.currencyCode)}</Field>
                 <Field label="Received">{formatMoney(invoice.amountReceived, invoice.currencyCode)}</Field>
                 <Field label="Outstanding">
-                    <span className="font-display text-(--accent) text-[18px] font-[380] tracking-[-0.01em]">
+                    <span className="font-display text-[18px] font-[380] tracking-[-0.01em] text-(--accent)">
                         {formatMoney(outstanding, invoice.currencyCode)}
                     </span>
                 </Field>

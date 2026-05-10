@@ -9,8 +9,10 @@ export type Crumb = {
 
 export function AppTopbar({ crumbs }: { crumbs: Crumb[] }) {
     return (
-        <header className="border-border bg-(--paper)/85 flex h-14.5 shrink-0 items-center gap-5 border-b px-7 backdrop-blur-[10px]">
-            <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] tracking-[0.08em] text-(--muted) uppercase">
+        <header className="border-border flex h-14.5 shrink-0 items-center gap-5 border-b bg-(--paper)/85 px-7 backdrop-blur-[10px]">
+            <nav
+                aria-label="Breadcrumb"
+                className="flex items-center gap-2 font-mono text-[11px] tracking-[0.08em] text-(--muted) uppercase">
                 {crumbs.map((crumb, i) => {
                     const isLast = i === crumbs.length - 1;
                     return (
@@ -32,7 +34,7 @@ export function AppTopbar({ crumbs }: { crumbs: Crumb[] }) {
 
             <button
                 type="button"
-                className="hover:border-(--muted-2) flex min-w-70 items-center gap-2 rounded-lg border border-(--rule) bg-(--paper-2) px-3 py-1.75 text-sm text-(--muted) transition-colors">
+                className="flex min-w-70 items-center gap-2 rounded-lg border border-(--rule) bg-(--paper-2) px-3 py-1.75 text-sm text-(--muted) transition-colors hover:border-(--muted-2)">
                 <IconSearch className="size-3.5" stroke={1.8} />
                 <span>Search…</span>
                 <span className="ml-auto rounded border border-(--rule) bg-(--paper) px-1.25 py-px font-mono text-[10px] tracking-[0.04em] text-(--muted)">

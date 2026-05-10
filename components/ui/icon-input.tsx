@@ -33,9 +33,7 @@ function IconInput({ className, startIcon, endAdornment, tone = "default", ...pr
                 {...props}
             />
             {endAdornment ? (
-                <span
-                    data-slot="icon-input-end"
-                    className={cn("absolute top-1/2 -translate-y-1/2", offsets.right)}>
+                <span data-slot="icon-input-end" className={cn("absolute top-1/2 -translate-y-1/2", offsets.right)}>
                     {endAdornment}
                 </span>
             ) : null}

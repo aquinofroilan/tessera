@@ -15,9 +15,7 @@ export function Block({ title, description, aside, children }: BlockProps) {
                     <h2 className="font-display text-[21px] leading-tight font-[420] tracking-[-0.015em] text-(--ink)">
                         {title}
                     </h2>
-                    {description && (
-                        <p className="mt-1 text-[13px] leading-[1.5] text-(--muted)">{description}</p>
-                    )}
+                    {description && <p className="mt-1 text-[13px] leading-[1.5] text-(--muted)">{description}</p>}
                 </div>
                 {aside && <div className="flex items-center justify-end gap-2.5">{aside}</div>}
             </header>

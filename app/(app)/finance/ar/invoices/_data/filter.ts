@@ -16,9 +16,7 @@ export function parseInvoicesQuery(searchParams: Record<string, string | string[
     const pageRaw = Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page;
     const page = Math.max(1, Number(pageRaw) || 1);
     return {
-        status: (ALL_STATUSES.includes(status as InvoiceStatus) || status === "ALL"
-            ? status
-            : "ALL") as StatusFilter,
+        status: (ALL_STATUSES.includes(status as InvoiceStatus) || status === "ALL" ? status : "ALL") as StatusFilter,
         q: q.trim(),
         page,
     };

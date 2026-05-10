@@ -76,7 +76,7 @@ export function AppSidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="bg-(--paper-2) hidden w-62 shrink-0 flex-col border-r border-(--rule) px-3.5 py-3.5 md:flex">
+        <aside className="hidden w-62 shrink-0 flex-col border-r border-(--rule) bg-(--paper-2) p-3.5 md:flex">
             <Link
                 href="/"
                 className="font-display mb-1.5 inline-flex items-baseline gap-0.5 px-2.5 pt-2 pb-3.5 text-2xl font-medium tracking-[-0.02em] text-(--ink) italic">
@@ -108,9 +108,7 @@ export function AppSidebar() {
                         <ul className="flex list-none flex-col gap-0.5">
                             {group.items.map((item) => {
                                 const active =
-                                    item.href === "/finance"
-                                        ? pathname === "/finance"
-                                        : pathname.startsWith(item.href);
+                                    item.href === "/finance" ? pathname === "/finance" : pathname.startsWith(item.href);
                                 const Icon = item.icon;
                                 return (
                                     <li key={item.href}>
@@ -157,9 +155,7 @@ export function AppSidebar() {
                     EV
                 </span>
                 <span className="min-w-0 flex-1">
-                    <span className="block text-[13px] font-medium tracking-[-0.003em] text-(--ink)">
-                        Emma Voss
-                    </span>
+                    <span className="block text-[13px] font-medium tracking-[-0.003em] text-(--ink)">Emma Voss</span>
                     <span className="block text-[11px] text-(--muted)">COO · Owner</span>
                 </span>
                 <IconDots className="size-4 flex-none text-(--muted)" />

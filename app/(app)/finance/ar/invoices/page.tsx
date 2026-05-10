@@ -34,14 +34,10 @@ export default async function InvoicesListPage({ searchParams }: Props) {
     return (
         <>
             <AppTopbar
-                crumbs={[
-                    { label: "Finance", href: "/finance" },
-                    { label: "Receivables" },
-                    { label: "Invoices" },
-                ]}
+                crumbs={[{ label: "Finance", href: "/finance" }, { label: "Receivables" }, { label: "Invoices" }]}
             />
             <div className="flex-1 overflow-y-auto">
-                <div className="mx-auto w-full max-w-400 px-9 py-9">
+                <div className="mx-auto w-full max-w-400 p-9">
                     <PageHeader
                         eyebrow="Finance · Receivables"
                         title={
@@ -66,9 +62,7 @@ export default async function InvoicesListPage({ searchParams }: Props) {
                         }
                     />
 
-                    <Block
-                        title="AR aging"
-                        description="Open receivables grouped by how far past due they are.">
+                    <Block title="AR aging" description="Open receivables grouped by how far past due they are.">
                         <AgingStrip summary={aging} currencyCode="USD" />
                     </Block>
 

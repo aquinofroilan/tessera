@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 
@@ -50,12 +50,12 @@ export function NewInvoiceForm() {
     });
 
     const lines = useFieldArray({ control: form.control, name: "lines" });
-    const watchedLines = form.watch("lines");
-    const total = watchedLines.reduce((sum, line) => sum + (Number(line.amount) || 0), 0);
-    const currency = form.watch("currencyCode") || "USD";
+    const watchedLines = useWatch({ control: form.control, name: "lines" });
+    const watchedCurrency = useWatch({ control: form.control, name: "currencyCode" });
+    const total = (watchedLines ?? []).reduce((sum, line) => sum + (Number(line.amount) || 0), 0);
+    const currency = watchedCurrency || "USD";
 
     const onSubmit = form.handleSubmit(async (values) => {
-        // eslint-disable-next-line no-console
         console.info("[mock] CreateInvoiceRequest", values);
         router.push("/finance/ar/invoices");
     });
@@ -173,9 +173,7 @@ export function NewInvoiceForm() {
                             <div className="font-display text-[16px] font-medium tracking-[-0.005em] text-(--ink)">
                                 Lines
                             </div>
-                            <div className="text-[12px] text-(--muted)">
-                                Each line posts to a revenue account.
-                            </div>
+                            <div className="text-[12px] text-(--muted)">Each line posts to a revenue account.</div>
                         </div>
                         <Button
                             type="button"
@@ -275,9 +273,7 @@ export function NewInvoiceForm() {
                     </div>
 
                     <div className="flex items-center justify-end gap-6 border-t border-(--rule) px-6 py-4">
-                        <span className="font-mono text-[10px] tracking-[0.16em] text-(--muted) uppercase">
-                            Total
-                        </span>
+                        <span className="font-mono text-[10px] tracking-[0.16em] text-(--muted) uppercase">Total</span>
                         <span className="font-display text-[20px] font-[380] tracking-[-0.01em] text-(--ink) tabular-nums">
                             {formatMoney(total.toFixed(2), currency)}
                         </span>
@@ -288,11 +284,7 @@ export function NewInvoiceForm() {
                     <Button type="button" variant="ghost" size="sm" onClick={() => router.back()}>
                         Cancel
                     </Button>
-                    <Button
-                        type="submit"
-                        variant="default"
-                        size="sm"
-                        disabled={form.formState.isSubmitting}>
+                    <Button type="submit" variant="default" size="sm" disabled={form.formState.isSubmitting}>
                         Save as draft
                     </Button>
                 </div>

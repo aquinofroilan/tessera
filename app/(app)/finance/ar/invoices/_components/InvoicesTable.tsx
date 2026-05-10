@@ -68,9 +68,7 @@ export function InvoicesTable({ rows }: { rows: InvoiceResponse[] }) {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex flex-col gap-0.5">
-                                        <span className="text-[13px] text-(--ink)">
-                                            {formatDateShort(inv.dueDate)}
-                                        </span>
+                                        <span className="text-[13px] text-(--ink)">{formatDateShort(inv.dueDate)}</span>
                                         <OverdueCell daysOverdue={daysUntilDue(inv.dueDate)} />
                                     </div>
                                 </TableCell>
@@ -84,7 +82,10 @@ export function InvoicesTable({ rows }: { rows: InvoiceResponse[] }) {
                                     <StatusBadge status={inv.status} />
                                 </TableCell>
                                 <TableCell>
-                                    <Button variant="ghost" size="icon-sm" aria-label={`Actions for ${inv.invoiceNumber}`}>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon-sm"
+                                        aria-label={`Actions for ${inv.invoiceNumber}`}>
                                         <IconDots stroke={1.8} />
                                     </Button>
                                 </TableCell>

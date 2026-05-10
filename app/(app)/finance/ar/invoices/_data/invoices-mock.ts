@@ -1,8 +1,4 @@
-import type {
-    InvoiceLineResponse,
-    InvoiceReceiptResponse,
-    InvoiceResponse,
-} from "@/lib/api/finance/invoices";
+import type { InvoiceLineResponse, InvoiceReceiptResponse, InvoiceResponse } from "@/lib/api/finance/invoices";
 
 const ORG_ID = "org_hd_millwork";
 

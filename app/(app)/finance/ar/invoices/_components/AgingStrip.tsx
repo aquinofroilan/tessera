@@ -50,7 +50,7 @@ export function AgingStrip({ summary, currencyCode }: { summary: AgingSummary; c
                         <div className="font-display text-foreground text-[26px] leading-none font-[330] tracking-[-0.02em] tabular-nums">
                             {formatMoneyShort(value, currencyCode)}
                         </div>
-                        <div className="font-mono text-[11px] tabular-nums text-(--muted)">
+                        <div className="font-mono text-[11px] text-(--muted) tabular-nums">
                             {count} {count === 1 ? "invoice" : "invoices"}
                         </div>
                     </Card>
