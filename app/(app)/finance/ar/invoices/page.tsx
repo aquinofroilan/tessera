@@ -7,7 +7,9 @@ import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
 import { AgingStrip } from "./_components/AgingStrip";
+import { InvoicesToolbar } from "./_components/InvoicesToolbar";
 import { deriveAgingSummary } from "./_data/aging";
+import { countByStatus, filterInvoices, parseInvoicesQuery } from "./_data/filter";
 import { invoices } from "./_data/invoices-mock";
 
 export const metadata: Metadata = {
@@ -15,8 +17,17 @@ export const metadata: Metadata = {
     description: "All money in. Filter by status, search by number or customer.",
 };
 
-export default function InvoicesListPage() {
+type Props = {
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function InvoicesListPage({ searchParams }: Props) {
+    const sp = await searchParams;
+    const query = parseInvoicesQuery(sp);
+    const counts = countByStatus(invoices);
+    const filtered = filterInvoices(invoices, query);
     const aging = deriveAgingSummary(invoices);
+
     return (
         <>
             <AppTopbar
@@ -56,6 +67,12 @@ export default function InvoicesListPage() {
                         title="AR aging"
                         description="Open receivables grouped by how far past due they are.">
                         <AgingStrip summary={aging} currencyCode="USD" />
+                    </Block>
+
+                    <Block
+                        title="All invoices"
+                        description={`${filtered.length} of ${invoices.length} invoices match your filters.`}>
+                        <InvoicesToolbar activeStatus={query.status} initialQ={query.q} counts={counts} />
                     </Block>
                 </div>
             </div>
