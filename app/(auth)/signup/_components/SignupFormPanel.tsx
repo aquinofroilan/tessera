@@ -14,13 +14,13 @@ export function SignupFormPanel() {
                 <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
                     <Link href="/signin">
                         Already have an account?
-                        <strong className="font-medium text-(--ink)">Sign in</strong>
+                        <strong className="text-foreground font-medium">Sign in</strong>
                     </Link>
                 </Button>
             </header>
 
             <div className="flex flex-1 items-center justify-center">
-                <div className="w-full max-w-[420px]">
+                <div className="w-full max-w-105">
                     <Eyebrow tag="30 days · free" tagTone="moss" className="mb-5">
                         Start your trial
                     </Eyebrow>
@@ -37,7 +37,7 @@ export function SignupFormPanel() {
                     <SignupForm />
 
                     <AuthCallout
-                        icon={<IconReplace className="size-4 " />}
+                        icon={<IconReplace className="size-4" />}
                         title="Coming from QuickBooks, NetSuite, or SAP B1?">
                         Our migration team will move your data for you, free.{" "}
                         <a href="#" className="font-medium text-(--accent) no-underline">

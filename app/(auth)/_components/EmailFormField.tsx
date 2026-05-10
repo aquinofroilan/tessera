@@ -37,7 +37,7 @@ export function EmailFormField<TValues extends FieldValues>({
                             placeholder={placeholder}
                             autoComplete="email"
                             disabled={disabled}
-                            startIcon={<IconMail className="size-4 " />}
+                            startIcon={<IconMail className="size-4" />}
                             {...field}
                         />
                     </FormControl>

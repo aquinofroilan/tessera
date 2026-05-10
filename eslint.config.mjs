@@ -19,9 +19,7 @@ const eslintConfig = defineConfig([
             "better-tailwindcss/no-duplicate-classes": "warn",
         },
     },
-    // Override default ignores of eslint-config-next.
     globalIgnores([
-        // Default ignores of eslint-config-next:
         ".next/**",
         "out/**",
         "build/**",

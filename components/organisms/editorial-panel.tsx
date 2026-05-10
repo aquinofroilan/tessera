@@ -70,7 +70,7 @@ export function EditorialPanel({
     securityFooter = (
         <>
             <span>SOC 2 Type II · GDPR · CCPA</span>
-            <a href="#" className="text-inherit no-underline hover:text-(--paper)">
+            <a href="#" className="hover:text-background text-inherit no-underline">
                 Read our security note →
             </a>
         </>
@@ -80,7 +80,7 @@ export function EditorialPanel({
     return (
         <aside
             className={cn(
-                "relative flex flex-col overflow-hidden bg-(--ink) px-7 pt-7 pb-10 text-(--paper) md:px-10",
+                "bg-foreground text-background relative flex flex-col overflow-hidden px-7 pt-7 pb-10 md:px-10",
                 className,
             )}>
             <div
@@ -99,29 +99,29 @@ export function EditorialPanel({
                 <div
                     key={stat.label}
                     aria-hidden="true"
-                    className={`pointer-events-none absolute z-[3] hidden rounded-[10px] border border-(--rule-dark) bg-[rgb(246_241_230_/_8%)] px-3.5 py-2.5 backdrop-blur-md xl:block ${driftPositionClass[i]}`}>
-                    <div className="font-mono text-[9px] tracking-[0.1em] text-[rgb(246_241_230_/_55%)] uppercase">
+                    className={`pointer-events-none absolute z-3 hidden rounded-[10px] border border-(--rule-dark) bg-[rgb(246_241_230/8%)] px-3.5 py-2.5 backdrop-blur-md xl:block ${driftPositionClass[i]}`}>
+                    <div className="font-mono text-[9px] tracking-widest text-[rgb(246_241_230/55%)] uppercase">
                         {stat.label}
                     </div>
-                    <div className="font-display mt-0.5 text-lg font-normal tracking-[-0.02em] text-(--paper) tabular-nums">
+                    <div className="font-display text-background mt-0.5 text-lg font-normal tracking-[-0.02em] tabular-nums">
                         {stat.value}
                     </div>
                 </div>
             ))}
 
-            <header className="relative z-[2] mb-10 flex justify-end">
-                <div className="inline-flex items-center gap-2 rounded-full border border-(--rule-dark) px-3 py-1.5 font-mono text-[11px] tracking-[0.08em] text-[rgb(246_241_230_/_70%)] uppercase">
-                    <span className="size-1.5 animate-[pulse_2.4s_ease-in-out_infinite] rounded-full bg-(--moss) shadow-[0_0_0_3px_rgb(61_90_58_/_30%)]" />
+            <header className="relative z-2 mb-10 flex justify-end">
+                <div className="inline-flex items-center gap-2 rounded-full border border-(--rule-dark) px-3 py-1.5 font-mono text-[11px] tracking-[0.08em] text-[rgb(246_241_230/70%)] uppercase">
+                    <span className="size-1.5 animate-[pulse_2.4s_ease-in-out_infinite] rounded-full bg-(--moss) shadow-[0_0_0_3px_rgb(61_90_58/30%)]" />
                     {statusChip}
                 </div>
             </header>
 
-            <div className="relative z-[2] mx-auto flex w-full max-w-125 flex-1 flex-col justify-center">
+            <div className="relative z-2 mx-auto flex w-full max-w-125 flex-1 flex-col justify-center">
                 <div className="mb-7 flex items-center gap-2.5 font-mono text-[11px] tracking-[0.18em] text-(--accent-light) uppercase before:h-px before:w-6 before:bg-(--accent-light) before:content-['']">
                     {kicker}
                 </div>
 
-                <blockquote className="font-display mb-5 text-[38px] leading-[1.08] font-[320] tracking-[-0.025em] text-(--paper) italic max-[1100px]:text-[32px] max-sm:text-[28px]">
+                <blockquote className="font-display text-background mb-5 text-[38px] leading-[1.08] font-[320] tracking-tight italic max-[1100px]:text-[32px] max-sm:text-[28px]">
                     <span className="text-(--accent-light) not-italic">“</span>
                     {quote.body} <em className="text-(--accent-light) italic">{quote.emphasis}</em>
                     <span className="text-(--accent-light) not-italic">”</span>
@@ -129,15 +129,15 @@ export function EditorialPanel({
 
                 <div className="mb-12 flex items-center gap-3">
                     <div
-                        className="font-display grid size-9.5 place-items-center rounded-full text-[15px] font-medium text-(--paper) shadow-[inset_0_0_0_2px_rgb(255_255_255_/_20%)]"
+                        className="font-display text-background grid size-9.5 place-items-center rounded-full text-[15px] font-medium shadow-[inset_0_0_0_2px_rgb(255_255_255/20%)]"
                         style={{ background: attribution.gradient }}>
                         {attribution.initials}
                     </div>
                     <div>
-                        <div className="text-sm font-medium tracking-[-0.005em] text-(--paper)">
+                        <div className="text-background text-sm font-medium tracking-[-0.005em]">
                             {attribution.name}
                         </div>
-                        <div className="mt-0.5 font-mono text-[11px] tracking-[0.05em] text-[rgb(246_241_230_/_60%)]">
+                        <div className="mt-0.5 font-mono text-[11px] tracking-[0.05em] text-[rgb(246_241_230/60%)]">
                             {attribution.role}
                         </div>
                     </div>
@@ -146,24 +146,24 @@ export function EditorialPanel({
                 {dashboard}
 
                 <div className="grid gap-3">
-                    <div className="mb-1.5 border-b border-(--rule-dark) pb-2.5 font-mono text-[10px] tracking-[0.16em] text-[rgb(246_241_230_/_50%)] uppercase">
+                    <div className="mb-1.5 border-b border-(--rule-dark) pb-2.5 font-mono text-[10px] tracking-[0.16em] text-[rgb(246_241_230/50%)] uppercase">
                         {list.label}
                     </div>
                     {list.items.map((item) => (
-                        <div key={item.title} className="flex items-center gap-3 text-sm text-[rgb(246_241_230_/_90%)]">
-                            <span className="grid size-5.5 flex-none place-items-center rounded-full bg-[rgb(61_90_58_/_20%)] text-[#8FB58B]">
-                                <IconCheck className="size-3 " stroke={2.4} />
+                        <div key={item.title} className="flex items-center gap-3 text-sm text-[rgb(246_241_230/90%)]">
+                            <span className="grid size-5.5 flex-none place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]">
+                                <IconCheck className="size-3" stroke={2.4} />
                             </span>
                             <span>
-                                <strong className="font-medium text-(--paper)">{item.title}</strong>{" "}
-                                <span className="text-[13px] text-[rgb(246_241_230_/_55%)]">{item.detail}</span>
+                                <strong className="text-background font-medium">{item.title}</strong>{" "}
+                                <span className="text-[13px] text-[rgb(246_241_230/55%)]">{item.detail}</span>
                             </span>
                         </div>
                     ))}
                 </div>
             </div>
 
-            <footer className="relative z-[2] mt-10 flex flex-wrap justify-between gap-3 border-t border-(--rule-dark) pt-5 font-mono text-[11px] tracking-[0.05em] text-[rgb(246_241_230_/_50%)]">
+            <footer className="relative z-2 mt-10 flex flex-wrap justify-between gap-3 border-t border-(--rule-dark) pt-5 font-mono text-[11px] tracking-[0.05em] text-[rgb(246_241_230/50%)]">
                 {securityFooter}
             </footer>
         </aside>

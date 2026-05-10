@@ -16,7 +16,7 @@ export function LoomLogo({ size = "sm", className }: LoomLogoProps) {
         <Link
             href="/"
             className={cn(
-                "font-display inline-flex items-baseline gap-0.5 tracking-[-0.02em] text-foreground italic",
+                "font-display text-foreground inline-flex items-baseline gap-0.5 tracking-[-0.02em] italic",
                 sizeClass[size],
                 className,
             )}>

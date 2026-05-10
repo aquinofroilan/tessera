@@ -10,7 +10,7 @@ type EyebrowProps = ComponentProps<"div"> & {
 const tagToneClass: Record<NonNullable<EyebrowProps["tagTone"]>, string> = {
     moss: "bg-(--moss-soft) text-(--moss)",
     paper: "bg-(--paper-3) text-(--ink-soft)",
-    accent: "bg-(--accent) text-(--paper)",
+    accent: "bg-(--accent) text-background",
 };
 
 function Eyebrow({ className, children, tag, tagTone = "moss", ...props }: EyebrowProps) {
@@ -24,8 +24,7 @@ function Eyebrow({ className, children, tag, tagTone = "moss", ...props }: Eyebr
             {...props}>
             <span>{children}</span>
             {tag ? (
-                <span
-                    className={cn("rounded-full px-2.5 py-0.75 text-[10px] tracking-widest", tagToneClass[tagTone])}>
+                <span className={cn("rounded-full px-2.5 py-0.75 text-[10px] tracking-widest", tagToneClass[tagTone])}>
                     {tag}
                 </span>
             ) : null}

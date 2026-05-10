@@ -10,7 +10,7 @@ import { QuoteSection } from "./_components/QuoteSection";
 
 export default function LandingPage() {
     return (
-        <div className="landing-root min-h-screen bg-background text-foreground">
+        <div className="landing-root bg-background text-foreground min-h-screen">
             <LandingNav />
             <main>
                 <HeroSection />

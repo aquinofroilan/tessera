@@ -58,7 +58,7 @@ export const modules: ModuleItem[] = [
         title: "Manufacturing",
         description: "Bills of materials, work orders, shop-floor routing, and MRP without the PhD.",
         icon: "gear",
-        iconColor: "bg-(--ink)",
+        iconColor: "bg-foreground",
     },
     {
         id: "07",

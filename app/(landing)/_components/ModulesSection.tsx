@@ -36,8 +36,7 @@ export function ModulesSection() {
                             One platform
                         </div>
                         <h2 className="font-display mt-4 max-w-[16ch] text-[clamp(36px,5vw,64px)] leading-[1.02] font-[340] tracking-[-0.03em]">
-                            Eight modules. <em className="text-(--ink-soft) italic">One database.</em> Zero duct
-                            tape.
+                            Eight modules. <em className="text-(--ink-soft) italic">One database.</em> Zero duct tape.
                         </h2>
                     </div>
                     <p className="max-w-[52ch] text-lg text-(--ink-soft)">
@@ -48,7 +47,7 @@ export function ModulesSection() {
                 </div>
 
                 <div
-                    className="reveal stagger grid [grid-template-columns:repeat(1,minmax(0,1fr))] overflow-hidden rounded-[18px] border border-(--rule) bg-(--rule) md:[grid-template-columns:repeat(2,minmax(0,1fr))] xl:[grid-template-columns:repeat(4,minmax(0,1fr))]"
+                    className="reveal stagger border-border grid grid-cols-1 overflow-hidden rounded-[18px] border bg-(--rule) md:grid-cols-2 xl:grid-cols-4"
                     data-reveal>
                     {modules.map((module, index) => {
                         const Icon = moduleIconByKind[module.icon];
@@ -57,18 +56,18 @@ export function ModulesSection() {
                                 href="#"
                                 key={module.id}
                                 style={{ "--i": String(index) } as CSSProperties}
-                                className="group relative flex min-h-55 flex-col justify-between bg-(--paper) px-6 py-7  transition-colors hover:bg-(--paper-2)">
+                                className="group bg-background relative flex min-h-55 flex-col justify-between px-6 py-7 transition-colors hover:bg-(--paper-2)">
                                 <div>
                                     <div
-                                        className={`mb-5 grid size-10.5 place-items-center rounded-[11px] text-(--paper) ${module.iconColor}`}>
+                                        className={`text-background mb-5 grid size-10.5 place-items-center rounded-[11px] ${module.iconColor}`}>
                                         <Icon className="size-5.5" stroke={1.6} />
                                     </div>
                                     <h3 className="font-display mb-1.5 text-[22px] font-normal tracking-[-0.01em]">
                                         {module.title}
                                     </h3>
-                                    <p className="text-sm leading-[1.5] text-(--ink-soft)">{module.description}</p>
+                                    <p className="text-sm leading-normal text-(--ink-soft)">{module.description}</p>
                                 </div>
-                                <span className="absolute top-4.5 right-5.5 font-mono text-[11px] tracking-[0.1em] text-(--muted)">
+                                <span className="absolute top-4.5 right-5.5 font-mono text-[11px] tracking-widest text-(--muted)">
                                     {module.id}
                                 </span>
                                 <span className="absolute right-5.5 bottom-5.5 text-(--accent) opacity-30 transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100">

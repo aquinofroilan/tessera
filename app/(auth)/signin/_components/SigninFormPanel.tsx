@@ -14,13 +14,13 @@ export function SigninFormPanel() {
                 <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
                     <Link href="/signup">
                         New to Loom?
-                        <strong className="font-medium text-(--ink)">Start a trial</strong>
+                        <strong className="text-foreground font-medium">Start a trial</strong>
                     </Link>
                 </Button>
             </header>
 
             <div className="flex flex-1 items-center justify-center">
-                <div className="w-full max-w-[420px]">
+                <div className="w-full max-w-105">
                     <Eyebrow tag="v4.2 · live" tagTone="paper" className="mb-5">
                         Welcome back
                     </Eyebrow>
@@ -36,7 +36,7 @@ export function SigninFormPanel() {
 
                     <SigninForm />
 
-                    <AuthCallout icon={<IconSparkles className="size-4 " />} title="Don't have an account yet?">
+                    <AuthCallout icon={<IconSparkles className="size-4" />} title="Don't have an account yet?">
                         Try Loom free for 30 days — every module, no credit card.{" "}
                         <Link href="/signup" className="font-medium text-(--accent) no-underline">
                             Start a trial →

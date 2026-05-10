@@ -84,7 +84,7 @@ export function SigninForm() {
                                     placeholder="Your password"
                                     autoComplete="current-password"
                                     disabled={disabled}
-                                    startIcon={<IconLock className="size-4 " />}
+                                    startIcon={<IconLock className="size-4" />}
                                     endAdornment={
                                         <Button
                                             type="button"
@@ -92,11 +92,11 @@ export function SigninForm() {
                                             size="icon-sm"
                                             onClick={() => setShowPassword((v) => !v)}
                                             aria-label={showPassword ? "Hide password" : "Show password"}
-                                            className="rounded-md text-(--muted) hover:bg-(--paper-2) hover:text-(--ink)">
+                                            className="hover:text-foreground rounded-md text-(--muted) hover:bg-(--paper-2)">
                                             {showPassword ? (
-                                                <IconEyeOff className="size-4 " />
+                                                <IconEyeOff className="size-4" />
                                             ) : (
-                                                <IconEye className="size-4 " />
+                                                <IconEye className="size-4" />
                                             )}
                                         </Button>
                                     }

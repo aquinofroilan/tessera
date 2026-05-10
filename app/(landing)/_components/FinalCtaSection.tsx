@@ -3,7 +3,7 @@ import { Button } from "@/components/ui";
 
 export function FinalCtaSection() {
     return (
-        <section className="relative border-t border-(--rule) px-0 py-35 text-center">
+        <section className="border-border relative border-t px-0 py-35 text-center">
             <div className="mx-auto w-full max-w-310 px-7">
                 <h2
                     className="font-display reveal mx-auto mb-8 max-w-[14ch] text-[clamp(48px,8vw,120px)] leading-[0.98] font-[320] tracking-[-0.04em]"

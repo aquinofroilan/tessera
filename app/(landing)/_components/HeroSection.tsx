@@ -10,7 +10,7 @@ export function HeroSection() {
                 <div
                     className="reveal mb-7 inline-flex items-center gap-2.5 font-mono text-xs tracking-[0.12em] text-(--ink-soft) uppercase"
                     data-reveal>
-                    <span className="block size-[7px] animate-[pulse_2.4s_ease-in-out_infinite] rounded-full bg-(--moss) shadow-[0_0_0_4px_rgba(61,90,58,0.18)]" />
+                    <span className="block size-1.75 animate-[pulse_2.4s_ease-in-out_infinite] rounded-full bg-(--moss) shadow-[0_0_0_4px_rgba(61,90,58,0.18)]" />
                     Loom v4.2 · Shipped this week
                 </div>
 
@@ -22,7 +22,7 @@ export function HeroSection() {
 
                 <p className="reveal mt-8 max-w-140 text-[19px] leading-[1.55] text-(--ink-soft)" data-reveal>
                     Loom is a modern ERP for small and mid-sized businesses.{" "}
-                    <b className="font-medium text-(--ink)">
+                    <b className="text-foreground font-medium">
                         Sales, inventory, accounting, HR, manufacturing, and projects
                     </b>{" "}
                     - all in one place, all in one database, all priced like a grown-up.
@@ -44,7 +44,7 @@ export function HeroSection() {
                         "Self-host or managed cloud",
                     ].map((text) => (
                         <span key={text} className="inline-flex items-center gap-2">
-                            <IconCheck className="size-3.5 " />
+                            <IconCheck className="size-3.5" />
                             {text}
                         </span>
                     ))}
@@ -52,11 +52,11 @@ export function HeroSection() {
             </div>
 
             <div className="mx-auto mt-20 w-full max-w-310 px-7">
-                <div className="overflow-hidden border-y border-(--rule) py-4.5">
+                <div className="border-border overflow-hidden border-y py-4.5">
                     <p className="mb-3.5 text-center font-mono text-[11px] tracking-[0.15em] text-(--muted) uppercase">
                         Running the books of 4,200+ companies - from 3-person shops to 500-person plants
                     </p>
-                    <div className="marquee-track font-display flex w-[max-content] gap-18 text-[22px] whitespace-nowrap text-(--ink-soft) italic opacity-70">
+                    <div className="marquee-track font-display flex w-max gap-18 text-[22px] whitespace-nowrap text-(--ink-soft) italic opacity-70">
                         {[...trustedCompanies, ...trustedCompanies].map((company, index) => (
                             <span
                                 key={`${company}-${index}`}

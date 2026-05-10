@@ -9,9 +9,9 @@ function FeatureBullets({ items }: { items: string[] }) {
                 <li
                     key={item}
                     className={`grid grid-cols-[32px_1fr] gap-3.5 py-3.5 text-[15px] ${
-                        index === 0 ? "border-t border-(--rule)" : "border-t border-(--rule)"
-                    } ${index === items.length - 1 ? "border-b border-(--rule)" : ""}`}>
-                    <span className="grid size-6 place-items-center rounded-full bg-(--moss) text-[13px] text-background">
+                        index === 0 ? "border-border border-t" : "border-border border-t"
+                    } ${index === items.length - 1 ? "border-border border-b" : ""}`}>
+                    <span className="text-background grid size-6 place-items-center rounded-full bg-(--moss) text-[13px]">
                         ✓
                     </span>
                     <span>{item}</span>
@@ -24,7 +24,7 @@ function FeatureBullets({ items }: { items: string[] }) {
 function DashboardMock() {
     return (
         <div className="mock reveal" data-reveal>
-            <div className="flex items-center gap-2 border-b border-(--rule) bg-(--paper-2) px-4 py-3">
+            <div className="border-border flex items-center gap-2 border-b bg-(--paper-2) px-4 py-3">
                 <div className="flex gap-1.5">
                     <span className="size-2.5 rounded-full bg-(--rule)" />
                     <span className="size-2.5 rounded-full bg-(--rule)" />
@@ -45,11 +45,9 @@ function DashboardMock() {
                         <div
                             key={String(name)}
                             className={`flex items-center gap-2 rounded-lg px-2.5 py-1.75 text-xs ${
-                                active ? "bg-background font-medium text-foreground" : "text-(--ink-soft)"
+                                active ? "bg-background text-foreground font-medium" : "text-(--ink-soft)"
                             }`}>
-                            <span
-                                className={`size-3.5 rounded bg-(--rule) ${active ? "bg-(--accent)!" : ""}`}
-                            />
+                            <span className={`size-3.5 rounded bg-(--rule) ${active ? "bg-(--accent)!" : ""}`} />
                             {name}
                         </div>
                     ))}
@@ -63,12 +61,8 @@ function DashboardMock() {
                             ["Cash on hand", "$91,847", "↗ +3.1%", false],
                             ["Open tickets", "14", "↘ 2 overdue", true],
                         ].map(([label, value, delta, negative]) => (
-                            <div
-                                key={String(label)}
-                                className="rounded-[10px] border border-(--rule) bg-background p-3">
-                                <div className="text-[10px] tracking-widest text-(--muted) uppercase">
-                                    {label}
-                                </div>
+                            <div key={String(label)} className="border-border bg-background rounded-[10px] border p-3">
+                                <div className="text-[10px] tracking-widest text-(--muted) uppercase">{label}</div>
                                 <div className="font-display mt-1 text-[22px] tracking-[-0.02em]">{value}</div>
                                 <div
                                     className={`font-mono text-[10px] ${negative ? "text-(--accent)" : "text-(--moss)"}`}>
@@ -78,7 +72,7 @@ function DashboardMock() {
                         ))}
                     </div>
 
-                    <div className="h-40 rounded-[10px] border border-(--rule) bg-background p-3.5">
+                    <div className="border-border bg-background h-40 rounded-[10px] border p-3.5">
                         <div className="mb-2 flex items-center justify-between">
                             <strong className="font-display text-sm font-normal">Revenue · Last 30 days</strong>
                             <span className="font-mono text-[11px] tracking-[0.08em] text-(--muted) uppercase">
@@ -105,8 +99,8 @@ function DashboardMock() {
                         </svg>
                     </div>
 
-                    <div className="overflow-hidden rounded-[10px] border border-(--rule) bg-background">
-                        <div className="grid grid-cols-[1fr_80px_80px_60px] gap-2.5 border-b border-(--rule) bg-(--paper-2) px-3.5 py-2.5 font-mono text-[10px] tracking-[0.08em] text-(--muted) uppercase">
+                    <div className="border-border bg-background overflow-hidden rounded-[10px] border">
+                        <div className="border-border grid grid-cols-[1fr_80px_80px_60px] gap-2.5 border-b bg-(--paper-2) px-3.5 py-2.5 font-mono text-[10px] tracking-[0.08em] text-(--muted) uppercase">
                             <div>Recent orders</div>
                             <div>Amount</div>
                             <div>Stage</div>
@@ -120,7 +114,7 @@ function DashboardMock() {
                             <div
                                 key={String(order)}
                                 className={`grid grid-cols-[1fr_80px_80px_60px] gap-2.5 px-3.5 py-2.5 text-xs ${
-                                    index < 2 ? "border-b border-(--rule)" : ""
+                                    index < 2 ? "border-border border-b" : ""
                                 }`}>
                                 <div>{order}</div>
                                 <div>{amount}</div>
@@ -149,15 +143,13 @@ function DashboardMock() {
 function InventoryMock() {
     return (
         <div className="mock reveal" data-reveal>
-            <div className="flex items-center gap-2 border-b border-(--rule) bg-(--paper-2) px-4 py-3">
+            <div className="border-border flex items-center gap-2 border-b bg-(--paper-2) px-4 py-3">
                 <div className="flex gap-1.5">
                     <span className="size-2.5 rounded-full bg-(--rule)" />
                     <span className="size-2.5 rounded-full bg-(--rule)" />
                     <span className="size-2.5 rounded-full bg-(--rule)" />
                 </div>
-                <span className="ml-2 font-mono text-[11px] text-(--muted)">
-                    app.loom.co / inventory / SKU-4120
-                </span>
+                <span className="ml-2 font-mono text-[11px] text-(--muted)">app.loom.co / inventory / SKU-4120</span>
             </div>
             <div className="p-5">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -175,17 +167,15 @@ function InventoryMock() {
                         ["Reorder at", "60"],
                         ["Avg cost", "$3.42"],
                     ].map(([label, value]) => (
-                        <div
-                            key={String(label)}
-                            className="rounded-[10px] border border-(--rule) bg-(--paper) p-3">
-                            <div className="text-[10px] tracking-[0.1em] text-(--muted) uppercase">{label}</div>
+                        <div key={String(label)} className="border-border bg-background rounded-[10px] border p-3">
+                            <div className="text-[10px] tracking-widest text-(--muted) uppercase">{label}</div>
                             <div className="font-display mt-1 text-[22px] tracking-[-0.02em]">{value}</div>
                         </div>
                     ))}
                 </div>
 
-                <div className="mt-3 overflow-hidden rounded-[10px] border border-(--rule) bg-(--paper)">
-                    <div className="grid grid-cols-[80px_1fr_100px_80px] gap-2.5 border-b border-(--rule) bg-(--paper-2) px-3.5 py-2.5 font-mono text-[10px] tracking-[0.08em] text-(--muted) uppercase">
+                <div className="border-border bg-background mt-3 overflow-hidden rounded-[10px] border">
+                    <div className="border-border grid grid-cols-[80px_1fr_100px_80px] gap-2.5 border-b bg-(--paper-2) px-3.5 py-2.5 font-mono text-[10px] tracking-[0.08em] text-(--muted) uppercase">
                         <div>Date</div>
                         <div>Movement</div>
                         <div>Source</div>
@@ -200,7 +190,7 @@ function InventoryMock() {
                         <div
                             key={String(date)}
                             className={`grid grid-cols-[80px_1fr_100px_80px] gap-2.5 px-3.5 py-2.5 text-xs ${
-                                index < 3 ? "border-b border-(--rule)" : ""
+                                index < 3 ? "border-border border-b" : ""
                             }`}>
                             <div>{date}</div>
                             <div>{movement}</div>
@@ -230,7 +220,7 @@ function FeatureTitle({
             <div className="flex items-center gap-2.5 font-mono text-xs tracking-[0.15em] text-(--accent) uppercase before:block before:h-px before:w-6 before:bg-(--accent)">
                 {kicker}
             </div>
-            <h3 className="font-display my-3.5 text-[clamp(30px,3.6vw,44px)] leading-[1.05] font-[350] tracking-[-0.025em]">
+            <h3 className="font-display my-3.5 text-[clamp(30px,3.6vw,44px)] leading-[1.05] font-[350] tracking-tight">
                 {title}
             </h3>
             <p className="max-w-[44ch] text-[17px] text-(--ink-soft)">{text}</p>
@@ -268,9 +258,8 @@ export function FeaturesSection() {
                             kicker="Built by operators"
                             title={
                                 <>
-                                    Opinionated where it{" "}
-                                    <em className="text-(--accent) italic">saves you time.</em> Flexible where it
-                                    counts.
+                                    Opinionated where it <em className="text-(--accent) italic">saves you time.</em>{" "}
+                                    Flexible where it counts.
                                 </>
                             }
                             text="We've run factories, warehouses, and bookkeeping teams. That shows up in the defaults: a chart of accounts that matches GAAP out of the box, approval chains that assume humans get sick, and a migration path off the tools you already hate."

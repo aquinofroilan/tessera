@@ -13,14 +13,14 @@ export function AuthCallout({ icon, title, children, className }: AuthCalloutPro
     return (
         <div
             className={cn(
-                "mt-6 flex items-start gap-3 rounded-[10px] border border-dashed border-(--rule) bg-(--paper-2) px-4 py-3.5 text-[13px] leading-[1.5] text-(--ink-soft)",
+                "border-border mt-6 flex items-start gap-3 rounded-[10px] border border-dashed bg-(--paper-2) px-4 py-3.5 text-[13px] leading-normal text-(--ink-soft)",
                 className,
             )}>
-            <div className="grid size-7.5 flex-none place-items-center rounded-md bg-(--ink) text-(--paper)">
+            <div className="bg-foreground text-background grid size-7.5 flex-none place-items-center rounded-md">
                 {icon}
             </div>
             <div>
-                <strong className="font-medium text-(--ink)">{title}</strong>
+                <strong className="text-foreground font-medium">{title}</strong>
                 <br />
                 {children}
             </div>

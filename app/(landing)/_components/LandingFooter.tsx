@@ -3,7 +3,7 @@ import { footerColumns } from "./landing-data";
 
 export function LandingFooter() {
     return (
-        <footer className="border-t border-(--rule) px-0 pt-12 pb-9 text-(--ink-soft)">
+        <footer className="border-border border-t px-0 pt-12 pb-9 text-(--ink-soft)">
             <div className="mx-auto w-full max-w-310 px-7">
                 <div className="mb-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,minmax(0,1fr))]">
                     <div>
@@ -32,7 +32,7 @@ export function LandingFooter() {
                     ))}
                 </div>
 
-                <div className="flex flex-col gap-3 border-t border-(--rule) pt-6 text-center font-mono text-[13px] tracking-[0.05em] text-(--muted) sm:flex-row sm:justify-between sm:text-left">
+                <div className="border-border flex flex-col gap-3 border-t pt-6 text-center font-mono text-[13px] tracking-wider text-(--muted) sm:flex-row sm:justify-between sm:text-left">
                     <span>© 2026 Loom Systems, Inc.</span>
                     <span>Built with care in PDX · v4.2.1</span>
                 </div>

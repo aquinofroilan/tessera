@@ -19,13 +19,12 @@ const buttonVariants = cva(
                 destructive:
                     "rounded-lg bg-destructive/10 text-destructive hover:bg-destructive/20 active:not-aria-[haspopup]:translate-y-px",
                 link: "text-primary underline-offset-4 hover:underline",
-                pill: "rounded-full bg-(--ink) text-(--paper) tracking-[-0.005em] hover:-translate-y-px hover:bg-(--accent)",
+                pill: "rounded-full bg-foreground text-background tracking-[-0.005em] hover:-translate-y-px hover:bg-(--accent)",
                 "pill-outline":
-                    "rounded-full border-(--ink) bg-transparent text-(--ink) hover:-translate-y-px hover:bg-(--ink) hover:text-(--paper)",
-                "pill-ghost":
-                    "rounded-full bg-transparent text-(--ink-soft) hover:border-(--rule) hover:bg-(--paper-2)",
-                "pill-success": "rounded-full bg-(--moss) text-(--paper) hover:-translate-y-px",
-                sso: "rounded-[10px] border-(--rule) bg-(--card) text-(--ink) hover:-translate-y-px hover:border-(--ink)",
+                    "rounded-full border-(--ink) bg-transparent text-foreground hover:-translate-y-px hover:bg-foreground hover:text-background",
+                "pill-ghost": "rounded-full bg-transparent text-(--ink-soft) hover:border-border hover:bg-(--paper-2)",
+                "pill-success": "rounded-full bg-(--moss) text-background hover:-translate-y-px",
+                sso: "rounded-[10px] border-border bg-card text-foreground hover:-translate-y-px hover:border-(--ink)",
             },
             size: {
                 default: "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",

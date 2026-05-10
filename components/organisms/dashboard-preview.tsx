@@ -50,9 +50,7 @@ export function DashboardPreview({
             <div className="mb-2.5 grid grid-cols-3 gap-1.5">
                 {kpis.map((kpi) => (
                     <div key={kpi.label} className="rounded-lg bg-(--paper-2) px-2.5 py-2">
-                        <div className="font-mono text-[8px] tracking-widest text-(--muted) uppercase">
-                            {kpi.label}
-                        </div>
+                        <div className="font-mono text-[8px] tracking-widest text-(--muted) uppercase">{kpi.label}</div>
                         <div className="font-display mt-0.5 text-[14px] font-normal tracking-[-0.02em] tabular-nums">
                             {kpi.value}
                         </div>

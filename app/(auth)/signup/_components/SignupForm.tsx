@@ -117,7 +117,7 @@ export function SignupForm() {
                                     placeholder="Hollis & Dray Millwork"
                                     autoComplete="organization"
                                     disabled={disabled}
-                                    startIcon={<IconBuilding className="size-4 " />}
+                                    startIcon={<IconBuilding className="size-4" />}
                                     {...field}
                                 />
                             </FormControl>
@@ -142,17 +142,17 @@ export function SignupForm() {
                                         className="mt-0.5"
                                     />
                                 </FormControl>
-                                <span className="text-[13px] leading-[1.5] text-(--ink-soft)">
+                                <span className="text-[13px] leading-normal text-(--ink-soft)">
                                     I agree to Loom&apos;s{" "}
                                     <a
                                         href="#"
-                                        className="border-b border-(--rule) text-(--ink) no-underline transition-colors hover:border-(--accent)">
+                                        className="border-border text-foreground border-b no-underline transition-colors hover:border-(--accent)">
                                         Terms of Service
                                     </a>{" "}
                                     and{" "}
                                     <a
                                         href="#"
-                                        className="border-b border-(--rule) text-(--ink) no-underline transition-colors hover:border-(--accent)">
+                                        className="border-border text-foreground border-b no-underline transition-colors hover:border-(--accent)">
                                         Privacy Policy
                                     </a>
                                     , and I understand I can export or delete all data at any time.

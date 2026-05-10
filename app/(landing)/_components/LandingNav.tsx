@@ -26,8 +26,8 @@ export function LandingNav() {
     return (
         <nav
             className={`sticky top-0 z-50 border-b backdrop-blur-[10px] transition-colors ${
-                scrolled ? "border-(--rule)" : "border-transparent"
-            } bg-[color:rgba(246,241,230,0.78)]`}>
+                scrolled ? "border-border" : "border-transparent"
+            } bg-[rgba(246,241,230,0.78)]`}>
             <div className="mx-auto flex h-17 w-full max-w-310 items-center justify-between px-7">
                 <LoomLogo />
 
