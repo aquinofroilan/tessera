@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { LoomLogo } from "@/components/atoms/loom-logo";
 
 const links = [
     { href: "#modules", label: "Modules" },
@@ -28,12 +29,7 @@ export function LandingNav() {
                 scrolled ? "border-[var(--rule)]" : "border-transparent"
             } bg-[color:rgba(246,241,230,0.78)]`}>
             <div className="mx-auto flex h-17 w-full max-w-310 items-center justify-between px-7">
-                <Link
-                    href="/"
-                    className="font-display flex items-baseline gap-0.5 text-[26px] font-medium tracking-[-0.02em] italic">
-                    Loom
-                    <span className="mb-[3px] ml-0.5 size-1.5 self-center rounded-full bg-[var(--accent)]" />
-                </Link>
+                <LoomLogo />
 
                 <ul className="hidden list-none gap-8 text-[14.5px] text-[var(--ink-soft)] min-[701px]:flex">
                     {links.map((link) => (

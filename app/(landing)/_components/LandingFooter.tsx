@@ -1,3 +1,4 @@
+import { LoomLogo } from "@/components/atoms/loom-logo";
 import { footerColumns } from "./landing-data";
 
 export function LandingFooter() {
@@ -6,12 +7,7 @@ export function LandingFooter() {
             <div className="mx-auto w-full max-w-310 px-7">
                 <div className="mb-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,minmax(0,1fr))]">
                     <div>
-                        <a
-                            href="#"
-                            className="font-display mb-3 inline-flex items-baseline gap-0.5 text-[30px] tracking-[-0.02em] text-[var(--ink)] italic">
-                            Loom
-                            <span className="mb-[3px] ml-0.5 size-1.5 self-center rounded-full bg-[var(--accent)]" />
-                        </a>
+                        <LoomLogo size="md" className="mb-3" />
                         <p className="max-w-[28ch] text-sm">
                             Software for running the whole shop. Made in Portland, Oregon. Serving operators everywhere
                             since 2019.
