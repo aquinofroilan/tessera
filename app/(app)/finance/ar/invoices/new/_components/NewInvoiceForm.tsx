@@ -191,7 +191,7 @@ export function NewInvoiceForm() {
                         {lines.fields.map((field, index) => (
                             <div
                                 key={field.id}
-                                className="grid gap-3 border-b border-(--rule-soft) px-6 py-4 last:border-b-0 md:grid-cols-[180px_1fr_140px_36px]">
+                                className="grid gap-3 border-b border-(--rule-soft) px-6 py-4 last:border-b-0 md:grid-cols-[minmax(220px,1fr)_minmax(0,1.5fr)_140px_36px]">
                                 <FormField
                                     control={form.control}
                                     name={`lines.${index}.accountId`}
@@ -209,10 +209,12 @@ export function NewInvoiceForm() {
                                                 <SelectContent>
                                                     {revenueAccounts.map((a) => (
                                                         <SelectItem key={a.id} value={a.id}>
-                                                            <span className="font-mono text-[12px] tracking-[0.04em]">
-                                                                {a.code}
-                                                            </span>{" "}
-                                                            <span className="text-(--ink-soft)">{a.name}</span>
+                                                            <span className="flex w-full items-center justify-between gap-3">
+                                                                <span>{a.name}</span>
+                                                                <span className="font-mono text-[10px] tracking-[0.04em] text-(--muted)">
+                                                                    {a.code}
+                                                                </span>
+                                                            </span>
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
