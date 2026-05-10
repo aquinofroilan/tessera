@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "rounded-lg bg-primary text-primary-foreground active:not-aria-[haspopup]:translate-y-px [a]:hover:bg-primary/80",
+          "rounded-lg bg-primary text-primary-foreground hover:bg-primary/80 active:not-aria-[haspopup]:translate-y-px",
         outline:
           "rounded-lg border-border bg-background hover:bg-muted hover:text-foreground active:not-aria-[haspopup]:translate-y-px",
         secondary:
