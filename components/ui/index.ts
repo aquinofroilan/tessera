@@ -1,5 +1,14 @@
 export { Button, buttonVariants } from "./button";
 export { Card, CardContent, CardDescription, CardEyebrow, CardFooter, CardHeader, CardTitle } from "./card";
+export {
+    ChartContainer,
+    ChartLegend,
+    ChartLegendContent,
+    ChartStyle,
+    ChartTooltip,
+    ChartTooltipContent,
+    type ChartConfig,
+} from "./chart";
 export { Checkbox } from "./checkbox";
 export { Eyebrow, type EyebrowProps } from "./eyebrow";
 export {
