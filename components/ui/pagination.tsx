@@ -35,9 +35,13 @@ type PaginationLinkProps = {
 } & Pick<ComponentProps<typeof Button>, "size"> &
     ComponentProps<"a">;
 
-function PaginationLink({ className, isActive, size = "icon", ...props }: PaginationLinkProps) {
+function PaginationLink({ className, isActive, size = "icon-sm", ...props }: PaginationLinkProps) {
     return (
-        <Button asChild variant={isActive ? "outline" : "ghost"} size={size} className={cn(className)}>
+        <Button
+            asChild
+            variant={isActive ? "outline" : "ghost"}
+            size={size}
+            className={cn("font-mono tabular-nums", className)}>
             <a
                 aria-current={isActive ? "page" : undefined}
                 data-slot="pagination-link"
@@ -54,7 +58,11 @@ function PaginationPrevious({
     ...props
 }: ComponentProps<typeof PaginationLink> & { text?: string }) {
     return (
-        <PaginationLink aria-label="Go to previous page" size="default" className={cn("pl-1.5!", className)} {...props}>
+        <PaginationLink
+            aria-label="Go to previous page"
+            size="sm"
+            className={cn("font-sans normal-nums", className)}
+            {...props}>
             <IconChevronLeft data-icon="inline-start" stroke={1.8} />
             <span className="hidden sm:block">{text}</span>
         </PaginationLink>
@@ -67,7 +75,11 @@ function PaginationNext({
     ...props
 }: ComponentProps<typeof PaginationLink> & { text?: string }) {
     return (
-        <PaginationLink aria-label="Go to next page" size="default" className={cn("pr-1.5!", className)} {...props}>
+        <PaginationLink
+            aria-label="Go to next page"
+            size="sm"
+            className={cn("font-sans normal-nums", className)}
+            {...props}>
             <span className="hidden sm:block">{text}</span>
             <IconChevronRight data-icon="inline-end" stroke={1.8} />
         </PaginationLink>
