@@ -1,8 +1,8 @@
-// Keep money as a string to avoid float drift; format at render with Intl.NumberFormat.
-export type Money = string;
-export type IsoDate = string;
+import type { IsoDate, Money } from "@/lib/api/types";
+import type { InvoiceStatus } from "@/lib/api/finance/invoices";
 
-export type InvoiceStatus = "DRAFT" | "APPROVED" | "PARTIALLY_PAID" | "PAID" | "VOID";
+export type { IsoDate, Money, InvoiceStatus };
+
 export type BillStatus = "DRAFT" | "APPROVED" | "PARTIALLY_PAID" | "PAID" | "VOID";
 export type JournalEntryStatus = "DRAFT" | "POSTED" | "VOIDED";
 export type JournalEntrySource = "MANUAL" | "SYSTEM";
