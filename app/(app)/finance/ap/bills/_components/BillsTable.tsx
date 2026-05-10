@@ -69,7 +69,9 @@ export function BillsTable({ rows, asOfDate }: { rows: BillResponse[]; asOfDate:
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex flex-col gap-0.5">
-                                        <span className="text-[13px] text-(--ink)">{formatDateShort(bill.dueDate)}</span>
+                                        <span className="text-[13px] text-(--ink)">
+                                            {formatDateShort(bill.dueDate)}
+                                        </span>
                                         <OverdueCell daysOverdue={daysUntilDue(bill.dueDate, asOfDate)} />
                                     </div>
                                 </TableCell>
