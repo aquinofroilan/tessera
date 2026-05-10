@@ -7,6 +7,7 @@ import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
 import { AgingStrip } from "./_components/AgingStrip";
+import { InvoicesTable } from "./_components/InvoicesTable";
 import { InvoicesToolbar } from "./_components/InvoicesToolbar";
 import { deriveAgingSummary } from "./_data/aging";
 import { countByStatus, filterInvoices, parseInvoicesQuery } from "./_data/filter";
@@ -72,7 +73,10 @@ export default async function InvoicesListPage({ searchParams }: Props) {
                     <Block
                         title="All invoices"
                         description={`${filtered.length} of ${invoices.length} invoices match your filters.`}>
-                        <InvoicesToolbar activeStatus={query.status} initialQ={query.q} counts={counts} />
+                        <div className="mb-5">
+                            <InvoicesToolbar activeStatus={query.status} initialQ={query.q} counts={counts} />
+                        </div>
+                        <InvoicesTable rows={filtered} />
                     </Block>
                 </div>
             </div>

@@ -1,3 +1,5 @@
+import { differenceInCalendarDays, parseISO } from "date-fns";
+
 import type { AgingBucket, InvoiceResponse } from "@/lib/api/finance/invoices";
 
 const ZERO_BUCKET: AgingBucket = {
@@ -11,12 +13,6 @@ const ZERO_BUCKET: AgingBucket = {
 
 function add(a: string, b: number) {
     return (Number(a) + b).toFixed(2);
-}
-
-function daysBetween(asOf: Date, dueIso: string): number {
-    const due = new Date(dueIso);
-    const ms = asOf.getTime() - due.getTime();
-    return Math.floor(ms / (1000 * 60 * 60 * 24));
 }
 
 function bucketKey(daysOverdue: number): keyof Omit<AgingBucket, "total"> {
@@ -38,7 +34,7 @@ export type AgingSummary = {
 };
 
 export function deriveAgingSummary(invoices: InvoiceResponse[], asOfDate = "2026-05-10"): AgingSummary {
-    const asOf = new Date(asOfDate);
+    const asOf = parseISO(asOfDate);
     const bucket: AgingBucket = { ...ZERO_BUCKET };
     const counts = {
         current: 0,
@@ -53,7 +49,7 @@ export function deriveAgingSummary(invoices: InvoiceResponse[], asOfDate = "2026
         if (!isOpen(inv.status)) continue;
         const outstanding = Number(inv.totalAmount) - Number(inv.amountReceived);
         if (outstanding <= 0) continue;
-        const days = daysBetween(asOf, inv.dueDate);
+        const days = differenceInCalendarDays(asOf, parseISO(inv.dueDate));
         const key = bucketKey(days);
         bucket[key] = add(bucket[key], outstanding);
         bucket.total = add(bucket.total, outstanding);
