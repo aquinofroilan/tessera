@@ -1,6 +1,6 @@
-import { DashboardPreview } from "./DashboardPreview";
+import { DashboardPreview } from "@/components/organisms/dashboard-preview";
 import { CheckBoldIcon } from "./icons";
-import { customerQuote, floatingStats, trialIncludes } from "./signup-data";
+import { customerQuote, dashKpis, floatingStats, trialIncludes } from "./signup-data";
 
 export function EditorialPanel() {
   return (
@@ -80,7 +80,7 @@ export function EditorialPanel() {
           </div>
         </div>
 
-        <DashboardPreview />
+        <DashboardPreview greeting="Good morning," name="Emma" kpis={dashKpis} />
 
         <div className="grid gap-3">
           <div className="mb-1.5 border-b border-[var(--rule-dark)] pb-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[rgb(246_241_230_/_50%)]">
