@@ -1,13 +1,7 @@
 "use client";
 
 import { Area, AreaChart, CartesianGrid, Line, XAxis, YAxis } from "recharts";
-import {
-    Card,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-    type ChartConfig,
-} from "@/components/ui";
+import { Card, ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui";
 import { formatDelta, formatMoneyShort } from "../_data/format";
 import { revenueTrend } from "../_data/mock";
 
@@ -92,10 +86,7 @@ export function RevenueTrend() {
                                             <span
                                                 className="size-2 rounded-full"
                                                 style={{
-                                                    background:
-                                                        name === "revenue"
-                                                            ? "var(--accent)"
-                                                            : "var(--moss)",
+                                                    background: name === "revenue" ? "var(--accent)" : "var(--moss)",
                                                 }}
                                             />
                                             <span className="text-(--ink-soft)">

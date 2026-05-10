@@ -37,7 +37,11 @@ function KpiTile({ kpi }: { kpi: Kpi }) {
             <div className="flex items-center justify-between gap-2">
                 <span className="text-[13px] text-(--ink-soft)">{kpi.detail}</span>
                 {kpi.delta !== null && (
-                    <span className={cn("inline-flex items-center gap-0.5 font-mono text-[11px] tabular-nums", className)}>
+                    <span
+                        className={cn(
+                            "inline-flex items-center gap-0.5 font-mono text-[11px] tabular-nums",
+                            className,
+                        )}>
                         <Icon className="size-3.5" stroke={2} />
                         {formatDelta(kpi.delta)}
                     </span>
@@ -49,7 +53,9 @@ function KpiTile({ kpi }: { kpi: Kpi }) {
 
 export function KpiStrip() {
     return (
-        <section aria-label="Key performance indicators" className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <section
+            aria-label="Key performance indicators"
+            className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {kpis.map((kpi) => (
                 <KpiTile key={kpi.label} kpi={kpi} />
             ))}

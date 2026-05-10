@@ -27,6 +27,15 @@ export { IconInput, type IconInputProps } from "./icon-input";
 export { Input } from "./input";
 export { Label, labelVariants } from "./label";
 export {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "./pagination";
+export {
     Select,
     SelectContent,
     SelectGroup,

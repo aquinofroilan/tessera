@@ -27,6 +27,7 @@ const buttonVariants = cva(
                 sso: "rounded-[10px] border-border bg-card text-foreground hover:-translate-y-px hover:border-(--ink)",
                 "nav-card":
                     "w-full justify-start rounded-[10px] border-(--rule) bg-(--paper) text-left whitespace-normal hover:border-(--muted-2)",
+                chip: "rounded-full border-(--rule) bg-(--paper) text-(--ink-soft) hover:border-(--muted-2) hover:text-(--ink) aria-selected:border-(--ink) aria-selected:bg-(--ink) aria-selected:text-(--paper)",
             },
             size: {
                 default: "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",

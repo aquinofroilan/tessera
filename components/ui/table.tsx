@@ -42,9 +42,7 @@ export function TableHead({ className, ...props }: ComponentProps<"th">) {
 }
 
 export function TableCell({ className, ...props }: ComponentProps<"td">) {
-    return (
-        <td className={cn("h-12 px-4 align-middle text-(--ink) tabular-nums", className)} {...props} />
-    );
+    return <td className={cn("h-12 px-4 align-middle text-(--ink) tabular-nums", className)} {...props} />;
 }
 
 export function TableCaption({ className, ...props }: ComponentProps<"caption">) {

@@ -28,9 +28,7 @@ export function RecentJournal() {
                                     </span>
                                 </Link>
                             </TableCell>
-                            <TableCell className="text-[13px] text-(--ink-soft)">
-                                {formatDateShort(row.date)}
-                            </TableCell>
+                            <TableCell className="text-[13px] text-(--ink-soft)">{formatDateShort(row.date)}</TableCell>
                             <TableCell className="text-(--ink)">{row.description}</TableCell>
                             <TableCell>
                                 <span className="font-mono text-[10px] tracking-[0.08em] text-(--muted) uppercase">
