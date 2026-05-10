@@ -85,10 +85,27 @@ export function RevenueTrend() {
                         cursor={{ stroke: "var(--rule)", strokeDasharray: "3 3" }}
                         content={
                             <ChartTooltipContent
-                                formatter={(value, name) => {
-                                    const label = name === "revenue" ? "Revenue" : "Expenses";
-                                    return [formatMoneyShort(String(value), "USD"), label];
-                                }}
+                                formatter={(value, name) => (
+                                    <div className="flex w-full min-w-32 items-center justify-between gap-3">
+                                        <span className="flex items-center gap-1.5">
+                                            <span
+                                                className="size-2 rounded-full"
+                                                style={{
+                                                    background:
+                                                        name === "revenue"
+                                                            ? "var(--accent)"
+                                                            : "var(--moss)",
+                                                }}
+                                            />
+                                            <span className="text-(--ink-soft)">
+                                                {chartConfig[name as keyof typeof chartConfig]?.label ?? name}
+                                            </span>
+                                        </span>
+                                        <span className="font-mono text-(--ink) tabular-nums">
+                                            {formatMoneyShort(String(value), "USD")}
+                                        </span>
+                                    </div>
+                                )}
                             />
                         }
                     />
