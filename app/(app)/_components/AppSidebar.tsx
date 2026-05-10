@@ -6,7 +6,7 @@ import {
     IconBook2,
     IconBuildingBank,
     IconChartPie,
-    IconChevronUpDown,
+    IconSelector,
     IconCoins,
     IconDots,
     IconFileInvoice,
@@ -96,7 +96,7 @@ export function AppSidebar() {
                         ENTITY · FY2026
                     </span>
                 </span>
-                <IconChevronUpDown className="size-3.5 flex-none text-(--muted)" stroke={1.8} />
+                <IconSelector className="size-3.5 flex-none text-(--muted)" stroke={1.8} />
             </Button>
 
             <nav className="flex-1 overflow-y-auto">
