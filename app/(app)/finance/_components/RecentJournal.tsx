@@ -20,7 +20,7 @@ export function RecentJournal() {
                 </TableHeader>
                 <TableBody>
                     {recentJournal.map((row) => (
-                        <TableRow key={row.id} className="cursor-pointer">
+                        <TableRow key={row.id}>
                             <TableCell>
                                 <Link href={`/finance/journal/${row.id}`} className="block">
                                     <span className="font-mono text-[12px] tracking-[0.04em] text-(--ink)">
@@ -31,7 +31,7 @@ export function RecentJournal() {
                             <TableCell className="text-[13px] text-(--ink-soft)">
                                 {formatDateShort(row.date)}
                             </TableCell>
-                            <TableCell className="text-(--ink) tabular-nums-none">{row.description}</TableCell>
+                            <TableCell className="text-(--ink)">{row.description}</TableCell>
                             <TableCell>
                                 <span className="font-mono text-[10px] tracking-[0.08em] text-(--muted) uppercase">
                                     {row.source}

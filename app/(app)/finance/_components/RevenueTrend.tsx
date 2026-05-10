@@ -8,7 +8,7 @@ import {
     ChartTooltipContent,
     type ChartConfig,
 } from "@/components/ui";
-import { formatMoneyShort } from "../_data/format";
+import { formatDelta, formatMoneyShort } from "../_data/format";
 import { revenueTrend } from "../_data/mock";
 
 const chartConfig = {
@@ -19,7 +19,7 @@ const chartConfig = {
 export function RevenueTrend() {
     const last = revenueTrend[revenueTrend.length - 1];
     const prev = revenueTrend[revenueTrend.length - 2];
-    const delta = ((last.revenue - prev.revenue) / prev.revenue) * 100;
+    const delta = (last.revenue - prev.revenue) / prev.revenue;
 
     return (
         <Card className="overflow-hidden p-0">
@@ -32,8 +32,9 @@ export function RevenueTrend() {
                         <span className="font-display text-foreground text-[26px] leading-none font-[330] tracking-[-0.02em] tabular-nums">
                             {formatMoneyShort(String(last.revenue), "USD")}
                         </span>
-                        <span className="font-mono text-[11px] text-(--moss) tabular-nums">
-                            +{delta.toFixed(1)}% MoM
+                        <span
+                            className={`font-mono text-[11px] tabular-nums ${delta >= 0 ? "text-(--moss)" : "text-(--accent)"}`}>
+                            {formatDelta(delta)} MoM
                         </span>
                     </div>
                 </div>

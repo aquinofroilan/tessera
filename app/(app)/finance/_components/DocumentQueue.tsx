@@ -38,7 +38,7 @@ export function DocumentQueue({ rows, headers }: DocumentQueueProps) {
                 </TableHeader>
                 <TableBody>
                     {rows.map((row) => (
-                        <TableRow key={row.id} className="cursor-pointer">
+                        <TableRow key={row.id}>
                             <TableCell>
                                 <Link href={row.href} className="block">
                                     <span className="font-mono text-[12px] tracking-[0.04em] text-(--ink)">
