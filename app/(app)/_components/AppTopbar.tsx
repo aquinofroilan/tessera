@@ -9,7 +9,7 @@ export type Crumb = {
 
 export function AppTopbar({ crumbs }: { crumbs: Crumb[] }) {
     return (
-        <header className="border-border bg-(--paper)/85 sticky top-0 z-40 flex h-14.5 items-center gap-5 border-b px-7 backdrop-blur-[10px]">
+        <header className="border-border bg-(--paper)/85 flex h-14.5 shrink-0 items-center gap-5 border-b px-7 backdrop-blur-[10px]">
             <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] tracking-[0.08em] text-(--muted) uppercase">
                 {crumbs.map((crumb, i) => {
                     const isLast = i === crumbs.length - 1;

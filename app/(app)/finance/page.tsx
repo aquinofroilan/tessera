@@ -21,7 +21,8 @@ export default function FinanceDashboardPage() {
     return (
         <>
             <AppTopbar crumbs={[{ label: "Finance", href: "/finance" }, { label: "Dashboard" }]} />
-            <div className="mx-auto w-full max-w-300 px-9 py-9">
+            <div className="flex-1 overflow-y-auto">
+                <div className="mx-auto w-full max-w-300 px-9 py-9">
                 <PageHeader
                     eyebrow={`Finance · ${orgGreeting.fiscalYearLabel}`}
                     title={
@@ -86,6 +87,7 @@ export default function FinanceDashboardPage() {
                     }>
                     <RecentJournal />
                 </Block>
+                </div>
             </div>
         </>
     );
