@@ -1,41 +1,54 @@
-import { IconBell, IconChevronDown, IconSearch } from "@tabler/icons-react";
+import Link from "next/link";
+import { IconBell, IconHelpCircle, IconSearch } from "@tabler/icons-react";
+import { Button } from "@/components/ui";
 
-export function AppTopbar() {
+export type Crumb = {
+    label: string;
+    href?: string;
+};
+
+export function AppTopbar({ crumbs }: { crumbs: Crumb[] }) {
     return (
-        <header className="border-border bg-(--paper)/80 sticky top-0 z-40 flex h-17 items-center justify-between border-b px-6 backdrop-blur-[10px]">
-            <div className="flex items-center gap-4">
-                <button
-                    type="button"
-                    className="hover:bg-(--paper-2)/60 flex items-center gap-2 rounded-md border border-(--rule) bg-(--card) px-3 py-1.5 text-sm text-(--ink-soft) transition-colors">
-                    <span className="font-display text-(--ink) text-[15px] font-medium tracking-[-0.005em]">
-                        Hollis &amp; Dray Millwork
-                    </span>
-                    <IconChevronDown className="size-3.5 text-(--muted)" />
-                </button>
+        <header className="border-border bg-(--paper)/85 sticky top-0 z-40 flex h-14.5 items-center gap-5 border-b px-7 backdrop-blur-[10px]">
+            <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-mono text-[11px] tracking-[0.08em] text-(--muted) uppercase">
+                {crumbs.map((crumb, i) => {
+                    const isLast = i === crumbs.length - 1;
+                    return (
+                        <span key={`${crumb.label}-${i}`} className="flex items-center gap-2">
+                            {i > 0 && <span className="text-(--muted-2)">/</span>}
+                            {isLast || !crumb.href ? (
+                                <span className="font-medium text-(--ink)">{crumb.label}</span>
+                            ) : (
+                                <Link href={crumb.href} className="transition-colors hover:text-(--accent)">
+                                    {crumb.label}
+                                </Link>
+                            )}
+                        </span>
+                    );
+                })}
+            </nav>
 
-                <span className="hidden font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase md:inline">
-                    Fiscal year 2026 · Q2 open
+            <div className="flex-1" />
+
+            <button
+                type="button"
+                className="hover:border-(--muted-2) flex min-w-70 items-center gap-2 rounded-lg border border-(--rule) bg-(--paper-2) px-3 py-1.75 text-sm text-(--muted) transition-colors">
+                <IconSearch className="size-3.5" stroke={1.8} />
+                <span>Search…</span>
+                <span className="ml-auto rounded border border-(--rule) bg-(--paper) px-1.25 py-px font-mono text-[10px] tracking-[0.04em] text-(--muted)">
+                    ⌘K
                 </span>
-            </div>
+            </button>
 
-            <div className="flex items-center gap-2">
-                <button
-                    type="button"
-                    aria-label="Search"
-                    className="hover:bg-(--paper-2)/60 grid size-9 place-items-center rounded-md text-(--ink-soft) transition-colors">
-                    <IconSearch className="size-4.5" stroke={1.6} />
-                </button>
-                <button
-                    type="button"
-                    aria-label="Notifications"
-                    className="hover:bg-(--paper-2)/60 relative grid size-9 place-items-center rounded-md text-(--ink-soft) transition-colors">
-                    <IconBell className="size-4.5" stroke={1.6} />
-                    <span className="absolute top-2 right-2 size-1.5 rounded-full bg-(--accent)" />
-                </button>
-                <div className="ml-2 grid size-9 place-items-center rounded-full bg-gradient-to-br from-(--plum) to-(--accent) font-display text-sm font-medium text-(--paper) shadow-[inset_0_0_0_2px_rgb(255_255_255/20%)]">
-                    EV
-                </div>
-            </div>
+            <Button variant="outline" size="sm">
+                <IconHelpCircle stroke={1.8} />
+                Docs
+            </Button>
+
+            <Button variant="ghost" size="icon-sm" aria-label="Notifications" className="relative">
+                <IconBell stroke={1.8} />
+                <span className="absolute top-1.25 right-1.25 size-1.75 rounded-full border-2 border-(--paper) bg-(--accent)" />
+            </Button>
         </header>
     );
 }

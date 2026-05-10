@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+import { Button } from "@/components/ui";
+import { AppTopbar } from "../_components/AppTopbar";
+import { Block } from "../_components/Block";
+import { PageHeader } from "../_components/PageHeader";
 import { KpiStrip } from "./_components/KpiStrip";
 import { orgGreeting } from "./_data/mock";
 
@@ -9,22 +14,30 @@ export const metadata: Metadata = {
 
 export default function FinanceDashboardPage() {
     return (
-        <div className="mx-auto w-full max-w-300 px-6 py-8 md:px-10 md:py-10">
-            <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
-                <div>
-                    <div className="mb-2 font-mono text-[10px] tracking-[0.16em] text-(--muted) uppercase">
-                        Finance · Dashboard
-                    </div>
-                    <h1 className="font-display text-foreground text-[40px] leading-[1.05] font-[330] tracking-[-0.02em]">
-                        Good morning, <em className="text-(--accent) italic">{orgGreeting.name}.</em>
-                    </h1>
-                    <p className="mt-2 max-w-140 text-[15px] leading-[1.55] text-(--ink-soft)">
-                        Where the books stand at {orgGreeting.organization} — {orgGreeting.fiscalYearLabel}.
-                    </p>
-                </div>
-            </header>
+        <>
+            <AppTopbar crumbs={[{ label: "Finance", href: "/finance" }, { label: "Dashboard" }]} />
+            <div className="mx-auto w-full max-w-300 px-9 py-9">
+                <PageHeader
+                    eyebrow={`Finance · ${orgGreeting.fiscalYearLabel}`}
+                    title={
+                        <>
+                            Good morning, <em className="text-(--accent) italic">{orgGreeting.name}.</em>
+                        </>
+                    }
+                    description={`Where the books stand at ${orgGreeting.organization} today — overdue, in-flight, and trending.`}
+                    actions={
+                        <Button variant="outline" size="sm">
+                            Export
+                        </Button>
+                    }
+                />
 
-            <KpiStrip />
-        </div>
+                <Block
+                    title="At a glance"
+                    description="Money in, money out, and what needs your attention this week.">
+                    <KpiStrip />
+                </Block>
+            </div>
+        </>
     );
 }
