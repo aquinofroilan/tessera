@@ -10,6 +10,7 @@ import { AgingStrip } from "./_components/AgingStrip";
 import { InvoicesTable } from "./_components/InvoicesTable";
 import { InvoicesToolbar } from "./_components/InvoicesToolbar";
 import { PaginationFooter } from "./_components/PaginationFooter";
+import { MOCK_TODAY } from "../../_data/mock-anchor";
 import { deriveAgingSummary } from "./_data/aging";
 import { countByStatus, filterInvoices, paginate, parseInvoicesQuery } from "./_data/filter";
 import { invoices } from "./_data/invoices-mock";
@@ -29,7 +30,7 @@ export default async function InvoicesListPage({ searchParams }: Props) {
     const counts = countByStatus(invoices);
     const filtered = filterInvoices(invoices, query);
     const { rows: pageRows, window } = paginate(filtered, query.page);
-    const aging = deriveAgingSummary(invoices);
+    const aging = deriveAgingSummary(invoices, MOCK_TODAY);
 
     return (
         <>
@@ -72,7 +73,7 @@ export default async function InvoicesListPage({ searchParams }: Props) {
                         <div className="mb-5">
                             <InvoicesToolbar activeStatus={query.status} initialQ={query.q} counts={counts} />
                         </div>
-                        <InvoicesTable rows={pageRows} />
+                        <InvoicesTable rows={pageRows} asOfDate={MOCK_TODAY} />
                         {window.total > 0 && <PaginationFooter window={window} />}
                     </Block>
                 </div>

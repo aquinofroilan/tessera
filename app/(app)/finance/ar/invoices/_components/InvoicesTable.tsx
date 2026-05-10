@@ -12,7 +12,7 @@ function outstandingOf(inv: InvoiceResponse) {
     return (Number(inv.totalAmount) - Number(inv.amountReceived)).toFixed(2);
 }
 
-export function InvoicesTable({ rows }: { rows: InvoiceResponse[] }) {
+export function InvoicesTable({ rows, asOfDate }: { rows: InvoiceResponse[]; asOfDate: string }) {
     if (!rows.length) {
         return (
             <Card className="items-center gap-3 px-6 py-12 text-center">
@@ -70,7 +70,7 @@ export function InvoicesTable({ rows }: { rows: InvoiceResponse[] }) {
                                 <TableCell>
                                     <div className="flex flex-col gap-0.5">
                                         <span className="text-[13px] text-(--ink)">{formatDateShort(inv.dueDate)}</span>
-                                        <OverdueCell daysOverdue={daysUntilDue(inv.dueDate)} />
+                                        <OverdueCell daysOverdue={daysUntilDue(inv.dueDate, asOfDate)} />
                                     </div>
                                 </TableCell>
                                 <TableCell className="text-right">
@@ -83,11 +83,7 @@ export function InvoicesTable({ rows }: { rows: InvoiceResponse[] }) {
                                     <StatusBadge status={inv.status} />
                                 </TableCell>
                                 <TableCell>
-                                    <InvoiceRowMenu
-                                        id={inv.id}
-                                        invoiceNumber={inv.invoiceNumber}
-                                        status={inv.status}
-                                    />
+                                    <InvoiceRowMenu id={inv.id} invoiceNumber={inv.invoiceNumber} status={inv.status} />
                                 </TableCell>
                             </TableRow>
                         );
