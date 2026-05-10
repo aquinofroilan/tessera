@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { Button } from "@/components/ui";
 import { AppTopbar } from "../_components/AppTopbar";
 import { Block } from "../_components/Block";
 import { PageHeader } from "../_components/PageHeader";
 import { KpiStrip } from "./_components/KpiStrip";
+import { PayablesQueue } from "./_components/PayablesQueue";
+import { ReceivablesQueue } from "./_components/ReceivablesQueue";
 import { orgGreeting } from "./_data/mock";
 
 export const metadata: Metadata = {
@@ -36,6 +39,28 @@ export default function FinanceDashboardPage() {
                     title="At a glance"
                     description="Money in, money out, and what needs your attention this week.">
                     <KpiStrip />
+                </Block>
+
+                <Block
+                    title="Receivables"
+                    description="Invoices that are overdue, partially paid, or close to due."
+                    aside={
+                        <Button asChild variant="outline" size="sm">
+                            <Link href="/finance/ar/invoices">View all</Link>
+                        </Button>
+                    }>
+                    <ReceivablesQueue />
+                </Block>
+
+                <Block
+                    title="Payables"
+                    description="Bills you should approve or pay before they slip past due."
+                    aside={
+                        <Button asChild variant="outline" size="sm">
+                            <Link href="/finance/ap/bills">View all</Link>
+                        </Button>
+                    }>
+                    <PayablesQueue />
                 </Block>
             </div>
         </>
