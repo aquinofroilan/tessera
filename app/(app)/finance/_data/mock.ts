@@ -1,4 +1,5 @@
 import type { BillRow, InvoiceRow, JournalRow, Kpi, TrendPoint } from "./types";
+import type { DocumentQueueRow } from "../_components/DocumentQueue";
 
 export const orgGreeting = {
     name: "Emma",
@@ -225,6 +226,30 @@ export const recentJournal: JournalRow[] = [
         currencyCode: "USD",
     },
 ];
+
+export const dashboardReceivables: DocumentQueueRow[] = invoiceQueue.map((row) => ({
+    id: row.id,
+    number: row.invoiceNumber,
+    party: row.customerName,
+    dueDate: row.dueDate,
+    daysOverdue: row.daysOverdue,
+    outstanding: (Number(row.totalAmount) - Number(row.amountReceived)).toFixed(2),
+    currencyCode: row.currencyCode,
+    status: row.status,
+    href: `/finance/ar/invoices/${row.id}`,
+}));
+
+export const dashboardPayables: DocumentQueueRow[] = billQueue.map((row) => ({
+    id: row.id,
+    number: row.billNumber,
+    party: row.vendorName,
+    dueDate: row.dueDate,
+    daysOverdue: row.daysOverdue,
+    outstanding: (Number(row.totalAmount) - Number(row.amountPaid)).toFixed(2),
+    currencyCode: row.currencyCode,
+    status: row.status,
+    href: `/finance/ap/bills/${row.id}`,
+}));
 
 export const revenueTrend: TrendPoint[] = [
     { label: "Dec", revenue: 142000, expenses: 118400 },
