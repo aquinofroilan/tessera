@@ -4,7 +4,11 @@ import { IconDownload, IconPlus } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui";
 import { AppTopbar } from "../../../_components/AppTopbar";
+import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
+import { AgingStrip } from "./_components/AgingStrip";
+import { deriveAgingSummary } from "./_data/aging";
+import { invoices } from "./_data/invoices-mock";
 
 export const metadata: Metadata = {
     title: "Invoices · Loom",
@@ -12,6 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function InvoicesListPage() {
+    const aging = deriveAgingSummary(invoices);
     return (
         <>
             <AppTopbar
@@ -46,6 +51,12 @@ export default function InvoicesListPage() {
                             </>
                         }
                     />
+
+                    <Block
+                        title="AR aging"
+                        description="Open receivables grouped by how far past due they are.">
+                        <AgingStrip summary={aging} currencyCode="USD" />
+                    </Block>
                 </div>
             </div>
         </>
