@@ -40,7 +40,7 @@ export default async function InvoiceDetailPage({ params }: Props) {
                 ]}
             />
             <div className="flex-1 overflow-y-auto">
-                <div className="mx-auto w-full max-w-300 px-9 py-9">
+                <div className="mx-auto w-full max-w-400 px-9 py-9">
                     <PageHeader
                         eyebrow="Finance · Receivables · Invoices"
                         title={
