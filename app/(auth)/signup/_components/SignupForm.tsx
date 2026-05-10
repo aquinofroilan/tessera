@@ -1,26 +1,25 @@
 "use client";
 
-// TODO: wire to a real signup endpoint when the backend is ready.
-
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
+import { IconBuilding } from "@tabler/icons-react";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { FormDivider } from "@/components/ui/form-divider";
 import { IconInput } from "@/components/ui/icon-input";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { IconArrowRight, IconBuilding, IconCheck, IconLoader2, IconMail } from "@tabler/icons-react";
+import { AuthFinePrint } from "../../_components/AuthFinePrint";
+import { AuthSubmitButton } from "../../_components/AuthSubmitButton";
+import { EmailFormField } from "../../_components/EmailFormField";
+import { useAuthSubmitState } from "../../_components/useAuthSubmitState";
 import { signupSchema, type SignupValues } from "./signup-schema";
 import { PasswordField } from "./PasswordField";
 import { SsoButtons } from "./SsoButtons";
 
-type Status = "idle" | "submitting" | "success";
-
 export function SignupForm() {
-    const [status, setStatus] = useState<Status>("idle");
+    const { status, submit, disabled } = useAuthSubmitState();
     const form = useForm<SignupValues>({
         resolver: zodResolver(signupSchema),
         mode: "onBlur",
@@ -34,13 +33,18 @@ export function SignupForm() {
         },
     });
 
-    const onSubmit = form.handleSubmit(async () => {
-        setStatus("submitting");
-        await new Promise((resolve) => setTimeout(resolve, 1600));
-        setStatus("success");
+    const onSubmit = form.handleSubmit(async (values) => {
+        await submit(async () => {
+            const response = await fetch("/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(values),
+            });
+            if (!response.ok) {
+                throw new Error(`Signup failed: ${response.status} ${response.statusText}`);
+            }
+        });
     });
-
-    const disabled = status !== "idle";
 
     return (
         <Form {...form}>
@@ -88,30 +92,7 @@ export function SignupForm() {
                     />
                 </div>
 
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem className="gap-1.5">
-                            <FormLabel asChild>
-                                <Label variant="eyebrow">
-                                    Work email <span className="text-[var(--accent)]">*</span>
-                                </Label>
-                            </FormLabel>
-                            <FormControl>
-                                <IconInput
-                                    type="email"
-                                    placeholder="emma@hollisdray.co"
-                                    autoComplete="email"
-                                    disabled={disabled}
-                                    startIcon={<IconMail className="h-4 w-4" />}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <EmailFormField control={form.control} name="email" disabled={disabled} />
 
                 <FormField
                     control={form.control}
@@ -175,40 +156,14 @@ export function SignupForm() {
                     )}
                 />
 
-                <Button
-                    type="submit"
-                    variant={status === "success" ? "pill-success" : "pill"}
-                    size="pill-lg"
-                    disabled={disabled}
-                    className="mt-1.5 w-full">
-                    {status === "idle" && (
-                        <>
-                            Start my 30-day trial
-                            <IconArrowRight className="h-4 w-4" />
-                        </>
-                    )}
-                    {status === "submitting" && (
-                        <>
-                            <IconLoader2 className="h-4 w-4 animate-[spin_0.9s_linear_infinite]" />
-                            Setting up your workspace…
-                        </>
-                    )}
-                    {status === "success" && (
-                        <>
-                            <IconCheck className="h-4 w-4" />
-                            Workspace ready · redirecting
-                        </>
-                    )}
-                </Button>
+                <AuthSubmitButton
+                    status={status}
+                    idleLabel="Start my 30-day trial"
+                    submittingLabel="Setting up your workspace…"
+                    successLabel="Workspace ready · redirecting"
+                />
 
-                <div className="mt-3 flex flex-wrap gap-4 font-mono text-[11px] tracking-[0.04em] text-[var(--muted)]">
-                    {["No credit card", "Cancel anytime", "SOC 2 Type II"].map((text) => (
-                        <span key={text} className="inline-flex items-center gap-1.5">
-                            <IconCheck className="h-3 w-3" stroke={2.4} />
-                            {text}
-                        </span>
-                    ))}
-                </div>
+                <AuthFinePrint items={["No credit card", "Cancel anytime", "SOC 2 Type II"]} />
             </form>
         </Form>
     );

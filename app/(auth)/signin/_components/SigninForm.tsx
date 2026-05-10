@@ -1,25 +1,26 @@
 "use client";
 
-// TODO: wire to a real signin endpoint when the backend is ready.
-
 import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IconEye, IconEyeOff, IconLock } from "@tabler/icons-react";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { FormDivider } from "@/components/ui/form-divider";
 import { IconInput } from "@/components/ui/icon-input";
 import { Label } from "@/components/ui/label";
-import { IconArrowRight, IconCheck, IconEye, IconEyeOff, IconLoader2, IconLock, IconMail } from "@tabler/icons-react";
+import { AuthFinePrint } from "../../_components/AuthFinePrint";
+import { AuthSubmitButton } from "../../_components/AuthSubmitButton";
+import { EmailFormField } from "../../_components/EmailFormField";
+import { useAuthSubmitState } from "../../_components/useAuthSubmitState";
 import { signinSchema, type SigninValues } from "./signin-schema";
 import { SsoButtons } from "./SsoButtons";
 
-type Status = "idle" | "submitting" | "success";
-
 export function SigninForm() {
-    const [status, setStatus] = useState<Status>("idle");
+    const { status, submit, disabled } = useAuthSubmitState();
     const [showPassword, setShowPassword] = useState(false);
     const form = useForm<SigninValues>({
         resolver: zodResolver(signinSchema),
@@ -31,13 +32,18 @@ export function SigninForm() {
         },
     });
 
-    const onSubmit = form.handleSubmit(async () => {
-        setStatus("submitting");
-        await new Promise((resolve) => setTimeout(resolve, 1400));
-        setStatus("success");
+    const onSubmit = form.handleSubmit(async (values) => {
+        await submit(async () => {
+            const response = await fetch("/api/auth/signin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(values),
+            });
+            if (!response.ok) {
+                throw new Error(`Sign-in failed: ${response.status} ${response.statusText}`);
+            }
+        });
     });
-
-    const disabled = status !== "idle";
 
     return (
         <Form {...form}>
@@ -46,30 +52,7 @@ export function SigninForm() {
 
                 <FormDivider label="or with email" />
 
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem className="gap-1.5">
-                            <FormLabel asChild>
-                                <Label variant="eyebrow">
-                                    Work email <span className="text-[var(--accent)]">*</span>
-                                </Label>
-                            </FormLabel>
-                            <FormControl>
-                                <IconInput
-                                    type="email"
-                                    placeholder="emma@hollisdray.co"
-                                    autoComplete="email"
-                                    disabled={disabled}
-                                    startIcon={<IconMail className="h-4 w-4" />}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <EmailFormField control={form.control} name="email" disabled={disabled} />
 
                 <FormField
                     control={form.control}
@@ -139,40 +122,14 @@ export function SigninForm() {
                     )}
                 />
 
-                <Button
-                    type="submit"
-                    variant={status === "success" ? "pill-success" : "pill"}
-                    size="pill-lg"
-                    disabled={disabled}
-                    className="mt-1.5 w-full">
-                    {status === "idle" && (
-                        <>
-                            Sign in
-                            <IconArrowRight className="h-4 w-4" />
-                        </>
-                    )}
-                    {status === "submitting" && (
-                        <>
-                            <IconLoader2 className="h-4 w-4 animate-[spin_0.9s_linear_infinite]" />
-                            Signing you in…
-                        </>
-                    )}
-                    {status === "success" && (
-                        <>
-                            <IconCheck className="h-4 w-4" />
-                            Signed in · redirecting
-                        </>
-                    )}
-                </Button>
+                <AuthSubmitButton
+                    status={status}
+                    idleLabel="Sign in"
+                    submittingLabel="Signing you in…"
+                    successLabel="Signed in · redirecting"
+                />
 
-                <div className="mt-3 flex flex-wrap gap-4 font-mono text-[11px] tracking-[0.04em] text-[var(--muted)]">
-                    {["End-to-end encrypted", "SOC 2 Type II", "MFA available"].map((text) => (
-                        <span key={text} className="inline-flex items-center gap-1.5">
-                            <IconCheck className="h-3 w-3" stroke={2.4} />
-                            {text}
-                        </span>
-                    ))}
-                </div>
+                <AuthFinePrint items={["End-to-end encrypted", "SOC 2 Type II", "MFA available"]} />
             </form>
         </Form>
     );
