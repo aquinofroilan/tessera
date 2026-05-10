@@ -33,7 +33,7 @@ export type AgingSummary = {
     counts: Record<keyof Omit<AgingBucket, "total">, number> & { total: number };
 };
 
-export function deriveAgingSummary(invoices: InvoiceResponse[], asOfDate = "2026-05-10"): AgingSummary {
+export function deriveAgingSummary(invoices: InvoiceResponse[], asOfDate: string): AgingSummary {
     const asOf = parseISO(asOfDate);
     const bucket: AgingBucket = { ...ZERO_BUCKET };
     const counts = {
