@@ -1,6 +1,7 @@
 import type { InvoiceResponse, InvoiceStatus } from "@/lib/api/finance/invoices";
 import {
     countByStatus as countByStatusGeneric,
+    DOCUMENT_STATUSES,
     filterByStatusAndQuery,
     parseStatusQuery,
     type StatusQuery,
@@ -8,8 +9,7 @@ import {
 
 export type StatusFilter = InvoiceStatus | "ALL";
 export type InvoicesQuery = StatusQuery<InvoiceStatus>;
-
-export const ALL_STATUSES: readonly InvoiceStatus[] = ["DRAFT", "APPROVED", "PARTIALLY_PAID", "PAID", "VOID"] as const;
+export const ALL_STATUSES = DOCUMENT_STATUSES as readonly InvoiceStatus[];
 
 export function parseInvoicesQuery(searchParams: Record<string, string | string[] | undefined>): InvoicesQuery {
     return parseStatusQuery(searchParams, ALL_STATUSES);

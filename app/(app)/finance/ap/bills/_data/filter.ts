@@ -1,6 +1,7 @@
 import type { BillResponse, BillStatus } from "@/lib/api/finance/bills";
 import {
     countByStatus as countByStatusGeneric,
+    DOCUMENT_STATUSES,
     filterByStatusAndQuery,
     parseStatusQuery,
     type StatusQuery,
@@ -8,8 +9,7 @@ import {
 
 export type StatusFilter = BillStatus | "ALL";
 export type BillsQuery = StatusQuery<BillStatus>;
-
-export const ALL_STATUSES: readonly BillStatus[] = ["DRAFT", "APPROVED", "PARTIALLY_PAID", "PAID", "VOID"] as const;
+export const ALL_STATUSES = DOCUMENT_STATUSES as readonly BillStatus[];
 
 export function parseBillsQuery(searchParams: Record<string, string | string[] | undefined>): BillsQuery {
     return parseStatusQuery(searchParams, ALL_STATUSES);

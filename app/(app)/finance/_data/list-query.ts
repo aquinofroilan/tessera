@@ -1,3 +1,17 @@
+export type DocumentStatus = "DRAFT" | "APPROVED" | "PARTIALLY_PAID" | "PAID" | "VOID";
+
+export const DOCUMENT_STATUSES: readonly DocumentStatus[] = [
+    "DRAFT",
+    "APPROVED",
+    "PARTIALLY_PAID",
+    "PAID",
+    "VOID",
+] as const;
+
+export function isOpenDocument(status: DocumentStatus): boolean {
+    return status === "APPROVED" || status === "PARTIALLY_PAID";
+}
+
 export const PAGE_SIZE = 10;
 
 export type PageWindow = {
