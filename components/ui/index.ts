@@ -10,6 +10,23 @@ export {
     type ChartConfig,
 } from "./chart";
 export { Checkbox } from "./checkbox";
+export {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "./dropdown-menu";
 export { Eyebrow, type EyebrowProps } from "./eyebrow";
 export {
     Form,
