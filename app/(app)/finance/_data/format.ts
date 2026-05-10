@@ -44,8 +44,6 @@ export function formatDateShort(iso: string) {
     return format(parseISO(iso), "MMM d");
 }
 
-const TODAY = "2026-05-10";
-
-export function daysUntilDue(dueDate: string, asOfDate = TODAY) {
+export function daysUntilDue(dueDate: string, asOfDate: string) {
     return differenceInCalendarDays(parseISO(dueDate), parseISO(asOfDate));
 }
