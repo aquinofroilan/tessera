@@ -1,25 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import {
-    IconCash,
-    IconDots,
-    IconEye,
-    IconPencil,
-    IconCircleCheck,
-    IconCircleX,
-} from "@tabler/icons-react";
+import { IconCash, IconCircleCheck, IconCircleX, IconEye, IconPencil } from "@tabler/icons-react";
 
-import {
-    Button,
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui";
 import type { InvoiceStatus } from "@/lib/api/finance/invoices";
+import { RowActionsMenu, type RowAction } from "../../../_components/RowActionsMenu";
 
 type InvoiceRowMenuProps = {
     id: string;
@@ -29,51 +14,46 @@ type InvoiceRowMenuProps = {
 
 export function InvoiceRowMenu({ id, invoiceNumber, status }: InvoiceRowMenuProps) {
     const router = useRouter();
-
     const isDraft = status === "DRAFT";
     const isOpen = status === "APPROVED" || status === "PARTIALLY_PAID";
 
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon-sm" aria-label={`Actions for ${invoiceNumber}`}>
-                    <IconDots stroke={1.8} />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                <DropdownMenuLabel>{invoiceNumber}</DropdownMenuLabel>
-                <DropdownMenuItem onSelect={() => router.push(`/finance/ar/invoices/${id}`)}>
-                    <IconEye />
-                    View
-                </DropdownMenuItem>
-                {isDraft && (
-                    <DropdownMenuItem onSelect={() => router.push(`/finance/ar/invoices/${id}/edit`)}>
-                        <IconPencil />
-                        Edit
-                    </DropdownMenuItem>
-                )}
-                {isDraft && (
-                    <DropdownMenuItem onSelect={() => console.info("[mock] approve", id)}>
-                        <IconCircleCheck />
-                        Approve
-                    </DropdownMenuItem>
-                )}
-                {isOpen && (
-                    <DropdownMenuItem onSelect={() => console.info("[mock] record receipt", id)}>
-                        <IconCash />
-                        Record receipt
-                    </DropdownMenuItem>
-                )}
-                {isOpen && (
-                    <>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem variant="destructive" onSelect={() => console.info("[mock] void", id)}>
-                            <IconCircleX />
-                            Void invoice
-                        </DropdownMenuItem>
-                    </>
-                )}
-            </DropdownMenuContent>
-        </DropdownMenu>
-    );
+    const actions: RowAction[] = [
+        { key: "view", label: "View", icon: <IconEye />, onSelect: () => router.push(`/finance/ar/invoices/${id}`) },
+        ...(isDraft
+            ? [
+                  {
+                      key: "edit",
+                      label: "Edit",
+                      icon: <IconPencil />,
+                      onSelect: () => router.push(`/finance/ar/invoices/${id}/edit`),
+                  },
+                  {
+                      key: "approve",
+                      label: "Approve",
+                      icon: <IconCircleCheck />,
+                      onSelect: () => console.info("[mock] approve", id),
+                  },
+              ]
+            : []),
+        ...(isOpen
+            ? [
+                  {
+                      key: "receipt",
+                      label: "Record receipt",
+                      icon: <IconCash />,
+                      onSelect: () => console.info("[mock] record receipt", id),
+                  },
+                  {
+                      key: "void",
+                      label: "Void invoice",
+                      icon: <IconCircleX />,
+                      destructive: true,
+                      separatorBefore: true,
+                      onSelect: () => console.info("[mock] void", id),
+                  },
+              ]
+            : []),
+    ];
+
+    return <RowActionsMenu label={invoiceNumber} triggerAriaLabel={`Actions for ${invoiceNumber}`} actions={actions} />;
 }

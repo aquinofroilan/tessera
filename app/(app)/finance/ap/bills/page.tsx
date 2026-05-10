@@ -10,7 +10,7 @@ import { MOCK_TODAY } from "../../_data/mock-anchor";
 import { AgingStrip } from "./_components/AgingStrip";
 import { BillsTable } from "./_components/BillsTable";
 import { BillsToolbar } from "./_components/BillsToolbar";
-import { PaginationFooter } from "./_components/PaginationFooter";
+import { PaginationFooter } from "../../_components/PaginationFooter";
 import { deriveApAgingSummary } from "./_data/aging";
 import { countByStatus, filterBills, paginate, parseBillsQuery } from "./_data/filter";
 import { bills } from "./_data/bills-mock";

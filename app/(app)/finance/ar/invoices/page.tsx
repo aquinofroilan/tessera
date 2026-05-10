@@ -9,7 +9,7 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { AgingStrip } from "./_components/AgingStrip";
 import { InvoicesTable } from "./_components/InvoicesTable";
 import { InvoicesToolbar } from "./_components/InvoicesToolbar";
-import { PaginationFooter } from "./_components/PaginationFooter";
+import { PaginationFooter } from "../../_components/PaginationFooter";
 import { MOCK_TODAY } from "../../_data/mock-anchor";
 import { deriveAgingSummary } from "./_data/aging";
 import { countByStatus, filterInvoices, paginate, parseInvoicesQuery } from "./_data/filter";
