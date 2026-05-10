@@ -25,9 +25,7 @@ export function BillLinesTable({ bill }: { bill: BillResponse }) {
                                 </div>
                             </TableCell>
                             <TableCell className="text-(--ink)">{line.description ?? "—"}</TableCell>
-                            <TableCell className="text-right">
-                                {formatMoney(line.amount, bill.currencyCode)}
-                            </TableCell>
+                            <TableCell className="text-right">{formatMoney(line.amount, bill.currencyCode)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -36,10 +34,7 @@ export function BillLinesTable({ bill }: { bill: BillResponse }) {
                 <div className="flex w-60 justify-between text-(--ink-soft)">
                     <span>Subtotal</span>
                     <span className="tabular-nums">
-                        {formatMoney(
-                            (Number(bill.totalAmount) - Number(bill.taxAmount)).toFixed(2),
-                            bill.currencyCode,
-                        )}
+                        {formatMoney((Number(bill.totalAmount) - Number(bill.taxAmount)).toFixed(2), bill.currencyCode)}
                     </span>
                 </div>
                 <div className="flex w-60 justify-between text-(--ink-soft)">

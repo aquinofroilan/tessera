@@ -34,9 +34,7 @@ export default async function BillsListPage({ searchParams }: Props) {
 
     return (
         <>
-            <AppTopbar
-                crumbs={[{ label: "Finance", href: "/finance" }, { label: "Payables" }, { label: "Bills" }]}
-            />
+            <AppTopbar crumbs={[{ label: "Finance", href: "/finance" }, { label: "Payables" }, { label: "Bills" }]} />
             <div className="flex-1 overflow-y-auto">
                 <div className="mx-auto w-full max-w-400 p-9">
                     <PageHeader
