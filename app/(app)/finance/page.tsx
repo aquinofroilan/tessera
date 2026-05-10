@@ -8,6 +8,7 @@ import { PageHeader } from "../_components/PageHeader";
 import { KpiStrip } from "./_components/KpiStrip";
 import { PayablesQueue } from "./_components/PayablesQueue";
 import { ReceivablesQueue } from "./_components/ReceivablesQueue";
+import { RecentJournal } from "./_components/RecentJournal";
 import { RevenueTrend } from "./_components/RevenueTrend";
 import { orgGreeting } from "./_data/mock";
 
@@ -73,6 +74,17 @@ export default function FinanceDashboardPage() {
                         </Button>
                     }>
                     <RevenueTrend />
+                </Block>
+
+                <Block
+                    title="Recent journal"
+                    description="Latest postings and drafts that may need a second pair of eyes."
+                    aside={
+                        <Button asChild variant="outline" size="sm">
+                            <Link href="/finance/journal">Open journal</Link>
+                        </Button>
+                    }>
+                    <RecentJournal />
                 </Block>
             </div>
         </>
