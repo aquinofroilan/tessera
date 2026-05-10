@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { IconDots, IconFileOff } from "@tabler/icons-react";
+import { IconFileOff } from "@tabler/icons-react";
 
-import { Button, Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
+import { Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
 import type { InvoiceResponse } from "@/lib/api/finance/invoices";
 import { OverdueCell } from "../../../_components/OverdueDots";
 import { StatusBadge } from "../../../_components/StatusBadge";
 import { daysUntilDue, formatDateShort, formatMoney } from "../../../_data/format";
+import { InvoiceRowMenu } from "./InvoiceRowMenu";
 
 function outstandingOf(inv: InvoiceResponse) {
     return (Number(inv.totalAmount) - Number(inv.amountReceived)).toFixed(2);
@@ -82,12 +83,11 @@ export function InvoicesTable({ rows }: { rows: InvoiceResponse[] }) {
                                     <StatusBadge status={inv.status} />
                                 </TableCell>
                                 <TableCell>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        aria-label={`Actions for ${inv.invoiceNumber}`}>
-                                        <IconDots stroke={1.8} />
-                                    </Button>
+                                    <InvoiceRowMenu
+                                        id={inv.id}
+                                        invoiceNumber={inv.invoiceNumber}
+                                        status={inv.status}
+                                    />
                                 </TableCell>
                             </TableRow>
                         );
