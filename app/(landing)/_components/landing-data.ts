@@ -89,20 +89,8 @@ export const featureTwoBullets = [
 ];
 
 export const footerColumns = [
-    {
-        heading: "Product",
-        links: ["Modules", "Integrations", "Changelog", "Roadmap"],
-    },
-    {
-        heading: "Resources",
-        links: ["Docs", "API reference", "Migration guides", "Customer stories"],
-    },
-    {
-        heading: "Company",
-        links: ["About", "Our principles", "Careers", "Press kit"],
-    },
-    {
-        heading: "Legal",
-        links: ["Terms", "Privacy", "Security", "SOC 2"],
-    },
+    { heading: "Product", links: ["Modules", "Integrations", "Changelog", "Roadmap"] },
+    { heading: "Resources", links: ["Docs", "API reference", "Migration guides", "Customer stories"] },
+    { heading: "Company", links: ["About", "Our principles", "Careers", "Press kit"] },
+    { heading: "Legal", links: ["Terms", "Privacy", "Security", "SOC 2"] },
 ];
