@@ -1,9 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { addDays, format, parseISO } from "date-fns";
 
 import {
@@ -23,7 +22,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui";
-import { formatMoney } from "../../../../_data/format";
+import { LineItemsCard } from "../../../../_components/LineItemsCard";
 import { MOCK_TODAY } from "../../../../_data/mock-anchor";
 import { apVendors, expenseAccounts } from "../../_data/bills-mock";
 import { newBillSchema, type NewBillValues } from "../_data/new-bill-schema";
@@ -47,10 +46,7 @@ export function NewBillForm() {
         },
     });
 
-    const lines = useFieldArray({ control: form.control, name: "lines" });
-    const watchedLines = useWatch({ control: form.control, name: "lines" });
     const watchedCurrency = useWatch({ control: form.control, name: "currencyCode" });
-    const total = (watchedLines ?? []).reduce((sum, line) => sum + (Number(line.amount) || 0), 0);
     const currency = watchedCurrency || "USD";
 
     const onSubmit = form.handleSubmit(async (values) => {
@@ -181,118 +177,13 @@ export function NewBillForm() {
                     </div>
                 </Card>
 
-                <Card className="p-0">
-                    <div className="flex items-center justify-between border-b border-(--rule-soft) px-6 py-4">
-                        <div>
-                            <div className="font-display text-[16px] font-medium tracking-[-0.005em] text-(--ink)">
-                                Lines
-                            </div>
-                            <div className="text-[12px] text-(--muted)">Each line posts to an expense account.</div>
-                        </div>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() => lines.append({ accountId: "", description: "", amount: "" })}>
-                            <IconPlus stroke={1.8} />
-                            Add line
-                        </Button>
-                    </div>
-
-                    <div className="flex flex-col">
-                        {lines.fields.map((field, index) => (
-                            <div
-                                key={field.id}
-                                className="grid gap-3 border-b border-(--rule-soft) px-6 py-4 last:border-b-0 md:grid-cols-[minmax(220px,1fr)_minmax(0,1.5fr)_140px_36px]">
-                                <FormField
-                                    control={form.control}
-                                    name={`lines.${index}.accountId`}
-                                    render={({ field: f }) => (
-                                        <FormItem className="gap-1.5">
-                                            <FormLabel asChild>
-                                                <Label variant="eyebrow">Account *</Label>
-                                            </FormLabel>
-                                            <Select onValueChange={f.onChange} value={f.value}>
-                                                <FormControl>
-                                                    <SelectTrigger className="w-full">
-                                                        <SelectValue placeholder="Account" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    {expenseAccounts.map((a) => (
-                                                        <SelectItem key={a.id} value={a.id}>
-                                                            <span className="flex w-full items-center justify-between gap-3">
-                                                                <span>{a.name}</span>
-                                                                <span className="font-mono text-[10px] tracking-[0.04em] text-(--muted)">
-                                                                    {a.code}
-                                                                </span>
-                                                            </span>
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name={`lines.${index}.description`}
-                                    render={({ field: f }) => (
-                                        <FormItem className="gap-1.5">
-                                            <FormLabel asChild>
-                                                <Label variant="eyebrow">Description</Label>
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="What's this line for?" {...f} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name={`lines.${index}.amount`}
-                                    render={({ field: f }) => (
-                                        <FormItem className="gap-1.5">
-                                            <FormLabel asChild>
-                                                <Label variant="eyebrow">Amount *</Label>
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    type="number"
-                                                    step="0.01"
-                                                    placeholder="0.00"
-                                                    className="text-right tabular-nums"
-                                                    {...f}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <div className="flex items-end pb-1">
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        aria-label={`Remove line ${index + 1}`}
-                                        disabled={lines.fields.length === 1}
-                                        onClick={() => lines.remove(index)}>
-                                        <IconTrash stroke={1.8} />
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="flex items-center justify-end gap-6 border-t border-(--rule) px-6 py-4">
-                        <span className="font-mono text-[10px] tracking-[0.16em] text-(--muted) uppercase">Total</span>
-                        <span className="font-display text-[20px] font-[380] tracking-[-0.01em] text-(--ink) tabular-nums">
-                            {formatMoney(total.toFixed(2), currency)}
-                        </span>
-                    </div>
-                </Card>
+                <LineItemsCard
+                    control={form.control}
+                    name="lines"
+                    accounts={expenseAccounts}
+                    description="Each line posts to an expense account."
+                    currencyCode={currency}
+                />
 
                 <div className="flex flex-wrap items-center justify-end gap-2.5">
                     <Button type="button" variant="ghost" size="sm" onClick={() => router.back()}>

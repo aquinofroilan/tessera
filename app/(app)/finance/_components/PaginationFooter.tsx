@@ -13,7 +13,7 @@ import {
     PaginationPrevious,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import type { PageWindow } from "../_data/filter";
+import type { PageWindow } from "../_data/list-query";
 
 function buildPageList(page: number, pageCount: number): (number | "ellipsis")[] {
     if (pageCount <= 7) return Array.from({ length: pageCount }, (_, i) => i + 1);
