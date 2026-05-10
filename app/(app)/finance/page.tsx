@@ -8,6 +8,7 @@ import { PageHeader } from "../_components/PageHeader";
 import { KpiStrip } from "./_components/KpiStrip";
 import { PayablesQueue } from "./_components/PayablesQueue";
 import { ReceivablesQueue } from "./_components/ReceivablesQueue";
+import { RevenueTrend } from "./_components/RevenueTrend";
 import { orgGreeting } from "./_data/mock";
 
 export const metadata: Metadata = {
@@ -61,6 +62,17 @@ export default function FinanceDashboardPage() {
                         </Button>
                     }>
                     <PayablesQueue />
+                </Block>
+
+                <Block
+                    title="Revenue trend"
+                    description="Revenue against expenses over the last six months."
+                    aside={
+                        <Button asChild variant="outline" size="sm">
+                            <Link href="/finance/reports/income-statement">Income statement</Link>
+                        </Button>
+                    }>
+                    <RevenueTrend />
                 </Block>
             </div>
         </>
