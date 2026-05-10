@@ -8,6 +8,7 @@ export function BillSummaryCard({ bill }: { bill: BillResponse }) {
             summary={{
                 partyLabel: "Vendor",
                 partyName: bill.vendorName,
+                partyHref: `/finance/ap/vendors/${bill.vendorId}`,
                 referenceNumber: bill.referenceNumber,
                 date: bill.date,
                 dueDate: bill.dueDate,
