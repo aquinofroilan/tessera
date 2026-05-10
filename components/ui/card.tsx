@@ -5,7 +5,7 @@ export function Card({ className, ...props }: ComponentProps<"div">) {
     return (
         <div
             className={cn(
-                "bg-card text-foreground rounded-(--radius) flex flex-col border border-(--rule) shadow-[0_1px_0_rgb(23_22_15/2%),0_18px_36px_-18px_rgb(23_22_15/8%)]",
+                "bg-card text-foreground flex flex-col rounded-(--radius) border border-(--rule) shadow-[0_1px_0_rgb(23_22_15/2%),0_18px_36px_-18px_rgb(23_22_15/8%)]",
                 className,
             )}
             {...props}
@@ -28,10 +28,7 @@ export function CardTitle({ className, ...props }: ComponentProps<"div">) {
 
 export function CardEyebrow({ className, ...props }: ComponentProps<"div">) {
     return (
-        <div
-            className={cn("font-mono text-[10px] tracking-[0.16em] text-(--muted) uppercase", className)}
-            {...props}
-        />
+        <div className={cn("font-mono text-[10px] tracking-[0.16em] text-(--muted) uppercase", className)} {...props} />
     );
 }
 
@@ -45,9 +42,6 @@ export function CardContent({ className, ...props }: ComponentProps<"div">) {
 
 export function CardFooter({ className, ...props }: ComponentProps<"div">) {
     return (
-        <div
-            className={cn("flex items-center gap-3 border-t border-(--rule-soft) px-5 py-3", className)}
-            {...props}
-        />
+        <div className={cn("flex items-center gap-3 border-t border-(--rule-soft) px-5 py-3", className)} {...props} />
     );
 }

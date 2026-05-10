@@ -1,3 +1,5 @@
+import { differenceInCalendarDays, format, parseISO } from "date-fns";
+
 import type { Money } from "./types";
 
 const moneyFormatters = new Map<string, Intl.NumberFormat>();
@@ -39,5 +41,11 @@ export function formatDelta(delta: number) {
 }
 
 export function formatDateShort(iso: string) {
-    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(iso));
+    return format(parseISO(iso), "MMM d");
+}
+
+const TODAY = "2026-05-10";
+
+export function daysUntilDue(dueDate: string, asOfDate = TODAY) {
+    return differenceInCalendarDays(parseISO(dueDate), parseISO(asOfDate));
 }
