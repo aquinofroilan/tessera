@@ -1,6 +1,6 @@
-import { DashboardPreview } from "@/components/organisms/dashboard-preview";
+import { DashboardPreview, defaultDashKpis } from "@/components/organisms/dashboard-preview";
 import { EditorialPanel as EditorialPanelOrganism } from "@/components/organisms/editorial-panel";
-import { customerQuote, dashKpis, floatingStats, trialIncludes } from "./signup-data";
+import { customerQuote, floatingStats, trialIncludes } from "./signup-data";
 
 export function EditorialPanel() {
     return (
@@ -15,7 +15,7 @@ export function EditorialPanel() {
                 gradient: customerQuote.gradient,
             }}
             floatingStats={floatingStats}
-            dashboard={<DashboardPreview greeting="Good morning," name="Emma" kpis={dashKpis} />}
+            dashboard={<DashboardPreview greeting="Good morning," name="Emma" kpis={defaultDashKpis} />}
             list={{ label: "Every 30-day trial includes", items: trialIncludes }}
         />
     );

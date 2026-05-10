@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { IconCheck } from "@tabler/icons-react";
 
+import { cn } from "@/lib/utils";
+
 export type EditorialQuote = {
     body: string;
     emphasis: string;
@@ -43,6 +45,7 @@ export type EditorialPanelProps = {
         items: EditorialListItem[];
     };
     securityFooter?: ReactNode;
+    className?: string;
 };
 
 const defaultWashes = {
@@ -72,9 +75,14 @@ export function EditorialPanel({
             </a>
         </>
     ),
+    className,
 }: EditorialPanelProps) {
     return (
-        <aside className="relative flex flex-col overflow-hidden bg-[var(--ink)] px-7 pt-7 pb-10 text-[var(--paper)] md:px-10">
+        <aside
+            className={cn(
+                "relative flex flex-col overflow-hidden bg-[var(--ink)] px-7 pt-7 pb-10 text-[var(--paper)] md:px-10",
+                className,
+            )}>
             <div
                 aria-hidden="true"
                 className="pointer-events-none absolute -top-50 -right-50 z-0 size-150 rounded-full"

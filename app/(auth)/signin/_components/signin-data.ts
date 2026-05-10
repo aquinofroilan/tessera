@@ -17,12 +17,6 @@ export const changelogItems = [
     },
 ];
 
-export const dashKpis = [
-    { label: "Revenue MTD", value: "$284,120", delta: "↑ +12.4%", negative: false },
-    { label: "Cash", value: "$491K", delta: "↑ +3.1%", negative: false },
-    { label: "AR · 60+", value: "$22K", delta: "↓ 2 accts", negative: true },
-];
-
 export const floatingStats = [
     { label: "Uptime · 90d", value: "99.99%" },
     { label: "Last close", value: "2.1 days" },
