@@ -5,6 +5,7 @@ import { customerQuote, floatingStats, trialIncludes } from "./signup-data";
 export function EditorialPanel() {
     return (
         <EditorialPanelOrganism
+            className="hidden md:flex"
             statusChip="Loom v4.2 · Shipped this week"
             kicker="A note from a customer"
             quote={{ body: customerQuote.body, emphasis: customerQuote.emphasis }}
