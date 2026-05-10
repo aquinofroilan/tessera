@@ -9,8 +9,9 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { AgingStrip } from "./_components/AgingStrip";
 import { InvoicesTable } from "./_components/InvoicesTable";
 import { InvoicesToolbar } from "./_components/InvoicesToolbar";
+import { PaginationFooter } from "./_components/PaginationFooter";
 import { deriveAgingSummary } from "./_data/aging";
-import { countByStatus, filterInvoices, parseInvoicesQuery } from "./_data/filter";
+import { countByStatus, filterInvoices, paginate, parseInvoicesQuery } from "./_data/filter";
 import { invoices } from "./_data/invoices-mock";
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default async function InvoicesListPage({ searchParams }: Props) {
     const query = parseInvoicesQuery(sp);
     const counts = countByStatus(invoices);
     const filtered = filterInvoices(invoices, query);
+    const { rows: pageRows, window } = paginate(filtered, query.page);
     const aging = deriveAgingSummary(invoices);
 
     return (
@@ -76,7 +78,8 @@ export default async function InvoicesListPage({ searchParams }: Props) {
                         <div className="mb-5">
                             <InvoicesToolbar activeStatus={query.status} initialQ={query.q} counts={counts} />
                         </div>
-                        <InvoicesTable rows={filtered} />
+                        <InvoicesTable rows={pageRows} />
+                        {window.total > 0 && <PaginationFooter window={window} />}
                     </Block>
                 </div>
             </div>

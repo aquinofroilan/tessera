@@ -44,3 +44,31 @@ export function countByStatus(invoices: InvoiceResponse[]): StatusCounts {
     for (const inv of invoices) counts[inv.status] += 1;
     return counts;
 }
+
+export const PAGE_SIZE = 10;
+
+export type PageWindow = {
+    page: number;
+    pageCount: number;
+    from: number;
+    to: number;
+    total: number;
+};
+
+export function paginate<T>(items: T[], page: number): { rows: T[]; window: PageWindow } {
+    const total = items.length;
+    const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    const safePage = Math.min(Math.max(1, page), pageCount);
+    const start = (safePage - 1) * PAGE_SIZE;
+    const rows = items.slice(start, start + PAGE_SIZE);
+    return {
+        rows,
+        window: {
+            page: safePage,
+            pageCount,
+            from: total === 0 ? 0 : start + 1,
+            to: start + rows.length,
+            total,
+        },
+    };
+}

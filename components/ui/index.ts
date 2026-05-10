@@ -26,4 +26,13 @@ export { FormDivider } from "./form-divider";
 export { IconInput, type IconInputProps } from "./icon-input";
 export { Input } from "./input";
 export { Label, labelVariants } from "./label";
+export {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "./pagination";
 export { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./table";
