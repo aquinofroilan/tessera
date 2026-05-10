@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useController, type Control } from "react-hook-form";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { formMessageClass } from "@/components/ui/form";
 import { IconInput } from "@/components/ui/icon-input";
 import { Label } from "@/components/ui/label";
 import { IconEye, IconEyeOff, IconLock } from "@tabler/icons-react";
@@ -68,11 +70,7 @@ export function PasswordField({ control, disabled }: { control: Control<SignupVa
                 <span className={`font-medium ${stateColorClass}`}>{strength.label}</span>
             </div>
 
-            {error?.message && (
-                <p className="mt-0.5 font-mono text-[10px] tracking-[0.08em] text-[var(--accent)] uppercase">
-                    {error.message}
-                </p>
-            )}
+            {error?.message && <p className={cn("mt-0.5", formMessageClass)}>{error.message}</p>}
         </div>
     );
 }

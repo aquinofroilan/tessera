@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormDivider } from "@/components/ui/form-divider";
 import { IconInput } from "@/components/ui/icon-input";
 import { Label } from "@/components/ui/label";
 import { IconArrowRight, IconCheck, IconEye, IconEyeOff, IconLoader2, IconLock, IconMail } from "@tabler/icons-react";
@@ -43,9 +44,7 @@ export function SigninForm() {
             <form className="grid gap-4" onSubmit={onSubmit} noValidate>
                 <SsoButtons disabled={disabled} />
 
-                <div className="my-1 flex items-center gap-3 font-mono text-[11px] tracking-[0.14em] text-[var(--muted)] uppercase before:h-px before:flex-1 before:bg-[var(--rule)] before:content-[''] after:h-px after:flex-1 after:bg-[var(--rule)] after:content-['']">
-                    or with email
-                </div>
+                <FormDivider label="or with email" />
 
                 <FormField
                     control={form.control}
@@ -67,7 +66,7 @@ export function SigninForm() {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage className="font-mono text-[10px] tracking-[0.08em] text-[var(--accent)] uppercase" />
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
@@ -114,7 +113,7 @@ export function SigninForm() {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage className="font-mono text-[10px] tracking-[0.08em] text-[var(--accent)] uppercase" />
+                            <FormMessage />
                         </FormItem>
                     )}
                 />

@@ -123,6 +123,8 @@ function FormDescription({ className, ...props }: ComponentProps<"p">) {
     );
 }
 
+const formMessageClass = "font-mono text-[10px] tracking-[0.08em] text-[var(--accent)] uppercase";
+
 function FormMessage({ className, ...props }: ComponentProps<"p">) {
     const { error, formMessageId } = useFormField();
     const body = error ? String(error?.message ?? "") : props.children;
@@ -132,10 +134,20 @@ function FormMessage({ className, ...props }: ComponentProps<"p">) {
     }
 
     return (
-        <p data-slot="form-message" id={formMessageId} className={cn("text-destructive text-sm", className)} {...props}>
+        <p data-slot="form-message" id={formMessageId} className={cn(formMessageClass, className)} {...props}>
             {body}
         </p>
     );
 }
 
-export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField };
+export {
+    useFormField,
+    Form,
+    FormItem,
+    FormLabel,
+    FormControl,
+    FormDescription,
+    FormMessage,
+    FormField,
+    formMessageClass,
+};

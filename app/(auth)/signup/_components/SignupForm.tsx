@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormDivider } from "@/components/ui/form-divider";
 import { IconInput } from "@/components/ui/icon-input";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -46,9 +47,7 @@ export function SignupForm() {
             <form className="grid gap-4" onSubmit={onSubmit} noValidate>
                 <SsoButtons disabled={disabled} />
 
-                <div className="my-1 flex items-center gap-3 font-mono text-[11px] tracking-[0.14em] text-[var(--muted)] uppercase before:h-px before:flex-1 before:bg-[var(--rule)] before:content-[''] after:h-px after:flex-1 after:bg-[var(--rule)] after:content-['']">
-                    or with work email
-                </div>
+                <FormDivider label="or with work email" />
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <FormField
@@ -64,7 +63,7 @@ export function SignupForm() {
                                 <FormControl>
                                     <Input placeholder="Emma Voss" autoComplete="name" disabled={disabled} {...field} />
                                 </FormControl>
-                                <FormMessage className="font-mono text-[10px] tracking-[0.08em] text-[var(--accent)] uppercase" />
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -109,7 +108,7 @@ export function SignupForm() {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage className="font-mono text-[10px] tracking-[0.08em] text-[var(--accent)] uppercase" />
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
@@ -134,7 +133,7 @@ export function SignupForm() {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage className="font-mono text-[10px] tracking-[0.08em] text-[var(--accent)] uppercase" />
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
@@ -171,7 +170,7 @@ export function SignupForm() {
                                     , and I understand I can export or delete all data at any time.
                                 </span>
                             </div>
-                            <FormMessage className="font-mono text-[10px] tracking-[0.08em] text-[var(--accent)] uppercase" />
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
