@@ -8,6 +8,7 @@ export function InvoiceSummaryCard({ invoice }: { invoice: InvoiceResponse }) {
             summary={{
                 partyLabel: "Customer",
                 partyName: invoice.customerName,
+                partyHref: `/finance/ar/customers/${invoice.customerId}`,
                 referenceNumber: invoice.referenceNumber,
                 date: invoice.date,
                 dueDate: invoice.dueDate,
