@@ -1,39 +1,40 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+    variable: "--font-inter",
+    subsets: ["latin"],
 });
 
 const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
+    variable: "--font-fraunces",
+    subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Loom - Software for running the whole shop",
-  description:
-    "Loom is a modern ERP for small and mid-sized businesses: sales, inventory, accounting, HR, manufacturing, and projects.",
+    title: "Loom - Software for running the whole shop",
+    description:
+        "Loom is a modern ERP for small and mid-sized businesses: sales, inventory, accounting, HR, manufacturing, and projects.",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: ReactNode;
 }>) {
-  return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${fraunces.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
-    </html>
-  );
+    return (
+        <html
+            lang="en"
+            className={cn("h-full font-sans antialiased", inter.variable, fraunces.variable, geistMono.variable)}>
+            <body className="flex min-h-full flex-col">{children}</body>
+        </html>
+    );
 }
