@@ -2,7 +2,7 @@
 
 import { IconArrowRight, IconCheck, IconLoader2 } from "@tabler/icons-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 
 export type AuthSubmitStatus = "idle" | "submitting" | "success";
 

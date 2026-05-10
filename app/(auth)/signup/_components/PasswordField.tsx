@@ -3,10 +3,7 @@
 import { useState } from "react";
 import { useController, type Control } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { formMessageClass } from "@/components/ui/form";
-import { IconInput } from "@/components/ui/icon-input";
-import { Label } from "@/components/ui/label";
+import { Button, IconInput, Label, formMessageClass } from "@/components/ui";
 import { IconEye, IconEyeOff, IconLock } from "@tabler/icons-react";
 import { scorePassword, type SignupValues } from "./signup-schema";
 

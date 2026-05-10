@@ -16,13 +16,6 @@ export const trialIncludes = [
         detail: "If it's not for you, walk away. Your data is yours.",
     },
 ];
-
-export const dashKpis = [
-    { label: "Revenue MTD", value: "$284,120", delta: "↑ +12.4%", negative: false },
-    { label: "Cash", value: "$491K", delta: "↑ +3.1%", negative: false },
-    { label: "AR · 60+", value: "$22K", delta: "↓ 2 accts", negative: true },
-];
-
 export const floatingStats = [
     { label: "Avg close time", value: "2.1 days" },
     { label: "Customers", value: "4,200+" },

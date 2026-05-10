@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { IconCheck } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { trustedCompanies } from "./landing-data";
 
 export function HeroSection() {

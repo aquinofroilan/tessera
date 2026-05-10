@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { IconReplace } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
-import { Eyebrow } from "@/components/ui/eyebrow";
+import { Button, Eyebrow } from "@/components/ui";
 import { LoomLogo } from "@/components/atoms/loom-logo";
 import { AuthCallout } from "../../_components/AuthCallout";
 import { AuthShellFooter } from "../../_components/AuthShellFooter";

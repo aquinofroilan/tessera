@@ -1,7 +1,7 @@
 "use client";
 
 import { IconBrandGoogleFilled, IconBrandWindows } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 
 export function SsoButtons({ disabled }: { disabled?: boolean }) {
     return (

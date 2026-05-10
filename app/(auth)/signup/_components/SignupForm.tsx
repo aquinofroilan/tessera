@@ -4,12 +4,19 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconBuilding } from "@tabler/icons-react";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { FormDivider } from "@/components/ui/form-divider";
-import { IconInput } from "@/components/ui/icon-input";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+    Checkbox,
+    Form,
+    FormControl,
+    FormDivider,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    IconInput,
+    Input,
+    Label,
+} from "@/components/ui";
 import { AuthFinePrint } from "../../_components/AuthFinePrint";
 import { AuthSubmitButton } from "../../_components/AuthSubmitButton";
 import { EmailFormField } from "../../_components/EmailFormField";

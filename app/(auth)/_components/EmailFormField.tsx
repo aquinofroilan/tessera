@@ -3,9 +3,7 @@
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
 import { IconMail } from "@tabler/icons-react";
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { IconInput } from "@/components/ui/icon-input";
-import { Label } from "@/components/ui/label";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage, IconInput, Label } from "@/components/ui";
 
 type EmailFormFieldProps<TValues extends FieldValues> = {
     control: Control<TValues>;
