@@ -20,7 +20,7 @@ export default function NewInvoicePage() {
                 ]}
             />
             <div className="flex-1 overflow-y-auto">
-                <div className="mx-auto w-full max-w-260 px-9 py-9">
+                <div className="mx-auto w-full max-w-400 px-9 py-9">
                     <PageHeader
                         eyebrow="Finance · Receivables · New"
                         title="New invoice"
