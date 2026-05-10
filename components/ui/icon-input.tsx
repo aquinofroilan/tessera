@@ -1,11 +1,11 @@
-import * as React from "react"
+import type { ComponentProps, ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 
-type IconInputProps = React.ComponentProps<"input"> & {
-  startIcon?: React.ReactNode
-  endAdornment?: React.ReactNode
+type IconInputProps = ComponentProps<"input"> & {
+  startIcon?: ReactNode
+  endAdornment?: ReactNode
 }
 
 function IconInput({

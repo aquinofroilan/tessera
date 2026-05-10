@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { createContext, useContext, useId, type ComponentProps } from "react"
 import type { Label as LabelPrimitive } from "radix-ui"
 import { Slot } from "radix-ui"
 import {
@@ -25,7 +25,7 @@ type FormFieldContextValue<
   name: TName
 }
 
-const FormFieldContext = React.createContext<FormFieldContextValue | null>(null)
+const FormFieldContext = createContext<FormFieldContextValue | null>(null)
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
@@ -41,8 +41,8 @@ const FormField = <
 }
 
 const useFormField = () => {
-  const fieldContext = React.useContext(FormFieldContext)
-  const itemContext = React.useContext(FormItemContext)
+  const fieldContext = useContext(FormFieldContext)
+  const itemContext = useContext(FormItemContext)
   const { getFieldState } = useFormContext()
   const formState = useFormState({ name: fieldContext?.name })
 
@@ -70,10 +70,10 @@ type FormItemContextValue = {
   id: string
 }
 
-const FormItemContext = React.createContext<FormItemContextValue | null>(null)
+const FormItemContext = createContext<FormItemContextValue | null>(null)
 
-function FormItem({ className, ...props }: React.ComponentProps<"div">) {
-  const id = React.useId()
+function FormItem({ className, ...props }: ComponentProps<"div">) {
+  const id = useId()
 
   return (
     <FormItemContext.Provider value={{ id }}>
@@ -89,7 +89,7 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
 function FormLabel({
   className,
   ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+}: ComponentProps<typeof LabelPrimitive.Root>) {
   const { error, formItemId } = useFormField()
 
   return (
@@ -103,7 +103,7 @@ function FormLabel({
   )
 }
 
-function FormControl({ ...props }: React.ComponentProps<typeof Slot.Root>) {
+function FormControl({ ...props }: ComponentProps<typeof Slot.Root>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
   return (
@@ -121,7 +121,7 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot.Root>) {
   )
 }
 
-function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
+function FormDescription({ className, ...props }: ComponentProps<"p">) {
   const { formDescriptionId } = useFormField()
 
   return (
@@ -134,7 +134,7 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
-function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
+function FormMessage({ className, ...props }: ComponentProps<"p">) {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message ?? "") : props.children
 

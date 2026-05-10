@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import type { ComponentProps } from "react"
 import { Label as LabelPrimitive } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -25,7 +25,7 @@ function Label({
   className,
   variant,
   ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root> &
+}: ComponentProps<typeof LabelPrimitive.Root> &
   VariantProps<typeof labelVariants>) {
   return (
     <LabelPrimitive.Root

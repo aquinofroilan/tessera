@@ -1,9 +1,9 @@
-import * as React from "react"
+import type { ComponentProps, ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
 
-type EyebrowProps = React.ComponentProps<"div"> & {
-  tag?: React.ReactNode
+type EyebrowProps = ComponentProps<"div"> & {
+  tag?: ReactNode
   tagTone?: "moss" | "paper" | "accent"
 }
 
