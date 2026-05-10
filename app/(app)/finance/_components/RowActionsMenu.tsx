@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { IconDots } from "@tabler/icons-react";
 
 import {
@@ -39,7 +39,7 @@ export function RowActionsMenu({ label, triggerAriaLabel, actions }: RowActionsM
             <DropdownMenuContent>
                 <DropdownMenuLabel>{label}</DropdownMenuLabel>
                 {actions.map((action) => (
-                    <span key={action.key}>
+                    <Fragment key={action.key}>
                         {action.separatorBefore && <DropdownMenuSeparator />}
                         <DropdownMenuItem
                             variant={action.destructive ? "destructive" : "default"}
@@ -47,7 +47,7 @@ export function RowActionsMenu({ label, triggerAriaLabel, actions }: RowActionsM
                             {action.icon}
                             {action.label}
                         </DropdownMenuItem>
-                    </span>
+                    </Fragment>
                 ))}
             </DropdownMenuContent>
         </DropdownMenu>

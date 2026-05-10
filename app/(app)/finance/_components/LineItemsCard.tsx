@@ -1,7 +1,15 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { useFieldArray, useWatch, type Control, type FieldValues, type Path } from "react-hook-form";
+import {
+    useFieldArray,
+    useWatch,
+    type ArrayPath,
+    type Control,
+    type FieldArray,
+    type FieldValues,
+    type Path,
+} from "react-hook-form";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 
 import {
@@ -26,7 +34,7 @@ export type AccountOption = { id: string; code: string; name: string };
 
 type LineItemsCardProps<T extends FieldValues> = {
     control: Control<T>;
-    name: Path<T>;
+    name: ArrayPath<T>;
     accounts: readonly AccountOption[];
     description: string;
     currencyCode: string;
@@ -51,8 +59,8 @@ export function LineItemsCard<T extends FieldValues>({
     accountSelectPlaceholder = "Account",
     descriptionPlaceholder = "What's this line for?",
 }: LineItemsCardProps<T>) {
-    const lines = useFieldArray({ control, name: name as Path<T> & never });
-    const watched = useWatch({ control, name }) as LineItemValues[] | undefined;
+    const lines = useFieldArray({ control, name });
+    const watched = useWatch({ control, name: name as unknown as Path<T> }) as LineItemValues[] | undefined;
     const total = (watched ?? []).reduce((sum, line) => sum + (Number(line?.amount) || 0), 0);
 
     return (
@@ -62,7 +70,12 @@ export function LineItemsCard<T extends FieldValues>({
                     <div className="font-display text-[16px] font-medium tracking-[-0.005em] text-(--ink)">Lines</div>
                     <div className="text-[12px] text-(--muted)">{description}</div>
                 </div>
-                <Button type="button" variant="outline" size="sm" onClick={() => lines.append(emptyLine as never)}>
+                <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => lines.append(emptyLine as FieldArray<T, ArrayPath<T>>)}>
+
                     <IconPlus stroke={1.8} />
                     Add line
                 </Button>
