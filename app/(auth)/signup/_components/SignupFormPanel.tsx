@@ -2,18 +2,16 @@ import Link from "next/link";
 import { IconReplace } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { LoomLogo } from "@/components/atoms/loom-logo";
+import { AuthCallout } from "../../_components/AuthCallout";
+import { AuthShellFooter } from "../../_components/AuthShellFooter";
 import { SignupForm } from "./SignupForm";
 
 export function SignupFormPanel() {
     return (
         <div className="relative flex flex-col px-7 pt-7 pb-10 md:px-10">
             <header className="mb-10 flex items-center justify-between md:mb-16">
-                <Link
-                    href="/"
-                    className="font-display inline-flex items-baseline gap-1 text-[26px] font-medium tracking-[-0.02em] text-[var(--ink)] italic no-underline">
-                    Loom
-                    <span className="mb-[3px] ml-0.5 size-1.5 rounded-full bg-[var(--accent)]" />
-                </Link>
+                <LoomLogo />
                 <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
                     <Link href="/signin">
                         Already have an account?
@@ -39,40 +37,18 @@ export function SignupFormPanel() {
 
                     <SignupForm />
 
-                    <div className="mt-6 flex items-start gap-3 rounded-[10px] border border-dashed border-[var(--rule)] bg-[var(--paper-2)] px-4 py-3.5 text-[13px] leading-[1.5] text-[var(--ink-soft)]">
-                        <div className="grid size-7.5 flex-none place-items-center rounded-md bg-[var(--ink)] text-[var(--paper)]">
-                            <IconReplace className="h-4 w-4" />
-                        </div>
-                        <div>
-                            <strong className="font-medium text-[var(--ink)]">
-                                Coming from QuickBooks, NetSuite, or SAP B1?
-                            </strong>
-                            <br />
-                            Our migration team will move your data for you, free.{" "}
-                            <a href="#" className="font-medium text-[var(--accent)] no-underline">
-                                Book a 30-min call →
-                            </a>
-                        </div>
-                    </div>
+                    <AuthCallout
+                        icon={<IconReplace className="h-4 w-4" />}
+                        title="Coming from QuickBooks, NetSuite, or SAP B1?">
+                        Our migration team will move your data for you, free.{" "}
+                        <a href="#" className="font-medium text-[var(--accent)] no-underline">
+                            Book a 30-min call →
+                        </a>
+                    </AuthCallout>
                 </div>
             </div>
 
-            <footer className="mt-10 flex flex-wrap justify-between gap-3 font-mono text-[11px] tracking-[0.04em] text-[var(--muted)]">
-                <span>© 2026 Loom Systems, Inc. · Portland, OR</span>
-                <span className="space-x-1.5">
-                    <a href="#" className="text-inherit no-underline hover:text-[var(--ink)]">
-                        Status
-                    </a>
-                    <span>·</span>
-                    <a href="#" className="text-inherit no-underline hover:text-[var(--ink)]">
-                        Security
-                    </a>
-                    <span>·</span>
-                    <a href="#" className="text-inherit no-underline hover:text-[var(--ink)]">
-                        Docs
-                    </a>
-                </span>
-            </footer>
+            <AuthShellFooter />
         </div>
     );
 }
