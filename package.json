@@ -1,6 +1,6 @@
 {
   "name": "zentry",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -18,6 +18,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.75.0",
+    "recharts": "^3.8.0",
     "tailwind-merge": "^3.5.0",
     "zod": "^4.4.3"
   },
