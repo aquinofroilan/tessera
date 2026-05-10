@@ -24,10 +24,10 @@ import {
     SelectValue,
 } from "@/components/ui";
 import { formatMoney } from "../../../../_data/format";
+import { MOCK_TODAY } from "../../../../_data/mock-anchor";
 import { invoiceCustomers, revenueAccounts } from "../../_data/invoices-mock";
 import { newInvoiceSchema, type NewInvoiceValues } from "../_data/new-invoice-schema";
 
-const today = "2026-05-10";
 const defaultDueOffset = 30;
 const isoPlusDays = (iso: string, days: number) => format(addDays(parseISO(iso), days), "yyyy-MM-dd");
 
@@ -38,8 +38,8 @@ export function NewInvoiceForm() {
         mode: "onBlur",
         defaultValues: {
             customerId: "",
-            date: today,
-            dueDate: isoPlusDays(today, defaultDueOffset),
+            date: MOCK_TODAY,
+            dueDate: isoPlusDays(MOCK_TODAY, defaultDueOffset),
             referenceNumber: "",
             currencyCode: "USD",
             lines: [{ accountId: "", description: "", amount: "" }],

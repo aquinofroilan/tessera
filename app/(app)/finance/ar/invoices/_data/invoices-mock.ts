@@ -1,4 +1,5 @@
 import type { InvoiceLineResponse, InvoiceReceiptResponse, InvoiceResponse } from "@/lib/api/finance/invoices";
+import { MOCK_TODAY } from "../../../_data/mock-anchor";
 
 const ORG_ID = "org_hd_millwork";
 
@@ -20,7 +21,7 @@ export const revenueAccounts = [
     { id: "acc_4100", code: "4100", name: "Sales — Replacement parts" },
 ] as const;
 
-const today = new Date("2026-05-10");
+const today = new Date(MOCK_TODAY);
 const daysFromToday = (offset: number) => {
     const d = new Date(today);
     d.setDate(d.getDate() + offset);
