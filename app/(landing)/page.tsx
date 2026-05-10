@@ -9,19 +9,19 @@ import { PricingSection } from "./_components/PricingSection";
 import { QuoteSection } from "./_components/QuoteSection";
 
 export default function LandingPage() {
-  return (
-    <div className="landing-root min-h-screen bg-[var(--paper)] text-[var(--ink)]">
-      <LandingNav />
-      <main>
-        <HeroSection />
-        <ModulesSection />
-        <FeaturesSection />
-        <QuoteSection />
-        <PricingSection />
-        <FinalCtaSection />
-      </main>
-      <LandingFooter />
-      <LandingEffects />
-    </div>
-  );
+    return (
+        <div className="landing-root bg-background text-foreground min-h-screen">
+            <LandingNav />
+            <main>
+                <HeroSection />
+                <ModulesSection />
+                <FeaturesSection />
+                <QuoteSection />
+                <PricingSection />
+                <FinalCtaSection />
+            </main>
+            <LandingFooter />
+            <LandingEffects />
+        </div>
+    );
 }
