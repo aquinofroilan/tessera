@@ -11,12 +11,12 @@ function Checkbox({ className, ...props }: ComponentProps<typeof CheckboxPrimiti
         <CheckboxPrimitive.Root
             data-slot="checkbox"
             className={cn(
-                "peer relative grid size-4.5 shrink-0 place-items-center rounded-[5px] border-[1.5px] border-[var(--rule)] bg-[var(--card)] transition-colors outline-none",
-                "hover:border-[var(--muted-2)]",
-                "focus-visible:border-[var(--ink)] focus-visible:ring-3 focus-visible:ring-[rgb(23_22_15_/_15%)]",
-                "data-checked:border-[var(--ink)] data-checked:bg-[var(--ink)] data-checked:text-[var(--paper)]",
+                "peer relative grid size-4.5 shrink-0 place-items-center rounded-[5px] border-[1.5px] border-(--rule) bg-card transition-colors outline-none",
+                "hover:border-(--muted-2)",
+                "focus-visible:border-foreground focus-visible:ring-3 focus-visible:ring-[rgb(23_22_15/15%)]",
+                "data-checked:border-foreground data-checked:bg-foreground data-checked:text-background",
                 "disabled:cursor-not-allowed disabled:opacity-50",
-                "aria-invalid:border-[var(--accent)]",
+                "aria-invalid:border-(--accent)",
                 className,
             )}
             {...props}>

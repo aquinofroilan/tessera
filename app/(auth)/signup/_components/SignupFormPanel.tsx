@@ -14,7 +14,7 @@ export function SignupFormPanel() {
                 <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
                     <Link href="/signin">
                         Already have an account?
-                        <strong className="font-medium text-[var(--ink)]">Sign in</strong>
+                        <strong className="font-medium text-(--ink)">Sign in</strong>
                     </Link>
                 </Button>
             </header>
@@ -26,10 +26,10 @@ export function SignupFormPanel() {
                     </Eyebrow>
 
                     <h1 className="font-display mb-3.5 text-[46px] leading-[0.98] font-[340] tracking-[-0.03em] max-sm:text-[38px] sm:text-[46px]">
-                        Run the whole shop on <em className="text-[var(--accent)] italic">Loom.</em>
+                        Run the whole shop on <em className="text-(--accent) italic">Loom.</em>
                     </h1>
 
-                    <p className="mb-8 max-w-[40ch] text-[15px] text-[var(--ink-soft)]">
+                    <p className="mb-8 max-w-[40ch] text-[15px] text-(--ink-soft)">
                         No credit card. No sales call. Every module, every feature — for 30 days. If you don&apos;t like
                         it, just walk away.
                     </p>
@@ -40,7 +40,7 @@ export function SignupFormPanel() {
                         icon={<IconReplace className="h-4 w-4" />}
                         title="Coming from QuickBooks, NetSuite, or SAP B1?">
                         Our migration team will move your data for you, free.{" "}
-                        <a href="#" className="font-medium text-[var(--accent)] no-underline">
+                        <a href="#" className="font-medium text-(--accent) no-underline">
                             Book a 30-min call →
                         </a>
                     </AuthCallout>

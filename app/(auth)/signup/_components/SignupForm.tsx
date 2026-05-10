@@ -68,7 +68,7 @@ export function SignupForm() {
                             <FormItem className="gap-1.5">
                                 <FormLabel asChild>
                                     <Label variant="eyebrow">
-                                        Your name <span className="text-[var(--accent)]">*</span>
+                                        Your name <span className="text-(--accent)">*</span>
                                     </Label>
                                 </FormLabel>
                                 <FormControl>
@@ -86,7 +86,7 @@ export function SignupForm() {
                                 <FormLabel asChild>
                                     <Label variant="eyebrow">
                                         Your role{" "}
-                                        <span className="font-sans text-[11px] tracking-normal text-[var(--muted-2)] normal-case">
+                                        <span className="font-sans text-[11px] tracking-normal text-(--muted-2) normal-case">
                                             (optional)
                                         </span>
                                     </Label>
@@ -108,7 +108,7 @@ export function SignupForm() {
                         <FormItem className="gap-1.5">
                             <FormLabel asChild>
                                 <Label variant="eyebrow">
-                                    Company name <span className="text-[var(--accent)]">*</span>
+                                    Company name <span className="text-(--accent)">*</span>
                                 </Label>
                             </FormLabel>
                             <FormControl>
@@ -142,17 +142,17 @@ export function SignupForm() {
                                         className="mt-0.5"
                                     />
                                 </FormControl>
-                                <span className="text-[13px] leading-[1.5] text-[var(--ink-soft)]">
+                                <span className="text-[13px] leading-[1.5] text-(--ink-soft)">
                                     I agree to Loom&apos;s{" "}
                                     <a
                                         href="#"
-                                        className="border-b border-[var(--rule)] text-[var(--ink)] no-underline transition-colors hover:border-[var(--accent)]">
+                                        className="border-b border-(--rule) text-(--ink) no-underline transition-colors hover:border-(--accent)">
                                         Terms of Service
                                     </a>{" "}
                                     and{" "}
                                     <a
                                         href="#"
-                                        className="border-b border-[var(--rule)] text-[var(--ink)] no-underline transition-colors hover:border-[var(--accent)]">
+                                        className="border-b border-(--rule) text-(--ink) no-underline transition-colors hover:border-(--accent)">
                                         Privacy Policy
                                     </a>
                                     , and I understand I can export or delete all data at any time.

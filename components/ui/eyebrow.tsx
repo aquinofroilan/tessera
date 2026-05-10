@@ -8,9 +8,9 @@ type EyebrowProps = ComponentProps<"div"> & {
 };
 
 const tagToneClass: Record<NonNullable<EyebrowProps["tagTone"]>, string> = {
-    moss: "bg-[var(--moss-soft)] text-[var(--moss)]",
-    paper: "bg-[var(--paper-3)] text-[var(--ink-soft)]",
-    accent: "bg-[var(--accent)] text-[var(--paper)]",
+    moss: "bg-(--moss-soft) text-(--moss)",
+    paper: "bg-(--paper-3) text-(--ink-soft)",
+    accent: "bg-(--accent) text-(--paper)",
 };
 
 function Eyebrow({ className, children, tag, tagTone = "moss", ...props }: EyebrowProps) {
@@ -18,14 +18,14 @@ function Eyebrow({ className, children, tag, tagTone = "moss", ...props }: Eyebr
         <div
             data-slot="eyebrow"
             className={cn(
-                "inline-flex items-center gap-2.5 font-mono text-[11px] tracking-[0.14em] text-[var(--ink-soft)] uppercase",
+                "inline-flex items-center gap-2.5 font-mono text-[11px] tracking-[0.14em] text-(--ink-soft) uppercase",
                 className,
             )}
             {...props}>
             <span>{children}</span>
             {tag ? (
                 <span
-                    className={cn("rounded-full px-2.5 py-[3px] text-[10px] tracking-[0.1em]", tagToneClass[tagTone])}>
+                    className={cn("rounded-full px-2.5 py-0.75 text-[10px] tracking-widest", tagToneClass[tagTone])}>
                     {tag}
                 </span>
             ) : null}

@@ -26,15 +26,15 @@ export function LandingNav() {
     return (
         <nav
             className={`sticky top-0 z-50 border-b backdrop-blur-[10px] transition-colors ${
-                scrolled ? "border-[var(--rule)]" : "border-transparent"
+                scrolled ? "border-(--rule)" : "border-transparent"
             } bg-[color:rgba(246,241,230,0.78)]`}>
             <div className="mx-auto flex h-17 w-full max-w-310 items-center justify-between px-7">
                 <LoomLogo />
 
-                <ul className="hidden list-none gap-8 text-[14.5px] text-[var(--ink-soft)] min-[701px]:flex">
+                <ul className="hidden list-none gap-8 text-[14.5px] text-(--ink-soft) min-[701px]:flex">
                     {links.map((link) => (
                         <li key={link.label}>
-                            <a href={link.href} className="transition-colors hover:text-[var(--accent)]">
+                            <a href={link.href} className="transition-colors hover:text-(--accent)">
                                 {link.label}
                             </a>
                         </li>

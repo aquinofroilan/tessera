@@ -9,9 +9,9 @@ function FeatureBullets({ items }: { items: string[] }) {
                 <li
                     key={item}
                     className={`grid grid-cols-[32px_1fr] gap-3.5 py-3.5 text-[15px] ${
-                        index === 0 ? "border-t border-[var(--rule)]" : "border-t border-[var(--rule)]"
-                    } ${index === items.length - 1 ? "border-b border-[var(--rule)]" : ""}`}>
-                    <span className="grid size-6 place-items-center rounded-full bg-[var(--moss)] text-[13px] text-[var(--paper)]">
+                        index === 0 ? "border-t border-(--rule)" : "border-t border-(--rule)"
+                    } ${index === items.length - 1 ? "border-b border-(--rule)" : ""}`}>
+                    <span className="grid size-6 place-items-center rounded-full bg-(--moss) text-[13px] text-background">
                         ✓
                     </span>
                     <span>{item}</span>
@@ -24,13 +24,13 @@ function FeatureBullets({ items }: { items: string[] }) {
 function DashboardMock() {
     return (
         <div className="mock reveal" data-reveal>
-            <div className="flex items-center gap-2 border-b border-[var(--rule)] bg-[var(--paper-2)] px-4 py-3">
+            <div className="flex items-center gap-2 border-b border-(--rule) bg-(--paper-2) px-4 py-3">
                 <div className="flex gap-1.5">
-                    <span className="size-2.5 rounded-full bg-[var(--rule)]" />
-                    <span className="size-2.5 rounded-full bg-[var(--rule)]" />
-                    <span className="size-2.5 rounded-full bg-[var(--rule)]" />
+                    <span className="size-2.5 rounded-full bg-(--rule)" />
+                    <span className="size-2.5 rounded-full bg-(--rule)" />
+                    <span className="size-2.5 rounded-full bg-(--rule)" />
                 </div>
-                <span className="ml-2 font-mono text-[11px] text-[var(--muted)]">app.loom.co / dashboard</span>
+                <span className="ml-2 font-mono text-[11px] text-(--muted)">app.loom.co / dashboard</span>
             </div>
             <div className="grid min-h-90 gap-5 p-5 md:grid-cols-[120px_1fr]">
                 <div className="flex flex-row flex-wrap gap-1.5 md:flex-col">
@@ -44,11 +44,11 @@ function DashboardMock() {
                     ].map(([name, active]) => (
                         <div
                             key={String(name)}
-                            className={`flex items-center gap-2 rounded-lg px-2.5 py-[7px] text-xs ${
-                                active ? "bg-[var(--paper)] font-medium text-[var(--ink)]" : "text-[var(--ink-soft)]"
+                            className={`flex items-center gap-2 rounded-lg px-2.5 py-1.75 text-xs ${
+                                active ? "bg-background font-medium text-foreground" : "text-(--ink-soft)"
                             }`}>
                             <span
-                                className={`size-3.5 rounded bg-[var(--rule)] ${active ? "!bg-[var(--accent)]" : ""}`}
+                                className={`size-3.5 rounded bg-(--rule) ${active ? "bg-(--accent)!" : ""}`}
                             />
                             {name}
                         </div>
@@ -65,23 +65,23 @@ function DashboardMock() {
                         ].map(([label, value, delta, negative]) => (
                             <div
                                 key={String(label)}
-                                className="rounded-[10px] border border-[var(--rule)] bg-[var(--paper)] p-3">
-                                <div className="text-[10px] tracking-[0.1em] text-[var(--muted)] uppercase">
+                                className="rounded-[10px] border border-(--rule) bg-background p-3">
+                                <div className="text-[10px] tracking-widest text-(--muted) uppercase">
                                     {label}
                                 </div>
                                 <div className="font-display mt-1 text-[22px] tracking-[-0.02em]">{value}</div>
                                 <div
-                                    className={`font-mono text-[10px] ${negative ? "text-[var(--accent)]" : "text-[var(--moss)]"}`}>
+                                    className={`font-mono text-[10px] ${negative ? "text-(--accent)" : "text-(--moss)"}`}>
                                     {delta}
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    <div className="h-40 rounded-[10px] border border-[var(--rule)] bg-[var(--paper)] p-3.5">
+                    <div className="h-40 rounded-[10px] border border-(--rule) bg-background p-3.5">
                         <div className="mb-2 flex items-center justify-between">
                             <strong className="font-display text-sm font-normal">Revenue · Last 30 days</strong>
-                            <span className="font-mono text-[11px] tracking-[0.08em] text-[var(--muted)] uppercase">
+                            <span className="font-mono text-[11px] tracking-[0.08em] text-(--muted) uppercase">
                                 daily
                             </span>
                         </div>
@@ -105,8 +105,8 @@ function DashboardMock() {
                         </svg>
                     </div>
 
-                    <div className="overflow-hidden rounded-[10px] border border-[var(--rule)] bg-[var(--paper)]">
-                        <div className="grid grid-cols-[1fr_80px_80px_60px] gap-2.5 border-b border-[var(--rule)] bg-[var(--paper-2)] px-3.5 py-2.5 font-mono text-[10px] tracking-[0.08em] text-[var(--muted)] uppercase">
+                    <div className="overflow-hidden rounded-[10px] border border-(--rule) bg-background">
+                        <div className="grid grid-cols-[1fr_80px_80px_60px] gap-2.5 border-b border-(--rule) bg-(--paper-2) px-3.5 py-2.5 font-mono text-[10px] tracking-[0.08em] text-(--muted) uppercase">
                             <div>Recent orders</div>
                             <div>Amount</div>
                             <div>Stage</div>
@@ -120,7 +120,7 @@ function DashboardMock() {
                             <div
                                 key={String(order)}
                                 className={`grid grid-cols-[1fr_80px_80px_60px] gap-2.5 px-3.5 py-2.5 text-xs ${
-                                    index < 2 ? "border-b border-[var(--rule)]" : ""
+                                    index < 2 ? "border-b border-(--rule)" : ""
                                 }`}>
                                 <div>{order}</div>
                                 <div>{amount}</div>
@@ -128,10 +128,10 @@ function DashboardMock() {
                                     <span
                                         className={`inline-block rounded-full px-2 py-0.5 font-mono text-[10px] ${
                                             style === "ok"
-                                                ? "bg-[rgba(61,90,58,0.15)] text-[var(--moss)]"
+                                                ? "bg-[rgba(61,90,58,0.15)] text-(--moss)"
                                                 : style === "warn"
                                                   ? "bg-[rgba(198,132,36,0.2)] text-[#8a5c18]"
-                                                  : "bg-[rgba(185,58,29,0.15)] text-[var(--accent-deep)]"
+                                                  : "bg-[rgba(185,58,29,0.15)] text-(--accent-deep)"
                                         }`}>
                                         {stage}
                                     </span>
@@ -149,13 +149,13 @@ function DashboardMock() {
 function InventoryMock() {
     return (
         <div className="mock reveal" data-reveal>
-            <div className="flex items-center gap-2 border-b border-[var(--rule)] bg-[var(--paper-2)] px-4 py-3">
+            <div className="flex items-center gap-2 border-b border-(--rule) bg-(--paper-2) px-4 py-3">
                 <div className="flex gap-1.5">
-                    <span className="size-2.5 rounded-full bg-[var(--rule)]" />
-                    <span className="size-2.5 rounded-full bg-[var(--rule)]" />
-                    <span className="size-2.5 rounded-full bg-[var(--rule)]" />
+                    <span className="size-2.5 rounded-full bg-(--rule)" />
+                    <span className="size-2.5 rounded-full bg-(--rule)" />
+                    <span className="size-2.5 rounded-full bg-(--rule)" />
                 </div>
-                <span className="ml-2 font-mono text-[11px] text-[var(--muted)]">
+                <span className="ml-2 font-mono text-[11px] text-(--muted)">
                     app.loom.co / inventory / SKU-4120
                 </span>
             </div>
@@ -164,7 +164,7 @@ function InventoryMock() {
                     <div className="font-display text-xl tracking-[-0.01em]">
                         SKU-4120 · Walnut shelf bracket, 8&quot;
                     </div>
-                    <span className="inline-block rounded-full bg-[rgba(61,90,58,0.15)] px-2 py-0.5 font-mono text-[10px] text-[var(--moss)]">
+                    <span className="inline-block rounded-full bg-[rgba(61,90,58,0.15)] px-2 py-0.5 font-mono text-[10px] text-(--moss)">
                         In stock · 142
                     </span>
                 </div>
@@ -177,15 +177,15 @@ function InventoryMock() {
                     ].map(([label, value]) => (
                         <div
                             key={String(label)}
-                            className="rounded-[10px] border border-[var(--rule)] bg-[var(--paper)] p-3">
-                            <div className="text-[10px] tracking-[0.1em] text-[var(--muted)] uppercase">{label}</div>
+                            className="rounded-[10px] border border-(--rule) bg-(--paper) p-3">
+                            <div className="text-[10px] tracking-[0.1em] text-(--muted) uppercase">{label}</div>
                             <div className="font-display mt-1 text-[22px] tracking-[-0.02em]">{value}</div>
                         </div>
                     ))}
                 </div>
 
-                <div className="mt-3 overflow-hidden rounded-[10px] border border-[var(--rule)] bg-[var(--paper)]">
-                    <div className="grid grid-cols-[80px_1fr_100px_80px] gap-2.5 border-b border-[var(--rule)] bg-[var(--paper-2)] px-3.5 py-2.5 font-mono text-[10px] tracking-[0.08em] text-[var(--muted)] uppercase">
+                <div className="mt-3 overflow-hidden rounded-[10px] border border-(--rule) bg-(--paper)">
+                    <div className="grid grid-cols-[80px_1fr_100px_80px] gap-2.5 border-b border-(--rule) bg-(--paper-2) px-3.5 py-2.5 font-mono text-[10px] tracking-[0.08em] text-(--muted) uppercase">
                         <div>Date</div>
                         <div>Movement</div>
                         <div>Source</div>
@@ -200,12 +200,12 @@ function InventoryMock() {
                         <div
                             key={String(date)}
                             className={`grid grid-cols-[80px_1fr_100px_80px] gap-2.5 px-3.5 py-2.5 text-xs ${
-                                index < 3 ? "border-b border-[var(--rule)]" : ""
+                                index < 3 ? "border-b border-(--rule)" : ""
                             }`}>
                             <div>{date}</div>
                             <div>{movement}</div>
                             <div>{source}</div>
-                            <div className={neg ? "text-[var(--accent)]" : "text-[var(--moss)]"}>{qty}</div>
+                            <div className={neg ? "text-(--accent)" : "text-(--moss)"}>{qty}</div>
                         </div>
                     ))}
                 </div>
@@ -227,13 +227,13 @@ function FeatureTitle({
 }) {
     return (
         <div>
-            <div className="flex items-center gap-2.5 font-mono text-xs tracking-[0.15em] text-[var(--accent)] uppercase before:block before:h-px before:w-6 before:bg-[var(--accent)]">
+            <div className="flex items-center gap-2.5 font-mono text-xs tracking-[0.15em] text-(--accent) uppercase before:block before:h-px before:w-6 before:bg-(--accent)">
                 {kicker}
             </div>
             <h3 className="font-display my-3.5 text-[clamp(30px,3.6vw,44px)] leading-[1.05] font-[350] tracking-[-0.025em]">
                 {title}
             </h3>
-            <p className="max-w-[44ch] text-[17px] text-[var(--ink-soft)]">{text}</p>
+            <p className="max-w-[44ch] text-[17px] text-(--ink-soft)">{text}</p>
             <FeatureBullets items={bullets} />
         </div>
     );
@@ -248,7 +248,7 @@ export function FeaturesSection() {
                         kicker="The dashboard"
                         title={
                             <>
-                                Every number, <em className="text-[var(--accent)] italic">already reconciled.</em>
+                                Every number, <em className="text-(--accent) italic">already reconciled.</em>
                             </>
                         }
                         text="No more exporting to spreadsheets at 11 p.m. on the 30th. Because every module writes to the same ledger, your P&L updates the instant an order ships, an invoice is paid, or a part is consumed on the shop floor."
@@ -269,7 +269,7 @@ export function FeaturesSection() {
                             title={
                                 <>
                                     Opinionated where it{" "}
-                                    <em className="text-[var(--accent)] italic">saves you time.</em> Flexible where it
+                                    <em className="text-(--accent) italic">saves you time.</em> Flexible where it
                                     counts.
                                 </>
                             }

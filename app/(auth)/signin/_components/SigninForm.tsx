@@ -69,12 +69,12 @@ export function SigninForm() {
                             <div className="flex items-center justify-between">
                                 <FormLabel asChild>
                                     <Label variant="eyebrow">
-                                        Password <span className="text-[var(--accent)]">*</span>
+                                        Password <span className="text-(--accent)">*</span>
                                     </Label>
                                 </FormLabel>
                                 <Link
                                     href="#"
-                                    className="font-mono text-[10px] tracking-[0.08em] text-[var(--ink-soft)] uppercase no-underline transition-colors hover:text-[var(--accent)]">
+                                    className="font-mono text-[10px] tracking-[0.08em] text-(--ink-soft) uppercase no-underline transition-colors hover:text-(--accent)">
                                     Forgot?
                                 </Link>
                             </div>
@@ -92,7 +92,7 @@ export function SigninForm() {
                                             size="icon-sm"
                                             onClick={() => setShowPassword((v) => !v)}
                                             aria-label={showPassword ? "Hide password" : "Show password"}
-                                            className="rounded-md text-[var(--muted)] hover:bg-[var(--paper-2)] hover:text-[var(--ink)]">
+                                            className="rounded-md text-(--muted) hover:bg-(--paper-2) hover:text-(--ink)">
                                             {showPassword ? (
                                                 <IconEyeOff className="h-4 w-4" />
                                             ) : (
@@ -121,7 +121,7 @@ export function SigninForm() {
                                         disabled={disabled}
                                     />
                                 </FormControl>
-                                <span className="text-[13px] text-[var(--ink-soft)]">
+                                <span className="text-[13px] text-(--ink-soft)">
                                     Keep me signed in on this device for 30 days.
                                 </span>
                             </div>

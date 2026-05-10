@@ -12,7 +12,7 @@ const labelVariants = cva(
         variants: {
             variant: {
                 default: "flex items-center gap-2 text-sm leading-none font-medium",
-                eyebrow: "block font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)]",
+                eyebrow: "block font-mono text-[10px] uppercase tracking-[0.12em] text-(--muted)",
             },
         },
         defaultVariants: { variant: "default" },

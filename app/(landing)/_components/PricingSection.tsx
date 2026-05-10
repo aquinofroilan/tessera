@@ -2,7 +2,7 @@ export function PricingSection() {
     return (
         <section id="pricing" className="px-0 pt-0 pb-24">
             <div className="mx-auto w-full max-w-310 px-7">
-                <div className="relative grid gap-14 overflow-hidden rounded-3xl bg-[var(--ink)] px-7 py-12 text-[var(--paper)] lg:grid-cols-[1.2fr_1fr] lg:px-14 lg:py-18">
+                <div className="relative grid gap-14 overflow-hidden rounded-3xl bg-(--ink) px-7 py-12 text-(--paper) lg:grid-cols-[1.2fr_1fr] lg:px-14 lg:py-18">
                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_300px_at_110%_20%,rgba(185,58,29,0.4),transparent_60%)]" />
 
                     <div className="relative z-10">
@@ -23,21 +23,21 @@ export function PricingSection() {
                         </p>
                     </div>
 
-                    <div className="relative z-10 rounded-[18px] bg-[var(--paper)] p-8 text-[var(--ink)] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.5)]">
-                        <div className="font-mono text-[11px] tracking-[0.12em] text-[var(--accent)] uppercase">
+                    <div className="relative z-10 rounded-[18px] bg-(--paper) p-8 text-(--ink) shadow-[0_30px_80px_-30px_rgba(0,0,0,0.5)]">
+                        <div className="font-mono text-[11px] tracking-[0.12em] text-(--accent) uppercase">
                             Loom Business
                         </div>
                         <div className="my-4 flex items-baseline gap-2">
                             <span className="font-display text-7xl leading-none font-[350] tracking-[-0.04em]">
                                 $349
                             </span>
-                            <span className="text-sm text-[var(--muted)]">/ month, flat</span>
+                            <span className="text-sm text-(--muted)">/ month, flat</span>
                         </div>
-                        <p className="mb-4.5 text-sm text-[var(--ink-soft)]">
+                        <p className="mb-4.5 text-sm text-(--ink-soft)">
                             For the whole company. Billed annually at $3,990.
                         </p>
 
-                        <ul className="my-4 list-none border-y border-[var(--rule)] py-4">
+                        <ul className="my-4 list-none border-y border-(--rule) py-4">
                             {[
                                 "All 8 modules included",
                                 "Unlimited users & roles",
@@ -48,7 +48,7 @@ export function PricingSection() {
                             ].map((item) => (
                                 <li
                                     key={item}
-                                    className="flex items-start gap-2.5 py-1.5 text-sm text-[var(--ink-soft)] before:font-mono before:text-[var(--accent)] before:content-['→']">
+                                    className="flex items-start gap-2.5 py-1.5 text-sm text-(--ink-soft) before:font-mono before:text-(--accent) before:content-['→']">
                                     {item}
                                 </li>
                             ))}
@@ -56,7 +56,7 @@ export function PricingSection() {
 
                         <a
                             href="#"
-                            className="inline-flex w-full justify-center rounded-full bg-[var(--ink)] px-5 py-3.5 text-sm font-medium text-[var(--paper)] transition-all hover:-translate-y-px hover:bg-[var(--accent)]">
+                            className="inline-flex w-full justify-center rounded-full bg-(--ink) px-5 py-3.5 text-sm font-medium text-(--paper) transition-all hover:-translate-y-px hover:bg-(--accent)">
                             Start your trial →
                         </a>
                     </div>

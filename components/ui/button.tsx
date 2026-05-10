@@ -19,13 +19,13 @@ const buttonVariants = cva(
                 destructive:
                     "rounded-lg bg-destructive/10 text-destructive hover:bg-destructive/20 active:not-aria-[haspopup]:translate-y-px",
                 link: "text-primary underline-offset-4 hover:underline",
-                pill: "rounded-full bg-[var(--ink)] text-[var(--paper)] tracking-[-0.005em] hover:-translate-y-px hover:bg-[var(--accent)]",
+                pill: "rounded-full bg-(--ink) text-(--paper) tracking-[-0.005em] hover:-translate-y-px hover:bg-(--accent)",
                 "pill-outline":
-                    "rounded-full border-[var(--ink)] bg-transparent text-[var(--ink)] hover:-translate-y-px hover:bg-[var(--ink)] hover:text-[var(--paper)]",
+                    "rounded-full border-(--ink) bg-transparent text-(--ink) hover:-translate-y-px hover:bg-(--ink) hover:text-(--paper)",
                 "pill-ghost":
-                    "rounded-full bg-transparent text-[var(--ink-soft)] hover:border-[var(--rule)] hover:bg-[var(--paper-2)]",
-                "pill-success": "rounded-full bg-[var(--moss)] text-[var(--paper)] hover:-translate-y-px",
-                sso: "rounded-[10px] border-[var(--rule)] bg-[var(--card)] text-[var(--ink)] hover:-translate-y-px hover:border-[var(--ink)]",
+                    "rounded-full bg-transparent text-(--ink-soft) hover:border-(--rule) hover:bg-(--paper-2)",
+                "pill-success": "rounded-full bg-(--moss) text-(--paper) hover:-translate-y-px",
+                sso: "rounded-[10px] border-(--rule) bg-(--card) text-(--ink) hover:-translate-y-px hover:border-(--ink)",
             },
             size: {
                 default: "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",

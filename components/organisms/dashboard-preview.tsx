@@ -36,37 +36,37 @@ export function DashboardPreview({
 
     return (
         <div className="dash-preview relative mb-10 p-4">
-            <div className="mb-3 flex items-center gap-2 border-b border-[var(--rule-soft)] pb-3">
-                <div className="flex gap-[5px]">
-                    <span className="size-2 rounded-full bg-[var(--rule)]" />
-                    <span className="size-2 rounded-full bg-[var(--rule)]" />
-                    <span className="size-2 rounded-full bg-[var(--rule)]" />
+            <div className="mb-3 flex items-center gap-2 border-b border-(--rule-soft) pb-3">
+                <div className="flex gap-1.25">
+                    <span className="size-2 rounded-full bg-(--rule)" />
+                    <span className="size-2 rounded-full bg-(--rule)" />
+                    <span className="size-2 rounded-full bg-(--rule)" />
                 </div>
-                <span className="ml-1.5 font-mono text-[10px] tracking-[0.03em] text-[var(--muted)]">{url}</span>
+                <span className="ml-1.5 font-mono text-[10px] tracking-[0.03em] text-(--muted)">{url}</span>
             </div>
             <div className="font-display mb-2.5 text-base font-normal tracking-[-0.01em]">
-                {greeting} <em className="text-[var(--accent)] italic">{name}.</em>
+                {greeting} <em className="text-(--accent) italic">{name}.</em>
             </div>
             <div className="mb-2.5 grid grid-cols-3 gap-1.5">
                 {kpis.map((kpi) => (
-                    <div key={kpi.label} className="rounded-lg bg-[var(--paper-2)] px-2.5 py-2">
-                        <div className="font-mono text-[8px] tracking-[0.1em] text-[var(--muted)] uppercase">
+                    <div key={kpi.label} className="rounded-lg bg-(--paper-2) px-2.5 py-2">
+                        <div className="font-mono text-[8px] tracking-widest text-(--muted) uppercase">
                             {kpi.label}
                         </div>
                         <div className="font-display mt-0.5 text-[14px] font-normal tracking-[-0.02em] tabular-nums">
                             {kpi.value}
                         </div>
                         <div
-                            className={`mt-0.5 font-mono text-[9px] ${kpi.negative ? "text-[var(--accent)]" : "text-[var(--moss)]"}`}>
+                            className={`mt-0.5 font-mono text-[9px] ${kpi.negative ? "text-(--accent)" : "text-(--moss)"}`}>
                             {kpi.delta}
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="h-20 rounded-lg bg-[var(--paper-2)] px-3 pt-2.5 pb-1.5">
+            <div className="h-20 rounded-lg bg-(--paper-2) px-3 pt-2.5 pb-1.5">
                 <div className="mb-1 flex items-center justify-between">
                     <strong className="font-display text-[11px] font-normal tracking-[-0.01em]">{chartLabel}</strong>
-                    <span className="font-mono text-[8px] tracking-[0.08em] text-[var(--muted)] uppercase">
+                    <span className="font-mono text-[8px] tracking-[0.08em] text-(--muted) uppercase">
                         {chartCadence}
                     </span>
                 </div>

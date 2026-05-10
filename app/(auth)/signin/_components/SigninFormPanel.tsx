@@ -14,7 +14,7 @@ export function SigninFormPanel() {
                 <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
                     <Link href="/signup">
                         New to Loom?
-                        <strong className="font-medium text-[var(--ink)]">Start a trial</strong>
+                        <strong className="font-medium text-(--ink)">Start a trial</strong>
                     </Link>
                 </Button>
             </header>
@@ -26,10 +26,10 @@ export function SigninFormPanel() {
                     </Eyebrow>
 
                     <h1 className="font-display mb-3.5 text-[46px] leading-[0.98] font-[340] tracking-[-0.03em] max-sm:text-[38px]">
-                        Pick up where you <em className="text-[var(--accent)] italic">left off.</em>
+                        Pick up where you <em className="text-(--accent) italic">left off.</em>
                     </h1>
 
-                    <p className="mb-8 max-w-[40ch] text-[15px] text-[var(--ink-soft)]">
+                    <p className="mb-8 max-w-[40ch] text-[15px] text-(--ink-soft)">
                         Sign in to your Loom workspace. Your shop, your data, your dashboards — exactly how you left
                         them.
                     </p>
@@ -38,7 +38,7 @@ export function SigninFormPanel() {
 
                     <AuthCallout icon={<IconSparkles className="h-4 w-4" />} title="Don't have an account yet?">
                         Try Loom free for 30 days — every module, no credit card.{" "}
-                        <Link href="/signup" className="font-medium text-[var(--accent)] no-underline">
+                        <Link href="/signup" className="font-medium text-(--accent) no-underline">
                             Start a trial →
                         </Link>
                     </AuthCallout>

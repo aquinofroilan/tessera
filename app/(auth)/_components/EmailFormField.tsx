@@ -28,7 +28,7 @@ export function EmailFormField<TValues extends FieldValues>({
                 <FormItem className="gap-1.5">
                     <FormLabel asChild>
                         <Label variant="eyebrow">
-                            {label} <span className="text-[var(--accent)]">*</span>
+                            {label} <span className="text-(--accent)">*</span>
                         </Label>
                     </FormLabel>
                     <FormControl>

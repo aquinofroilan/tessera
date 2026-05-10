@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function SignupPage() {
     return (
-        <div className="landing-root grid min-h-screen grid-cols-1 bg-[var(--paper)] text-[var(--ink)] md:grid-cols-2">
+        <div className="landing-root grid min-h-screen grid-cols-1 bg-(--paper) text-(--ink) md:grid-cols-2">
             <SignupFormPanel />
             <EditorialPanel />
         </div>

@@ -8,21 +8,21 @@ export function HeroSection() {
         <section className="relative px-0 pt-18 pb-16" data-hero>
             <div className="mx-auto w-full max-w-310 px-7">
                 <div
-                    className="reveal mb-7 inline-flex items-center gap-2.5 font-mono text-xs tracking-[0.12em] text-[var(--ink-soft)] uppercase"
+                    className="reveal mb-7 inline-flex items-center gap-2.5 font-mono text-xs tracking-[0.12em] text-(--ink-soft) uppercase"
                     data-reveal>
-                    <span className="block size-[7px] animate-[pulse_2.4s_ease-in-out_infinite] rounded-full bg-[var(--moss)] shadow-[0_0_0_4px_rgba(61,90,58,0.18)]" />
+                    <span className="block size-[7px] animate-[pulse_2.4s_ease-in-out_infinite] rounded-full bg-(--moss) shadow-[0_0_0_4px_rgba(61,90,58,0.18)]" />
                     Loom v4.2 · Shipped this week
                 </div>
 
                 <h1
                     className="font-display reveal max-w-[14ch] text-[clamp(48px,8.2vw,112px)] leading-[0.98] font-[330] tracking-[-0.035em]"
                     data-reveal>
-                    Software for running the <em className="font-[320] text-[var(--accent)] italic">whole shop.</em>
+                    Software for running the <em className="font-[320] text-(--accent) italic">whole shop.</em>
                 </h1>
 
-                <p className="reveal mt-8 max-w-140 text-[19px] leading-[1.55] text-[var(--ink-soft)]" data-reveal>
+                <p className="reveal mt-8 max-w-140 text-[19px] leading-[1.55] text-(--ink-soft)" data-reveal>
                     Loom is a modern ERP for small and mid-sized businesses.{" "}
-                    <b className="font-medium text-[var(--ink)]">
+                    <b className="font-medium text-(--ink)">
                         Sales, inventory, accounting, HR, manufacturing, and projects
                     </b>{" "}
                     - all in one place, all in one database, all priced like a grown-up.
@@ -37,7 +37,7 @@ export function HeroSection() {
                     </Button>
                 </div>
 
-                <div className="reveal mt-5.5 flex flex-wrap gap-5 text-[13px] text-[var(--muted)]" data-reveal>
+                <div className="reveal mt-5.5 flex flex-wrap gap-5 text-[13px] text-(--muted)" data-reveal>
                     {[
                         "No credit card",
                         "Free migration from QuickBooks, NetSuite & SAP B1",
@@ -52,15 +52,15 @@ export function HeroSection() {
             </div>
 
             <div className="mx-auto mt-20 w-full max-w-310 px-7">
-                <div className="overflow-hidden border-y border-[var(--rule)] py-4.5">
-                    <p className="mb-3.5 text-center font-mono text-[11px] tracking-[0.15em] text-[var(--muted)] uppercase">
+                <div className="overflow-hidden border-y border-(--rule) py-4.5">
+                    <p className="mb-3.5 text-center font-mono text-[11px] tracking-[0.15em] text-(--muted) uppercase">
                         Running the books of 4,200+ companies - from 3-person shops to 500-person plants
                     </p>
-                    <div className="marquee-track font-display flex w-[max-content] gap-18 text-[22px] whitespace-nowrap text-[var(--ink-soft)] italic opacity-70">
+                    <div className="marquee-track font-display flex w-[max-content] gap-18 text-[22px] whitespace-nowrap text-(--ink-soft) italic opacity-70">
                         {[...trustedCompanies, ...trustedCompanies].map((company, index) => (
                             <span
                                 key={`${company}-${index}`}
-                                className="inline-flex items-center gap-2 before:text-sm before:text-[var(--accent)] before:content-['✦']">
+                                className="inline-flex items-center gap-2 before:text-sm before:text-(--accent) before:content-['✦']">
                                 {company}
                             </span>
                         ))}

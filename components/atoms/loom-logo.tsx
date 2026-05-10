@@ -16,12 +16,12 @@ export function LoomLogo({ size = "sm", className }: LoomLogoProps) {
         <Link
             href="/"
             className={cn(
-                "font-display inline-flex items-baseline gap-0.5 tracking-[-0.02em] text-[var(--ink)] italic",
+                "font-display inline-flex items-baseline gap-0.5 tracking-[-0.02em] text-foreground italic",
                 sizeClass[size],
                 className,
             )}>
             Loom
-            <span className="mb-[3px] ml-0.5 size-1.5 self-center rounded-full bg-[var(--accent)]" />
+            <span className="mb-0.75 ml-0.5 size-1.5 self-center rounded-full bg-(--accent)" />
         </Link>
     );
 }

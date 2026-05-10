@@ -14,7 +14,7 @@ function IconInput({ className, startIcon, endAdornment, ...props }: IconInputPr
             {startIcon ? (
                 <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute top-1/2 left-3.5 grid -translate-y-1/2 place-items-center text-[var(--muted)]">
+                    className="pointer-events-none absolute top-1/2 left-3.5 grid -translate-y-1/2 place-items-center text-(--muted)">
                     {startIcon}
                 </span>
             ) : null}
