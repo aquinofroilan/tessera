@@ -1,0 +1,96 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { IconPencil } from "@tabler/icons-react";
+
+import { Button } from "@/components/ui";
+import { AppTopbar } from "../../../../_components/AppTopbar";
+import { Block } from "../../../../_components/Block";
+import { PageHeader } from "../../../../_components/PageHeader";
+import { PartyDocumentsTable } from "../../../_components/PartyDocumentsTable";
+import { PartyProfileCard } from "../../../_components/PartyProfileCard";
+import { formatMoney } from "../../../_data/format";
+import { bills } from "../../bills/_data/bills-mock";
+import { vendors } from "../_data/vendors-mock";
+
+type Props = { params: Promise<{ id: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { id } = await params;
+    const vendor = vendors.find((v) => v.id === id);
+    return { title: vendor ? `${vendor.name} · Loom` : "Vendor · Loom" };
+}
+
+export default async function VendorDetailPage({ params }: Props) {
+    const { id } = await params;
+    const vendor = vendors.find((v) => v.id === id);
+    if (!vendor) notFound();
+
+    const vendorBills = bills.filter((b) => b.vendorId === id);
+    const totalBilled = vendorBills.reduce((sum, b) => sum + Number(b.totalAmount), 0);
+    const totalPaid = vendorBills.reduce((sum, b) => sum + Number(b.amountPaid), 0);
+    const outstanding = (totalBilled - totalPaid).toFixed(2);
+
+    return (
+        <>
+            <AppTopbar
+                crumbs={[
+                    { label: "Finance", href: "/finance" },
+                    { label: "Payables" },
+                    { label: "Vendors", href: "/finance/ap/vendors" },
+                    { label: vendor.name },
+                ]}
+            />
+            <div className="flex-1 overflow-y-auto">
+                <div className="mx-auto w-full max-w-400 p-9">
+                    <PageHeader
+                        eyebrow="Finance · Payables · Vendors"
+                        title={vendor.name}
+                        description={
+                            vendorBills.length === 0
+                                ? "No bills yet."
+                                : `${vendorBills.length} bill${vendorBills.length === 1 ? "" : "s"} · ${formatMoney(outstanding, "USD")} outstanding`
+                        }
+                        actions={
+                            <Button variant="outline" size="sm">
+                                <IconPencil stroke={1.8} />
+                                Edit
+                            </Button>
+                        }
+                    />
+
+                    <Block title="Profile" description="Contact, payment terms, and default expense routing.">
+                        <PartyProfileCard
+                            profile={{
+                                contactName: vendor.contactName,
+                                contactEmail: vendor.contactEmail,
+                                contactPhone: vendor.contactPhone,
+                                paymentTermDays: vendor.paymentTermDays,
+                                defaultAccountLabel: "Default expense account",
+                                defaultAccountValue: vendor.defaultExpenseAccountId,
+                                isActive: vendor.isActive,
+                            }}
+                        />
+                    </Block>
+
+                    <Block title="Bills" description={`Recent bills from ${vendor.name}.`}>
+                        <PartyDocumentsTable
+                            rows={vendorBills.map((b) => ({
+                                id: b.id,
+                                number: b.billNumber,
+                                date: b.date,
+                                dueDate: b.dueDate,
+                                totalAmount: b.totalAmount,
+                                currencyCode: b.currencyCode,
+                                status: b.status,
+                            }))}
+                            detailHrefBase="/finance/ap/bills"
+                            numberHeader="Bill #"
+                            emptyHeading="No bills yet."
+                            emptyDescription="Record one when this vendor sends an invoice."
+                        />
+                    </Block>
+                </div>
+            </div>
+        </>
+    );
+}
