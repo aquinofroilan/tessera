@@ -31,6 +31,11 @@ export function InvoicesToolbar({ activeStatus, initialQ, counts }: ToolbarProps
     const [search, setSearch] = useState(initialQ);
 
     useEffect(() => {
+        setSearch(initialQ);
+    }, [initialQ]);
+
+    useEffect(() => {
+        if (search === initialQ) return;
         const t = setTimeout(() => {
             const params = new URLSearchParams(searchParams.toString());
             if (search) params.set("q", search);

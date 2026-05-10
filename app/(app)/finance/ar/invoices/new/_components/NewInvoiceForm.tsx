@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { addDays, format, parseISO } from "date-fns";
 
 import {
     Button,
@@ -28,11 +29,7 @@ import { newInvoiceSchema, type NewInvoiceValues } from "../_data/new-invoice-sc
 
 const today = "2026-05-10";
 const defaultDueOffset = 30;
-const isoPlusDays = (iso: string, days: number) => {
-    const d = new Date(iso);
-    d.setDate(d.getDate() + days);
-    return d.toISOString().slice(0, 10);
-};
+const isoPlusDays = (iso: string, days: number) => format(addDays(parseISO(iso), days), "yyyy-MM-dd");
 
 export function NewInvoiceForm() {
     const router = useRouter();
