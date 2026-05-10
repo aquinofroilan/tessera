@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function PricingSection() {
     return (
         <section id="pricing" className="px-0 pt-0 pb-24">
@@ -54,11 +56,11 @@ export function PricingSection() {
                             ))}
                         </ul>
 
-                        <a
+                        <Link
                             href="#"
                             className="bg-foreground text-background inline-flex w-full justify-center rounded-full px-5 py-3.5 text-sm font-medium transition-all hover:-translate-y-px hover:bg-(--accent)">
                             Start your trial →
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

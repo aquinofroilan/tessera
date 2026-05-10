@@ -33,7 +33,7 @@ export function HeroSection() {
                         <Link href="/signup">Start a 30-day trial →</Link>
                     </Button>
                     <Button asChild variant="pill-outline" size="pill">
-                        <a href="#">Watch the 4-min tour</a>
+                        <Link href="#">Watch the 4-min tour</Link>
                     </Button>
                 </div>
 

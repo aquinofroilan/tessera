@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { IconCheck } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
@@ -70,9 +71,9 @@ export function EditorialPanel({
     securityFooter = (
         <>
             <span>SOC 2 Type II · GDPR · CCPA</span>
-            <a href="#" className="hover:text-background text-inherit no-underline">
+            <Link href="#" className="hover:text-background text-inherit no-underline">
                 Read our security note →
-            </a>
+            </Link>
         </>
     ),
     className,

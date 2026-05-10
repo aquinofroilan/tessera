@@ -40,9 +40,9 @@ export function SignupFormPanel() {
                         icon={<IconReplace className="size-4" />}
                         title="Coming from QuickBooks, NetSuite, or SAP B1?">
                         Our migration team will move your data for you, free.{" "}
-                        <a href="#" className="font-medium text-(--accent) no-underline">
+                        <Link href="#" className="font-medium text-(--accent) no-underline">
                             Book a 30-min call →
-                        </a>
+                        </Link>
                     </AuthCallout>
                 </div>
             </div>

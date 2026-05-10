@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import {
     IconArrowUpRight,
     IconLayoutDashboard,
@@ -52,7 +53,7 @@ export function ModulesSection() {
                     {modules.map((module, index) => {
                         const Icon = moduleIconByKind[module.icon];
                         return (
-                            <a
+                            <Link
                                 href="#"
                                 key={module.id}
                                 style={{ "--i": String(index) } as CSSProperties}
@@ -73,7 +74,7 @@ export function ModulesSection() {
                                 <span className="absolute right-5.5 bottom-5.5 text-(--accent) opacity-30 transition-all group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100">
                                     <IconArrowUpRight className="size-4.5" stroke={1.6} />
                                 </span>
-                            </a>
+                            </Link>
                         );
                     })}
                 </div>

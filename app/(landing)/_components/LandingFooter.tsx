@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LoomLogo } from "@/components/atoms/loom-logo";
 import { footerColumns } from "./landing-data";
 
@@ -22,9 +23,9 @@ export function LandingFooter() {
                             <ul className="flex list-none flex-col gap-2">
                                 {column.links.map((link) => (
                                     <li key={link}>
-                                        <a href="#" className="text-sm transition-colors hover:text-(--accent)">
+                                        <Link href="#" className="text-sm transition-colors hover:text-(--accent)">
                                             {link}
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

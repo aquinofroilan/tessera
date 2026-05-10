@@ -34,9 +34,9 @@ export function LandingNav() {
                 <ul className="hidden list-none gap-8 text-[14.5px] text-(--ink-soft) min-[701px]:flex">
                     {links.map((link) => (
                         <li key={link.label}>
-                            <a href={link.href} className="transition-colors hover:text-(--accent)">
+                            <Link href={link.href} className="transition-colors hover:text-(--accent)">
                                 {link.label}
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>

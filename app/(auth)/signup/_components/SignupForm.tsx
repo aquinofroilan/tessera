@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconBuilding } from "@tabler/icons-react";
@@ -144,17 +145,17 @@ export function SignupForm() {
                                 </FormControl>
                                 <span className="text-[13px] leading-normal text-(--ink-soft)">
                                     I agree to Loom&apos;s{" "}
-                                    <a
+                                    <Link
                                         href="#"
                                         className="border-border text-foreground border-b no-underline transition-colors hover:border-(--accent)">
                                         Terms of Service
-                                    </a>{" "}
+                                    </Link>{" "}
                                     and{" "}
-                                    <a
+                                    <Link
                                         href="#"
                                         className="border-border text-foreground border-b no-underline transition-colors hover:border-(--accent)">
                                         Privacy Policy
-                                    </a>
+                                    </Link>
                                     , and I understand I can export or delete all data at any time.
                                 </span>
                             </div>
