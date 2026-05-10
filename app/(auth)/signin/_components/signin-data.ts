@@ -24,8 +24,8 @@ export const dashKpis = [
 ];
 
 export const floatingStats = [
-  { label: "Uptime · 90d", value: "99.99%", position: "a" as const },
-  { label: "Last close", value: "2.1 days", position: "b" as const },
+  { label: "Uptime · 90d", value: "99.99%" },
+  { label: "Last close", value: "2.1 days" },
 ];
 
 export const customerQuote = {
@@ -34,4 +34,5 @@ export const customerQuote = {
   name: "Marcus Thorne",
   role: "OWNER · THORNE MANUFACTURING",
   initials: "MT",
+  gradient: "linear-gradient(135deg, var(--sky), var(--moss))",
 };

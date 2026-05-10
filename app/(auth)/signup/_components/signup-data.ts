@@ -26,8 +26,8 @@ export const dashKpis = [
 ];
 
 export const floatingStats = [
-  { label: "Avg close time", value: "2.1 days", position: "a" as const },
-  { label: "Customers", value: "4,200+", position: "b" as const },
+  { label: "Avg close time", value: "2.1 days" },
+  { label: "Customers", value: "4,200+" },
 ];
 
 export const customerQuote = {
@@ -36,4 +36,5 @@ export const customerQuote = {
   name: "Emma Voss",
   role: "COO · HOLLIS & DRAY MILLWORK",
   initials: "EV",
+  gradient: "linear-gradient(135deg, var(--plum), var(--accent))",
 };
