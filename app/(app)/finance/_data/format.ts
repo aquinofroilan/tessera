@@ -35,6 +35,17 @@ export function formatMoneyShort(value: Money, currencyCode: string) {
     return formatMoney(value, currencyCode);
 }
 
+// Subtract two Money values without float drift in the rendered result.
+// Money stays a string (see lib/api/types) so we round to cents on the way out.
+export function subtractMoney(a: Money, b: Money): Money {
+    return (Number(a) - Number(b)).toFixed(2);
+}
+
+// Domain alias: the amount still owed on a document (total minus what's settled).
+export function calculateOutstanding(totalAmount: Money, settledAmount: Money): Money {
+    return subtractMoney(totalAmount, settledAmount);
+}
+
 export function formatDelta(delta: number) {
     const sign = delta >= 0 ? "+" : "";
     return `${sign}${(delta * 100).toFixed(1)}%`;

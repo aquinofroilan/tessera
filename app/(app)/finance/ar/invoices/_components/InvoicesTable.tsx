@@ -5,12 +5,8 @@ import { Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } f
 import type { InvoiceResponse } from "@/lib/api/finance/invoices";
 import { OverdueCell } from "../../../_components/OverdueDots";
 import { StatusBadge } from "../../../_components/StatusBadge";
-import { daysUntilDue, formatDateShort, formatMoney } from "../../../_data/format";
+import { calculateOutstanding, daysUntilDue, formatDateShort, formatMoney } from "../../../_data/format";
 import { InvoiceRowMenu } from "./InvoiceRowMenu";
-
-function outstandingOf(inv: InvoiceResponse) {
-    return (Number(inv.totalAmount) - Number(inv.amountReceived)).toFixed(2);
-}
 
 export function InvoicesTable({ rows, asOfDate }: { rows: InvoiceResponse[]; asOfDate: string }) {
     if (!rows.length) {
@@ -46,7 +42,7 @@ export function InvoicesTable({ rows, asOfDate }: { rows: InvoiceResponse[]; asO
                 </TableHeader>
                 <TableBody>
                     {rows.map((inv) => {
-                        const outstanding = outstandingOf(inv);
+                        const outstanding = calculateOutstanding(inv.totalAmount, inv.amountReceived);
                         return (
                             <TableRow key={inv.id}>
                                 <TableCell>

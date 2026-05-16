@@ -1,8 +1,9 @@
 import type { BillResponse } from "@/lib/api/finance/bills";
 import { DocumentSummaryCard } from "../../../../_components/DocumentSummaryCard";
+import { calculateOutstanding } from "../../../../_data/format";
 
 export function BillSummaryCard({ bill }: { bill: BillResponse }) {
-    const outstanding = (Number(bill.totalAmount) - Number(bill.amountPaid)).toFixed(2);
+    const outstanding = calculateOutstanding(bill.totalAmount, bill.amountPaid);
     return (
         <DocumentSummaryCard
             summary={{

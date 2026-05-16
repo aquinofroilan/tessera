@@ -23,8 +23,8 @@ import { AuthFinePrint } from "../../_components/AuthFinePrint";
 import { AuthSubmitButton } from "../../_components/AuthSubmitButton";
 import { EmailFormField } from "../../_components/EmailFormField";
 import { useAuthSubmitState } from "../../_components/useAuthSubmitState";
+import { SsoButtons } from "../../_components/SsoButtons";
 import { signinSchema, type SigninValues } from "./signin-schema";
-import { SsoButtons } from "./SsoButtons";
 
 export function SigninForm() {
     const { status, submit, disabled } = useAuthSubmitState();

@@ -22,9 +22,9 @@ import { AuthFinePrint } from "../../_components/AuthFinePrint";
 import { AuthSubmitButton } from "../../_components/AuthSubmitButton";
 import { EmailFormField } from "../../_components/EmailFormField";
 import { useAuthSubmitState } from "../../_components/useAuthSubmitState";
+import { SsoButtons } from "../../_components/SsoButtons";
 import { signupSchema, type SignupValues } from "./signup-schema";
 import { PasswordField } from "./PasswordField";
-import { SsoButtons } from "./SsoButtons";
 
 export function SignupForm() {
     const { status, submit, disabled } = useAuthSubmitState();
@@ -57,7 +57,7 @@ export function SignupForm() {
     return (
         <Form {...form}>
             <form className="grid gap-4" onSubmit={onSubmit} noValidate>
-                <SsoButtons disabled={disabled} />
+                <SsoButtons disabled={disabled} twoColumn />
 
                 <FormDivider label="or with work email" />
 

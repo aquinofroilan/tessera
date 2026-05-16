@@ -1,8 +1,9 @@
 import type { InvoiceResponse } from "@/lib/api/finance/invoices";
 import { DocumentSummaryCard } from "../../../../_components/DocumentSummaryCard";
+import { calculateOutstanding } from "../../../../_data/format";
 
 export function InvoiceSummaryCard({ invoice }: { invoice: InvoiceResponse }) {
-    const outstanding = (Number(invoice.totalAmount) - Number(invoice.amountReceived)).toFixed(2);
+    const outstanding = calculateOutstanding(invoice.totalAmount, invoice.amountReceived);
     return (
         <DocumentSummaryCard
             summary={{

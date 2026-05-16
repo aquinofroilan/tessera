@@ -1,6 +1,6 @@
 import { Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
 import type { Money } from "@/lib/api/types";
-import { formatMoney } from "../_data/format";
+import { formatMoney, subtractMoney } from "../_data/format";
 
 export type LineRow = {
     accountCode: string;
@@ -17,7 +17,7 @@ type DocumentLinesTableProps = {
 };
 
 export function DocumentLinesTable({ lines, totalAmount, taxAmount, currencyCode }: DocumentLinesTableProps) {
-    const subtotal = (Number(totalAmount) - Number(taxAmount)).toFixed(2);
+    const subtotal = subtractMoney(totalAmount, taxAmount);
     return (
         <Card className="p-0">
             <Table>
