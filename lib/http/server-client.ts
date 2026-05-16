@@ -56,6 +56,7 @@ const request = async <T>(method: string, path: string, body: unknown, options: 
     const signal = options.signal ? AbortSignal.any([options.signal, timeoutSignal]) : timeoutSignal;
 
     let response: Response;
+    let rawBody: string;
     try {
         response = await fetch(url, {
             method,
@@ -65,12 +66,13 @@ const request = async <T>(method: string, path: string, body: unknown, options: 
             cache: options.cache,
             next: options.next,
         });
+        rawBody = await response.text();
     } catch (error) {
         if (timeoutSignal.aborted) throw new HttpTimeoutError(url, timeoutMs);
         throw error;
     }
 
-    const data = parseBody(await response.text());
+    const data = parseBody(rawBody);
 
     if (!response.ok) {
         throw new HttpError({ status: response.status, statusText: response.statusText, url, body: data });
