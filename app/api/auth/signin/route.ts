@@ -22,13 +22,17 @@ export const POST = async (request: Request) => {
     const rememberMe = remember ?? false;
 
     try {
-        const result = await signin({ username: email, password, rememberMe });
-        if (!result.token) {
+        const result: unknown = await signin({ username: email, password, rememberMe });
+        const token =
+            result && typeof result === "object" && typeof (result as { token?: unknown }).token === "string"
+                ? (result as { token: string }).token
+                : "";
+        if (!token) {
             return NextResponse.json({ error: "Sign-in failed. Try again." }, { status: 502 });
         }
 
         const response = NextResponse.json({ ok: true });
-        setSessionCookie(response, result.token, rememberMe);
+        setSessionCookie(response, token, rememberMe);
         return response;
     } catch (error) {
         if (error instanceof HttpTimeoutError) {
