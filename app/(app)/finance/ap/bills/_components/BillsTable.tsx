@@ -2,17 +2,16 @@ import Link from "next/link";
 import { IconFileOff } from "@tabler/icons-react";
 
 import { Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
-import type { BillResponse } from "@/lib/api/finance/bills";
+import type { BillSummaryResponse } from "@/lib/api/finance/bills";
 import { OverdueCell } from "../../../_components/OverdueDots";
 import { StatusBadge } from "../../../_components/StatusBadge";
 import { daysUntilDue, formatDateShort, formatMoney } from "../../../_data/format";
 import { BillRowMenu } from "./BillRowMenu";
 
-function outstandingOf(bill: BillResponse) {
-    return (Number(bill.totalAmount) - Number(bill.amountPaid)).toFixed(2);
-}
+const outstandingOf = (bill: BillSummaryResponse) =>
+    (Number(bill.totalAmount) - Number(bill.amountPaid)).toFixed(2);
 
-export function BillsTable({ rows, asOfDate }: { rows: BillResponse[]; asOfDate: string }) {
+export const BillsTable = ({ rows, asOfDate }: { rows: BillSummaryResponse[]; asOfDate: string }) => {
     if (!rows.length) {
         return (
             <Card className="items-center gap-3 px-6 py-12 text-center">
@@ -58,11 +57,6 @@ export function BillsTable({ rows, asOfDate }: { rows: BillResponse[]; asOfDate:
                                 </TableCell>
                                 <TableCell className="text-(--ink-soft)">
                                     <span className="block text-(--ink)">{bill.vendorName}</span>
-                                    {bill.referenceNumber && (
-                                        <span className="block font-mono text-[11px] text-(--muted)">
-                                            {bill.referenceNumber}
-                                        </span>
-                                    )}
                                 </TableCell>
                                 <TableCell className="text-[13px] text-(--ink-soft)">
                                     {formatDateShort(bill.date)}
@@ -94,4 +88,4 @@ export function BillsTable({ rows, asOfDate }: { rows: BillResponse[]; asOfDate:
             </Table>
         </Card>
     );
-}
+};

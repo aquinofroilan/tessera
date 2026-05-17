@@ -6,7 +6,7 @@ import { AppTopbar } from "../../../../_components/AppTopbar";
 import { Block } from "../../../../_components/Block";
 import { PageHeader } from "../../../../_components/PageHeader";
 import { StatusBadge } from "../../../_components/StatusBadge";
-import { billPayments, bills } from "../_data/bills-mock";
+import { getBill, getBillPayments } from "@/lib/api/finance/bills-dal";
 import { BillActionBar } from "./_components/BillActionBar";
 import { BillLinesTable } from "./_components/BillLinesTable";
 import { BillPaymentsTable } from "./_components/BillPaymentsTable";
@@ -14,20 +14,20 @@ import { BillSummaryCard } from "./_components/BillSummaryCard";
 
 type Props = { params: Promise<{ id: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
-    const bill = bills.find((b) => b.id === id);
+    const bill = await getBill(id);
     return {
         title: bill ? `${bill.billNumber} · Loom` : "Bill · Loom",
     };
-}
+};
 
-export default async function BillDetailPage({ params }: Props) {
+const BillDetailPage = async ({ params }: Props) => {
     const { id } = await params;
-    const bill = bills.find((b) => b.id === id);
+    const bill = await getBill(id);
     if (!bill) notFound();
 
-    const payments = billPayments.filter((p) => p.billId === id);
+    const payments = await getBillPayments(id);
 
     return (
         <>
@@ -70,4 +70,6 @@ export default async function BillDetailPage({ params }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default BillDetailPage;

@@ -6,14 +6,13 @@ import { Button } from "@/components/ui";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
-import { MOCK_TODAY } from "../../_data/mock-anchor";
 import { AgingStrip } from "./_components/AgingStrip";
 import { BillsTable } from "./_components/BillsTable";
 import { BillsToolbar } from "./_components/BillsToolbar";
 import { PaginationFooter } from "../../_components/PaginationFooter";
 import { deriveApAgingSummary } from "./_data/aging";
 import { countByStatus, filterBills, paginate, parseBillsQuery } from "./_data/filter";
-import { bills } from "./_data/bills-mock";
+import { listBills } from "@/lib/api/finance/bills-dal";
 
 export const metadata: Metadata = {
     title: "Bills · Loom",
@@ -24,13 +23,15 @@ type Props = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function BillsListPage({ searchParams }: Props) {
+const BillsListPage = async ({ searchParams }: Props) => {
     const sp = await searchParams;
     const query = parseBillsQuery(sp);
+    const bills = await listBills();
+    const asOfDate = new Date().toISOString().slice(0, 10);
     const counts = countByStatus(bills);
     const filtered = filterBills(bills, query);
     const { rows: pageRows, window } = paginate(filtered, query.page);
-    const aging = deriveApAgingSummary(bills, MOCK_TODAY);
+    const aging = deriveApAgingSummary(bills, asOfDate);
 
     return (
         <>
@@ -71,11 +72,13 @@ export default async function BillsListPage({ searchParams }: Props) {
                         <div className="mb-5">
                             <BillsToolbar activeStatus={query.status} initialQ={query.q} counts={counts} />
                         </div>
-                        <BillsTable rows={pageRows} asOfDate={MOCK_TODAY} />
+                        <BillsTable rows={pageRows} asOfDate={asOfDate} />
                         {window.total > 0 && <PaginationFooter window={window} />}
                     </Block>
                 </div>
             </div>
         </>
     );
-}
+};
+
+export default BillsListPage;

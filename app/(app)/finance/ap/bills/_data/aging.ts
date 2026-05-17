@@ -1,11 +1,11 @@
-import type { BillResponse } from "@/lib/api/finance/bills";
+import type { BillSummaryResponse } from "@/lib/api/finance/bills";
 import { deriveAgingSummary, type AgingSummary } from "../../../_data/aging";
 import { isOpenDocument } from "../../../_data/list-query";
 
 export type ApAgingSummary = AgingSummary;
 
-export function deriveApAgingSummary(bills: BillResponse[], asOfDate: string): ApAgingSummary {
-    return deriveAgingSummary(
+export const deriveApAgingSummary = (bills: BillSummaryResponse[], asOfDate: string): ApAgingSummary =>
+    deriveAgingSummary(
         bills.map((bill) => ({
             isOpen: isOpenDocument(bill.status),
             outstanding: Number(bill.totalAmount) - Number(bill.amountPaid),
@@ -13,4 +13,3 @@ export function deriveApAgingSummary(bills: BillResponse[], asOfDate: string): A
         })),
         asOfDate,
     );
-}
