@@ -17,39 +17,47 @@ import {
     IconInput,
     Input,
     Label,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui";
 import { AuthFinePrint } from "../../_components/AuthFinePrint";
 import { AuthSubmitButton } from "../../_components/AuthSubmitButton";
 import { EmailFormField } from "../../_components/EmailFormField";
 import { useAuthSubmitState } from "../../_components/useAuthSubmitState";
-import { signupSchema, type SignupValues } from "./signup-schema";
+import { CURRENCIES, signupSchema, type SignupValues } from "./signup-schema";
 import { PasswordField } from "./PasswordField";
 import { SsoButtons } from "./SsoButtons";
 
-export function SignupForm() {
-    const { status, submit, disabled } = useAuthSubmitState();
+export const SignupForm = () => {
+    const { status, error, submit, disabled } = useAuthSubmitState({ redirectTo: "/" });
     const form = useForm<SignupValues>({
         resolver: zodResolver(signupSchema),
         mode: "onBlur",
         defaultValues: {
-            name: "",
-            role: "",
+            firstName: "",
+            lastName: "",
             email: "",
             company: "",
             password: "",
+            baseCurrency: "USD",
             terms: false as unknown as true,
         },
     });
 
     const onSubmit = form.handleSubmit(async (values) => {
         await submit(async () => {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
             const response = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(values),
+                body: JSON.stringify({ ...values, timezone }),
             });
             if (!response.ok) {
-                throw new Error(`Signup failed: ${response.status} ${response.statusText}`);
+                const data = (await response.json().catch(() => null)) as { error?: string } | null;
+                throw new Error(data?.error ?? "Couldn't create your account. Try again.");
             }
         });
     });
@@ -64,16 +72,16 @@ export function SignupForm() {
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <FormField
                         control={form.control}
-                        name="name"
+                        name="firstName"
                         render={({ field }) => (
                             <FormItem className="gap-1.5">
                                 <FormLabel asChild>
                                     <Label variant="eyebrow">
-                                        Your name <span className="text-(--accent)">*</span>
+                                        First name <span className="text-(--accent)">*</span>
                                     </Label>
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Emma Voss" autoComplete="name" disabled={disabled} {...field} />
+                                    <Input placeholder="Emma" autoComplete="given-name" disabled={disabled} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -81,20 +89,23 @@ export function SignupForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="role"
+                        name="lastName"
                         render={({ field }) => (
                             <FormItem className="gap-1.5">
                                 <FormLabel asChild>
                                     <Label variant="eyebrow">
-                                        Your role{" "}
-                                        <span className="font-sans text-[11px] tracking-normal text-(--muted-2) normal-case">
-                                            (optional)
-                                        </span>
+                                        Last name <span className="text-(--accent)">*</span>
                                     </Label>
                                 </FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Controller, COO, Owner…" disabled={disabled} {...field} />
+                                    <Input
+                                        placeholder="Voss"
+                                        autoComplete="family-name"
+                                        disabled={disabled}
+                                        {...field}
+                                    />
                                 </FormControl>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -122,6 +133,35 @@ export function SignupForm() {
                                     {...field}
                                 />
                             </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="baseCurrency"
+                    render={({ field }) => (
+                        <FormItem className="gap-1.5">
+                            <FormLabel asChild>
+                                <Label variant="eyebrow">
+                                    Base currency <span className="text-(--accent)">*</span>
+                                </Label>
+                            </FormLabel>
+                            <Select value={field.value} onValueChange={field.onChange} disabled={disabled}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select currency" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {CURRENCIES.map((currency) => (
+                                        <SelectItem key={currency.code} value={currency.code}>
+                                            {currency.symbol} · {currency.code} — {currency.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -164,6 +204,12 @@ export function SignupForm() {
                     )}
                 />
 
+                {error && (
+                    <p role="alert" className="text-[13px] text-(--accent)">
+                        {error}
+                    </p>
+                )}
+
                 <AuthSubmitButton
                     status={status}
                     idleLabel="Start my 30-day trial"
@@ -175,4 +221,4 @@ export function SignupForm() {
             </form>
         </Form>
     );
-}
+};

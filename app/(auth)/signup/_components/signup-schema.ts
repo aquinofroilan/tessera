@@ -1,11 +1,20 @@
 import { z } from "zod";
 
+export const CURRENCIES = [
+    { code: "USD", name: "US Dollar", symbol: "$" },
+    { code: "EUR", name: "Euro", symbol: "€" },
+    { code: "GBP", name: "Pound Sterling", symbol: "£" },
+    { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+    { code: "PHP", name: "Philippine Peso", symbol: "₱" },
+] as const;
+
 export const signupSchema = z.object({
-    name: z.string().trim().min(1, "Required"),
-    role: z.string().trim().optional(),
+    firstName: z.string().trim().min(1, "Required"),
+    lastName: z.string().trim().min(1, "Required"),
     email: z.email("Enter a valid work email").trim().toLowerCase(),
-    company: z.string().trim().min(1, "Required"),
+    company: z.string().trim().min(1, "Required").max(120, "Too long"),
     password: z.string().min(10, "At least 10 characters"),
+    baseCurrency: z.enum(["USD", "EUR", "GBP", "JPY", "PHP"], { message: "Select a currency" }),
     terms: z.literal(true, { message: "You must agree to continue" }),
 });
 
@@ -16,7 +25,7 @@ export type PasswordStrength = {
     label: "Empty" | "Too short" | "Weak" | "Fair" | "Good" | "Strong";
 };
 
-export function scorePassword(value: string): PasswordStrength {
+export const scorePassword = (value: string): PasswordStrength => {
     if (!value) return { score: 0, label: "Empty" };
 
     let score = 0;
@@ -28,4 +37,4 @@ export function scorePassword(value: string): PasswordStrength {
     if (score === 0) return { score: 0, label: "Too short" };
     const labels = ["Weak", "Fair", "Good", "Strong"] as const;
     return { score: score as 1 | 2 | 3 | 4, label: labels[score - 1] };
-}
+};
