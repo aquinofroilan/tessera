@@ -2,33 +2,21 @@ import "server-only";
 
 import { cache } from "react";
 
-import { HttpError, serverClient } from "@/lib/http";
-import { authed, authHeaders } from "@/lib/api/auth-helpers";
+import { apiGetOrNull, apiList } from "@/lib/api/dal";
 import type { JournalEntryResponse, JournalEntryStatus } from "./journal";
 
 const JOURNAL_PATH = "/finance/journal";
 
 type ListJournalParams = { status?: JournalEntryStatus; startDate?: string; endDate?: string };
 
-export const listJournalEntries = async (params?: ListJournalParams): Promise<JournalEntryResponse[]> =>
-    authed(async () =>
-        serverClient.get<JournalEntryResponse[]>(JOURNAL_PATH, {
-            query: { status: params?.status, startDate: params?.startDate, endDate: params?.endDate },
-            headers: await authHeaders(),
-            cache: "no-store",
-        }),
-    );
+export const listJournalEntries = (params?: ListJournalParams): Promise<JournalEntryResponse[]> =>
+    apiList<JournalEntryResponse>(JOURNAL_PATH, {
+        status: params?.status,
+        startDate: params?.startDate,
+        endDate: params?.endDate,
+    });
 
-export const getJournalEntry = cache(async (id: string): Promise<JournalEntryResponse | null> =>
-    authed(async () => {
-        try {
-            return await serverClient.get<JournalEntryResponse>(`${JOURNAL_PATH}/${id}`, {
-                headers: await authHeaders(),
-                cache: "no-store",
-            });
-        } catch (error) {
-            if (error instanceof HttpError && error.status === 404) return null;
-            throw error;
-        }
-    }),
+export const getJournalEntry = cache(
+    (id: string): Promise<JournalEntryResponse | null> =>
+        apiGetOrNull<JournalEntryResponse>(`${JOURNAL_PATH}/${id}`),
 );
