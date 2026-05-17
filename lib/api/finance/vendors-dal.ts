@@ -4,7 +4,7 @@ import { cache } from "react";
 
 import { HttpError, serverClient } from "@/lib/http";
 import { authed, authHeaders } from "@/lib/api/auth-helpers";
-import type { VendorResponse } from "./vendors";
+import type { CreateVendorRequest, VendorResponse } from "./vendors";
 
 const VENDORS_PATH = "/finance/ap/vendors";
 
@@ -15,6 +15,9 @@ export const listVendors = async (): Promise<VendorResponse[]> =>
             cache: "no-store",
         }),
     );
+
+export const createVendor = async (body: CreateVendorRequest): Promise<VendorResponse> =>
+    authed(async () => serverClient.post<VendorResponse>(VENDORS_PATH, body, { headers: await authHeaders() }));
 
 export const getVendor = cache(async (id: string): Promise<VendorResponse | null> =>
     authed(async () => {
