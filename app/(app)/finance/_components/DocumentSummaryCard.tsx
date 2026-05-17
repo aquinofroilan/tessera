@@ -1,4 +1,7 @@
-import { format, parseISO } from "date-fns";
+import { ReactNode } from "react";
+
+import { format, parseISO } from "date-fns"
+import Link from "next/link";
 
 import { Card, CardEyebrow } from "@/components/ui";
 import type { Money } from "@/lib/api/types";
@@ -8,11 +11,11 @@ function formatDateLong(iso: string) {
     return format(parseISO(iso), "MMM d, yyyy");
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
     return (
         <div className="flex flex-col gap-1">
             <CardEyebrow>{label}</CardEyebrow>
-            <div className="text-[14px] text-(--ink) tabular-nums">{children}</div>
+            <div className="text-[14px] text-foreground tabular-nums">{children}</div>
         </div>
     );
 }
@@ -20,6 +23,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 export type DocumentSummary = {
     partyLabel: string;
     partyName: string;
+    partyHref?: string;
     referenceNumber: string | null;
     date: string;
     dueDate: string;
@@ -42,7 +46,15 @@ export function DocumentSummaryCard({ summary }: { summary: DocumentSummary }) {
     return (
         <Card className="p-6">
             <div className="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-4">
-                <Field label={summary.partyLabel}>{summary.partyName}</Field>
+                <Field label={summary.partyLabel}>
+                    {summary.partyHref ? (
+                        <Link href={summary.partyHref} className="hover:text-(--accent)">
+                            {summary.partyName}
+                        </Link>
+                    ) : (
+                        summary.partyName
+                    )}
+                </Field>
                 <Field label="Reference">{summary.referenceNumber ?? "—"}</Field>
                 <Field label="Issued">{formatDateLong(summary.date)}</Field>
                 <Field label="Due">{formatDateLong(summary.dueDate)}</Field>
