@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "zentry",
+      "name": "loom",
       "dependencies": {
         "@hookform/resolvers": "^5.2.2",
         "@tabler/icons-react": "^3.44.0",
