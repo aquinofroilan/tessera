@@ -9,8 +9,8 @@ import { PageHeader } from "../../_components/PageHeader";
 import { PaginationFooter } from "../_components/PaginationFooter";
 import { AccountsTable } from "./_components/AccountsTable";
 import { AccountsToolbar } from "./_components/AccountsToolbar";
+import { listAccounts } from "@/lib/api/finance/accounts-dal";
 import { countByType, filterAccounts, paginate, parseAccountsQuery } from "./_data/filter";
-import { accounts } from "./_data/accounts-mock";
 
 export const metadata: Metadata = {
     title: "Chart of accounts · Loom",
@@ -21,9 +21,10 @@ type Props = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function AccountsListPage({ searchParams }: Props) {
+const AccountsListPage = async ({ searchParams }: Props) => {
     const sp = await searchParams;
     const query = parseAccountsQuery(sp);
+    const accounts = await listAccounts();
     const counts = countByType(accounts);
     const filtered = filterAccounts(accounts, query);
     const sorted = [...filtered].sort((a, b) => a.code.localeCompare(b.code));
@@ -71,4 +72,6 @@ export default async function AccountsListPage({ searchParams }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default AccountsListPage;

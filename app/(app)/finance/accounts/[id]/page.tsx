@@ -7,24 +7,24 @@ import { Button, Card, Table, TableBody, TableCell, TableHead, TableHeader, Tabl
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
-import { accounts } from "../_data/accounts-mock";
+import { getAccount, listAccounts } from "@/lib/api/finance/accounts-dal";
 import { AccountProfileCard } from "./_components/AccountProfileCard";
 
 type Props = { params: Promise<{ id: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
-    const account = accounts.find((a) => a.id === id);
+    const account = await getAccount(id);
     return { title: account ? `${account.code} ${account.name} · Loom` : "Account · Loom" };
-}
+};
 
-export default async function AccountDetailPage({ params }: Props) {
+const AccountDetailPage = async ({ params }: Props) => {
     const { id } = await params;
-    const account = accounts.find((a) => a.id === id);
+    const account = await getAccount(id);
     if (!account) notFound();
 
-    const parent = account.parentId ? (accounts.find((a) => a.id === account.parentId) ?? null) : null;
-    const children = accounts.filter((a) => a.parentId === id);
+    const parent = account.parentId ? await getAccount(account.parentId) : null;
+    const children = await listAccounts({ parentId: id });
 
     return (
         <>
@@ -107,4 +107,6 @@ export default async function AccountDetailPage({ params }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default AccountDetailPage;
