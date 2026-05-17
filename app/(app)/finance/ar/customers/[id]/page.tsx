@@ -8,24 +8,24 @@ import { Block } from "../../../../_components/Block";
 import { PageHeader } from "../../../../_components/PageHeader";
 import { PartyDocumentsTable } from "../../../_components/PartyDocumentsTable";
 import { PartyProfileCard } from "../../../_components/PartyProfileCard";
+import { listInvoices } from "@/lib/api/finance/invoices-dal";
+import { getCustomer } from "@/lib/api/finance/customers-dal";
 import { formatMoney } from "../../../_data/format";
-import { invoices } from "../../invoices/_data/invoices-mock";
-import { customers } from "../_data/customers-mock";
 
 type Props = { params: Promise<{ id: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
-    const customer = customers.find((c) => c.id === id);
+    const customer = await getCustomer(id);
     return { title: customer ? `${customer.name} · Loom` : "Customer · Loom" };
-}
+};
 
-export default async function CustomerDetailPage({ params }: Props) {
+const CustomerDetailPage = async ({ params }: Props) => {
     const { id } = await params;
-    const customer = customers.find((c) => c.id === id);
+    const customer = await getCustomer(id);
     if (!customer) notFound();
 
-    const customerInvoices = invoices.filter((inv) => inv.customerId === id);
+    const customerInvoices = await listInvoices({ customerId: id });
     const totalBilled = customerInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0);
     const totalReceived = customerInvoices.reduce((sum, inv) => sum + Number(inv.amountReceived), 0);
     const outstanding = (totalBilled - totalReceived).toFixed(2);
@@ -93,4 +93,6 @@ export default async function CustomerDetailPage({ params }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default CustomerDetailPage;

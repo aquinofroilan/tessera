@@ -8,24 +8,24 @@ import { Block } from "../../../../_components/Block";
 import { PageHeader } from "../../../../_components/PageHeader";
 import { PartyDocumentsTable } from "../../../_components/PartyDocumentsTable";
 import { PartyProfileCard } from "../../../_components/PartyProfileCard";
+import { listBills } from "@/lib/api/finance/bills-dal";
+import { getVendor } from "@/lib/api/finance/vendors-dal";
 import { formatMoney } from "../../../_data/format";
-import { bills } from "../../bills/_data/bills-mock";
-import { vendors } from "../_data/vendors-mock";
 
 type Props = { params: Promise<{ id: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
-    const vendor = vendors.find((v) => v.id === id);
+    const vendor = await getVendor(id);
     return { title: vendor ? `${vendor.name} · Loom` : "Vendor · Loom" };
-}
+};
 
-export default async function VendorDetailPage({ params }: Props) {
+const VendorDetailPage = async ({ params }: Props) => {
     const { id } = await params;
-    const vendor = vendors.find((v) => v.id === id);
+    const vendor = await getVendor(id);
     if (!vendor) notFound();
 
-    const vendorBills = bills.filter((b) => b.vendorId === id);
+    const vendorBills = await listBills({ vendorId: id });
     const totalBilled = vendorBills.reduce((sum, b) => sum + Number(b.totalAmount), 0);
     const totalPaid = vendorBills.reduce((sum, b) => sum + Number(b.amountPaid), 0);
     const outstanding = (totalBilled - totalPaid).toFixed(2);
@@ -93,4 +93,6 @@ export default async function VendorDetailPage({ params }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default VendorDetailPage;

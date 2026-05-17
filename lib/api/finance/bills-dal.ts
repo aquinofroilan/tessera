@@ -14,10 +14,12 @@ import type {
 
 const BILLS_PATH = "/finance/ap/bills";
 
-export const listBills = async (status?: BillStatus): Promise<BillSummaryResponse[]> =>
+type ListBillsParams = { status?: BillStatus; vendorId?: string };
+
+export const listBills = async (params?: ListBillsParams): Promise<BillSummaryResponse[]> =>
     authed(async () =>
         serverClient.get<BillSummaryResponse[]>(BILLS_PATH, {
-            query: status ? { status } : undefined,
+            query: { status: params?.status, vendorId: params?.vendorId },
             headers: await authHeaders(),
             cache: "no-store",
         }),

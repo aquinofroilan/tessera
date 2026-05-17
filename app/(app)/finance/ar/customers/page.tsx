@@ -9,8 +9,8 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { PaginationFooter } from "../../_components/PaginationFooter";
 import { PartiesTable } from "../../_components/PartiesTable";
 import { PartiesToolbar } from "../../_components/PartiesToolbar";
+import { listCustomers } from "@/lib/api/finance/customers-dal";
 import { countParties, filterParties, paginate, parsePartiesQuery } from "../../_data/parties-query";
-import { customers } from "./_data/customers-mock";
 
 export const metadata: Metadata = {
     title: "Customers · Loom",
@@ -21,9 +21,10 @@ type Props = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function CustomersListPage({ searchParams }: Props) {
+const CustomersListPage = async ({ searchParams }: Props) => {
     const sp = await searchParams;
     const query = parsePartiesQuery(sp);
+    const customers = await listCustomers();
     const counts = countParties(customers);
     const filtered = filterParties(customers, query);
     const { rows: pageRows, window } = paginate(filtered, query.page);
@@ -84,4 +85,6 @@ export default async function CustomersListPage({ searchParams }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default CustomersListPage;

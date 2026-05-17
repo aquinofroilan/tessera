@@ -9,8 +9,8 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { PaginationFooter } from "../../_components/PaginationFooter";
 import { PartiesTable } from "../../_components/PartiesTable";
 import { PartiesToolbar } from "../../_components/PartiesToolbar";
+import { listVendors } from "@/lib/api/finance/vendors-dal";
 import { countParties, filterParties, paginate, parsePartiesQuery } from "../../_data/parties-query";
-import { vendors } from "./_data/vendors-mock";
 
 export const metadata: Metadata = {
     title: "Vendors · Loom",
@@ -21,9 +21,10 @@ type Props = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function VendorsListPage({ searchParams }: Props) {
+const VendorsListPage = async ({ searchParams }: Props) => {
     const sp = await searchParams;
     const query = parsePartiesQuery(sp);
+    const vendors = await listVendors();
     const counts = countParties(vendors);
     const filtered = filterParties(vendors, query);
     const { rows: pageRows, window } = paginate(filtered, query.page);
@@ -82,4 +83,6 @@ export default async function VendorsListPage({ searchParams }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default VendorsListPage;
