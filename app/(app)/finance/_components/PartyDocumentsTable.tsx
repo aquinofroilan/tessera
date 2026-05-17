@@ -23,13 +23,13 @@ type PartyDocumentsTableProps = {
     emptyDescription: string;
 };
 
-export function PartyDocumentsTable({
+export const PartyDocumentsTable = ({
     rows,
     detailHrefBase,
     numberHeader,
     emptyHeading,
     emptyDescription,
-}: PartyDocumentsTableProps) {
+}: PartyDocumentsTableProps) => {
     if (!rows.length) {
         return (
             <Card className="items-center px-6 py-10 text-center">
@@ -77,4 +77,4 @@ export function PartyDocumentsTable({
             </Table>
         </Card>
     );
-}
+};

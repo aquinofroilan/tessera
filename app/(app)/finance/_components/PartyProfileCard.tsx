@@ -1,13 +1,15 @@
+import type { ReactNode } from "react";
+
 import { Card, CardEyebrow } from "@/components/ui";
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+const Field = ({ label, children }: { label: string; children: ReactNode }) => {
     return (
         <div className="flex flex-col gap-1">
             <CardEyebrow>{label}</CardEyebrow>
             <div className="text-[14px] text-(--ink)">{children}</div>
         </div>
     );
-}
+};
 
 export type PartyProfile = {
     contactName: string | null;
@@ -19,7 +21,7 @@ export type PartyProfile = {
     isActive: boolean;
 };
 
-export function PartyProfileCard({ profile }: { profile: PartyProfile }) {
+export const PartyProfileCard = ({ profile }: { profile: PartyProfile }) => {
     return (
         <Card className="p-6">
             <div className="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-3">
@@ -57,4 +59,4 @@ export function PartyProfileCard({ profile }: { profile: PartyProfile }) {
             </div>
         </Card>
     );
-}
+};

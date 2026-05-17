@@ -21,7 +21,13 @@ const tabs: { value: ToolbarProps["activeScope"]; label: string }[] = [
     { value: "ARCHIVED", label: "Archived" },
 ];
 
-export function PartiesToolbar({ activeScope, initialQ, counts, searchPlaceholder, searchAriaLabel }: ToolbarProps) {
+export const PartiesToolbar = ({
+    activeScope,
+    initialQ,
+    counts,
+    searchPlaceholder,
+    searchAriaLabel,
+}: ToolbarProps) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -98,4 +104,4 @@ export function PartiesToolbar({ activeScope, initialQ, counts, searchPlaceholde
             />
         </div>
     );
-}
+};

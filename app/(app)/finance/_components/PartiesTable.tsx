@@ -21,7 +21,13 @@ type PartiesTableProps = {
     nameHeader: string;
 };
 
-export function PartiesTable({ rows, detailHrefBase, emptyHeading, emptyDescription, nameHeader }: PartiesTableProps) {
+export const PartiesTable = ({
+    rows,
+    detailHrefBase,
+    emptyHeading,
+    emptyDescription,
+    nameHeader,
+}: PartiesTableProps) => {
     if (!rows.length) {
         return (
             <Card className="items-center gap-3 px-6 py-12 text-center">
@@ -91,4 +97,4 @@ export function PartiesTable({ rows, detailHrefBase, emptyHeading, emptyDescript
             </Table>
         </Card>
     );
-}
+};

@@ -15,7 +15,7 @@ type PartyLike = {
     isActive: boolean;
 };
 
-export function parsePartiesQuery(searchParams: Record<string, string | string[] | undefined>): PartiesQuery {
+export const parsePartiesQuery = (searchParams: Record<string, string | string[] | undefined>): PartiesQuery => {
     const scopeRaw = (Array.isArray(searchParams.scope) ? searchParams.scope[0] : searchParams.scope) ?? "ACTIVE";
     const q = (Array.isArray(searchParams.q) ? searchParams.q[0] : searchParams.q) ?? "";
     const pageRaw = Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page;
@@ -23,9 +23,9 @@ export function parsePartiesQuery(searchParams: Record<string, string | string[]
     const scope: PartyScope =
         scopeRaw === "ALL" || scopeRaw === "ACTIVE" || scopeRaw === "ARCHIVED" ? scopeRaw : "ACTIVE";
     return { scope, q: q.trim(), page };
-}
+};
 
-export function filterParties<T extends PartyLike>(parties: T[], query: PartiesQuery): T[] {
+export const filterParties = <T extends PartyLike>(parties: T[], query: PartiesQuery): T[] => {
     const needle = query.q.toLowerCase();
     return parties.filter((party) => {
         if (query.scope === "ACTIVE" && !party.isActive) return false;
@@ -33,9 +33,9 @@ export function filterParties<T extends PartyLike>(parties: T[], query: PartiesQ
         if (!needle) return true;
         return [party.name, party.contactName, party.contactEmail].some((f) => f?.toLowerCase().includes(needle));
     });
-}
+};
 
-export function countParties(parties: PartyLike[]): { ALL: number; ACTIVE: number; ARCHIVED: number } {
+export const countParties = (parties: PartyLike[]): { ALL: number; ACTIVE: number; ARCHIVED: number } => {
     let active = 0;
     let archived = 0;
     for (const p of parties) {
@@ -43,6 +43,6 @@ export function countParties(parties: PartyLike[]): { ALL: number; ACTIVE: numbe
         else archived += 1;
     }
     return { ALL: parties.length, ACTIVE: active, ARCHIVED: archived };
-}
+};
 
 export { paginate, type PageWindow };
