@@ -3,12 +3,12 @@
 import { runCreateAction } from "@/lib/api/create-action";
 import type { CreateCustomerRequest } from "@/lib/api/finance/customers";
 import { createCustomer } from "@/lib/api/finance/customers-dal";
-import { newCustomerSchema, type NewCustomerValues } from "./new-customer-schema";
+import { partyFormSchema, type PartyFormValues } from "../../../../_data/party-form-schema";
 
-export const createCustomerAction = async (values: NewCustomerValues) =>
-    runCreateAction<NewCustomerValues, CreateCustomerRequest>({
+export const createCustomerAction = async (values: PartyFormValues) =>
+    runCreateAction<PartyFormValues, CreateCustomerRequest>({
         values,
-        schema: newCustomerSchema,
+        schema: partyFormSchema,
         path: "/finance/ar/customers",
         errorMessage: "Couldn't create the customer. Try again.",
         create: createCustomer,
@@ -18,6 +18,6 @@ export const createCustomerAction = async (values: NewCustomerValues) =>
             contactEmail: v.contactEmail?.trim() || null,
             contactPhone: v.contactPhone?.trim() || null,
             paymentTermDays: Number(v.paymentTermDays),
-            defaultRevenueAccountId: v.defaultRevenueAccountId?.trim() || null,
+            defaultRevenueAccountId: v.defaultAccountId?.trim() || null,
         }),
     });

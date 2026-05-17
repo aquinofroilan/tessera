@@ -18,6 +18,7 @@ type StatusToolbarProps<S extends string> = {
     searchAriaLabel: string;
     tabsAriaLabel?: string;
     paramKey?: string;
+    clearValue?: S | "ALL";
 };
 
 export function StatusToolbar<S extends string>({
@@ -29,6 +30,7 @@ export function StatusToolbar<S extends string>({
     searchAriaLabel,
     tabsAriaLabel = "Filter by status",
     paramKey = "status",
+    clearValue = "ALL",
 }: StatusToolbarProps<S>) {
     const router = useRouter();
     const pathname = usePathname();
@@ -57,7 +59,7 @@ export function StatusToolbar<S extends string>({
 
     const setStatus = (next: S | "ALL") => {
         const params = new URLSearchParams(searchParams.toString());
-        if (next === "ALL") params.delete(paramKey);
+        if (next === clearValue) params.delete(paramKey);
         else params.set(paramKey, next);
         params.delete("page");
         const qs = params.toString();
