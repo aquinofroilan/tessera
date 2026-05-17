@@ -12,7 +12,7 @@ export const signupSchema = z.object({
     firstName: z.string().trim().min(1, "Required"),
     lastName: z.string().trim().min(1, "Required"),
     email: z.email("Enter a valid work email").trim().toLowerCase(),
-    company: z.string().trim().min(1, "Required"),
+    company: z.string().trim().min(1, "Required").max(120, "Too long"),
     password: z.string().min(10, "At least 10 characters"),
     baseCurrency: z.enum(["USD", "EUR", "GBP", "JPY", "PHP"], { message: "Select a currency" }),
     terms: z.literal(true, { message: "You must agree to continue" }),

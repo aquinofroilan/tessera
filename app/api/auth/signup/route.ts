@@ -12,14 +12,19 @@ const deriveUsername = (email: string) => {
 };
 
 const slugify = (value: string) => {
-    const slug = value
+    const cleaned = value
+        .slice(0, 80)
         .toLowerCase()
         .normalize("NFKD")
         .replace(/[̀-ͯ]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "")
-        .slice(0, 50);
-    return slug || "org";
+        .replace(/[^a-z0-9]+/g, "-");
+
+    let start = 0;
+    let end = cleaned.length;
+    while (start < end && cleaned[start] === "-") start += 1;
+    while (end > start && cleaned[end - 1] === "-") end -= 1;
+
+    return cleaned.slice(start, end).slice(0, 50) || "org";
 };
 
 const readTimezone = (payload: unknown) => {
