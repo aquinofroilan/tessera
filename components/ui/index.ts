@@ -16,3 +16,15 @@ export { FormDivider } from "./form-divider";
 export { IconInput, type IconInputProps } from "./icon-input";
 export { Input } from "./input";
 export { Label, labelVariants } from "./label";
+export {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectScrollDownButton,
+    SelectScrollUpButton,
+    SelectSeparator,
+    SelectTrigger,
+    SelectValue,
+} from "./select";
