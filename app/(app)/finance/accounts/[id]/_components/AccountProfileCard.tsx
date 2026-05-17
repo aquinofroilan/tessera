@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { Card, CardEyebrow } from "@/components/ui";
@@ -20,7 +21,7 @@ const typeTones: Record<AccountType, string> = {
     EXPENSE: "bg-(--accent-soft) text-(--accent-deep)",
 };
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
     return (
         <div className="flex flex-col gap-1">
             <CardEyebrow>{label}</CardEyebrow>

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
 
@@ -8,7 +9,7 @@ function formatDateLong(iso: string) {
     return format(parseISO(iso), "MMM d, yyyy");
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
     return (
         <div className="flex flex-col gap-1">
             <CardEyebrow>{label}</CardEyebrow>
