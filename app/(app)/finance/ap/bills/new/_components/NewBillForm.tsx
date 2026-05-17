@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format, parseISO } from "date-fns";
+import { toast } from "sonner";
 
 import {
     Button,
@@ -34,7 +34,6 @@ const isoPlusDays = (iso: string, days: number) => format(addDays(parseISO(iso),
 
 export const NewBillForm = () => {
     const router = useRouter();
-    const [error, setError] = useState<string | null>(null);
     const form = useForm<NewBillValues>({
         resolver: zodResolver(newBillSchema),
         mode: "onBlur",
@@ -53,9 +52,8 @@ export const NewBillForm = () => {
     const currency = watchedCurrency || "USD";
 
     const onSubmit = form.handleSubmit(async (values) => {
-        setError(null);
         const result = await createBillAction(values);
-        if (result && !result.ok) setError(result.error);
+        if (result && !result.ok) toast.error(result.error);
     });
 
     return (
@@ -188,12 +186,6 @@ export const NewBillForm = () => {
                     description="Each line posts to an expense account."
                     currencyCode={currency}
                 />
-
-                {error && (
-                    <p role="alert" className="text-right text-[13px] text-(--accent)">
-                        {error}
-                    </p>
-                )}
 
                 <div className="flex flex-wrap items-center justify-end gap-2.5">
                     <Button type="button" variant="ghost" size="sm" onClick={() => router.back()}>

@@ -65,3 +65,4 @@ export {
     SelectValue,
 } from "./select";
 export { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./table";
+export { Toaster } from "./sonner";
