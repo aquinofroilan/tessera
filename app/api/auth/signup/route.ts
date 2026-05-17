@@ -23,8 +23,16 @@ const slugify = (value: string) => {
 };
 
 const readTimezone = (payload: unknown) => {
-    const tz = (payload as { timezone?: unknown })?.timezone;
-    return typeof tz === "string" && tz.length > 0 ? tz : "UTC";
+    const raw = (payload as { timezone?: unknown })?.timezone;
+    if (typeof raw !== "string") return "UTC";
+    const tz = raw.trim();
+    if (!tz) return "UTC";
+    try {
+        Intl.DateTimeFormat(undefined, { timeZone: tz });
+        return tz;
+    } catch {
+        return "UTC";
+    }
 };
 
 export const POST = async (request: Request) => {
@@ -59,10 +67,12 @@ export const POST = async (request: Request) => {
             orgTradeName: company,
         });
 
-        const response = NextResponse.json({ ok: true });
-        if (result.token) {
-            setSessionCookie(response, result.token, false);
+        if (!result.token) {
+            return NextResponse.json({ error: "Sign-up failed. Try again." }, { status: 502 });
         }
+
+        const response = NextResponse.json({ ok: true });
+        setSessionCookie(response, result.token, false);
         return response;
     } catch (error) {
         if (error instanceof HttpTimeoutError) {

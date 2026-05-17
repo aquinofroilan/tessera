@@ -19,5 +19,13 @@ export const setSessionCookie = (response: NextResponse, token: string, remember
 };
 
 export const clearSessionCookie = (response: NextResponse) => {
-    response.cookies.set({ name: SESSION_COOKIE, value: "", path: "/", maxAge: 0 });
+    response.cookies.set({
+        name: SESSION_COOKIE,
+        value: "",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 0,
+    });
 };
