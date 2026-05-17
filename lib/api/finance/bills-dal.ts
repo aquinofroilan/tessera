@@ -1,11 +1,9 @@
 import "server-only";
 
 import { cache } from "react";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 import { HttpError, serverClient } from "@/lib/http";
-import { SESSION_COOKIE } from "@/lib/auth/session";
+import { authed, authHeaders } from "@/lib/api/auth-helpers";
 import type {
     BillPaymentResponse,
     BillResponse,
@@ -15,20 +13,6 @@ import type {
 } from "./bills";
 
 const BILLS_PATH = "/finance/ap/bills";
-
-const authHeaders = async (): Promise<HeadersInit> => {
-    const token = (await cookies()).get(SESSION_COOKIE)?.value;
-    return token ? { authorization: `Bearer ${token}` } : {};
-};
-
-const authed = async <T>(call: () => Promise<T>): Promise<T> => {
-    try {
-        return await call();
-    } catch (error) {
-        if (error instanceof HttpError && error.status === 401) redirect("/signin");
-        throw error;
-    }
-};
 
 export const listBills = async (status?: BillStatus): Promise<BillSummaryResponse[]> =>
     authed(async () =>
