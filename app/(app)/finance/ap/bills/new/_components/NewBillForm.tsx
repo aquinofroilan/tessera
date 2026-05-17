@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format, parseISO } from "date-fns";
+import { toast } from "sonner";
 
 import {
     Button,
@@ -24,19 +25,21 @@ import {
 } from "@/components/ui";
 import { LineItemsCard } from "../../../../_components/LineItemsCard";
 import { MOCK_TODAY } from "../../../../_data/mock-anchor";
-import { invoiceCustomers, revenueAccounts } from "../../_data/invoices-mock";
-import { newInvoiceSchema, type NewInvoiceValues } from "../_data/new-invoice-schema";
+import { apVendors, expenseAccounts } from "../../_data/bills-mock";
+import { newBillSchema, type NewBillValues } from "../_data/new-bill-schema";
+import { createBillAction } from "../_data/create-bill-action";
 
 const defaultDueOffset = 30;
 const isoPlusDays = (iso: string, days: number) => format(addDays(parseISO(iso), days), "yyyy-MM-dd");
 
-export function NewInvoiceForm() {
+export const NewBillForm = () => {
     const router = useRouter();
-    const form = useForm<NewInvoiceValues>({
-        resolver: zodResolver(newInvoiceSchema),
+    const form = useForm<NewBillValues>({
+        resolver: zodResolver(newBillSchema),
         mode: "onBlur",
         defaultValues: {
-            customerId: "",
+            vendorId: "",
+            billNumber: "",
             date: MOCK_TODAY,
             dueDate: isoPlusDays(MOCK_TODAY, defaultDueOffset),
             referenceNumber: "",
@@ -49,8 +52,8 @@ export function NewInvoiceForm() {
     const currency = watchedCurrency || "USD";
 
     const onSubmit = form.handleSubmit(async (values) => {
-        console.info("[mock] CreateInvoiceRequest", values);
-        router.push("/finance/ar/invoices");
+        const result = await createBillAction(values);
+        if (result && !result.ok) toast.error(result.error);
     });
 
     return (
@@ -60,22 +63,22 @@ export function NewInvoiceForm() {
                     <div className="grid gap-5 md:grid-cols-2">
                         <FormField
                             control={form.control}
-                            name="customerId"
+                            name="vendorId"
                             render={({ field }) => (
                                 <FormItem className="gap-1.5">
                                     <FormLabel asChild>
-                                        <Label variant="eyebrow">Customer *</Label>
+                                        <Label variant="eyebrow">Vendor *</Label>
                                     </FormLabel>
                                     <Select onValueChange={field.onChange} value={field.value}>
                                         <FormControl>
                                             <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="Select customer" />
+                                                <SelectValue placeholder="Select vendor" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {invoiceCustomers.map((c) => (
-                                                <SelectItem key={c.id} value={c.id}>
-                                                    {c.name}
+                                            {apVendors.map((v) => (
+                                                <SelectItem key={v.id} value={v.id}>
+                                                    {v.name}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -87,46 +90,30 @@ export function NewInvoiceForm() {
 
                         <FormField
                             control={form.control}
+                            name="billNumber"
+                            render={({ field }) => (
+                                <FormItem className="gap-1.5">
+                                    <FormLabel asChild>
+                                        <Label variant="eyebrow">Vendor invoice # *</Label>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="e.g. WL-44218" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="referenceNumber"
                             render={({ field }) => (
                                 <FormItem className="gap-1.5">
                                     <FormLabel asChild>
-                                        <Label variant="eyebrow">Reference</Label>
+                                        <Label variant="eyebrow">PO reference</Label>
                                     </FormLabel>
                                     <FormControl>
                                         <Input placeholder="PO-…" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="date"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Issue date *</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input type="date" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="dueDate"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Due date *</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input type="date" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -157,14 +144,46 @@ export function NewInvoiceForm() {
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="date"
+                            render={({ field }) => (
+                                <FormItem className="gap-1.5">
+                                    <FormLabel asChild>
+                                        <Label variant="eyebrow">Bill date *</Label>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input type="date" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="dueDate"
+                            render={({ field }) => (
+                                <FormItem className="gap-1.5">
+                                    <FormLabel asChild>
+                                        <Label variant="eyebrow">Due date *</Label>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input type="date" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                 </Card>
 
                 <LineItemsCard
                     control={form.control}
                     name="lines"
-                    accounts={revenueAccounts}
-                    description="Each line posts to a revenue account."
+                    accounts={expenseAccounts}
+                    description="Each line posts to an expense account."
                     currencyCode={currency}
                 />
 
@@ -179,4 +198,4 @@ export function NewInvoiceForm() {
             </form>
         </Form>
     );
-}
+};

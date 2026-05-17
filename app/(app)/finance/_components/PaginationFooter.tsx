@@ -13,16 +13,18 @@ import {
     PaginationPrevious,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import type { PageWindow } from "../_data/filter";
+import type { PageWindow } from "../_data/list-query";
 
-function buildPageList(page: number, pageCount: number): (number | "ellipsis")[] {
+type PageItem = number | "ellipsis-start" | "ellipsis-end";
+
+function buildPageList(page: number, pageCount: number): PageItem[] {
     if (pageCount <= 7) return Array.from({ length: pageCount }, (_, i) => i + 1);
-    const pages: (number | "ellipsis")[] = [1];
+    const pages: PageItem[] = [1];
     const start = Math.max(2, page - 1);
     const end = Math.min(pageCount - 1, page + 1);
-    if (start > 2) pages.push("ellipsis");
+    if (start > 2) pages.push("ellipsis-start");
     for (let i = start; i <= end; i++) pages.push(i);
-    if (end < pageCount - 1) pages.push("ellipsis");
+    if (end < pageCount - 1) pages.push("ellipsis-end");
     pages.push(pageCount);
     return pages;
 }
@@ -66,9 +68,9 @@ export function PaginationFooter({ window }: { window: PageWindow }) {
                             onClick={(e) => navigate(e, window.page - 1)}
                         />
                     </PaginationItem>
-                    {items.map((it, i) =>
-                        it === "ellipsis" ? (
-                            <PaginationItem key={`e-${i}`}>
+                    {items.map((it) =>
+                        typeof it === "string" ? (
+                            <PaginationItem key={it}>
                                 <PaginationEllipsis />
                             </PaginationItem>
                         ) : (

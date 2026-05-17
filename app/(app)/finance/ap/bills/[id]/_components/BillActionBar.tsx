@@ -1,9 +1,9 @@
-import { IconBan, IconCheck, IconCoins, IconPencil } from "@tabler/icons-react";
+import { IconBan, IconCash, IconCheck, IconPencil } from "@tabler/icons-react";
 
-import type { InvoiceStatus } from "@/lib/api/finance/invoices";
+import type { BillStatus } from "@/lib/api/finance/bills";
 import { StatusActionBar, type StatusActionBarItem } from "../../../../_components/StatusActionBar";
 
-export function InvoiceActionBar({ status }: { status: InvoiceStatus }) {
+export function BillActionBar({ status }: { status: BillStatus }) {
     const actions: StatusActionBarItem[] = [];
     if (status === "DRAFT") {
         actions.push(
@@ -13,7 +13,7 @@ export function InvoiceActionBar({ status }: { status: InvoiceStatus }) {
     } else if (status === "APPROVED" || status === "PARTIALLY_PAID") {
         actions.push(
             { key: "void", label: "Void", icon: <IconBan stroke={1.8} />, variant: "outline" },
-            { key: "receipt", label: "Record receipt", icon: <IconCoins stroke={1.8} />, variant: "default" },
+            { key: "pay", label: "Record payment", icon: <IconCash stroke={1.8} />, variant: "default" },
         );
     }
     return <StatusActionBar actions={actions} />;

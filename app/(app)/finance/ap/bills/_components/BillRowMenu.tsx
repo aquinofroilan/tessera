@@ -3,29 +3,29 @@
 import { useRouter } from "next/navigation";
 import { IconCash, IconCircleCheck, IconCircleX, IconEye, IconPencil } from "@tabler/icons-react";
 
-import type { InvoiceStatus } from "@/lib/api/finance/invoices";
+import type { BillStatus } from "@/lib/api/finance/bills";
 import { RowActionsMenu, type RowAction } from "../../../_components/RowActionsMenu";
 
-type InvoiceRowMenuProps = {
+type BillRowMenuProps = {
     id: string;
-    invoiceNumber: string;
-    status: InvoiceStatus;
+    billNumber: string;
+    status: BillStatus;
 };
 
-export function InvoiceRowMenu({ id, invoiceNumber, status }: InvoiceRowMenuProps) {
+export function BillRowMenu({ id, billNumber, status }: BillRowMenuProps) {
     const router = useRouter();
     const isDraft = status === "DRAFT";
     const isOpen = status === "APPROVED" || status === "PARTIALLY_PAID";
 
     const actions: RowAction[] = [
-        { key: "view", label: "View", icon: <IconEye />, onSelect: () => router.push(`/finance/ar/invoices/${id}`) },
+        { key: "view", label: "View", icon: <IconEye />, onSelect: () => router.push(`/finance/ap/bills/${id}`) },
         ...(isDraft
             ? [
                   {
                       key: "edit",
                       label: "Edit",
                       icon: <IconPencil />,
-                      onSelect: () => router.push(`/finance/ar/invoices/${id}/edit`),
+                      onSelect: () => router.push(`/finance/ap/bills/${id}/edit`),
                   },
                   {
                       key: "approve",
@@ -38,14 +38,14 @@ export function InvoiceRowMenu({ id, invoiceNumber, status }: InvoiceRowMenuProp
         ...(isOpen
             ? [
                   {
-                      key: "receipt",
-                      label: "Record receipt",
+                      key: "pay",
+                      label: "Record payment",
                       icon: <IconCash />,
-                      onSelect: () => console.info("[mock] record receipt", id),
+                      onSelect: () => console.info("[mock] record payment", id),
                   },
                   {
                       key: "void",
-                      label: "Void invoice",
+                      label: "Void bill",
                       icon: <IconCircleX />,
                       destructive: true,
                       separatorBefore: true,
@@ -55,5 +55,5 @@ export function InvoiceRowMenu({ id, invoiceNumber, status }: InvoiceRowMenuProp
             : []),
     ];
 
-    return <RowActionsMenu label={invoiceNumber} triggerAriaLabel={`Actions for ${invoiceNumber}`} actions={actions} />;
+    return <RowActionsMenu label={billNumber} triggerAriaLabel={`Actions for ${billNumber}`} actions={actions} />;
 }
