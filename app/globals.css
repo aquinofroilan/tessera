@@ -27,11 +27,15 @@
   --accent: #b93a1d;
   --accent-light: #e26546;
   --accent-deep: #8a2b13;
+  --accent-soft: rgb(185 58 29 / 12%);
   --moss: #3d5a3a;
   --moss-soft: #d8e0d2;
   --ochre: #c68424;
+  --ochre-soft: #f3e3c5;
   --sky: #3e6a8c;
+  --sky-soft: #d3dee8;
   --plum: #6b3a5c;
+  --plum-soft: #e4d5de;
 
   /* shadcn semantic tokens — aliased to the brand palette so primitives inherit our theme. */
   --background: var(--paper);
