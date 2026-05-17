@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, startOfYear, subYears } from "date-fns";
 import { IconDownload } from "@tabler/icons-react";
 
 import { Button, Card } from "@/components/ui";
@@ -9,7 +9,7 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { formatMoney } from "../../_data/format";
 import { ComparativeToggle } from "../_components/ComparativeToggle";
 import { ReportSection } from "../_components/ReportSection";
-import { incomeStatementMock } from "../_data/reports-mock";
+import { getIncomeStatement } from "@/lib/api/finance/reports-dal";
 
 export const metadata: Metadata = {
     title: "Income statement · Loom",
@@ -24,11 +24,24 @@ function fmtRange(start: string, end: string) {
     return `${format(parseISO(start), "MMM d, yyyy")} – ${format(parseISO(end), "MMM d, yyyy")}`;
 }
 
-export default async function IncomeStatementPage({ searchParams }: Props) {
+const IncomeStatementPage = async ({ searchParams }: Props) => {
     const sp = await searchParams;
     const compareRaw = Array.isArray(sp.compare) ? sp.compare[0] : sp.compare;
     const showComparative = compareRaw === "1";
-    const report = incomeStatementMock;
+
+    const today = new Date();
+    const startDate = format(startOfYear(today), "yyyy-MM-dd");
+    const endDate = format(today, "yyyy-MM-dd");
+    const report = await getIncomeStatement({
+        startDate,
+        endDate,
+        ...(showComparative
+            ? {
+                  compareStartDate: format(startOfYear(subYears(today, 1)), "yyyy-MM-dd"),
+                  compareEndDate: format(subYears(today, 1), "yyyy-MM-dd"),
+              }
+            : {}),
+    });
 
     return (
         <>
@@ -105,4 +118,6 @@ export default async function IncomeStatementPage({ searchParams }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default IncomeStatementPage;
