@@ -24,7 +24,7 @@ const AccountDetailPage = async ({ params }: Props) => {
     if (!account) notFound();
 
     const parent = account.parentId ? await getAccount(account.parentId) : null;
-    const children = await listAccounts({ parentId: id });
+    const children = (await listAccounts({ parentId: id })).sort((a, b) => a.code.localeCompare(b.code));
 
     return (
         <>

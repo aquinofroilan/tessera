@@ -4,7 +4,7 @@ import { cache } from "react";
 
 import { HttpError, serverClient } from "@/lib/http";
 import { authed, authHeaders } from "@/lib/api/auth-helpers";
-import type { AccountResponse, AccountType } from "./accounts";
+import type { AccountResponse, AccountType, CreateAccountRequest } from "./accounts";
 
 const ACCOUNTS_PATH = "/finance/accounts";
 
@@ -18,6 +18,9 @@ export const listAccounts = async (params?: ListAccountsParams): Promise<Account
             cache: "no-store",
         }),
     );
+
+export const createAccount = async (body: CreateAccountRequest): Promise<AccountResponse> =>
+    authed(async () => serverClient.post<AccountResponse>(ACCOUNTS_PATH, body, { headers: await authHeaders() }));
 
 export const getAccount = cache(async (id: string): Promise<AccountResponse | null> =>
     authed(async () => {
