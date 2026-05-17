@@ -11,6 +11,7 @@ import { PartyProfileCard } from "../../../_components/PartyProfileCard";
 import { listBills } from "@/lib/api/finance/bills-dal";
 import { getVendor } from "@/lib/api/finance/vendors-dal";
 import { formatMoney } from "../../../_data/format";
+import { subtractMoney, sumMoney } from "../../../_data/money";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -26,9 +27,10 @@ const VendorDetailPage = async ({ params }: Props) => {
     if (!vendor) notFound();
 
     const vendorBills = await listBills({ vendorId: id });
-    const totalBilled = vendorBills.reduce((sum, b) => sum + Number(b.totalAmount), 0);
-    const totalPaid = vendorBills.reduce((sum, b) => sum + Number(b.amountPaid), 0);
-    const outstanding = (totalBilled - totalPaid).toFixed(2);
+    const outstanding = subtractMoney(
+        sumMoney(vendorBills.map((b) => b.totalAmount)),
+        sumMoney(vendorBills.map((b) => b.amountPaid)),
+    );
 
     return (
         <>

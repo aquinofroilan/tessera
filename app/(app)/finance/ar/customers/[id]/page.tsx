@@ -11,6 +11,7 @@ import { PartyProfileCard } from "../../../_components/PartyProfileCard";
 import { listInvoices } from "@/lib/api/finance/invoices-dal";
 import { getCustomer } from "@/lib/api/finance/customers-dal";
 import { formatMoney } from "../../../_data/format";
+import { subtractMoney, sumMoney } from "../../../_data/money";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -26,9 +27,10 @@ const CustomerDetailPage = async ({ params }: Props) => {
     if (!customer) notFound();
 
     const customerInvoices = await listInvoices({ customerId: id });
-    const totalBilled = customerInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0);
-    const totalReceived = customerInvoices.reduce((sum, inv) => sum + Number(inv.amountReceived), 0);
-    const outstanding = (totalBilled - totalReceived).toFixed(2);
+    const outstanding = subtractMoney(
+        sumMoney(customerInvoices.map((inv) => inv.totalAmount)),
+        sumMoney(customerInvoices.map((inv) => inv.amountReceived)),
+    );
 
     return (
         <>
