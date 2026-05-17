@@ -9,8 +9,8 @@ import { PageHeader } from "../../_components/PageHeader";
 import { PaginationFooter } from "../_components/PaginationFooter";
 import { JournalTable } from "./_components/JournalTable";
 import { JournalToolbar } from "./_components/JournalToolbar";
+import { listJournalEntries } from "@/lib/api/finance/journal-dal";
 import { countByStatus, filterJournal, paginate, parseJournalQuery } from "./_data/filter";
-import { journalEntries } from "./_data/journal-mock";
 
 export const metadata: Metadata = {
     title: "Journal · Loom",
@@ -21,9 +21,10 @@ type Props = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function JournalListPage({ searchParams }: Props) {
+const JournalListPage = async ({ searchParams }: Props) => {
     const sp = await searchParams;
     const query = parseJournalQuery(sp);
+    const journalEntries = await listJournalEntries();
     const counts = countByStatus(journalEntries);
     const filtered = filterJournal(journalEntries, query);
     const { rows: pageRows, window } = paginate(filtered, query.page);
@@ -70,4 +71,6 @@ export default async function JournalListPage({ searchParams }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default JournalListPage;

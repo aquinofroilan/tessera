@@ -6,22 +6,22 @@ import { Button } from "@/components/ui";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
+import { getJournalEntry } from "@/lib/api/finance/journal-dal";
 import { StatusBadge } from "../../_components/StatusBadge";
-import { journalEntries } from "../_data/journal-mock";
 import { JournalLinesTable } from "./_components/JournalLinesTable";
 import { JournalSummaryCard } from "./_components/JournalSummaryCard";
 
 type Props = { params: Promise<{ id: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
-    const entry = journalEntries.find((e) => e.id === id);
+    const entry = await getJournalEntry(id);
     return { title: entry ? `${entry.entryNumber} · Loom` : "Journal entry · Loom" };
-}
+};
 
-export default async function JournalDetailPage({ params }: Props) {
+const JournalDetailPage = async ({ params }: Props) => {
     const { id } = await params;
-    const entry = journalEntries.find((e) => e.id === id);
+    const entry = await getJournalEntry(id);
     if (!entry) notFound();
 
     return (
@@ -72,4 +72,6 @@ export default async function JournalDetailPage({ params }: Props) {
             </div>
         </>
     );
-}
+};
+
+export default JournalDetailPage;
