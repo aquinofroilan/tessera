@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui";
 import type { ReactNode } from "react";
 
 const inter = Inter({
@@ -25,16 +26,17 @@ export const metadata: Metadata = {
         "Loom is a modern ERP for small and mid-sized businesses: sales, inventory, accounting, HR, manufacturing, and projects.",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: ReactNode;
-}>) {
+const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
     return (
         <html
             lang="en"
             className={cn("h-full font-sans antialiased", inter.variable, fraunces.variable, geistMono.variable)}>
-            <body className="flex min-h-full flex-col">{children}</body>
+            <body className="flex min-h-full flex-col">
+                {children}
+                <Toaster />
+            </body>
         </html>
     );
-}
+};
+
+export default RootLayout;

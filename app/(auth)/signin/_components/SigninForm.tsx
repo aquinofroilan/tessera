@@ -27,7 +27,7 @@ import { signinSchema, type SigninValues } from "./signin-schema";
 import { SsoButtons } from "./SsoButtons";
 
 export function SigninForm() {
-    const { status, submit, disabled } = useAuthSubmitState();
+    const { status, error, submit, disabled } = useAuthSubmitState({ redirectTo: "/" });
     const [showPassword, setShowPassword] = useState(false);
     const form = useForm<SigninValues>({
         resolver: zodResolver(signinSchema),
@@ -47,7 +47,8 @@ export function SigninForm() {
                 body: JSON.stringify(values),
             });
             if (!response.ok) {
-                throw new Error(`Sign-in failed: ${response.status} ${response.statusText}`);
+                const data = (await response.json().catch(() => null)) as { error?: string } | null;
+                throw new Error(data?.error ?? "Couldn't sign you in. Try again.");
             }
         });
     });
@@ -128,6 +129,12 @@ export function SigninForm() {
                         </FormItem>
                     )}
                 />
+
+                {error && (
+                    <p role="alert" className="text-[13px] text-(--accent)">
+                        {error}
+                    </p>
+                )}
 
                 <AuthSubmitButton
                     status={status}
