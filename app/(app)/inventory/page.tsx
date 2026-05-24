@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { IconArrowRight, IconBuildingWarehouse, IconPackage } from "@tabler/icons-react";
+import {
+    IconArrowRight,
+    IconArrowsTransferDown,
+    IconBuildingWarehouse,
+    IconPackage,
+} from "@tabler/icons-react";
 
 import { Button, Card } from "@/components/ui";
 import { AppTopbar } from "../_components/AppTopbar";
@@ -66,6 +71,28 @@ const InventoryDashboardPage = () => (
                                 </div>
                                 <Button asChild variant="outline" size="sm">
                                     <Link href="/inventory/warehouses">
+                                        Open
+                                        <IconArrowRight stroke={1.8} />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </Card>
+
+                        <Card className="p-6">
+                            <div className="flex items-start gap-5">
+                                <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--ink-soft)">
+                                    <IconArrowsTransferDown className="size-5" stroke={1.6} />
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                    <div className="font-display text-[15px] font-[420] tracking-[-0.01em] text-(--ink)">
+                                        Movements
+                                    </div>
+                                    <div className="mt-1 text-[13px] text-(--muted)">
+                                        Immutable ledger of receipts, issues, transfers, and adjustments. Each post auto-records a journal entry.
+                                    </div>
+                                </div>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/inventory/movements">
                                         Open
                                         <IconArrowRight stroke={1.8} />
                                     </Link>
