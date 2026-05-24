@@ -6,6 +6,7 @@ import type { ItemSummaryResponse } from "@/lib/api/inventory/items";
 import { formatMoney } from "../../finance/_data/format";
 import { formatQuantity, itemKindLabel } from "../_data/format";
 import { InventoryStatusBadge } from "./InventoryStatusBadge";
+import { StockLevelBadge } from "./StockLevelBadge";
 
 type ItemsTableProps = {
     rows: ItemSummaryResponse[];
@@ -57,7 +58,10 @@ export const ItemsTable = ({ rows, detailHrefBase }: ItemsTableProps) => {
                             </TableCell>
                             <TableCell className="text-(--ink-soft)">{itemKindLabel(row.kind)}</TableCell>
                             <TableCell className="text-right font-mono text-[12px] tracking-[0.02em] text-(--ink-soft) tabular-nums">
-                                {formatQuantity(row.onHand, row.unitOfMeasure)}
+                                <span className="inline-flex items-center gap-2">
+                                    <StockLevelBadge onHand={row.onHand} reorderPoint={row.reorderPoint} />
+                                    {formatQuantity(row.onHand, row.unitOfMeasure)}
+                                </span>
                             </TableCell>
                             <TableCell className="text-right font-mono text-[12px] tracking-[0.02em] text-(--ink-soft) tabular-nums">
                                 {formatMoney(row.onHandValue, row.currencyCode ?? "USD")}
