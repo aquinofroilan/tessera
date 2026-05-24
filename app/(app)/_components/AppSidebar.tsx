@@ -62,6 +62,7 @@ const groups: NavGroup[] = [
             { href: "/inventory/items", label: "Items", icon: IconPackage },
             { href: "/inventory/warehouses", label: "Warehouses", icon: IconBuildingWarehouse },
             { href: "/inventory/movements", label: "Movements", icon: IconArrowsTransferDown },
+            { href: "/inventory/reports", label: "Reports", icon: IconChartPie },
             { href: "/inventory/settings/uoms", label: "Units of measure", icon: IconRuler },
         ],
     },
