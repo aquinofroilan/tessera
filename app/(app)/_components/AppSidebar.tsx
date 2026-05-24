@@ -15,6 +15,7 @@ import {
     IconPackage,
     IconReceipt2,
     IconReportAnalytics,
+    IconRuler,
     IconSettings,
     IconUsers,
     type Icon,
@@ -59,6 +60,7 @@ const groups: NavGroup[] = [
         items: [
             { href: "/inventory/items", label: "Items", icon: IconPackage },
             { href: "/inventory/warehouses", label: "Warehouses", icon: IconBuildingWarehouse },
+            { href: "/inventory/settings/uoms", label: "Units of measure", icon: IconRuler },
         ],
     },
     {

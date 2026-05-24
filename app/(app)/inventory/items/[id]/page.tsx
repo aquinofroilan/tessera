@@ -8,9 +8,11 @@ import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
 import { getItem } from "@/lib/api/inventory/items-dal";
+import { listVariants } from "@/lib/api/inventory/variants-dal";
 import { formatMoney } from "../../../finance/_data/format";
 import { formatQuantity, itemKindLabel } from "../../_data/format";
 import { InventoryStatusBadge } from "../../_components/InventoryStatusBadge";
+import { VariantsBlock } from "./_components/VariantsBlock";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -47,6 +49,7 @@ const ItemDetailPage = async ({ params }: Props) => {
     const item = await getItem(id);
     if (!item) notFound();
 
+    const variants = await listVariants(id);
     const currency = item.currencyCode ?? "USD";
     const identification: ProfileRow[] = [
         { label: "SKU", value: item.sku },
@@ -122,9 +125,11 @@ const ItemDetailPage = async ({ params }: Props) => {
                     </Block>
 
                     <Block title="Variants" description="Size, color, and other attribute splits.">
-                        <ComingSoonCard
-                            title="Coming with UoM & variants"
-                            description="Variant management lands in a follow-up PR."
+                        <VariantsBlock
+                            itemId={item.id}
+                            unitOfMeasure={item.unitOfMeasure}
+                            currency={currency}
+                            variants={variants}
                         />
                     </Block>
 
