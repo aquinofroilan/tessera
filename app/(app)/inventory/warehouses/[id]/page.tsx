@@ -11,6 +11,7 @@ import { getWarehouse } from "@/lib/api/inventory/warehouses-dal";
 import { listStorageLocations } from "@/lib/api/inventory/storage-locations-dal";
 import { StorageLocationsTable } from "../../_components/StorageLocationsTable";
 import { AddStorageLocationForm } from "./_components/AddStorageLocationForm";
+import { WarehouseArchiveButton } from "./_components/WarehouseArchiveButton";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -70,12 +71,15 @@ const WarehouseDetailPage = async ({ params }: Props) => {
                             `${warehouse.storageLocationCount} storage location${warehouse.storageLocationCount === 1 ? "" : "s"}.`
                         }
                         actions={
-                            <Button asChild variant="outline" size="sm">
-                                <Link href={`/inventory/warehouses/${warehouse.id}/edit`}>
-                                    <IconPencil stroke={1.8} />
-                                    Edit
-                                </Link>
-                            </Button>
+                            <>
+                                <WarehouseArchiveButton warehouseId={warehouse.id} isActive={warehouse.isActive} />
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href={`/inventory/warehouses/${warehouse.id}/edit`}>
+                                        <IconPencil stroke={1.8} />
+                                        Edit
+                                    </Link>
+                                </Button>
+                            </>
                         }
                     />
 

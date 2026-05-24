@@ -8,7 +8,13 @@ export const metadata: Metadata = {
     title: "New bill · Loom",
 };
 
-export default function NewBillPage() {
+type Props = {
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function NewBillPage({ searchParams }: Props) {
+    const sp = await searchParams;
+    const vendorId = Array.isArray(sp.vendorId) ? sp.vendorId[0] : sp.vendorId;
     return (
         <>
             <AppTopbar
@@ -26,7 +32,7 @@ export default function NewBillPage() {
                         title="New bill"
                         description="Capture lines now and keep it as a draft, or approve once the lines are right."
                     />
-                    <NewBillForm />
+                    <NewBillForm initialVendorId={vendorId} />
                 </div>
             </div>
         </>
