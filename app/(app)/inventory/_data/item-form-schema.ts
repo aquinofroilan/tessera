@@ -4,7 +4,7 @@ const optionalDecimal = z
     .string()
     .trim()
     .optional()
-    .refine((v) => !v || /^-?\d+(\.\d+)?$/.test(v), "Must be a number");
+    .refine((v) => !v || /^\d+(\.\d+)?$/.test(v), "Must be 0 or more");
 
 const optionalNonNegativeInt = z
     .string()

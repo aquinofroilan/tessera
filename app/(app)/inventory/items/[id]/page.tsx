@@ -92,8 +92,9 @@ const ItemDetailPage = async ({ params }: Props) => {
                             </span>
                         }
                         description={
-                            item.description ??
-                            `${formatQuantity(item.onHand, item.unitOfMeasure)} on hand · ${formatMoney(item.onHandValue, currency)} carrying value`
+                            item.description
+                                ? `${item.description} · ${formatQuantity(item.onHand, item.unitOfMeasure)} on hand · ${formatMoney(item.onHandValue, currency)} carrying value`
+                                : `${formatQuantity(item.onHand, item.unitOfMeasure)} on hand · ${formatMoney(item.onHandValue, currency)} carrying value`
                         }
                         actions={
                             <Button asChild variant="outline" size="sm">
