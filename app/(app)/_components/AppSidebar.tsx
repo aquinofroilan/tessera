@@ -11,6 +11,7 @@ import {
     IconDots,
     IconFileInvoice,
     IconLayoutDashboard,
+    IconPackage,
     IconReceipt2,
     IconReportAnalytics,
     IconSettings,
@@ -51,6 +52,10 @@ const groups: NavGroup[] = [
             { href: "/finance/ap/bills", label: "Bills", icon: IconReceipt2, badge: "2" },
             { href: "/finance/ap/vendors", label: "Vendors", icon: IconBuildingBank },
         ],
+    },
+    {
+        label: "Inventory",
+        items: [{ href: "/inventory/items", label: "Items", icon: IconPackage }],
     },
     {
         label: "Ledger",
