@@ -15,7 +15,9 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     return { title: warehouse ? `Edit ${warehouse.name} · Loom` : "Edit warehouse · Loom" };
 };
 
-const toFormValues = (w: Awaited<ReturnType<typeof getWarehouse>> & object): WarehouseFormValues => ({
+type Warehouse = NonNullable<Awaited<ReturnType<typeof getWarehouse>>>;
+
+const toFormValues = (w: Warehouse): WarehouseFormValues => ({
     code: w.code,
     name: w.name,
     address: w.address ?? "",

@@ -24,7 +24,7 @@ const InventoryDashboardPage = () => (
                             Inventory<em className="text-(--accent) italic">.</em>
                         </>
                     }
-                    description="Items, stock movements, and warehouses. More modules — warehouses, movements, valuation, low-stock alerts, and reports — land in follow-up releases."
+                    description="Items, stock movements, and warehouses. More modules — movements, valuation, low-stock alerts, and reports — land in follow-up releases."
                 />
 
                 <Block title="Catalog & storage" description="Manage what you stock, sell, or service — and where it lives.">
