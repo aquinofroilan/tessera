@@ -13,6 +13,7 @@ import {
     IconCalendarOff,
     IconCash,
     IconChartPie,
+    IconChecklist,
     IconCoins,
     IconFileInvoice,
     IconHistory,
@@ -84,6 +85,8 @@ const items: PaletteItem[] = [
     { id: "nav-leave-types", group: "navigate", section: "People", label: "Leave types", href: "/hr/leave-types", icon: IconBeach, keywords: "pto types entitlement" },
     { id: "nav-payroll-runs", group: "navigate", section: "People", label: "Payroll runs", href: "/hr/payroll-runs", icon: IconCash, keywords: "salary pay" },
 
+    { id: "nav-projects", group: "navigate", section: "Projects", label: "Projects", href: "/projects", icon: IconChecklist, keywords: "engagements work" },
+
     { id: "nav-settings", group: "navigate", section: "Account", label: "Settings", href: "/finance/settings", icon: IconSettings },
 
     { id: "new-invoice", group: "create", section: "Receivables", label: "New invoice", href: "/finance/ar/invoices/new", icon: IconPlus },
@@ -101,6 +104,8 @@ const items: PaletteItem[] = [
     { id: "new-leave-request", group: "create", section: "People", label: "File leave request", href: "/hr/leave-requests/new", icon: IconPlus, keywords: "pto vacation" },
     { id: "new-leave-type", group: "create", section: "People", label: "New leave type", href: "/hr/leave-types/new", icon: IconPlus },
     { id: "new-payroll-run", group: "create", section: "People", label: "New payroll run", href: "/hr/payroll-runs/new", icon: IconPlus },
+
+    { id: "new-project", group: "create", section: "Projects", label: "New project", href: "/projects/new", icon: IconPlus, keywords: "engagement" },
 ];
 
 const navigateItems = items.filter((item) => item.group === "navigate");
