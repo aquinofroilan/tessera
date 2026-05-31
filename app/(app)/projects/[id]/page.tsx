@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { IconPencil } from "@tabler/icons-react";
+import { IconPencil, IconPlus } from "@tabler/icons-react";
 
 import { Button, Card } from "@/components/ui";
 import { AppTopbar } from "../../_components/AppTopbar";
@@ -10,8 +10,10 @@ import { PageHeader } from "../../_components/PageHeader";
 import { listCustomers } from "@/lib/api/finance/customers-dal";
 import { listEmployees } from "@/lib/api/hr/employees-dal";
 import { getProject } from "@/lib/api/projects/projects-dal";
+import { getTaskTree } from "@/lib/api/projects/tasks-dal";
 import { ProfileGrid } from "../../hr/_components/ProfileGrid";
 import { ProjectStatusBadge } from "../_components/ProjectStatusBadge";
+import { TaskTree } from "../_components/TaskTree";
 import { LifecycleActions } from "./_components/LifecycleActions";
 
 type Props = { params: Promise<{ id: string }> };
@@ -33,13 +35,24 @@ const ProjectDetailPage = async ({ params }: Props) => {
     const project = await getProject(id);
     if (!project) notFound();
 
-    const [customers, employees] = await Promise.all([listCustomers(), listEmployees()]);
+    const [customers, employees, taskTree] = await Promise.all([
+        listCustomers(),
+        listEmployees(),
+        getTaskTree(id),
+    ]);
     const customer = project.customerId
         ? customers.find((c) => c.id === project.customerId)
         : undefined;
     const manager = project.managerEmployeeId
         ? employees.find((e) => e.id === project.managerEmployeeId)
         : undefined;
+
+    const employeeById = Object.fromEntries(
+        employees.map((e) => [
+            e.id,
+            { employeeNumber: e.employeeNumber, firstName: e.firstName, lastName: e.lastName },
+        ]),
+    );
 
     return (
         <>
@@ -104,6 +117,24 @@ const ProjectDetailPage = async ({ params }: Props) => {
                                 { label: "Start", value: project.startDate },
                                 { label: "End", value: project.endDate ?? "—" },
                             ]}
+                        />
+                    </Block>
+
+                    <Block
+                        title="Work breakdown"
+                        description="Tasks form a tree — break work down as it clarifies. Reparenting and cycle guards are enforced on the backend."
+                        aside={
+                            <Button asChild variant="outline" size="sm">
+                                <Link href={`/projects/${project.id}/tasks/new`}>
+                                    <IconPlus stroke={1.8} />
+                                    New task
+                                </Link>
+                            </Button>
+                        }>
+                        <TaskTree
+                            projectId={project.id}
+                            nodes={taskTree}
+                            employeeById={employeeById}
                         />
                     </Block>
                 </div>
