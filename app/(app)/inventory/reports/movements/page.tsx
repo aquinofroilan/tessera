@@ -5,6 +5,7 @@ import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
 import { getMovementHistory } from "@/lib/api/inventory/reports-dal";
+import { MOVEMENT_TYPES, type MovementType } from "@/lib/api/inventory/movements";
 import { formatMoney } from "../../../finance/_data/format";
 import { MovementTypeBadge } from "../../_components/MovementTypeBadge";
 
@@ -20,6 +21,11 @@ const monthsAgo = (months: number): string => {
 
 const today = (): string => new Date().toISOString().slice(0, 10);
 
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const isIsoDate = (v: string | undefined): v is string => !!v && ISO_DATE_RE.test(v);
+const isMovementType = (v: string | undefined): v is MovementType =>
+    !!v && (MOVEMENT_TYPES as readonly string[]).includes(v);
+
 type Props = {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
@@ -28,11 +34,15 @@ const MovementHistoryReportPage = async ({ searchParams }: Props) => {
     const sp = await searchParams;
     const get = (k: string): string | undefined => (Array.isArray(sp[k]) ? sp[k]?.[0] : sp[k]);
 
-    const startDate = get("startDate") ?? monthsAgo(1);
-    const endDate = get("endDate") ?? today();
+    const startRaw = get("startDate");
+    const endRaw = get("endDate");
+    const typeRaw = get("type");
+
+    const startDate = isIsoDate(startRaw) ? startRaw : monthsAgo(1);
+    const endDate = isIsoDate(endRaw) ? endRaw : today();
+    const type = isMovementType(typeRaw) ? typeRaw : undefined;
     const itemId = get("itemId");
     const warehouseId = get("warehouseId");
-    const type = get("type");
 
     const report = await getMovementHistory({ startDate, endDate, itemId, warehouseId, type });
     const currency = report.currencyCode || "USD";

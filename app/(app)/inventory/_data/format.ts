@@ -6,7 +6,7 @@ export const itemKindLabel = (kind: ItemKind): string => {
     return "Non-stock";
 };
 
-export const formatQuantity = (qty: number, uom: string): string => {
-    const rounded = Number.isInteger(qty) ? qty.toString() : qty.toFixed(2);
-    return `${rounded} ${uom}`;
-};
+export const formatQuantityNumber = (qty: number): string =>
+    Number.isInteger(qty) ? qty.toString() : qty.toFixed(2);
+
+export const formatQuantity = (qty: number, uom: string): string => `${formatQuantityNumber(qty)} ${uom}`;

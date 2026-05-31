@@ -5,7 +5,7 @@ import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
 import { getStockOnHand } from "@/lib/api/inventory/reports-dal";
-import { formatQuantity } from "../../_data/format";
+import { formatQuantity, formatQuantityNumber } from "../../_data/format";
 
 export const metadata: Metadata = {
     title: "Stock on hand · Loom",
@@ -65,7 +65,7 @@ const StockOnHandReport = async ({ searchParams }: Props) => {
                                                 <TableCell
                                                     key={w.id}
                                                     className="text-right font-mono text-[12px] tabular-nums text-(--ink-soft)">
-                                                    {row.quantitiesByWarehouse[w.id] ?? 0}
+                                                    {formatQuantityNumber(row.quantitiesByWarehouse[w.id] ?? 0)}
                                                 </TableCell>
                                             ))}
                                             <TableCell className="text-right font-mono text-[12px] font-medium tabular-nums text-(--ink)">

@@ -6,6 +6,7 @@ import type {
     StockOnHandResponse,
     ValuationReportResponse,
 } from "./reports";
+import type { MovementType } from "./movements";
 
 type AsOfQuery = { asOfDate?: string; warehouseId?: string; itemId?: string };
 
@@ -24,7 +25,7 @@ type MovementHistoryQuery = {
     endDate: string;
     itemId?: string;
     warehouseId?: string;
-    type?: string;
+    type?: MovementType;
 };
 
 export const getMovementHistory = (params: MovementHistoryQuery): Promise<MovementHistoryResponse> =>

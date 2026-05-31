@@ -21,7 +21,7 @@ const ValuationReportPage = async ({ searchParams }: Props) => {
     const asOfDate = Array.isArray(sp.asOfDate) ? sp.asOfDate[0] : sp.asOfDate;
     const report = await getValuation(asOfDate);
     const currency = report.currencyCode || "USD";
-    const varianceNonZero = report.variance !== "0" && report.variance !== "0.00";
+    const varianceNonZero = Number(report.variance) !== 0;
 
     return (
         <>
