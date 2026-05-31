@@ -10,7 +10,7 @@ export type ItemStockLocation = {
 
 export type ItemStockResponse = {
     itemId: string;
-    currencyCode: string;
+    currencyCode: string | null;
     totalQuantity: number;
     totalValue: Money;
     locations: ItemStockLocation[];
