@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
     IconBook2,
     IconBuildingBank,
+    IconBuildingWarehouse,
     IconChartPie,
     IconSelector,
     IconCoins,
@@ -55,7 +56,10 @@ const groups: NavGroup[] = [
     },
     {
         label: "Inventory",
-        items: [{ href: "/inventory/items", label: "Items", icon: IconPackage }],
+        items: [
+            { href: "/inventory/items", label: "Items", icon: IconPackage },
+            { href: "/inventory/warehouses", label: "Warehouses", icon: IconBuildingWarehouse },
+        ],
     },
     {
         label: "Ledger",
