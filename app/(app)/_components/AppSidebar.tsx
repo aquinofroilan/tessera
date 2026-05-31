@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+    IconArrowsTransferDown,
     IconBook2,
     IconBuildingBank,
     IconBuildingWarehouse,
@@ -60,6 +61,7 @@ const groups: NavGroup[] = [
         items: [
             { href: "/inventory/items", label: "Items", icon: IconPackage },
             { href: "/inventory/warehouses", label: "Warehouses", icon: IconBuildingWarehouse },
+            { href: "/inventory/movements", label: "Movements", icon: IconArrowsTransferDown },
             { href: "/inventory/settings/uoms", label: "Units of measure", icon: IconRuler },
         ],
     },
