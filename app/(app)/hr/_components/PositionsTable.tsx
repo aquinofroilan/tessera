@@ -3,6 +3,7 @@ import { IconBriefcase2 } from "@tabler/icons-react";
 
 import { Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
 import type { PositionResponse } from "@/lib/api/hr/positions";
+import { TableEmptyState } from "./TableEmptyState";
 
 type Props = {
     rows: PositionResponse[];
@@ -13,17 +14,11 @@ type Props = {
 export const PositionsTable = ({ rows, departmentNameById, detailHrefBase }: Props) => {
     if (!rows.length) {
         return (
-            <Card className="items-center gap-3 px-6 py-12 text-center">
-                <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--muted)">
-                    <IconBriefcase2 className="size-5" stroke={1.6} />
-                </span>
-                <div className="font-display text-foreground text-xl font-[380] tracking-[-0.01em]">
-                    No positions yet.
-                </div>
-                <div className="max-w-80 text-sm text-(--muted)">
-                    Define positions before linking compensation records to them.
-                </div>
-            </Card>
+            <TableEmptyState
+                icon={IconBriefcase2}
+                title="No positions yet."
+                hint="Define positions before linking compensation records to them."
+            />
         );
     }
 

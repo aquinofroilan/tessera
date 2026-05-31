@@ -26,8 +26,7 @@ import {
     positionFormSchema,
     type PositionFormValues,
 } from "../../_data/position-form-schema";
-
-const NONE_SENTINEL = "__none__";
+import { NONE_SENTINEL } from "../../_data/select-sentinels";
 
 export type DepartmentOption = { id: string; code: string; name: string };
 

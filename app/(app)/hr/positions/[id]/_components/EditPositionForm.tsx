@@ -26,8 +26,7 @@ import {
 } from "../../../_data/position-form-schema";
 import { updatePositionAction } from "../_data/update-position-action";
 import type { DepartmentOption } from "../../_components/PositionForm";
-
-const NONE_SENTINEL = "__none__";
+import { NONE_SENTINEL } from "../../../_data/select-sentinels";
 
 type Props = {
     id: string;

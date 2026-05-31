@@ -1,16 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
 import { deactivatePosition } from "@/lib/api/hr/positions-dal";
+import { createDeactivateAction } from "../../../_data/create-deactivate-action";
 
-export const deactivatePositionAction = async (id: string) => {
-    try {
-        await deactivatePosition(id);
-    } catch {
-        return { ok: false as const, error: "Couldn't deactivate the position. Try again." };
-    }
-    revalidatePath(`/hr/positions/${id}`);
-    revalidatePath("/hr/positions");
-    return { ok: true as const };
-};
+export const deactivatePositionAction = createDeactivateAction({
+    deactivate: deactivatePosition,
+    revalidate: (id) => [`/hr/positions/${id}`, "/hr/positions"],
+    errorMessage: "Couldn't deactivate the position. Try again.",
+});
