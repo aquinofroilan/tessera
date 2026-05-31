@@ -8,10 +8,12 @@ import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
 import { getItem } from "@/lib/api/inventory/items-dal";
+import { getItemStock } from "@/lib/api/inventory/stock-dal";
 import { listVariants } from "@/lib/api/inventory/variants-dal";
 import { formatMoney } from "../../../finance/_data/format";
 import { formatQuantity, itemKindLabel } from "../../_data/format";
 import { InventoryStatusBadge } from "../../_components/InventoryStatusBadge";
+import { ItemStockBlock } from "./_components/ItemStockBlock";
 import { VariantsBlock } from "./_components/VariantsBlock";
 
 type Props = { params: Promise<{ id: string }> };
@@ -49,7 +51,7 @@ const ItemDetailPage = async ({ params }: Props) => {
     const item = await getItem(id);
     if (!item) notFound();
 
-    const variants = await listVariants(id);
+    const [variants, stock] = await Promise.all([listVariants(id), getItemStock(id)]);
     const currency = item.currencyCode ?? "USD";
     const identification: ProfileRow[] = [
         { label: "SKU", value: item.sku },
@@ -117,11 +119,8 @@ const ItemDetailPage = async ({ params }: Props) => {
                         <ProfileGrid rows={accounting} />
                     </Block>
 
-                    <Block title="Stock by location" description="On-hand quantity per warehouse.">
-                        <ComingSoonCard
-                            title="Coming with warehouses + movements"
-                            description="Stock-by-location appears once warehouses and the movement ledger are wired."
-                        />
+                    <Block title="Stock by location" description="On-hand quantity, current unit cost, and carrying value per warehouse.">
+                        <ItemStockBlock stock={stock} unitOfMeasure={item.unitOfMeasure} fallbackCurrency={currency} />
                     </Block>
 
                     <Block title="Variants" description="Size, color, and other attribute splits.">
@@ -135,8 +134,8 @@ const ItemDetailPage = async ({ params }: Props) => {
 
                     <Block title="Recent movements" description="Receipts, issues, transfers, and adjustments.">
                         <ComingSoonCard
-                            title="Coming with the movement ledger"
-                            description="Movement history surfaces once the ledger PR lands."
+                            title="Coming with item-scoped movement history"
+                            description="Filter movements by item and surface them here in a follow-up release."
                         />
                     </Block>
                 </div>
