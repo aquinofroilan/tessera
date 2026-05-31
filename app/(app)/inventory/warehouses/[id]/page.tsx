@@ -88,7 +88,10 @@ const WarehouseDetailPage = async ({ params }: Props) => {
                         description="Bins, zones, or shelves that subdivide this warehouse.">
                         <div className="grid gap-4">
                             <StorageLocationsTable rows={locations} />
-                            <AddStorageLocationForm warehouseId={warehouse.id} />
+                            <AddStorageLocationForm
+                                warehouseId={warehouse.id}
+                                parents={locations.filter((l) => l.isActive)}
+                            />
                         </div>
                     </Block>
                 </div>
