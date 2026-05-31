@@ -5,12 +5,16 @@ import { Card } from "@/components/ui";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
+import { listCompensation } from "@/lib/api/hr/compensation-dal";
 import { listDepartments } from "@/lib/api/hr/departments-dal";
 import { getEmployee } from "@/lib/api/hr/employees-dal";
 import { listLeaveTypes } from "@/lib/api/hr/leave-types-dal";
 import { getLeaveBalance, listLeaveRequests } from "@/lib/api/hr/leave-requests-dal";
+import { listPositions } from "@/lib/api/hr/positions-dal";
+import { CompensationTable } from "../../_components/CompensationTable";
 import { EmployeeStatusBadge } from "../../_components/EmployeeStatusBadge";
 import { ProfileGrid, type ProfileRow } from "../../_components/ProfileGrid";
+import { AddCompensationForm } from "./_components/AddCompensationForm";
 import { EditEmployeeForm } from "./_components/EditEmployeeForm";
 import { EmployeeLeaveBlock } from "./_components/EmployeeLeaveBlock";
 import { LifecycleActions } from "./_components/LifecycleActions";
@@ -30,11 +34,16 @@ const EmployeeDetailPage = async ({ params }: Props) => {
     const employee = await getEmployee(id);
     if (!employee) notFound();
 
-    const [departments, leaveTypes, employeeRequests] = await Promise.all([
+    const [departments, leaveTypes, employeeRequests, positions, compHistory] = await Promise.all([
         listDepartments(),
         listLeaveTypes(true),
         listLeaveRequests({ employeeId: id }),
+        listPositions(true),
+        listCompensation(id),
     ]);
+    const sortedComp = [...compHistory].sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const currentComp = sortedComp.find((c) => c.effectiveDate <= todayStr) ?? sortedComp[0] ?? null;
     const year = new Date().getUTCFullYear();
     const balances = await Promise.all(
         leaveTypes.map((t) =>
@@ -101,6 +110,26 @@ const EmployeeDetailPage = async ({ params }: Props) => {
                                 }}
                             />
                         </Card>
+                    </Block>
+
+                    <Block
+                        title="Compensation"
+                        description="Effective-dated history — append-only. The most recent record on or before today is current.">
+                        <div className="grid gap-4">
+                            <CompensationTable
+                                rows={sortedComp}
+                                positions={positions}
+                                currentId={currentComp?.id ?? null}
+                            />
+                            <AddCompensationForm
+                                employeeId={employee.id}
+                                positions={positions.map((p) => ({
+                                    id: p.id,
+                                    code: p.code,
+                                    title: p.title,
+                                }))}
+                            />
+                        </div>
                     </Block>
 
                     <Block
