@@ -3,16 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+    IconArrowsTransferDown,
     IconBook2,
     IconBuildingBank,
+    IconBuildingWarehouse,
     IconChartPie,
     IconSelector,
     IconCoins,
     IconDots,
     IconFileInvoice,
     IconLayoutDashboard,
+    IconPackage,
     IconReceipt2,
     IconReportAnalytics,
+    IconRuler,
     IconSettings,
     IconUsers,
     type Icon,
@@ -50,6 +54,16 @@ const groups: NavGroup[] = [
         items: [
             { href: "/finance/ap/bills", label: "Bills", icon: IconReceipt2, badge: "2" },
             { href: "/finance/ap/vendors", label: "Vendors", icon: IconBuildingBank },
+        ],
+    },
+    {
+        label: "Inventory",
+        items: [
+            { href: "/inventory/items", label: "Items", icon: IconPackage },
+            { href: "/inventory/warehouses", label: "Warehouses", icon: IconBuildingWarehouse },
+            { href: "/inventory/movements", label: "Movements", icon: IconArrowsTransferDown },
+            { href: "/inventory/reports", label: "Reports", icon: IconChartPie },
+            { href: "/inventory/settings/uoms", label: "Units of measure", icon: IconRuler },
         ],
     },
     {

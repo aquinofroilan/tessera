@@ -32,13 +32,13 @@ import { createBillAction } from "../_data/create-bill-action";
 const defaultDueOffset = 30;
 const isoPlusDays = (iso: string, days: number) => format(addDays(parseISO(iso), days), "yyyy-MM-dd");
 
-export const NewBillForm = () => {
+export const NewBillForm = ({ initialVendorId }: { initialVendorId?: string }) => {
     const router = useRouter();
     const form = useForm<NewBillValues>({
         resolver: zodResolver(newBillSchema),
         mode: "onBlur",
         defaultValues: {
-            vendorId: "",
+            vendorId: initialVendorId ?? "",
             billNumber: "",
             date: MOCK_TODAY,
             dueDate: isoPlusDays(MOCK_TODAY, defaultDueOffset),

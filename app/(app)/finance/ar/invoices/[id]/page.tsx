@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format, parseISO } from "date-fns";
+import { IconPackageExport } from "@tabler/icons-react";
 
+import { Button } from "@/components/ui";
 import { AppTopbar } from "../../../../_components/AppTopbar";
 import { Block } from "../../../../_components/Block";
 import { PageHeader } from "../../../../_components/PageHeader";
@@ -50,7 +53,20 @@ export default async function InvoiceDetailPage({ params }: Props) {
                             </span>
                         }
                         description={`${invoice.customerName} · Issued ${format(parseISO(invoice.date), "MMM d, yyyy")}`}
-                        actions={<InvoiceActionBar status={invoice.status} />}
+                        actions={
+                            <>
+                                {invoice.status !== "DRAFT" && invoice.status !== "VOID" && (
+                                    <Button asChild variant="outline" size="sm">
+                                        <Link
+                                            href={`/inventory/movements/new?type=ISSUE&sourceInvoiceId=${invoice.id}`}>
+                                            <IconPackageExport stroke={1.8} />
+                                            Issue items
+                                        </Link>
+                                    </Button>
+                                )}
+                                <InvoiceActionBar status={invoice.status} />
+                            </>
+                        }
                     />
 
                     <Block title="Summary" description="Customer, dates, totals, and approval state.">
