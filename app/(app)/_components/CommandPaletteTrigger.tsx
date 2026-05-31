@@ -14,6 +14,8 @@ import {
     IconCash,
     IconChartPie,
     IconChecklist,
+    IconChecks,
+    IconClock,
     IconCoins,
     IconFileInvoice,
     IconHistory,
@@ -86,6 +88,8 @@ const items: PaletteItem[] = [
     { id: "nav-payroll-runs", group: "navigate", section: "People", label: "Payroll runs", href: "/hr/payroll-runs", icon: IconCash, keywords: "salary pay" },
 
     { id: "nav-projects", group: "navigate", section: "Projects", label: "Projects", href: "/projects", icon: IconChecklist, keywords: "engagements work" },
+    { id: "nav-time-entries", group: "navigate", section: "Projects", label: "Time entries", href: "/projects/time", icon: IconClock, keywords: "timesheets hours billing" },
+    { id: "nav-time-approvals", group: "navigate", section: "Projects", label: "Time approvals", href: "/projects/time/approvals", icon: IconChecks, keywords: "approval queue submitted" },
 
     { id: "nav-settings", group: "navigate", section: "Account", label: "Settings", href: "/finance/settings", icon: IconSettings },
 
@@ -106,6 +110,7 @@ const items: PaletteItem[] = [
     { id: "new-payroll-run", group: "create", section: "People", label: "New payroll run", href: "/hr/payroll-runs/new", icon: IconPlus },
 
     { id: "new-project", group: "create", section: "Projects", label: "New project", href: "/projects/new", icon: IconPlus, keywords: "engagement" },
+    { id: "new-time-entry", group: "create", section: "Projects", label: "Log time", href: "/projects/time/new", icon: IconPlus, keywords: "timesheet hours" },
 ];
 
 const navigateItems = items.filter((item) => item.group === "navigate");
