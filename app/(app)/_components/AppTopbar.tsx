@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { IconBell, IconHelpCircle, IconSearch } from "@tabler/icons-react";
+import { IconBell, IconHelpCircle } from "@tabler/icons-react";
 import { Button } from "@/components/ui";
+import { CommandPaletteTrigger } from "./CommandPaletteTrigger";
 
 export type Crumb = {
     label: string;
@@ -32,15 +33,7 @@ export function AppTopbar({ crumbs }: { crumbs: Crumb[] }) {
 
             <div className="flex-1" />
 
-            <button
-                type="button"
-                className="flex min-w-70 items-center gap-2 rounded-lg border border-(--rule) bg-(--paper-2) px-3 py-1.75 text-sm text-(--muted) transition-colors hover:border-(--muted-2)">
-                <IconSearch className="size-3.5" stroke={1.8} />
-                <span>Search…</span>
-                <span className="ml-auto rounded border border-(--rule) bg-(--paper) px-1.25 py-px font-mono text-[10px] tracking-[0.04em] text-(--muted)">
-                    ⌘K
-                </span>
-            </button>
+            <CommandPaletteTrigger />
 
             <Button variant="outline" size="sm">
                 <IconHelpCircle stroke={1.8} />

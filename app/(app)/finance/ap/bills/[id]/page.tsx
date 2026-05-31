@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format, parseISO } from "date-fns";
+import { IconPackageImport } from "@tabler/icons-react";
 
+import { Button } from "@/components/ui";
 import { AppTopbar } from "../../../../_components/AppTopbar";
 import { Block } from "../../../../_components/Block";
 import { PageHeader } from "../../../../_components/PageHeader";
@@ -50,7 +53,20 @@ const BillDetailPage = async ({ params }: Props) => {
                             </span>
                         }
                         description={`${bill.vendorName} · Issued ${format(parseISO(bill.date), "MMM d, yyyy")}`}
-                        actions={<BillActionBar status={bill.status} />}
+                        actions={
+                            <>
+                                {bill.status !== "DRAFT" && bill.status !== "VOID" && (
+                                    <Button asChild variant="outline" size="sm">
+                                        <Link
+                                            href={`/inventory/movements/new?type=RECEIPT&sourceBillId=${bill.id}`}>
+                                            <IconPackageImport stroke={1.8} />
+                                            Receive items
+                                        </Link>
+                                    </Button>
+                                )}
+                                <BillActionBar status={bill.status} />
+                            </>
+                        }
                     />
 
                     <Block title="Summary" description="Vendor, dates, totals, and approval state.">
