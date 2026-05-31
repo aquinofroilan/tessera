@@ -5,7 +5,7 @@ import { PageHeader } from "../../../../_components/PageHeader";
 import { NewBillForm } from "./_components/NewBillForm";
 
 export const metadata: Metadata = {
-    title: "New bill · Loom",
+    title: "New bill · Tessera",
 };
 
 type Props = {

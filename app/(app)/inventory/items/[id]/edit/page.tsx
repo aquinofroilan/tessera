@@ -13,7 +13,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const item = await getItem(id);
-    return { title: item ? `Edit ${item.name} · Loom` : "Edit item · Loom" };
+    return { title: item ? `Edit ${item.name} · Tessera` : "Edit item · Tessera" };
 };
 
 const toFormValues = (item: Awaited<ReturnType<typeof getItem>> & object): ItemFormValues => ({

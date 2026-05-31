@@ -10,7 +10,7 @@ import { formatMoney } from "../../../finance/_data/format";
 import { MovementTypeBadge } from "../../_components/MovementTypeBadge";
 
 export const metadata: Metadata = {
-    title: "Movement history · Loom",
+    title: "Movement history · Tessera",
 };
 
 const monthsAgo = (months: number): string => {

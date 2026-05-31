@@ -12,7 +12,7 @@ import { ReportSection } from "../_components/ReportSection";
 import { getBalanceSheet } from "@/lib/api/finance/reports-dal";
 
 export const metadata: Metadata = {
-    title: "Balance sheet · Loom",
+    title: "Balance sheet · Tessera",
     description: "Assets, liabilities, and equity at a point in time.",
 };
 

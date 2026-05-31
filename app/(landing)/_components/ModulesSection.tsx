@@ -41,7 +41,7 @@ export function ModulesSection() {
                         </h2>
                     </div>
                     <p className="max-w-[52ch] text-lg text-(--ink-soft)">
-                        Most companies run on six disconnected SaaS tools and a heroic spreadsheet. Loom replaces all of
+                        Most companies run on six disconnected SaaS tools and a heroic spreadsheet. Tessera replaces all of
                         it with integrated modules that share the same customers, products, and ledger - so a sale in
                         one module posts everywhere it should.
                     </p>

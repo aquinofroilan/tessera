@@ -32,7 +32,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const item = await getItem(id);
-    return { title: item ? `${item.name} · Loom` : "Item · Loom" };
+    return { title: item ? `${item.name} · Tessera` : "Item · Tessera" };
 };
 
 type ProfileRow = { label: string; value: string };

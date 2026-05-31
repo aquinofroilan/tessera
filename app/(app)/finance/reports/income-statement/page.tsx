@@ -12,7 +12,7 @@ import { ReportSection } from "../_components/ReportSection";
 import { getIncomeStatement } from "@/lib/api/finance/reports-dal";
 
 export const metadata: Metadata = {
-    title: "Income statement · Loom",
+    title: "Income statement · Tessera",
     description: "Revenue earned, expenses incurred, net income for the period.",
 };
 

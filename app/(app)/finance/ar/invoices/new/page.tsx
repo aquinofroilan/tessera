@@ -5,7 +5,7 @@ import { PageHeader } from "../../../../_components/PageHeader";
 import { NewInvoiceForm } from "./_components/NewInvoiceForm";
 
 export const metadata: Metadata = {
-    title: "New invoice · Loom",
+    title: "New invoice · Tessera",
 };
 
 export default function NewInvoicePage() {

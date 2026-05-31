@@ -27,7 +27,7 @@ export function PricingSection() {
 
                     <div className="bg-background text-foreground relative z-10 rounded-[18px] p-8 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.5)]">
                         <div className="font-mono text-[11px] tracking-[0.12em] text-(--accent) uppercase">
-                            Loom Business
+                            Tessera Business
                         </div>
                         <div className="my-4 flex items-baseline gap-2">
                             <span className="font-display text-7xl leading-none font-[350] tracking-[-0.04em]">

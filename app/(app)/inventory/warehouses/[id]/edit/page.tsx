@@ -12,7 +12,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const warehouse = await getWarehouse(id);
-    return { title: warehouse ? `Edit ${warehouse.name} · Loom` : "Edit warehouse · Loom" };
+    return { title: warehouse ? `Edit ${warehouse.name} · Tessera` : "Edit warehouse · Tessera" };
 };
 
 type Warehouse = NonNullable<Awaited<ReturnType<typeof getWarehouse>>>;

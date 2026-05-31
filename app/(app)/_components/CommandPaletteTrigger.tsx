@@ -3,10 +3,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
+    IconBeach,
     IconBook2,
     IconBoxSeam,
+    IconBriefcase2,
+    IconBuilding,
     IconBuildingBank,
     IconBuildingWarehouse,
+    IconCalendarOff,
+    IconCash,
     IconChartPie,
     IconCoins,
     IconFileInvoice,
@@ -22,6 +27,7 @@ import {
     IconTransfer,
     IconTrendingDown,
     IconUsers,
+    IconUsersGroup,
     type Icon,
 } from "@tabler/icons-react";
 
@@ -70,6 +76,14 @@ const items: PaletteItem[] = [
     { id: "nav-low-stock", group: "navigate", section: "Inventory", label: "Low-stock & reorder", href: "/inventory/reports/low-stock", icon: IconTrendingDown, keywords: "alerts reorder rules" },
     { id: "nav-uoms", group: "navigate", section: "Inventory", label: "Units of measure", href: "/inventory/settings/uoms", icon: IconRuler2, keywords: "uom" },
 
+    { id: "nav-hr", group: "navigate", section: "People", label: "HR overview", href: "/hr", icon: IconUsersGroup },
+    { id: "nav-employees", group: "navigate", section: "People", label: "Employees", href: "/hr/employees", icon: IconUsers, keywords: "roster hr" },
+    { id: "nav-departments", group: "navigate", section: "People", label: "Departments", href: "/hr/departments", icon: IconBuilding, keywords: "org structure" },
+    { id: "nav-positions", group: "navigate", section: "People", label: "Positions", href: "/hr/positions", icon: IconBriefcase2, keywords: "jobs titles" },
+    { id: "nav-leave-requests", group: "navigate", section: "People", label: "Leave requests", href: "/hr/leave-requests", icon: IconCalendarOff, keywords: "time off pto vacation" },
+    { id: "nav-leave-types", group: "navigate", section: "People", label: "Leave types", href: "/hr/leave-types", icon: IconBeach, keywords: "pto types entitlement" },
+    { id: "nav-payroll-runs", group: "navigate", section: "People", label: "Payroll runs", href: "/hr/payroll-runs", icon: IconCash, keywords: "salary pay" },
+
     { id: "nav-settings", group: "navigate", section: "Account", label: "Settings", href: "/finance/settings", icon: IconSettings },
 
     { id: "new-invoice", group: "create", section: "Receivables", label: "New invoice", href: "/finance/ar/invoices/new", icon: IconPlus },
@@ -81,13 +95,19 @@ const items: PaletteItem[] = [
     { id: "new-item", group: "create", section: "Inventory", label: "New item", href: "/inventory/items/new", icon: IconPlus },
     { id: "new-warehouse", group: "create", section: "Inventory", label: "New warehouse", href: "/inventory/warehouses/new", icon: IconPlus },
     { id: "new-movement", group: "create", section: "Inventory", label: "New stock movement", href: "/inventory/movements/new", icon: IconPlus },
+    { id: "new-employee", group: "create", section: "People", label: "Hire employee", href: "/hr/employees/new", icon: IconPlus },
+    { id: "new-department", group: "create", section: "People", label: "New department", href: "/hr/departments/new", icon: IconPlus },
+    { id: "new-position", group: "create", section: "People", label: "New position", href: "/hr/positions/new", icon: IconPlus },
+    { id: "new-leave-request", group: "create", section: "People", label: "File leave request", href: "/hr/leave-requests/new", icon: IconPlus, keywords: "pto vacation" },
+    { id: "new-leave-type", group: "create", section: "People", label: "New leave type", href: "/hr/leave-types/new", icon: IconPlus },
+    { id: "new-payroll-run", group: "create", section: "People", label: "New payroll run", href: "/hr/payroll-runs/new", icon: IconPlus },
 ];
 
 const navigateItems = items.filter((item) => item.group === "navigate");
 const createItems = items.filter((item) => item.group === "create");
 const itemById = new Map(items.map((item) => [item.id, item]));
 
-const RECENTS_KEY = "loom:command-palette:recents";
+const RECENTS_KEY = "tessera:command-palette:recents";
 const MAX_RECENTS = 5;
 
 const readRecents = (): string[] => {

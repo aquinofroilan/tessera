@@ -16,7 +16,7 @@ import { countByStatus, filterInvoices, paginate, parseInvoicesQuery } from "./_
 import { invoices } from "./_data/invoices-mock";
 
 export const metadata: Metadata = {
-    title: "Invoices · Loom",
+    title: "Invoices · Tessera",
     description: "All money in. Filter by status, search by number or customer.",
 };
 

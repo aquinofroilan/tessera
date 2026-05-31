@@ -21,9 +21,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Loom - Software for running the whole shop",
+    title: "Tessera - Software for running the whole shop",
     description:
-        "Loom is a modern ERP for small and mid-sized businesses: sales, inventory, accounting, HR, manufacturing, and projects.",
+        "Tessera is a modern ERP for small and mid-sized businesses: sales, inventory, accounting, HR, manufacturing, and projects.",
 };
 
 const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {

@@ -7,7 +7,7 @@ export function EditorialPanel() {
         <EditorialPanelOrganism
             className="hidden md:flex"
             statusChip="All systems operational"
-            kicker="14 months on Loom"
+            kicker="14 months on Tessera"
             quote={{ body: customerQuote.body, emphasis: customerQuote.emphasis }}
             attribution={{
                 initials: customerQuote.initials,

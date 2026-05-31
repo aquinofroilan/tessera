@@ -8,7 +8,7 @@ import { Block } from "../../_components/Block";
 import { PageHeader } from "../../_components/PageHeader";
 
 export const metadata: Metadata = {
-    title: "Reports · Loom",
+    title: "Reports · Tessera",
     description: "Income statement, balance sheet, and trial balance.",
 };
 
