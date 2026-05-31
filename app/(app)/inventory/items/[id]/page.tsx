@@ -10,11 +10,22 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { getItem } from "@/lib/api/inventory/items-dal";
 import { getItemStock } from "@/lib/api/inventory/stock-dal";
 import { listVariants } from "@/lib/api/inventory/variants-dal";
+import { getMovementHistory } from "@/lib/api/inventory/reports-dal";
 import { formatMoney } from "../../../finance/_data/format";
 import { formatQuantity, itemKindLabel } from "../../_data/format";
 import { InventoryStatusBadge } from "../../_components/InventoryStatusBadge";
+import { ItemArchiveButton } from "./_components/ItemArchiveButton";
+import { ItemMovementsBlock } from "./_components/ItemMovementsBlock";
 import { ItemStockBlock } from "./_components/ItemStockBlock";
 import { VariantsBlock } from "./_components/VariantsBlock";
+
+const daysAgo = (days: number): string => {
+    const d = new Date();
+    d.setDate(d.getDate() - days);
+    return d.toISOString().slice(0, 10);
+};
+
+const today = (): string => new Date().toISOString().slice(0, 10);
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -39,19 +50,16 @@ const ProfileGrid = ({ rows }: { rows: ProfileRow[] }) => (
     </Card>
 );
 
-const ComingSoonCard = ({ title, description }: { title: string; description: string }) => (
-    <Card className="items-start gap-1 p-6">
-        <div className="font-display text-[15px] font-[420] tracking-[-0.01em] text-(--ink)">{title}</div>
-        <div className="text-[13px] text-(--muted)">{description}</div>
-    </Card>
-);
-
 const ItemDetailPage = async ({ params }: Props) => {
     const { id } = await params;
     const item = await getItem(id);
     if (!item) notFound();
 
-    const [variants, stock] = await Promise.all([listVariants(id), getItemStock(id)]);
+    const [variants, stock, history] = await Promise.all([
+        listVariants(id),
+        getItemStock(id),
+        getMovementHistory({ startDate: daysAgo(30), endDate: today(), itemId: id }),
+    ]);
     const currency = item.currencyCode ?? "USD";
     const identification: ProfileRow[] = [
         { label: "SKU", value: item.sku },
@@ -102,12 +110,15 @@ const ItemDetailPage = async ({ params }: Props) => {
                                 : `${formatQuantity(item.onHand, item.unitOfMeasure)} on hand · ${formatMoney(item.onHandValue, currency)} carrying value`
                         }
                         actions={
-                            <Button asChild variant="outline" size="sm">
-                                <Link href={`/inventory/items/${item.id}/edit`}>
-                                    <IconPencil stroke={1.8} />
-                                    Edit
-                                </Link>
-                            </Button>
+                            <>
+                                <ItemArchiveButton itemId={item.id} isArchived={item.status === "ARCHIVED"} />
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href={`/inventory/items/${item.id}/edit`}>
+                                        <IconPencil stroke={1.8} />
+                                        Edit
+                                    </Link>
+                                </Button>
+                            </>
                         }
                     />
 
@@ -132,11 +143,8 @@ const ItemDetailPage = async ({ params }: Props) => {
                         />
                     </Block>
 
-                    <Block title="Recent movements" description="Receipts, issues, transfers, and adjustments.">
-                        <ComingSoonCard
-                            title="Coming with item-scoped movement history"
-                            description="Filter movements by item and surface them here in a follow-up release."
-                        />
+                    <Block title="Recent movements" description="Last 30 days — receipts, issues, transfers, and adjustments.">
+                        <ItemMovementsBlock history={history} itemId={item.id} />
                     </Block>
                 </div>
             </div>
