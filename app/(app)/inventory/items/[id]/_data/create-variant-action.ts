@@ -1,7 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
+import { runCreateAction } from "@/lib/api/create-action";
 import type { CreateVariantRequest } from "@/lib/api/inventory/variants";
 import { createVariant } from "@/lib/api/inventory/variants-dal";
 import {
@@ -12,22 +11,17 @@ import {
 
 const trimToNull = (v: string | undefined): string | null => (v?.trim() ? v.trim() : null);
 
-export const createVariantAction = async (itemId: string, values: VariantFormValues) => {
-    const parsed = variantFormSchema.safeParse(values);
-    if (!parsed.success) return { ok: false as const, error: "Please check the form and try again." };
-
-    const body: CreateVariantRequest = {
-        skuSuffix: parsed.data.skuSuffix.trim(),
-        attributes: parseAttributes(parsed.data.attributes),
-        salesPrice: trimToNull(parsed.data.salesPrice),
-        purchaseCost: trimToNull(parsed.data.purchaseCost),
-    };
-
-    try {
-        await createVariant(itemId, body);
-    } catch {
-        return { ok: false as const, error: "Couldn't add the variant. Try again." };
-    }
-
-    revalidatePath(`/inventory/items/${itemId}`);
-};
+export const createVariantAction = async (itemId: string, values: VariantFormValues) =>
+    runCreateAction<VariantFormValues, CreateVariantRequest>({
+        values,
+        schema: variantFormSchema,
+        toBody: (data) => ({
+            skuSuffix: data.skuSuffix.trim(),
+            attributes: parseAttributes(data.attributes),
+            salesPrice: trimToNull(data.salesPrice),
+            purchaseCost: trimToNull(data.purchaseCost),
+        }),
+        create: (body) => createVariant(itemId, body),
+        path: `/inventory/items/${itemId}`,
+        errorMessage: "Couldn't add the variant. Try again.",
+    });

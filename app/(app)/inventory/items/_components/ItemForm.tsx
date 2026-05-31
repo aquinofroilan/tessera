@@ -159,7 +159,10 @@ export const ItemForm = ({
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {uomOptions.map((uom) => (
+                                                {(field.value && !uomOptions.some((u) => u.code === field.value)
+                                                    ? [...uomOptions, { code: field.value, name: "(unrecognized)" }]
+                                                    : uomOptions
+                                                ).map((uom) => (
                                                     <SelectItem key={uom.code} value={uom.code}>
                                                         {uom.code} — {uom.name}
                                                     </SelectItem>
