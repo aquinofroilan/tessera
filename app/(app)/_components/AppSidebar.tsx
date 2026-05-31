@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
     IconArrowsTransferDown,
     IconBook2,
+    IconBuilding,
     IconBuildingBank,
     IconBuildingWarehouse,
     IconChartPie,
@@ -64,6 +65,13 @@ const groups: NavGroup[] = [
             { href: "/inventory/movements", label: "Movements", icon: IconArrowsTransferDown },
             { href: "/inventory/reports", label: "Reports", icon: IconChartPie },
             { href: "/inventory/settings/uoms", label: "Units of measure", icon: IconRuler },
+        ],
+    },
+    {
+        label: "People",
+        items: [
+            { href: "/hr/employees", label: "Employees", icon: IconUsers },
+            { href: "/hr/departments", label: "Departments", icon: IconBuilding },
         ],
     },
     {
