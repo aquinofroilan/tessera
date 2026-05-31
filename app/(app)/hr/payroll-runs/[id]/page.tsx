@@ -8,6 +8,7 @@ import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
 import { getPayrollRun } from "@/lib/api/hr/payroll-runs-dal";
 import { PayrollRunStatusBadge } from "../../_components/PayrollRunStatusBadge";
+import { ProfileGrid, type ProfileRow } from "../../_components/ProfileGrid";
 import { PayrollRunActions } from "./_components/PayrollRunActions";
 
 type Props = { params: Promise<{ id: string }> };
@@ -42,28 +43,21 @@ const PayrollRunDetailPage = async ({ params }: Props) => {
                     />
 
                     <Block title="Summary" description="Totals, GL postings, and lifecycle timestamps.">
-                        <Card className="p-6">
-                            <dl className="grid gap-x-8 gap-y-4 md:grid-cols-2">
-                                <div className="flex flex-col gap-1">
-                                    <dt className="font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">
-                                        Total gross
-                                    </dt>
-                                    <dd className="font-mono text-[15px] text-(--ink) tabular-nums">
-                                        {run.totalGross} {run.currency}
-                                    </dd>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <dt className="font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">
-                                        Lines
-                                    </dt>
-                                    <dd className="text-[14px] text-(--ink)">{run.lines.length}</dd>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <dt className="font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">
-                                        Accrual JE
-                                    </dt>
-                                    <dd className="text-[14px]">
-                                        {run.accrualJournalEntryId ? (
+                        <ProfileGrid
+                            rows={
+                                [
+                                    {
+                                        label: "Total gross",
+                                        value: (
+                                            <span className="font-mono tabular-nums">
+                                                {run.totalGross} {run.currency}
+                                            </span>
+                                        ),
+                                    },
+                                    { label: "Lines", value: String(run.lines.length) },
+                                    {
+                                        label: "Accrual JE",
+                                        value: run.accrualJournalEntryId ? (
                                             <Link
                                                 href={`/finance/journal/${run.accrualJournalEntryId}`}
                                                 className="text-(--accent) hover:underline">
@@ -71,15 +65,11 @@ const PayrollRunDetailPage = async ({ params }: Props) => {
                                             </Link>
                                         ) : (
                                             <span className="text-(--muted)">Not yet posted</span>
-                                        )}
-                                    </dd>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <dt className="font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">
-                                        Payment JE
-                                    </dt>
-                                    <dd className="text-[14px]">
-                                        {run.paymentJournalEntryId ? (
+                                        ),
+                                    },
+                                    {
+                                        label: "Payment JE",
+                                        value: run.paymentJournalEntryId ? (
                                             <Link
                                                 href={`/finance/journal/${run.paymentJournalEntryId}`}
                                                 className="text-(--accent) hover:underline">
@@ -87,23 +77,13 @@ const PayrollRunDetailPage = async ({ params }: Props) => {
                                             </Link>
                                         ) : (
                                             <span className="text-(--muted)">Not yet posted</span>
-                                        )}
-                                    </dd>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <dt className="font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">
-                                        Approved
-                                    </dt>
-                                    <dd className="text-[14px] text-(--ink-soft)">{run.approvedAt ?? "—"}</dd>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <dt className="font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">
-                                        Paid
-                                    </dt>
-                                    <dd className="text-[14px] text-(--ink-soft)">{run.paidAt ?? "—"}</dd>
-                                </div>
-                            </dl>
-                        </Card>
+                                        ),
+                                    },
+                                    { label: "Approved", value: run.approvedAt ?? "—" },
+                                    { label: "Paid", value: run.paidAt ?? "—" },
+                                ] satisfies ProfileRow[]
+                            }
+                        />
                     </Block>
 
                     <Block

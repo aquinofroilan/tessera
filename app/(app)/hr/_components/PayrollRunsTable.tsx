@@ -4,6 +4,7 @@ import { IconCash } from "@tabler/icons-react";
 import { Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
 import type { PayrollRunResponse } from "@/lib/api/hr/payroll-runs";
 import { PayrollRunStatusBadge } from "./PayrollRunStatusBadge";
+import { TableEmptyState } from "./TableEmptyState";
 
 type Props = {
     rows: PayrollRunResponse[];
@@ -13,17 +14,11 @@ type Props = {
 export const PayrollRunsTable = ({ rows, detailHrefBase }: Props) => {
     if (!rows.length) {
         return (
-            <Card className="items-center gap-3 px-6 py-12 text-center">
-                <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--muted)">
-                    <IconCash className="size-5" stroke={1.6} />
-                </span>
-                <div className="font-display text-foreground text-xl font-[380] tracking-[-0.01em]">
-                    No payroll runs yet.
-                </div>
-                <div className="max-w-80 text-sm text-(--muted)">
-                    Create one to snapshot current compensation into pay lines and post to the GL.
-                </div>
-            </Card>
+            <TableEmptyState
+                icon={IconCash}
+                title="No payroll runs yet."
+                hint="Create one to snapshot current compensation into pay lines and post to the GL."
+            />
         );
     }
 

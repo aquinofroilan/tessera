@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import type { PayrollRunStatus } from "@/lib/api/hr/payroll-runs";
+import { StatusBadge } from "./StatusBadge";
 
 const STYLES: Record<PayrollRunStatus, string> = {
     DRAFT: "bg-(--paper-2) text-(--ink-soft)",
@@ -16,11 +16,5 @@ const LABELS: Record<PayrollRunStatus, string> = {
 };
 
 export const PayrollRunStatusBadge = ({ status }: { status: PayrollRunStatus }) => (
-    <span
-        className={cn(
-            "inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[10px] tracking-[0.08em] uppercase",
-            STYLES[status],
-        )}>
-        {LABELS[status]}
-    </span>
+    <StatusBadge status={status} styles={STYLES} labels={LABELS} />
 );

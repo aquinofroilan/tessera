@@ -1,44 +1,28 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
 import {
     approvePayrollRun,
     cancelPayrollRun,
     payPayrollRun,
 } from "@/lib/api/hr/payroll-runs-dal";
+import { createTransitionAction } from "../../../_data/create-transition-action";
 
-const revalidate = (id: string) => {
-    revalidatePath(`/hr/payroll-runs/${id}`);
-    revalidatePath("/hr/payroll-runs");
-};
+const revalidate = (id: string) => [`/hr/payroll-runs/${id}`, "/hr/payroll-runs"];
 
-export const approvePayrollRunAction = async (id: string) => {
-    try {
-        await approvePayrollRun(id);
-    } catch {
-        return { ok: false as const, error: "Couldn't approve the run. Try again." };
-    }
-    revalidate(id);
-    return { ok: true as const };
-};
+export const approvePayrollRunAction = createTransitionAction({
+    call: approvePayrollRun,
+    revalidate,
+    errorMessage: "Couldn't approve the run. Try again.",
+});
 
-export const payPayrollRunAction = async (id: string) => {
-    try {
-        await payPayrollRun(id);
-    } catch {
-        return { ok: false as const, error: "Couldn't mark the run paid. Try again." };
-    }
-    revalidate(id);
-    return { ok: true as const };
-};
+export const payPayrollRunAction = createTransitionAction({
+    call: payPayrollRun,
+    revalidate,
+    errorMessage: "Couldn't mark the run paid. Try again.",
+});
 
-export const cancelPayrollRunAction = async (id: string) => {
-    try {
-        await cancelPayrollRun(id);
-    } catch {
-        return { ok: false as const, error: "Couldn't cancel the run. Try again." };
-    }
-    revalidate(id);
-    return { ok: true as const };
-};
+export const cancelPayrollRunAction = createTransitionAction({
+    call: cancelPayrollRun,
+    revalidate,
+    errorMessage: "Couldn't cancel the run. Try again.",
+});

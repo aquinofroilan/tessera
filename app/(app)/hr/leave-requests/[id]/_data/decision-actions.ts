@@ -1,45 +1,32 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
 import {
     approveLeaveRequest,
     cancelLeaveRequest,
     rejectLeaveRequest,
 } from "@/lib/api/hr/leave-requests-dal";
+import { createTransitionAction } from "../../../_data/create-transition-action";
 
-const revalidate = (id: string) => {
-    revalidatePath(`/hr/leave-requests/${id}`);
-    revalidatePath("/hr/leave-requests");
-    revalidatePath("/hr/employees");
-};
+const revalidate = (id: string) => [
+    `/hr/leave-requests/${id}`,
+    "/hr/leave-requests",
+    "/hr/employees",
+];
 
-export const approveLeaveRequestAction = async (id: string) => {
-    try {
-        await approveLeaveRequest(id);
-    } catch {
-        return { ok: false as const, error: "Couldn't approve the request. Try again." };
-    }
-    revalidate(id);
-    return { ok: true as const };
-};
+export const approveLeaveRequestAction = createTransitionAction({
+    call: approveLeaveRequest,
+    revalidate,
+    errorMessage: "Couldn't approve the request. Try again.",
+});
 
-export const rejectLeaveRequestAction = async (id: string, reason: string) => {
-    try {
-        await rejectLeaveRequest(id, { reason: reason.trim() || null });
-    } catch {
-        return { ok: false as const, error: "Couldn't reject the request. Try again." };
-    }
-    revalidate(id);
-    return { ok: true as const };
-};
+export const cancelLeaveRequestAction = createTransitionAction({
+    call: cancelLeaveRequest,
+    revalidate,
+    errorMessage: "Couldn't cancel the request. Try again.",
+});
 
-export const cancelLeaveRequestAction = async (id: string) => {
-    try {
-        await cancelLeaveRequest(id);
-    } catch {
-        return { ok: false as const, error: "Couldn't cancel the request. Try again." };
-    }
-    revalidate(id);
-    return { ok: true as const };
-};
+export const rejectLeaveRequestAction = createTransitionAction<[reason: string]>({
+    call: (id, reason) => rejectLeaveRequest(id, { reason: reason.trim() || null }),
+    revalidate,
+    errorMessage: "Couldn't reject the request. Try again.",
+});

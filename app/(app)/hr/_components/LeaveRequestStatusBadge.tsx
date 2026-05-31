@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import type { LeaveRequestStatus } from "@/lib/api/hr/leave-requests";
+import { StatusBadge } from "./StatusBadge";
 
 const STYLES: Record<LeaveRequestStatus, string> = {
     PENDING: "bg-(--paper-2) text-(--ink-soft)",
@@ -16,11 +16,5 @@ const LABELS: Record<LeaveRequestStatus, string> = {
 };
 
 export const LeaveRequestStatusBadge = ({ status }: { status: LeaveRequestStatus }) => (
-    <span
-        className={cn(
-            "inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[10px] tracking-[0.08em] uppercase",
-            STYLES[status],
-        )}>
-        {LABELS[status]}
-    </span>
+    <StatusBadge status={status} styles={STYLES} labels={LABELS} />
 );
