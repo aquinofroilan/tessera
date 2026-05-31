@@ -6,6 +6,7 @@ import {
     IconBriefcase2,
     IconBuilding,
     IconCalendarOff,
+    IconCash,
     IconUsers,
 } from "@tabler/icons-react";
 
@@ -151,6 +152,32 @@ const HrDashboardPage = () => (
                             </div>
                             <Button asChild variant="outline" size="sm">
                                 <Link href="/hr/positions">
+                                    Open
+                                    <IconArrowRight stroke={1.8} />
+                                </Link>
+                            </Button>
+                        </div>
+                    </Card>
+                </Block>
+
+                <Block title="Payroll" description="Period runs that snapshot compensation and post to the GL.">
+                    <Card className="p-6">
+                        <div className="flex items-start gap-5">
+                            <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--ink-soft)">
+                                <IconCash className="size-5" stroke={1.6} />
+                            </span>
+                            <div className="min-w-0 flex-1">
+                                <div className="font-display text-[15px] font-[420] tracking-[-0.01em] text-(--ink)">
+                                    Payroll runs
+                                </div>
+                                <div className="mt-1 text-[13px] text-(--muted)">
+                                    Draft, approve, and pay. Approval posts a salary accrual (Dr 6000 / Cr 2200);
+                                    payment posts the cash leg (Dr 2200 / Cr 1000). Both link to the underlying
+                                    journal entry.
+                                </div>
+                            </div>
+                            <Button asChild variant="outline" size="sm">
+                                <Link href="/hr/payroll-runs">
                                     Open
                                     <IconArrowRight stroke={1.8} />
                                 </Link>
