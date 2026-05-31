@@ -12,4 +12,5 @@ export const setWarehouseActiveAction = async (id: string, isActive: boolean) =>
     }
     revalidatePath(`/inventory/warehouses/${id}`);
     revalidatePath("/inventory/warehouses");
+    return { ok: true as const };
 };

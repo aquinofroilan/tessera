@@ -36,8 +36,10 @@ const NewMovementPage = async ({ searchParams }: Props) => {
     const billId = Array.isArray(sp.sourceBillId) ? sp.sourceBillId[0] : sp.sourceBillId;
     const invoiceId = Array.isArray(sp.sourceInvoiceId) ? sp.sourceInvoiceId[0] : sp.sourceInvoiceId;
 
-    const [allItems, warehouses] = await Promise.all([listItems({ status: "ACTIVE" }), listWarehouses()]);
-    const items = allItems.filter((i) => i.kind === "STOCK");
+    const [items, warehouses] = await Promise.all([
+        listItems({ status: "ACTIVE", kind: "STOCK" }),
+        listWarehouses(),
+    ]);
 
     return (
         <>

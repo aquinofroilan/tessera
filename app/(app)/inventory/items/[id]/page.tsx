@@ -50,13 +50,6 @@ const ProfileGrid = ({ rows }: { rows: ProfileRow[] }) => (
     </Card>
 );
 
-const ComingSoonCard = ({ title, description }: { title: string; description: string }) => (
-    <Card className="items-start gap-1 p-6">
-        <div className="font-display text-[15px] font-[420] tracking-[-0.01em] text-(--ink)">{title}</div>
-        <div className="text-[13px] text-(--muted)">{description}</div>
-    </Card>
-);
-
 const ItemDetailPage = async ({ params }: Props) => {
     const { id } = await params;
     const item = await getItem(id);

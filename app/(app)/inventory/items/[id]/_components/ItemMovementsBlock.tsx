@@ -10,18 +10,23 @@ type ItemMovementsBlockProps = {
     itemId: string;
 };
 
+const yearAgoIsoDate = (): string => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - 1);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
 export const ItemMovementsBlock = ({ history, itemId }: ItemMovementsBlockProps) => {
     const currency = history.currencyCode || "USD";
     const rows = history.rows.slice(0, 10);
+    const reportHref = `/inventory/reports/movements?itemId=${itemId}&startDate=${yearAgoIsoDate()}`;
 
     if (rows.length === 0) {
         return (
             <Card className="items-center gap-2 px-6 py-8 text-center">
                 <div className="text-sm text-(--muted)">
                     No movements in the last 30 days. Open the{" "}
-                    <Link
-                        href={`/inventory/reports/movements?itemId=${itemId}`}
-                        className="text-(--accent) hover:underline">
+                    <Link href={reportHref} className="text-(--accent) hover:underline">
                         full history report
                     </Link>{" "}
                     for older entries.
@@ -75,7 +80,7 @@ export const ItemMovementsBlock = ({ history, itemId }: ItemMovementsBlockProps)
             </Card>
             <div className="text-right">
                 <Link
-                    href={`/inventory/reports/movements?itemId=${itemId}`}
+                    href={reportHref}
                     className="font-mono text-[11px] tracking-[0.02em] text-(--accent) hover:underline">
                     See full history →
                 </Link>

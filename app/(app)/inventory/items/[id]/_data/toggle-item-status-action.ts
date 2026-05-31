@@ -12,4 +12,5 @@ export const setItemStatusAction = async (id: string, status: "ACTIVE" | "ARCHIV
     }
     revalidatePath(`/inventory/items/${id}`);
     revalidatePath("/inventory/items");
+    return { ok: true as const };
 };
