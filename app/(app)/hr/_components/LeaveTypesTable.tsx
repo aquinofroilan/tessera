@@ -3,6 +3,7 @@ import { IconBeach } from "@tabler/icons-react";
 
 import { Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
 import type { LeaveTypeResponse } from "@/lib/api/hr/leave-types";
+import { TableEmptyState } from "./TableEmptyState";
 
 type Props = {
     rows: LeaveTypeResponse[];
@@ -12,17 +13,11 @@ type Props = {
 export const LeaveTypesTable = ({ rows, detailHrefBase }: Props) => {
     if (!rows.length) {
         return (
-            <Card className="items-center gap-3 px-6 py-12 text-center">
-                <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--muted)">
-                    <IconBeach className="size-5" stroke={1.6} />
-                </span>
-                <div className="font-display text-foreground text-xl font-[380] tracking-[-0.01em]">
-                    No leave types yet.
-                </div>
-                <div className="max-w-80 text-sm text-(--muted)">
-                    Add a leave type before anyone can file a request.
-                </div>
-            </Card>
+            <TableEmptyState
+                icon={IconBeach}
+                title="No leave types yet."
+                hint="Add a leave type before anyone can file a request."
+            />
         );
     }
 

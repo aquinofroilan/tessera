@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Card } from "@/components/ui";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
@@ -10,6 +9,7 @@ import { getEmployee } from "@/lib/api/hr/employees-dal";
 import { getLeaveType } from "@/lib/api/hr/leave-types-dal";
 import { getLeaveBalance, getLeaveRequest } from "@/lib/api/hr/leave-requests-dal";
 import { LeaveRequestStatusBadge } from "../../_components/LeaveRequestStatusBadge";
+import { ProfileGrid, type ProfileRow } from "../../_components/ProfileGrid";
 import { DecisionActions } from "./_components/DecisionActions";
 
 type Props = { params: Promise<{ id: string }> };
@@ -21,21 +21,6 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
         title: request ? `Leave request · ${request.startDate} · Loom` : "Leave request · Loom",
     };
 };
-
-type ProfileRow = { label: string; value: React.ReactNode };
-
-const ProfileGrid = ({ rows }: { rows: ProfileRow[] }) => (
-    <Card className="p-6">
-        <dl className="grid gap-x-8 gap-y-4 md:grid-cols-2">
-            {rows.map((row, i) => (
-                <div key={i} className="flex flex-col gap-1">
-                    <dt className="font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">{row.label}</dt>
-                    <dd className="text-[14px] text-(--ink)">{row.value}</dd>
-                </div>
-            ))}
-        </dl>
-    </Card>
-);
 
 const LeaveRequestDetailPage = async ({ params }: Props) => {
     const { id } = await params;
