@@ -6,7 +6,7 @@ import { listDepartments } from "@/lib/api/hr/departments-dal";
 import { NewEmployeeForm } from "./_components/NewEmployeeForm";
 
 export const metadata: Metadata = {
-    title: "New employee · Loom",
+    title: "New employee · Tessera",
 };
 
 const NewEmployeePage = async () => {

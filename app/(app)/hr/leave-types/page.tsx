@@ -10,7 +10,7 @@ import { listLeaveTypes } from "@/lib/api/hr/leave-types-dal";
 import { LeaveTypesTable } from "../_components/LeaveTypesTable";
 
 export const metadata: Metadata = {
-    title: "Leave types · Loom",
+    title: "Leave types · Tessera",
     description: "Categories of time off employees can request.",
 };
 

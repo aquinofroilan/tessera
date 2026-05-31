@@ -18,7 +18,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const customer = await getCustomer(id);
-    return { title: customer ? `${customer.name} · Loom` : "Customer · Loom" };
+    return { title: customer ? `${customer.name} · Tessera` : "Customer · Tessera" };
 };
 
 const CustomerDetailPage = async ({ params }: Props) => {

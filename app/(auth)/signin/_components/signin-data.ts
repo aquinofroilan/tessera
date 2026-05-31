@@ -23,7 +23,7 @@ export const floatingStats = [
 ];
 
 export const customerQuote = {
-    body: "Fourteen months in. Books still close on time, every month. Loom stopped feeling like software and started feeling like",
+    body: "Fourteen months in. Books still close on time, every month. Tessera stopped feeling like software and started feeling like",
     emphasis: "infrastructure.",
     name: "Marcus Thorne",
     role: "OWNER · THORNE MANUFACTURING",

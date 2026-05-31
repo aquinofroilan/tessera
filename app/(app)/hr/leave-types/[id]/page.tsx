@@ -14,7 +14,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const type = await getLeaveType(id);
-    return { title: type ? `${type.name} · Loom` : "Leave type · Loom" };
+    return { title: type ? `${type.name} · Tessera` : "Leave type · Tessera" };
 };
 
 const LeaveTypeDetailPage = async ({ params }: Props) => {

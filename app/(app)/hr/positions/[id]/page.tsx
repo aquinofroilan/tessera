@@ -15,7 +15,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const position = await getPosition(id);
-    return { title: position ? `${position.title} · Loom` : "Position · Loom" };
+    return { title: position ? `${position.title} · Tessera` : "Position · Tessera" };
 };
 
 const PositionDetailPage = async ({ params }: Props) => {

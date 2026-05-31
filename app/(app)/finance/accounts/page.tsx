@@ -13,7 +13,7 @@ import { listAccounts } from "@/lib/api/finance/accounts-dal";
 import { countByType, filterAccounts, paginate, parseAccountsQuery } from "./_data/filter";
 
 export const metadata: Metadata = {
-    title: "Chart of accounts · Loom",
+    title: "Chart of accounts · Tessera",
     description: "Every place a debit or credit can land.",
 };
 

@@ -13,7 +13,7 @@ import { EmployeesTable } from "../_components/EmployeesTable";
 import { EmployeesToolbar } from "../_components/EmployeesToolbar";
 
 export const metadata: Metadata = {
-    title: "Employees · Loom",
+    title: "Employees · Tessera",
     description: "Roster, hire dates, lifecycle status, and department assignment.",
 };
 

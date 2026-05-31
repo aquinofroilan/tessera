@@ -15,7 +15,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const account = await getAccount(id);
-    return { title: account ? `${account.code} ${account.name} · Loom` : "Account · Loom" };
+    return { title: account ? `${account.code} ${account.name} · Tessera` : "Account · Tessera" };
 };
 
 const AccountDetailPage = async ({ params }: Props) => {

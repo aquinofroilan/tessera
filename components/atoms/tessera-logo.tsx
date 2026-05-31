@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-type LoomLogoProps = {
+type TesseraLogoProps = {
     size?: "sm" | "md";
     className?: string;
 };
@@ -11,7 +11,7 @@ const sizeClass = {
     md: "text-[30px]",
 } as const;
 
-export function LoomLogo({ size = "sm", className }: LoomLogoProps) {
+export function TesseraLogo({ size = "sm", className }: TesseraLogoProps) {
     return (
         <Link
             href="/"
@@ -20,7 +20,7 @@ export function LoomLogo({ size = "sm", className }: LoomLogoProps) {
                 sizeClass[size],
                 className,
             )}>
-            Loom
+            Tessera
             <span className="mb-0.75 ml-0.5 size-1.5 self-center rounded-full bg-(--accent)" />
         </Link>
     );

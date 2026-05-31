@@ -16,7 +16,7 @@ import { Block } from "../_components/Block";
 import { PageHeader } from "../_components/PageHeader";
 
 export const metadata: Metadata = {
-    title: "HR · Loom",
+    title: "HR · Tessera",
     description: "Employees, departments, and people operations.",
 };
 

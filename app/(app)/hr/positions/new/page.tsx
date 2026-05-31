@@ -6,7 +6,7 @@ import { listDepartments } from "@/lib/api/hr/departments-dal";
 import { NewPositionForm } from "./_components/NewPositionForm";
 
 export const metadata: Metadata = {
-    title: "New position · Loom",
+    title: "New position · Tessera",
 };
 
 const NewPositionPage = async () => {
