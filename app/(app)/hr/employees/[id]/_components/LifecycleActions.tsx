@@ -23,14 +23,13 @@ import {
 } from "@/components/ui";
 import type { DepartmentOption } from "../../_components/EmployeeForm";
 import type { EmploymentStatus } from "@/lib/api/hr/employees";
+import { NONE_SENTINEL } from "../../../_data/select-sentinels";
 import {
     assignDepartmentAction,
     placeOnLeaveAction,
     returnFromLeaveAction,
     terminateEmployeeAction,
 } from "../_data/lifecycle-actions";
-
-const NONE_SENTINEL = "__none__";
 
 type Props = {
     employeeId: string;

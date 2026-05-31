@@ -1,16 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
 import { deactivateDepartment } from "@/lib/api/hr/departments-dal";
+import { createDeactivateAction } from "../../../_data/create-deactivate-action";
 
-export const deactivateDepartmentAction = async (id: string) => {
-    try {
-        await deactivateDepartment(id);
-    } catch {
-        return { ok: false as const, error: "Couldn't deactivate the department. Try again." };
-    }
-    revalidatePath(`/hr/departments/${id}`);
-    revalidatePath("/hr/departments");
-    return { ok: true as const };
-};
+export const deactivateDepartmentAction = createDeactivateAction({
+    deactivate: deactivateDepartment,
+    revalidate: (id) => [`/hr/departments/${id}`, "/hr/departments"],
+    errorMessage: "Couldn't deactivate the department. Try again.",
+});

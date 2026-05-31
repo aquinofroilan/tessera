@@ -4,6 +4,7 @@ import { IconUsers } from "@tabler/icons-react";
 import { Card, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
 import type { EmployeeResponse } from "@/lib/api/hr/employees";
 import { EmployeeStatusBadge } from "./EmployeeStatusBadge";
+import { TableEmptyState } from "./TableEmptyState";
 
 type Props = {
     rows: EmployeeResponse[];
@@ -14,17 +15,11 @@ type Props = {
 export const EmployeesTable = ({ rows, departmentNameById, detailHrefBase }: Props) => {
     if (!rows.length) {
         return (
-            <Card className="items-center gap-3 px-6 py-12 text-center">
-                <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--muted)">
-                    <IconUsers className="size-5" stroke={1.6} />
-                </span>
-                <div className="font-display text-foreground text-xl font-[380] tracking-[-0.01em]">
-                    No employees yet.
-                </div>
-                <div className="max-w-80 text-sm text-(--muted)">
-                    Hire someone to get the roster started.
-                </div>
-            </Card>
+            <TableEmptyState
+                icon={IconUsers}
+                title="No employees yet."
+                hint="Hire someone to get the roster started."
+            />
         );
     }
 

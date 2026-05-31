@@ -26,8 +26,7 @@ import {
     employeeFormSchema,
     type EmployeeFormValues,
 } from "../../_data/employee-form-schema";
-
-const NONE_SENTINEL = "__none__";
+import { NONE_SENTINEL } from "../../_data/select-sentinels";
 
 export type DepartmentOption = { id: string; code: string; name: string };
 

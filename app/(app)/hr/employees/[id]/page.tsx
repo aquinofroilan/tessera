@@ -8,6 +8,7 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { listDepartments } from "@/lib/api/hr/departments-dal";
 import { getEmployee } from "@/lib/api/hr/employees-dal";
 import { EmployeeStatusBadge } from "../../_components/EmployeeStatusBadge";
+import { ProfileGrid, type ProfileRow } from "../../_components/ProfileGrid";
 import { EditEmployeeForm } from "./_components/EditEmployeeForm";
 import { LifecycleActions } from "./_components/LifecycleActions";
 
@@ -20,21 +21,6 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
         title: employee ? `${employee.firstName} ${employee.lastName} · Loom` : "Employee · Loom",
     };
 };
-
-type ProfileRow = { label: string; value: string };
-
-const ProfileGrid = ({ rows }: { rows: ProfileRow[] }) => (
-    <Card className="p-6">
-        <dl className="grid gap-x-8 gap-y-4 md:grid-cols-2">
-            {rows.map((row) => (
-                <div key={row.label} className="flex flex-col gap-1">
-                    <dt className="font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">{row.label}</dt>
-                    <dd className="text-[14px] text-(--ink)">{row.value}</dd>
-                </div>
-            ))}
-        </dl>
-    </Card>
-);
 
 const EmployeeDetailPage = async ({ params }: Props) => {
     const { id } = await params;
