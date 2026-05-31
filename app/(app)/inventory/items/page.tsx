@@ -12,7 +12,7 @@ import { ItemsToolbar } from "../_components/ItemsToolbar";
 import { countItemsByStatus, filterItems, parseItemsQuery } from "../_data/items-query";
 
 export const metadata: Metadata = {
-    title: "Items · Loom",
+    title: "Items · Tessera",
     description: "Product and SKU catalog. Track on-hand, valuation, and reorder thresholds.",
 };
 

@@ -8,7 +8,7 @@ import { AddUomForm } from "./_components/AddUomForm";
 import { UomsTable } from "./_components/UomsTable";
 
 export const metadata: Metadata = {
-    title: "Units of measure · Loom",
+    title: "Units of measure · Tessera",
     description: "Org-wide units used by items, variants, and movements.",
 };
 

@@ -5,8 +5,13 @@ import { usePathname } from "next/navigation";
 import {
     IconArrowsTransferDown,
     IconBook2,
+    IconBeach,
+    IconBriefcase2,
+    IconBuilding,
     IconBuildingBank,
     IconBuildingWarehouse,
+    IconCalendarOff,
+    IconCash,
     IconChartPie,
     IconSelector,
     IconCoins,
@@ -67,6 +72,17 @@ const groups: NavGroup[] = [
         ],
     },
     {
+        label: "People",
+        items: [
+            { href: "/hr/employees", label: "Employees", icon: IconUsers },
+            { href: "/hr/departments", label: "Departments", icon: IconBuilding },
+            { href: "/hr/positions", label: "Positions", icon: IconBriefcase2 },
+            { href: "/hr/leave-requests", label: "Leave requests", icon: IconCalendarOff },
+            { href: "/hr/leave-types", label: "Leave types", icon: IconBeach },
+            { href: "/hr/payroll-runs", label: "Payroll runs", icon: IconCash },
+        ],
+    },
+    {
         label: "Ledger",
         items: [
             { href: "/finance/journal", label: "Journal", icon: IconBook2 },
@@ -94,7 +110,7 @@ export function AppSidebar() {
             <Link
                 href="/"
                 className="font-display mb-1.5 inline-flex items-baseline gap-0.5 px-2.5 pt-2 pb-3.5 text-2xl font-medium tracking-[-0.02em] text-(--ink) italic">
-                Loom
+                Tessera
                 <span className="mb-1 ml-0.5 size-1.5 self-center rounded-full bg-(--accent)" />
             </Link>
 

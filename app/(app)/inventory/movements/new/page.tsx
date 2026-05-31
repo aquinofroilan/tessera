@@ -9,7 +9,7 @@ import { MovementForm } from "./_components/MovementForm";
 import { MovementTypePicker } from "./_components/MovementTypePicker";
 
 export const metadata: Metadata = {
-    title: "New movement · Loom",
+    title: "New movement · Tessera",
 };
 
 type Props = {

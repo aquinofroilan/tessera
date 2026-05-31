@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui";
-import { LoomLogo } from "@/components/atoms/loom-logo";
+import { TesseraLogo } from "@/components/atoms/tessera-logo";
 
 const links = [
     { href: "#modules", label: "Modules" },
@@ -29,7 +29,7 @@ export function LandingNav() {
                 scrolled ? "border-border" : "border-transparent"
             } bg-[rgba(246,241,230,0.78)]`}>
             <div className="mx-auto flex h-17 w-full max-w-310 items-center justify-between px-7">
-                <LoomLogo />
+                <TesseraLogo />
 
                 <ul className="hidden list-none gap-8 text-[14.5px] text-(--ink-soft) min-[701px]:flex">
                     {links.map((link) => (

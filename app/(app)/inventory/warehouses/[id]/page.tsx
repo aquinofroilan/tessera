@@ -18,7 +18,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const warehouse = await getWarehouse(id);
-    return { title: warehouse ? `${warehouse.name} · Loom` : "Warehouse · Loom" };
+    return { title: warehouse ? `${warehouse.name} · Tessera` : "Warehouse · Tessera" };
 };
 
 type ProfileRow = { label: string; value: string };
