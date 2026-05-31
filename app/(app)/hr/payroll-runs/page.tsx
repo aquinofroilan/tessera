@@ -12,7 +12,7 @@ import { PayrollRunsTable } from "../_components/PayrollRunsTable";
 import { PayrollRunsToolbar } from "../_components/PayrollRunsToolbar";
 
 export const metadata: Metadata = {
-    title: "Payroll runs · Loom",
+    title: "Payroll runs · Tessera",
     description: "Periodic payroll snapshots, with GL postings for accrual and payment.",
 };
 

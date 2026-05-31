@@ -7,7 +7,7 @@ import { listLeaveTypes } from "@/lib/api/hr/leave-types-dal";
 import { NewLeaveRequestForm } from "./_components/NewLeaveRequestForm";
 
 export const metadata: Metadata = {
-    title: "New leave request · Loom",
+    title: "New leave request · Tessera",
 };
 
 type Props = {

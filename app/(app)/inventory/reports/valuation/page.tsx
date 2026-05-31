@@ -9,7 +9,7 @@ import { formatMoney } from "../../../finance/_data/format";
 import { formatQuantity } from "../../_data/format";
 
 export const metadata: Metadata = {
-    title: "Inventory valuation · Loom",
+    title: "Inventory valuation · Tessera",
 };
 
 type Props = {

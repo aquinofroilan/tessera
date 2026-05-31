@@ -6,7 +6,7 @@ import { listUoms } from "@/lib/api/inventory/uoms-dal";
 import { NewItemForm } from "./_components/NewItemForm";
 
 export const metadata: Metadata = {
-    title: "New item · Loom",
+    title: "New item · Tessera",
 };
 
 const NewItemPage = async () => {

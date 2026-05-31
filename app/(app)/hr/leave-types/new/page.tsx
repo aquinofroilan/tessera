@@ -5,7 +5,7 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { NewLeaveTypeForm } from "./_components/NewLeaveTypeForm";
 
 export const metadata: Metadata = {
-    title: "New leave type · Loom",
+    title: "New leave type · Tessera",
 };
 
 const NewLeaveTypePage = () => (

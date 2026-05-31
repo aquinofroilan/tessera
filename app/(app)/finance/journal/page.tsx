@@ -13,7 +13,7 @@ import { listJournalEntries } from "@/lib/api/finance/journal-dal";
 import { countByStatus, filterJournal, paginate, parseJournalQuery } from "./_data/filter";
 
 export const metadata: Metadata = {
-    title: "Journal · Loom",
+    title: "Journal · Tessera",
     description: "Every debit and credit. Manual and system-generated entries.",
 };
 

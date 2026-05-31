@@ -15,7 +15,7 @@ import { countByStatus, filterBills, paginate, parseBillsQuery } from "./_data/f
 import { listBills } from "@/lib/api/finance/bills-dal";
 
 export const metadata: Metadata = {
-    title: "Bills · Loom",
+    title: "Bills · Tessera",
     description: "All money out. Filter by status, search by number or vendor.",
 };
 

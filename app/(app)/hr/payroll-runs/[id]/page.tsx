@@ -16,7 +16,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const run = await getPayrollRun(id);
-    return { title: run ? `${run.runNumber} · Loom` : "Payroll run · Loom" };
+    return { title: run ? `${run.runNumber} · Tessera` : "Payroll run · Tessera" };
 };
 
 const PayrollRunDetailPage = async ({ params }: Props) => {

@@ -14,7 +14,7 @@ import { LeaveRequestsTable } from "../_components/LeaveRequestsTable";
 import { LeaveRequestsToolbar } from "../_components/LeaveRequestsToolbar";
 
 export const metadata: Metadata = {
-    title: "Leave requests · Loom",
+    title: "Leave requests · Tessera",
     description: "Time-off requests, approvals, and balances.",
 };
 

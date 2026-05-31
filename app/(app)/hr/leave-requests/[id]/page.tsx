@@ -18,7 +18,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     const { id } = await params;
     const request = await getLeaveRequest(id);
     return {
-        title: request ? `Leave request · ${request.startDate} · Loom` : "Leave request · Loom",
+        title: request ? `Leave request · ${request.startDate} · Tessera` : "Leave request · Tessera",
     };
 };
 

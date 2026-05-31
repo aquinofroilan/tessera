@@ -11,7 +11,7 @@ import { listPositions } from "@/lib/api/hr/positions-dal";
 import { PositionsTable } from "../_components/PositionsTable";
 
 export const metadata: Metadata = {
-    title: "Positions · Loom",
+    title: "Positions · Tessera",
     description: "Job titles, pay grades, and the departments that own them.",
 };
 

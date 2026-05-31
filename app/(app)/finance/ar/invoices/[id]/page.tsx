@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { id } = await params;
     const invoice = invoices.find((i) => i.id === id);
     return {
-        title: invoice ? `${invoice.invoiceNumber} · Loom` : "Invoice · Loom",
+        title: invoice ? `${invoice.invoiceNumber} · Tessera` : "Invoice · Tessera",
     };
 }
 

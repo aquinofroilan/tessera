@@ -10,7 +10,7 @@ import { listWarehouses } from "@/lib/api/inventory/warehouses-dal";
 import { WarehousesTable } from "../_components/WarehousesTable";
 
 export const metadata: Metadata = {
-    title: "Warehouses · Loom",
+    title: "Warehouses · Tessera",
     description: "Where stock lives. Manage warehouses, storage locations, and per-warehouse policies.",
 };
 

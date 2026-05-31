@@ -110,7 +110,7 @@ export function AppSidebar() {
             <Link
                 href="/"
                 className="font-display mb-1.5 inline-flex items-baseline gap-0.5 px-2.5 pt-2 pb-3.5 text-2xl font-medium tracking-[-0.02em] text-(--ink) italic">
-                Loom
+                Tessera
                 <span className="mb-1 ml-0.5 size-1.5 self-center rounded-full bg-(--accent)" />
             </Link>
 

@@ -13,7 +13,7 @@ import { listCustomers } from "@/lib/api/finance/customers-dal";
 import { countParties, filterParties, paginate, parsePartiesQuery } from "../../_data/parties-query";
 
 export const metadata: Metadata = {
-    title: "Customers · Loom",
+    title: "Customers · Tessera",
     description: "Who you bill. Contact, payment terms, and history.",
 };
 

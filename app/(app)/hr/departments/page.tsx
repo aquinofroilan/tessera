@@ -10,7 +10,7 @@ import { listDepartments } from "@/lib/api/hr/departments-dal";
 import { DepartmentsTable } from "../_components/DepartmentsTable";
 
 export const metadata: Metadata = {
-    title: "Departments · Loom",
+    title: "Departments · Tessera",
     description: "The org structure people are assigned to.",
 };
 

@@ -5,7 +5,7 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { NewPayrollRunForm } from "./_components/NewPayrollRunForm";
 
 export const metadata: Metadata = {
-    title: "New payroll run · Loom",
+    title: "New payroll run · Tessera",
 };
 
 const NewPayrollRunPage = () => (

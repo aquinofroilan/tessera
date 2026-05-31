@@ -107,7 +107,7 @@ const navigateItems = items.filter((item) => item.group === "navigate");
 const createItems = items.filter((item) => item.group === "create");
 const itemById = new Map(items.map((item) => [item.id, item]));
 
-const RECENTS_KEY = "loom:command-palette:recents";
+const RECENTS_KEY = "tessera:command-palette:recents";
 const MAX_RECENTS = 5;
 
 const readRecents = (): string[] => {
