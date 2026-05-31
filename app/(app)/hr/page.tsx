@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
     IconArrowRight,
     IconBeach,
+    IconBriefcase2,
     IconBuilding,
     IconCalendarOff,
     IconUsers,
@@ -131,6 +132,31 @@ const HrDashboardPage = () => (
                             </div>
                         </Card>
                     </div>
+                </Block>
+
+                <Block title="Roles & pay" description="The catalog of positions employees can fill.">
+                    <Card className="p-6">
+                        <div className="flex items-start gap-5">
+                            <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--ink-soft)">
+                                <IconBriefcase2 className="size-5" stroke={1.6} />
+                            </span>
+                            <div className="min-w-0 flex-1">
+                                <div className="font-display text-[15px] font-[420] tracking-[-0.01em] text-(--ink)">
+                                    Positions
+                                </div>
+                                <div className="mt-1 text-[13px] text-(--muted)">
+                                    Job titles tied optionally to a department and a pay grade. Compensation
+                                    records reference positions when set.
+                                </div>
+                            </div>
+                            <Button asChild variant="outline" size="sm">
+                                <Link href="/hr/positions">
+                                    Open
+                                    <IconArrowRight stroke={1.8} />
+                                </Link>
+                            </Button>
+                        </div>
+                    </Card>
                 </Block>
             </div>
         </div>
