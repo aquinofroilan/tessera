@@ -8,8 +8,6 @@ import {
     type WarehouseFormValues,
 } from "../../../../_data/warehouse-form-schema";
 
-const trimToNull = (v: string | undefined): string | null => (v?.trim() ? v.trim() : null);
-
 export const updateWarehouseAction = async (id: string, values: WarehouseFormValues) =>
     runUpdateAction<WarehouseFormValues, UpdateWarehouseRequest>({
         values,
@@ -21,7 +19,7 @@ export const updateWarehouseAction = async (id: string, values: WarehouseFormVal
         toBody: (v) => ({
             code: v.code.trim(),
             name: v.name.trim(),
-            address: trimToNull(v.address),
+            address: v.address?.trim() || null,
             allowNegativeStock: v.allowNegativeStock,
             isDefault: v.isDefault,
         }),

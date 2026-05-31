@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { AppTopbar } from "../../../../_components/AppTopbar";
 import { PageHeader } from "../../../../_components/PageHeader";
 import { getItem } from "@/lib/api/inventory/items-dal";
+import { listUoms } from "@/lib/api/inventory/uoms-dal";
 import type { ItemFormValues } from "../../../_data/item-form-schema";
 import { EditItemForm } from "./_components/EditItemForm";
 
@@ -36,6 +37,7 @@ const EditItemPage = async ({ params }: Props) => {
     const { id } = await params;
     const item = await getItem(id);
     if (!item) notFound();
+    const uoms = await listUoms();
 
     return (
         <>
@@ -62,6 +64,7 @@ const EditItemPage = async ({ params }: Props) => {
                         itemId={item.id}
                         defaultValues={toFormValues(item)}
                         lockValuationMethod={item.hasMovements}
+                        uomOptions={uoms.map((u) => ({ code: u.code, name: u.name }))}
                     />
                 </div>
             </div>

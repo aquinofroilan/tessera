@@ -26,14 +26,23 @@ import {
 } from "@/components/ui";
 import { itemFormSchema, type ItemFormValues } from "../../_data/item-form-schema";
 
+export type UomOption = { code: string; name: string };
+
 type ItemFormProps = {
     defaultValues: ItemFormValues;
     submitLabel: string;
     lockValuationMethod?: boolean;
+    uomOptions?: UomOption[];
     action: (values: ItemFormValues) => Promise<{ ok: false; error: string } | void>;
 };
 
-export const ItemForm = ({ defaultValues, submitLabel, lockValuationMethod, action }: ItemFormProps) => {
+export const ItemForm = ({
+    defaultValues,
+    submitLabel,
+    lockValuationMethod,
+    uomOptions,
+    action,
+}: ItemFormProps) => {
     const router = useRouter();
     const form = useForm<ItemFormValues>({
         resolver: zodResolver(itemFormSchema),
@@ -142,9 +151,29 @@ export const ItemForm = ({ defaultValues, submitLabel, lockValuationMethod, acti
                                     <FormLabel asChild>
                                         <Label variant="eyebrow">Unit *</Label>
                                     </FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="EA, KG, BOX" {...field} />
-                                    </FormControl>
+                                    {uomOptions && uomOptions.length > 0 ? (
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select a unit" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {(field.value && !uomOptions.some((u) => u.code === field.value)
+                                                    ? [...uomOptions, { code: field.value, name: "(unrecognized)" }]
+                                                    : uomOptions
+                                                ).map((uom) => (
+                                                    <SelectItem key={uom.code} value={uom.code}>
+                                                        {uom.code} — {uom.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    ) : (
+                                        <FormControl>
+                                            <Input placeholder="EA, KG, BOX" {...field} />
+                                        </FormControl>
+                                    )}
                                     <FormMessage />
                                 </FormItem>
                             )}

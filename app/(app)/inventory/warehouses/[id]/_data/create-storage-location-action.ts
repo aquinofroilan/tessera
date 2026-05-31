@@ -8,8 +8,6 @@ import {
     type StorageLocationFormValues,
 } from "../../../_data/storage-location-form-schema";
 
-const trimToNull = (v: string | undefined): string | null => (v?.trim() ? v.trim() : null);
-
 export const createStorageLocationAction = async (warehouseId: string, values: StorageLocationFormValues) =>
     runCreateAction<StorageLocationFormValues, CreateStorageLocationRequest>({
         values,
@@ -17,7 +15,7 @@ export const createStorageLocationAction = async (warehouseId: string, values: S
         toBody: (data) => ({
             code: data.code.trim(),
             name: data.name.trim(),
-            parentLocationId: trimToNull(data.parentLocationId),
+            parentLocationId: data.parentLocationId?.trim() || null,
         }),
         create: (body) => createStorageLocation(warehouseId, body),
         path: `/inventory/warehouses/${warehouseId}`,
