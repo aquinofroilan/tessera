@@ -1,12 +1,7 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-
 import {
     Button,
-    Checkbox,
     Form,
     FormControl,
     FormField,
@@ -20,6 +15,8 @@ import {
     leaveTypeUpdateSchema,
     type LeaveTypeUpdateValues,
 } from "../../../_data/leave-type-form-schema";
+import { useEntityForm } from "../../../_data/use-entity-form";
+import { CheckboxFormField, TextFormField } from "../../../_components/form-fields";
 import { updateLeaveTypeAction } from "../_data/update-leave-type-action";
 
 type Props = {
@@ -28,36 +25,17 @@ type Props = {
 };
 
 export const EditLeaveTypeForm = ({ id, defaultValues }: Props) => {
-    const form = useForm<LeaveTypeUpdateValues>({
-        resolver: zodResolver(leaveTypeUpdateSchema),
-        mode: "onBlur",
+    const { form, onSubmit } = useEntityForm({
+        schema: leaveTypeUpdateSchema,
         defaultValues,
-    });
-
-    const onSubmit = form.handleSubmit(async (values) => {
-        const result = await updateLeaveTypeAction(id, values);
-        if (result && !result.ok) toast.error(result.error);
+        action: (values) => updateLeaveTypeAction(id, values),
     });
 
     return (
         <Form {...form}>
             <form onSubmit={onSubmit} className="grid gap-5">
                 <div className="grid gap-5 md:grid-cols-2">
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                            <FormItem className="gap-1.5">
-                                <FormLabel asChild>
-                                    <Label variant="eyebrow">Name *</Label>
-                                </FormLabel>
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                    <TextFormField control={form.control} name="name" label="Name *" />
                     <FormField
                         control={form.control}
                         name="defaultAnnualDays"
@@ -81,22 +59,11 @@ export const EditLeaveTypeForm = ({ id, defaultValues }: Props) => {
                             </FormItem>
                         )}
                     />
-                    <FormField
+                    <CheckboxFormField
                         control={form.control}
                         name="paid"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-row items-start gap-3 space-y-0 md:pt-7 md:col-span-2">
-                                <FormControl>
-                                    <Checkbox
-                                        checked={field.value}
-                                        onCheckedChange={(v) => field.onChange(v === true)}
-                                    />
-                                </FormControl>
-                                <FormLabel asChild>
-                                    <Label className="font-medium">Paid</Label>
-                                </FormLabel>
-                            </FormItem>
-                        )}
+                        label="Paid"
+                        className="flex flex-row items-start gap-3 space-y-0 md:pt-7 md:col-span-2"
                     />
                 </div>
                 <div className="flex justify-end">

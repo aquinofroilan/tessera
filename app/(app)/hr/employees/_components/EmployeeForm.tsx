@@ -1,32 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 
-import {
-    Button,
-    Card,
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-    Input,
-    Label,
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui";
+import { Button, Card, Form, Label } from "@/components/ui";
 import {
     employeeFormSchema,
     type EmployeeFormValues,
 } from "../../_data/employee-form-schema";
-import { NONE_SENTINEL } from "../../_data/select-sentinels";
+import { useEntityForm } from "../../_data/use-entity-form";
+import { SelectFormField, TextFormField } from "../../_components/form-fields";
 
 export type DepartmentOption = { id: string; code: string; name: string };
 
@@ -39,16 +21,16 @@ type Props = {
 
 export const EmployeeForm = ({ defaultValues, submitLabel, departments, action }: Props) => {
     const router = useRouter();
-    const form = useForm<EmployeeFormValues>({
-        resolver: zodResolver(employeeFormSchema),
-        mode: "onBlur",
+    const { form, onSubmit } = useEntityForm({
+        schema: employeeFormSchema,
         defaultValues,
+        action,
     });
 
-    const onSubmit = form.handleSubmit(async (values) => {
-        const result = await action(values);
-        if (result && !result.ok) toast.error(result.error);
-    });
+    const departmentOptions = departments.map((d) => ({
+        value: d.id,
+        label: `${d.code} · ${d.name}`,
+    }));
 
     return (
         <Form {...form}>
@@ -58,65 +40,20 @@ export const EmployeeForm = ({ defaultValues, submitLabel, departments, action }
                         Identity
                     </Label>
                     <div className="grid gap-5 md:grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="firstName"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">First name *</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="lastName"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Last name *</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
+                        <TextFormField control={form.control} name="firstName" label="First name *" />
+                        <TextFormField control={form.control} name="lastName" label="Last name *" />
+                        <TextFormField
                             control={form.control}
                             name="email"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Email</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input type="email" placeholder="optional" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Email"
+                            type="email"
+                            placeholder="optional"
                         />
-                        <FormField
+                        <TextFormField
                             control={form.control}
                             name="jobTitle"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Job title</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="optional" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Job title"
+                            placeholder="optional"
                         />
                     </div>
                 </Card>
@@ -126,49 +63,19 @@ export const EmployeeForm = ({ defaultValues, submitLabel, departments, action }
                         Placement
                     </Label>
                     <div className="grid gap-5 md:grid-cols-2">
-                        <FormField
+                        <SelectFormField
                             control={form.control}
                             name="departmentId"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Department</Label>
-                                    </FormLabel>
-                                    <Select
-                                        value={field.value || NONE_SENTINEL}
-                                        onValueChange={(v) => field.onChange(v === NONE_SENTINEL ? "" : v)}>
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Unassigned" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value={NONE_SENTINEL}>(unassigned)</SelectItem>
-                                            {departments.map((d) => (
-                                                <SelectItem key={d.id} value={d.id}>
-                                                    {d.code} · {d.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Department"
+                            placeholder="Unassigned"
+                            noneLabel="(unassigned)"
+                            options={departmentOptions}
                         />
-                        <FormField
+                        <TextFormField
                             control={form.control}
                             name="hireDate"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Hire date *</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input type="date" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Hire date *"
+                            type="date"
                         />
                     </div>
                 </Card>

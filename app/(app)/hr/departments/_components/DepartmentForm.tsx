@@ -1,26 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 
-import {
-    Button,
-    Card,
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-    Input,
-    Label,
-} from "@/components/ui";
+import { Button, Card, Form } from "@/components/ui";
 import {
     departmentFormSchema,
     type DepartmentFormValues,
 } from "../../_data/department-form-schema";
+import { useEntityForm } from "../../_data/use-entity-form";
+import { TextFormField } from "../../_components/form-fields";
 
 type Props = {
     defaultValues: DepartmentFormValues;
@@ -30,15 +18,10 @@ type Props = {
 
 export const DepartmentForm = ({ defaultValues, submitLabel, action }: Props) => {
     const router = useRouter();
-    const form = useForm<DepartmentFormValues>({
-        resolver: zodResolver(departmentFormSchema),
-        mode: "onBlur",
+    const { form, onSubmit } = useEntityForm({
+        schema: departmentFormSchema,
         defaultValues,
-    });
-
-    const onSubmit = form.handleSubmit(async (values) => {
-        const result = await action(values);
-        if (result && !result.ok) toast.error(result.error);
+        action,
     });
 
     return (
@@ -46,52 +29,24 @@ export const DepartmentForm = ({ defaultValues, submitLabel, action }: Props) =>
             <form onSubmit={onSubmit} className="grid gap-6">
                 <Card className="p-6">
                     <div className="grid gap-5 md:grid-cols-2">
-                        <FormField
+                        <TextFormField
                             control={form.control}
                             name="code"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Code *</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="e.g. ENG" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Code *"
+                            placeholder="e.g. ENG"
                         />
-
-                        <FormField
+                        <TextFormField
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Name *</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="e.g. Engineering" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Name *"
+                            placeholder="e.g. Engineering"
                         />
-
-                        <FormField
+                        <TextFormField
                             control={form.control}
                             name="description"
-                            render={({ field }) => (
-                                <FormItem className="gap-1.5 md:col-span-2">
-                                    <FormLabel asChild>
-                                        <Label variant="eyebrow">Description</Label>
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Optional — what this team does" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            label="Description"
+                            placeholder="Optional — what this team does"
+                            className="gap-1.5 md:col-span-2"
                         />
                     </div>
                 </Card>
