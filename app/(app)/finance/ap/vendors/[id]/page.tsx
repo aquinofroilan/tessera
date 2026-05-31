@@ -18,7 +18,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const vendor = await getVendor(id);
-    return { title: vendor ? `${vendor.name} · Loom` : "Vendor · Loom" };
+    return { title: vendor ? `${vendor.name} · Tessera` : "Vendor · Tessera" };
 };
 
 const VendorDetailPage = async ({ params }: Props) => {

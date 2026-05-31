@@ -184,7 +184,7 @@ export const SignupForm = () => {
                                     />
                                 </FormControl>
                                 <span className="text-[13px] leading-normal text-(--ink-soft)">
-                                    I agree to Loom&apos;s{" "}
+                                    I agree to Tessera&apos;s{" "}
                                     <Link
                                         href="#"
                                         className="border-border text-foreground border-b no-underline transition-colors hover:border-(--accent)">

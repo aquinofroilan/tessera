@@ -14,7 +14,7 @@ import { Block } from "../_components/Block";
 import { PageHeader } from "../_components/PageHeader";
 
 export const metadata: Metadata = {
-    title: "Inventory · Loom",
+    title: "Inventory · Tessera",
     description: "Items, stock, and movements.",
 };
 

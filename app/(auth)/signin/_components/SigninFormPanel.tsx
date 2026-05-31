@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { IconSparkles } from "@tabler/icons-react";
 import { Button, Eyebrow } from "@/components/ui";
-import { LoomLogo } from "@/components/atoms/loom-logo";
+import { TesseraLogo } from "@/components/atoms/tessera-logo";
 import { AuthCallout } from "../../_components/AuthCallout";
 import { AuthShellFooter } from "../../_components/AuthShellFooter";
 import { SigninForm } from "./SigninForm";
@@ -10,10 +10,10 @@ export function SigninFormPanel() {
     return (
         <div className="relative flex flex-col px-7 pt-7 pb-10 md:px-10">
             <header className="mb-10 flex items-center justify-between md:mb-16">
-                <LoomLogo />
+                <TesseraLogo />
                 <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
                     <Link href="/signup">
-                        New to Loom?
+                        New to Tessera?
                         <strong className="text-foreground font-medium">Start a trial</strong>
                     </Link>
                 </Button>
@@ -30,14 +30,14 @@ export function SigninFormPanel() {
                     </h1>
 
                     <p className="mb-8 max-w-[40ch] text-[15px] text-(--ink-soft)">
-                        Sign in to your Loom workspace. Your shop, your data, your dashboards — exactly how you left
+                        Sign in to your Tessera workspace. Your shop, your data, your dashboards — exactly how you left
                         them.
                     </p>
 
                     <SigninForm />
 
                     <AuthCallout icon={<IconSparkles className="size-4" />} title="Don't have an account yet?">
-                        Try Loom free for 30 days — every module, no credit card.{" "}
+                        Try Tessera free for 30 days — every module, no credit card.{" "}
                         <Link href="/signup" className="font-medium text-(--accent) no-underline">
                             Start a trial →
                         </Link>

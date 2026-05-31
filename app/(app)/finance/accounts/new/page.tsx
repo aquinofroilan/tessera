@@ -5,7 +5,7 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { NewAccountForm } from "./_components/NewAccountForm";
 
 export const metadata: Metadata = {
-    title: "New account · Loom",
+    title: "New account · Tessera",
 };
 
 const NewAccountPage = () => {

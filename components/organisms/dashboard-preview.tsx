@@ -28,7 +28,7 @@ export function DashboardPreview({
     greeting,
     name,
     kpis,
-    url = "app.loom.co / overview",
+    url = "app.tessera.co / overview",
     chartLabel = "Revenue · 30d",
     chartCadence = "daily",
 }: DashboardPreviewProps) {

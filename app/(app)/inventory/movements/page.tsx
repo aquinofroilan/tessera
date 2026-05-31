@@ -12,7 +12,7 @@ import { MovementsToolbar } from "../_components/MovementsToolbar";
 import { countMovementsByType, parseMovementsQuery } from "../_data/movements-query";
 
 export const metadata: Metadata = {
-    title: "Stock movements · Loom",
+    title: "Stock movements · Tessera",
     description: "Immutable ledger of receipts, issues, transfers, and adjustments.",
 };
 

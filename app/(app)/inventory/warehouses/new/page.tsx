@@ -5,7 +5,7 @@ import { PageHeader } from "../../../_components/PageHeader";
 import { NewWarehouseForm } from "./_components/NewWarehouseForm";
 
 export const metadata: Metadata = {
-    title: "New warehouse · Loom",
+    title: "New warehouse · Tessera",
 };
 
 const NewWarehousePage = () => (

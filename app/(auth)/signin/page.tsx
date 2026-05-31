@@ -3,8 +3,8 @@ import { EditorialPanel } from "./_components/EditorialPanel";
 import { SigninFormPanel } from "./_components/SigninFormPanel";
 
 export const metadata: Metadata = {
-    title: "Sign in · Loom",
-    description: "Sign in to your Loom workspace.",
+    title: "Sign in · Tessera",
+    description: "Sign in to your Tessera workspace.",
 };
 
 export default function SigninPage() {

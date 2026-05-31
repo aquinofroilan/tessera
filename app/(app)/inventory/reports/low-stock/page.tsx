@@ -19,7 +19,7 @@ import { formatQuantity } from "../../_data/format";
 import { StockLevelBadge } from "../../_components/StockLevelBadge";
 
 export const metadata: Metadata = {
-    title: "Low stock · Loom",
+    title: "Low stock · Tessera",
     description: "Items at or below their reorder point.",
 };
 

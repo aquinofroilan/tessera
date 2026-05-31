@@ -21,7 +21,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     const { id } = await params;
     const bill = await getBill(id);
     return {
-        title: bill ? `${bill.billNumber} · Loom` : "Bill · Loom",
+        title: bill ? `${bill.billNumber} · Tessera` : "Bill · Tessera",
     };
 };
 

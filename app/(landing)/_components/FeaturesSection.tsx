@@ -30,7 +30,7 @@ function DashboardMock() {
                     <span className="size-2.5 rounded-full bg-(--rule)" />
                     <span className="size-2.5 rounded-full bg-(--rule)" />
                 </div>
-                <span className="ml-2 font-mono text-[11px] text-(--muted)">app.loom.co / dashboard</span>
+                <span className="ml-2 font-mono text-[11px] text-(--muted)">app.tessera.co / dashboard</span>
             </div>
             <div className="grid min-h-90 gap-5 p-5 md:grid-cols-[120px_1fr]">
                 <div className="flex flex-row flex-wrap gap-1.5 md:flex-col">
@@ -149,7 +149,7 @@ function InventoryMock() {
                     <span className="size-2.5 rounded-full bg-(--rule)" />
                     <span className="size-2.5 rounded-full bg-(--rule)" />
                 </div>
-                <span className="ml-2 font-mono text-[11px] text-(--muted)">app.loom.co / inventory / SKU-4120</span>
+                <span className="ml-2 font-mono text-[11px] text-(--muted)">app.tessera.co / inventory / SKU-4120</span>
             </div>
             <div className="p-5">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
