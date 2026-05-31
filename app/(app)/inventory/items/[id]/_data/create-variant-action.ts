@@ -9,8 +9,6 @@ import {
     type VariantFormValues,
 } from "../../../_data/variant-form-schema";
 
-const trimToNull = (v: string | undefined): string | null => (v?.trim() ? v.trim() : null);
-
 export const createVariantAction = async (itemId: string, values: VariantFormValues) =>
     runCreateAction<VariantFormValues, CreateVariantRequest>({
         values,
@@ -18,8 +16,8 @@ export const createVariantAction = async (itemId: string, values: VariantFormVal
         toBody: (data) => ({
             skuSuffix: data.skuSuffix.trim(),
             attributes: parseAttributes(data.attributes),
-            salesPrice: trimToNull(data.salesPrice),
-            purchaseCost: trimToNull(data.purchaseCost),
+            salesPrice: data.salesPrice?.trim() || null,
+            purchaseCost: data.purchaseCost?.trim() || null,
         }),
         create: (body) => createVariant(itemId, body),
         path: `/inventory/items/${itemId}`,
