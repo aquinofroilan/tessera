@@ -5,9 +5,11 @@ import { usePathname } from "next/navigation";
 import {
     IconArrowsTransferDown,
     IconBook2,
+    IconBeach,
     IconBuilding,
     IconBuildingBank,
     IconBuildingWarehouse,
+    IconCalendarOff,
     IconChartPie,
     IconSelector,
     IconCoins,
@@ -72,6 +74,8 @@ const groups: NavGroup[] = [
         items: [
             { href: "/hr/employees", label: "Employees", icon: IconUsers },
             { href: "/hr/departments", label: "Departments", icon: IconBuilding },
+            { href: "/hr/leave-requests", label: "Leave requests", icon: IconCalendarOff },
+            { href: "/hr/leave-types", label: "Leave types", icon: IconBeach },
         ],
     },
     {

@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { IconArrowRight, IconBuilding, IconUsers } from "@tabler/icons-react";
+import {
+    IconArrowRight,
+    IconBeach,
+    IconBuilding,
+    IconCalendarOff,
+    IconUsers,
+} from "@tabler/icons-react";
 
 import { Button, Card } from "@/components/ui";
 import { AppTopbar } from "../_components/AppTopbar";
@@ -68,6 +74,56 @@ const HrDashboardPage = () => (
                                 </div>
                                 <Button asChild variant="outline" size="sm">
                                     <Link href="/hr/departments">
+                                        Open
+                                        <IconArrowRight stroke={1.8} />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </Card>
+                    </div>
+                </Block>
+
+                <Block title="Time off" description="Requests, balances, and the categories that govern them.">
+                    <div className="grid gap-4">
+                        <Card className="p-6">
+                            <div className="flex items-start gap-5">
+                                <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--ink-soft)">
+                                    <IconCalendarOff className="size-5" stroke={1.6} />
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                    <div className="font-display text-[15px] font-[420] tracking-[-0.01em] text-(--ink)">
+                                        Leave requests
+                                    </div>
+                                    <div className="mt-1 text-[13px] text-(--muted)">
+                                        File, approve, reject, or cancel time-off requests. Approving a request that
+                                        covers today places the employee on leave automatically.
+                                    </div>
+                                </div>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/hr/leave-requests">
+                                        Open
+                                        <IconArrowRight stroke={1.8} />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </Card>
+
+                        <Card className="p-6">
+                            <div className="flex items-start gap-5">
+                                <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--ink-soft)">
+                                    <IconBeach className="size-5" stroke={1.6} />
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                    <div className="font-display text-[15px] font-[420] tracking-[-0.01em] text-(--ink)">
+                                        Leave types
+                                    </div>
+                                    <div className="mt-1 text-[13px] text-(--muted)">
+                                        Categories of time away — paid or unpaid — each with its own annual
+                                        entitlement.
+                                    </div>
+                                </div>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/hr/leave-types">
                                         Open
                                         <IconArrowRight stroke={1.8} />
                                     </Link>
