@@ -1,3 +1,5 @@
+import { formatQuantityNumber } from "../_data/format";
+
 type StockLevelBadgeProps = {
     onHand: number;
     reorderPoint: number | null;
@@ -7,7 +9,7 @@ export const StockLevelBadge = ({ onHand, reorderPoint }: StockLevelBadgeProps) 
     if (reorderPoint == null || onHand > reorderPoint) return null;
 
     const isOut = onHand <= 0;
-    const reorderLabel = Number.isInteger(reorderPoint) ? reorderPoint.toString() : reorderPoint.toFixed(2);
+    const reorderLabel = formatQuantityNumber(reorderPoint);
     return (
         <span
             className={

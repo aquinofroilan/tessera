@@ -5,6 +5,7 @@ import {
     IconArrowsTransferDown,
     IconBuildingWarehouse,
     IconPackage,
+    IconReportAnalytics,
 } from "@tabler/icons-react";
 
 import { Button, Card } from "@/components/ui";
@@ -29,7 +30,7 @@ const InventoryDashboardPage = () => (
                             Inventory<em className="text-(--accent) italic">.</em>
                         </>
                     }
-                    description="Items and warehouses. More modules — movements, valuation, low-stock alerts, and reports — land in follow-up releases."
+                    description="Items, stock movements, warehouses, and reports. Movements auto-post matching journal entries; the valuation report reconciles to GL 1300."
                 />
 
                 <Block title="Catalog & storage" description="Manage what you stock, sell, or service — and where it lives.">
@@ -93,6 +94,28 @@ const InventoryDashboardPage = () => (
                                 </div>
                                 <Button asChild variant="outline" size="sm">
                                     <Link href="/inventory/movements">
+                                        Open
+                                        <IconArrowRight stroke={1.8} />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </Card>
+
+                        <Card className="p-6">
+                            <div className="flex items-start gap-5">
+                                <span className="grid size-10 place-items-center rounded-full bg-(--paper-2) text-(--ink-soft)">
+                                    <IconReportAnalytics className="size-5" stroke={1.6} />
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                    <div className="font-display text-[15px] font-[420] tracking-[-0.01em] text-(--ink)">
+                                        Reports
+                                    </div>
+                                    <div className="mt-1 text-[13px] text-(--muted)">
+                                        Stock on hand, valuation (reconciles to GL 1300), movement history, low stock.
+                                    </div>
+                                </div>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/inventory/reports">
                                         Open
                                         <IconArrowRight stroke={1.8} />
                                     </Link>
