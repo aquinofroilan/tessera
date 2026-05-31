@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LoomLogo } from "@/components/atoms/loom-logo";
+import { TesseraLogo } from "@/components/atoms/tessera-logo";
 import { footerColumns } from "./landing-data";
 
 export function LandingFooter() {
@@ -8,7 +8,7 @@ export function LandingFooter() {
             <div className="mx-auto w-full max-w-310 px-7">
                 <div className="mb-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,minmax(0,1fr))]">
                     <div>
-                        <LoomLogo size="md" className="mb-3" />
+                        <TesseraLogo size="md" className="mb-3" />
                         <p className="max-w-[28ch] text-sm">
                             Software for running the whole shop. Made in Portland, Oregon. Serving operators everywhere
                             since 2019.
@@ -34,7 +34,7 @@ export function LandingFooter() {
                 </div>
 
                 <div className="border-border flex flex-col gap-3 border-t pt-6 text-center font-mono text-[13px] tracking-wider text-(--muted) sm:flex-row sm:justify-between sm:text-left">
-                    <span>© 2026 Loom Systems, Inc.</span>
+                    <span>© 2026 Tessera Systems, Inc.</span>
                     <span>Built with care in PDX · v4.2.1</span>
                 </div>
             </div>

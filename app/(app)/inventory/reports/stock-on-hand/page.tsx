@@ -8,7 +8,7 @@ import { getStockOnHand } from "@/lib/api/inventory/reports-dal";
 import { formatQuantity, formatQuantityNumber } from "../../_data/format";
 
 export const metadata: Metadata = {
-    title: "Stock on hand · Loom",
+    title: "Stock on hand · Tessera",
 };
 
 type Props = {

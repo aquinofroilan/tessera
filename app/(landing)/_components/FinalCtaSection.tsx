@@ -8,7 +8,7 @@ export function FinalCtaSection() {
                 <h2
                     className="font-display reveal mx-auto mb-8 max-w-[14ch] text-[clamp(48px,8vw,120px)] leading-[0.98] font-[320] tracking-[-0.04em]"
                     data-reveal>
-                    Run the <em className="text-(--accent) italic">whole shop</em> on Loom.
+                    Run the <em className="text-(--accent) italic">whole shop</em> on Tessera.
                 </h2>
                 <p className="reveal mx-auto mb-9 max-w-[42ch] text-lg text-(--ink-soft)" data-reveal>
                     Thirty days, every module, every feature. No card, no sales call, no &quot;let&apos;s hop on a quick

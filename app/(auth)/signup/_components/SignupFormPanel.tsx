@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { IconReplace } from "@tabler/icons-react";
 import { Button, Eyebrow } from "@/components/ui";
-import { LoomLogo } from "@/components/atoms/loom-logo";
+import { TesseraLogo } from "@/components/atoms/tessera-logo";
 import { AuthCallout } from "../../_components/AuthCallout";
 import { AuthShellFooter } from "../../_components/AuthShellFooter";
 import { SignupForm } from "./SignupForm";
@@ -10,7 +10,7 @@ export function SignupFormPanel() {
     return (
         <div className="relative flex flex-col px-7 pt-7 pb-10 md:px-10">
             <header className="mb-10 flex items-center justify-between md:mb-16">
-                <LoomLogo />
+                <TesseraLogo />
                 <Button asChild variant="pill-ghost" size="pill" className="text-[13px]">
                     <Link href="/signin">
                         Already have an account?
@@ -26,7 +26,7 @@ export function SignupFormPanel() {
                     </Eyebrow>
 
                     <h1 className="font-display mb-3.5 text-[46px] leading-[0.98] font-[340] tracking-[-0.03em] max-sm:text-[38px] sm:text-[46px]">
-                        Run the whole shop on <em className="text-(--accent) italic">Loom.</em>
+                        Run the whole shop on <em className="text-(--accent) italic">Tessera.</em>
                     </h1>
 
                     <p className="mb-8 max-w-[40ch] text-[15px] text-(--ink-soft)">

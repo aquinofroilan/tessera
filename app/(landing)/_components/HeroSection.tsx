@@ -11,7 +11,7 @@ export function HeroSection() {
                     className="reveal mb-7 inline-flex items-center gap-2.5 font-mono text-xs tracking-[0.12em] text-(--ink-soft) uppercase"
                     data-reveal>
                     <span className="block size-1.75 animate-[pulse_2.4s_ease-in-out_infinite] rounded-full bg-(--moss) shadow-[0_0_0_4px_rgba(61,90,58,0.18)]" />
-                    Loom v4.2 · Shipped this week
+                    Tessera v4.2 · Shipped this week
                 </div>
 
                 <h1
@@ -21,7 +21,7 @@ export function HeroSection() {
                 </h1>
 
                 <p className="reveal mt-8 max-w-140 text-[19px] leading-[1.55] text-(--ink-soft)" data-reveal>
-                    Loom is a modern ERP for small and mid-sized businesses.{" "}
+                    Tessera is a modern ERP for small and mid-sized businesses.{" "}
                     <b className="text-foreground font-medium">
                         Sales, inventory, accounting, HR, manufacturing, and projects
                     </b>{" "}

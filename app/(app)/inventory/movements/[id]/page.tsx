@@ -17,7 +17,7 @@ type Props = { params: Promise<{ id: string }> };
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const { id } = await params;
     const movement = await getMovement(id);
-    return { title: movement ? `${movementTypeLabel(movement.type)} ${id.slice(0, 8)} · Loom` : "Movement · Loom" };
+    return { title: movement ? `${movementTypeLabel(movement.type)} ${id.slice(0, 8)} · Tessera` : "Movement · Tessera" };
 };
 
 type ProfileRow = { label: string; value: ReactNode };

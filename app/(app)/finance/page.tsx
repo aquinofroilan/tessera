@@ -13,7 +13,7 @@ import { RevenueTrend } from "./_components/RevenueTrend";
 import { orgGreeting } from "./_data/mock";
 
 export const metadata: Metadata = {
-    title: "Finance · Loom",
+    title: "Finance · Tessera",
     description: "Cash position, receivables, payables, and ledger health at a glance.",
 };
 
