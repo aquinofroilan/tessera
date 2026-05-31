@@ -23,10 +23,17 @@ type Props = {
 const MovementsListPage = async ({ searchParams }: Props) => {
     const sp = await searchParams;
     const query = parseMovementsQuery(sp);
-    const movements = await listMovements(
-        query.type === "ALL" ? undefined : { type: query.type },
-    );
-    const counts = countMovementsByType(movements);
+    const all = await listMovements({
+        itemId: query.itemId ?? undefined,
+        warehouseId: query.warehouseId ?? undefined,
+    });
+    const counts = countMovementsByType(all);
+    const qLower = query.q?.toLowerCase() ?? null;
+    const movements = all.filter((m) => {
+        if (query.type !== "ALL" && m.type !== query.type) return false;
+        if (qLower && !(m.referenceNumber ?? "").toLowerCase().includes(qLower)) return false;
+        return true;
+    });
 
     return (
         <>
@@ -55,7 +62,7 @@ const MovementsListPage = async ({ searchParams }: Props) => {
                         title="Ledger"
                         description={`${movements.length} movement${movements.length === 1 ? "" : "s"} in view.`}>
                         <div className="mb-5">
-                            <MovementsToolbar activeType={query.type} counts={counts} />
+                            <MovementsToolbar activeType={query.type} initialQ={query.q ?? ""} counts={counts} />
                         </div>
                         <MovementsTable rows={movements} detailHrefBase="/inventory/movements" />
                     </Block>

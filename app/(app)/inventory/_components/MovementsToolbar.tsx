@@ -5,6 +5,7 @@ import { StatusToolbar, type StatusToolbarTab } from "../../finance/_components/
 
 type ToolbarProps = {
     activeType: MovementType | "ALL";
+    initialQ: string;
     counts: Record<MovementType | "ALL", number>;
 };
 
@@ -17,11 +18,11 @@ const tabs: StatusToolbarTab<MovementType>[] = [
     { value: "ADJUSTMENT_OUT", label: "Adj −" },
 ];
 
-export const MovementsToolbar = ({ activeType, counts }: ToolbarProps) => (
+export const MovementsToolbar = ({ activeType, initialQ, counts }: ToolbarProps) => (
     <StatusToolbar
         tabs={tabs}
         activeStatus={activeType}
-        initialQ=""
+        initialQ={initialQ}
         counts={counts}
         searchPlaceholder="Search reference…"
         searchAriaLabel="Search movements"

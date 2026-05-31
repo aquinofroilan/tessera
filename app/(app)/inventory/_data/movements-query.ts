@@ -4,6 +4,7 @@ export type MovementsQuery = {
     type: MovementType | "ALL";
     itemId: string | null;
     warehouseId: string | null;
+    q: string | null;
 };
 
 export const parseMovementsQuery = (
@@ -12,6 +13,7 @@ export const parseMovementsQuery = (
     const typeRaw = Array.isArray(searchParams.type) ? searchParams.type[0] : searchParams.type;
     const itemId = Array.isArray(searchParams.itemId) ? searchParams.itemId[0] : searchParams.itemId;
     const warehouseId = Array.isArray(searchParams.warehouseId) ? searchParams.warehouseId[0] : searchParams.warehouseId;
+    const qRaw = Array.isArray(searchParams.q) ? searchParams.q[0] : searchParams.q;
     const type: MovementType | "ALL" =
         typeRaw === "RECEIPT" ||
         typeRaw === "ISSUE" ||
@@ -20,7 +22,12 @@ export const parseMovementsQuery = (
         typeRaw === "ADJUSTMENT_OUT"
             ? typeRaw
             : "ALL";
-    return { type, itemId: itemId ?? null, warehouseId: warehouseId ?? null };
+    return {
+        type,
+        itemId: itemId ?? null,
+        warehouseId: warehouseId ?? null,
+        q: qRaw?.trim() || null,
+    };
 };
 
 export const countMovementsByType = (
