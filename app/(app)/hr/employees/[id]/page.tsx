@@ -7,9 +7,12 @@ import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
 import { listDepartments } from "@/lib/api/hr/departments-dal";
 import { getEmployee } from "@/lib/api/hr/employees-dal";
+import { listLeaveTypes } from "@/lib/api/hr/leave-types-dal";
+import { getLeaveBalance, listLeaveRequests } from "@/lib/api/hr/leave-requests-dal";
 import { EmployeeStatusBadge } from "../../_components/EmployeeStatusBadge";
 import { ProfileGrid, type ProfileRow } from "../../_components/ProfileGrid";
 import { EditEmployeeForm } from "./_components/EditEmployeeForm";
+import { EmployeeLeaveBlock } from "./_components/EmployeeLeaveBlock";
 import { LifecycleActions } from "./_components/LifecycleActions";
 
 type Props = { params: Promise<{ id: string }> };
@@ -27,7 +30,28 @@ const EmployeeDetailPage = async ({ params }: Props) => {
     const employee = await getEmployee(id);
     if (!employee) notFound();
 
-    const departments = await listDepartments();
+    const [departments, leaveTypes, employeeRequests] = await Promise.all([
+        listDepartments(),
+        listLeaveTypes(true),
+        listLeaveRequests({ employeeId: id }),
+    ]);
+    const year = new Date().getUTCFullYear();
+    const balances = await Promise.all(
+        leaveTypes.map((t) =>
+            getLeaveBalance(id, t.id, year).catch(() => ({
+                employeeId: id,
+                leaveTypeId: t.id,
+                year,
+                entitlementDays: t.defaultAnnualDays,
+                usedDays: 0,
+                remainingDays: t.defaultAnnualDays,
+            })),
+        ),
+    );
+    const recentRequests = [...employeeRequests]
+        .sort((a, b) => (a.createdAt && b.createdAt ? b.createdAt.localeCompare(a.createdAt) : 0))
+        .slice(0, 5);
+
     const departmentName = employee.departmentId
         ? (departments.find((d) => d.id === employee.departmentId)?.name ?? "—")
         : "Unassigned";
@@ -77,6 +101,18 @@ const EmployeeDetailPage = async ({ params }: Props) => {
                                 }}
                             />
                         </Card>
+                    </Block>
+
+                    <Block
+                        title="Time off"
+                        description="Balance by leave type for the current year, plus the most recent requests.">
+                        <EmployeeLeaveBlock
+                            employeeId={employee.id}
+                            leaveTypes={leaveTypes}
+                            balances={balances}
+                            recentRequests={recentRequests}
+                            year={year}
+                        />
                     </Block>
 
                     <Block
