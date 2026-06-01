@@ -6,7 +6,7 @@ import { setDepartmentParent } from "@/lib/api/hr/departments-dal";
 
 export type SetParentResult = { ok: true } | { ok: false; error: string };
 
-export const setParentAction = async (id: string, parentId: string | null): Promise<SetParentResult> => {
+export async function setParentAction(id: string, parentId: string | null): Promise<SetParentResult> {
     try {
         await setDepartmentParent(id, { parentId });
     } catch {
@@ -16,4 +16,4 @@ export const setParentAction = async (id: string, parentId: string | null): Prom
     revalidatePath("/hr/departments");
     revalidatePath("/hr/departments/org-chart");
     return { ok: true };
-};
+}
