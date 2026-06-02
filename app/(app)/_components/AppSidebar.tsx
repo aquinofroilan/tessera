@@ -11,6 +11,7 @@ import {
     IconBuilding,
     IconBuildingBank,
     IconBuildingWarehouse,
+    IconBuildingFactory2,
     IconCalendarOff,
     IconCash,
     IconChartPie,
@@ -83,6 +84,17 @@ const groups: NavGroup[] = [
             { href: "/hr/leave-requests", label: "Leave requests", icon: IconCalendarOff },
             { href: "/hr/leave-types", label: "Leave types", icon: IconBeach },
             { href: "/hr/payroll-runs", label: "Payroll runs", icon: IconCash },
+        ],
+    },
+    {
+        label: "Assets",
+        items: [
+            {
+                href: "/assets",
+                label: "Fixed assets",
+                icon: IconBuildingFactory2,
+                requiredPermission: "assets:read",
+            },
         ],
     },
     {
