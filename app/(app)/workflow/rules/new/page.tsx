@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { requirePermission } from "@/lib/auth/permissions";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { PageHeader } from "../../../_components/PageHeader";
 import { WorkflowRuleForm } from "../../_components/WorkflowRuleForm";
@@ -10,8 +11,10 @@ export const metadata: Metadata = {
     title: "New workflow rule · Tessera",
 };
 
-const NewWorkflowRulePage = () => (
-    <>
+const NewWorkflowRulePage = async () => {
+    await requirePermission("workflow:manage");
+    return (
+        <>
         <AppTopbar
             crumbs={[
                 { label: "Automation" },
@@ -33,7 +36,8 @@ const NewWorkflowRulePage = () => (
                 />
             </div>
         </div>
-    </>
-);
+        </>
+    );
+};
 
 export default NewWorkflowRulePage;
