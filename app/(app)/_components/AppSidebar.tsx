@@ -109,6 +109,12 @@ const groups: NavGroup[] = [
                 icon: IconArrowsExchange,
                 requiredPermission: "assets:read",
             },
+            {
+                href: "/assets/reports",
+                label: "Reports",
+                icon: IconChartPie,
+                requiredPermission: "assets:read",
+            },
         ],
     },
     {
