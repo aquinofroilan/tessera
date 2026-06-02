@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+    IconArrowsExchange,
     IconArrowsTransferDown,
     IconBell,
     IconBook2,
@@ -100,6 +101,12 @@ const groups: NavGroup[] = [
                 href: "/assets/depreciation-runs",
                 label: "Depreciation",
                 icon: IconCalendarStats,
+                requiredPermission: "assets:read",
+            },
+            {
+                href: "/assets/disposals",
+                label: "Disposals",
+                icon: IconArrowsExchange,
                 requiredPermission: "assets:read",
             },
         ],
