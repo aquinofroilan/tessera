@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { IconPencil, IconPlus } from "@tabler/icons-react";
+import { IconCoins, IconPencil, IconPlus } from "@tabler/icons-react";
 
 import { Button, Card } from "@/components/ui";
 import { AppTopbar } from "../../_components/AppTopbar";
@@ -99,6 +99,12 @@ const ProjectDetailPage = async ({ params }: Props) => {
                         actions={
                             <div className="flex flex-wrap items-center gap-2">
                                 <ProjectStatusBadge status={project.status} />
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href={`/projects/${project.id}/budget`}>
+                                        <IconCoins stroke={1.8} />
+                                        Budget
+                                    </Link>
+                                </Button>
                                 <Button asChild variant="outline" size="sm">
                                     <Link href={`/projects/${project.id}/edit`}>
                                         <IconPencil stroke={1.8} />
