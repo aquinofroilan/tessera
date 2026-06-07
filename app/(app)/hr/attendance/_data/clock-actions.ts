@@ -16,8 +16,10 @@ const wrap = async (call: () => Promise<unknown>, errorMessage: string): Promise
     return { ok: true };
 };
 
-export const clockInAction = async (employeeId: string): Promise<ClockResult> =>
-    wrap(() => clockInEmployee({ employeeId }), "Couldn't clock in. Try again.");
+export async function clockInAction(employeeId: string): Promise<ClockResult> {
+    return wrap(() => clockInEmployee({ employeeId }), "Couldn't clock in. Try again.");
+}
 
-export const clockOutAction = async (employeeId: string): Promise<ClockResult> =>
-    wrap(() => clockOutEmployee({ employeeId }), "Couldn't clock out. Try again.");
+export async function clockOutAction(employeeId: string): Promise<ClockResult> {
+    return wrap(() => clockOutEmployee({ employeeId }), "Couldn't clock out. Try again.");
+}

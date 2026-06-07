@@ -14,6 +14,7 @@ import {
     IconClockHour4,
     IconCash,
     IconChartPie,
+    IconClipboardList,
     IconChecklist,
     IconChecks,
     IconClock,
@@ -65,6 +66,16 @@ const groups: NavGroup[] = [
         items: [
             { href: "/finance/ap/bills", label: "Bills", icon: IconReceipt2, badge: "2" },
             { href: "/finance/ap/vendors", label: "Vendors", icon: IconBuildingBank },
+        ],
+    },
+    {
+        label: "Procurement",
+        items: [
+            {
+                href: "/procurement/purchase-requests",
+                label: "Purchase requests",
+                icon: IconClipboardList,
+            },
         ],
     },
     {
