@@ -14,6 +14,8 @@ import {
     IconCash,
     IconChartPie,
     IconChecklist,
+    IconChecks,
+    IconClock,
     IconSelector,
     IconCoins,
     IconDots,
@@ -85,7 +87,11 @@ const groups: NavGroup[] = [
     },
     {
         label: "Projects",
-        items: [{ href: "/projects", label: "Projects", icon: IconChecklist }],
+        items: [
+            { href: "/projects", label: "Projects", icon: IconChecklist },
+            { href: "/projects/time", label: "Time entries", icon: IconClock },
+            { href: "/projects/time/approvals", label: "Approvals", icon: IconChecks },
+        ],
     },
     {
         label: "Ledger",
