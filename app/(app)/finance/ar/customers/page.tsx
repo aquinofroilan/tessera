@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { IconPlus } from "@tabler/icons-react";
+import { IconDownload, IconPlus } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
-import { CsvIoActions } from "../../../_components/CsvIoActions";
 import { PageHeader } from "../../../_components/PageHeader";
 import { PaginationFooter } from "../../_components/PaginationFooter";
 import { PartiesTable } from "../../_components/PartiesTable";
@@ -47,7 +46,10 @@ const CustomersListPage = async ({ searchParams }: Props) => {
                         description="Who you bill. Manage contacts, payment terms, and default revenue routing."
                         actions={
                             <>
-                                <CsvIoActions entity="customers" label="Customers" />
+                                <Button variant="outline" size="sm">
+                                    <IconDownload stroke={1.8} />
+                                    Export
+                                </Button>
                                 <Button asChild variant="default" size="sm">
                                     <Link href="/finance/ar/customers/new">
                                         <IconPlus stroke={1.8} />

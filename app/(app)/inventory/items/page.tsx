@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { IconPlus } from "@tabler/icons-react";
+import { IconDownload, IconPlus } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui";
 import { AppTopbar } from "../../_components/AppTopbar";
 import { Block } from "../../_components/Block";
-import { CsvIoActions } from "../../_components/CsvIoActions";
 import { PageHeader } from "../../_components/PageHeader";
 import { listItems } from "@/lib/api/inventory/items-dal";
 import { ItemsTable } from "../_components/ItemsTable";
@@ -43,7 +42,10 @@ const ItemsListPage = async ({ searchParams }: Props) => {
                         description="What you stock, sell, or service. On-hand quantity and valuation update from posted stock movements."
                         actions={
                             <>
-                                <CsvIoActions entity="products" label="Items" />
+                                <Button variant="outline" size="sm">
+                                    <IconDownload stroke={1.8} />
+                                    Export
+                                </Button>
                                 <Button asChild variant="default" size="sm">
                                     <Link href="/inventory/items/new">
                                         <IconPlus stroke={1.8} />
