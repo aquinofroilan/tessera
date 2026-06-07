@@ -26,6 +26,7 @@ import {
     IconReportAnalytics,
     IconRuler,
     IconSettings,
+    IconUserCircle,
     IconUsers,
     type Icon,
 } from "@tabler/icons-react";
@@ -77,6 +78,7 @@ const groups: NavGroup[] = [
     {
         label: "People",
         items: [
+            { href: "/hr/me", label: "My profile", icon: IconUserCircle },
             { href: "/hr/employees", label: "Employees", icon: IconUsers },
             { href: "/hr/departments", label: "Departments", icon: IconBuilding },
             { href: "/hr/positions", label: "Positions", icon: IconBriefcase2 },
