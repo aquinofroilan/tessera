@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
     IconArrowsTransferDown,
+    IconBell,
     IconBook2,
     IconBeach,
     IconBriefcase2,
@@ -26,6 +27,7 @@ import {
     IconPackage,
     IconReceipt2,
     IconReportAnalytics,
+    IconRobot,
     IconRuler,
     IconSettings,
     IconSitemap,
@@ -125,8 +127,15 @@ const groups: NavGroup[] = [
         ],
     },
     {
+        label: "Automation",
+        items: [{ href: "/workflow/rules", label: "Workflow rules", icon: IconRobot }],
+    },
+    {
         label: "Account",
-        items: [{ href: "/finance/settings", label: "Settings", icon: IconSettings }],
+        items: [
+            { href: "/settings/notifications", label: "Notifications", icon: IconBell },
+            { href: "/finance/settings", label: "Settings", icon: IconSettings },
+        ],
     },
 ];
 
