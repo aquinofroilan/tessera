@@ -3,6 +3,7 @@ import Link from "next/link";
 import { IconPlus } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui";
+import { requirePermission } from "@/lib/auth/permissions";
 import { listWorkflowRules } from "@/lib/api/workflow-rules-dal";
 import { AppTopbar } from "../../_components/AppTopbar";
 import { Block } from "../../_components/Block";
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 };
 
 const WorkflowRulesPage = async () => {
+    await requirePermission("workflow:manage");
     const rules = await listWorkflowRules();
     const enabled = rules.filter((r) => r.enabled).length;
 

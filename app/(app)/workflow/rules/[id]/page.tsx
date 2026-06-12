@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { requirePermission } from "@/lib/auth/permissions";
 import { getWorkflowRule } from "@/lib/api/workflow-rules-dal";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
@@ -17,6 +18,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 };
 
 const WorkflowRuleDetailPage = async ({ params }: Props) => {
+    await requirePermission("workflow:manage");
     const { id } = await params;
     const rule = await getWorkflowRule(id);
     if (!rule) notFound();
