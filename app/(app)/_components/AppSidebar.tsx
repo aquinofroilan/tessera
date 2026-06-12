@@ -12,8 +12,13 @@ import {
     IconBuildingBank,
     IconBuildingWarehouse,
     IconCalendarOff,
+    IconClockHour4,
     IconCash,
     IconChartPie,
+    IconClipboardList,
+    IconChecklist,
+    IconChecks,
+    IconClock,
     IconSelector,
     IconCoins,
     IconDots,
@@ -25,6 +30,8 @@ import {
     IconRobot,
     IconRuler,
     IconSettings,
+    IconSitemap,
+    IconUserCircle,
     IconUsers,
     type Icon,
 } from "@tabler/icons-react";
@@ -65,6 +72,16 @@ const groups: NavGroup[] = [
         ],
     },
     {
+        label: "Procurement",
+        items: [
+            {
+                href: "/procurement/purchase-requests",
+                label: "Purchase requests",
+                icon: IconClipboardList,
+            },
+        ],
+    },
+    {
         label: "Inventory",
         items: [
             { href: "/inventory/items", label: "Items", icon: IconPackage },
@@ -77,12 +94,23 @@ const groups: NavGroup[] = [
     {
         label: "People",
         items: [
+            { href: "/hr/me", label: "My profile", icon: IconUserCircle },
             { href: "/hr/employees", label: "Employees", icon: IconUsers },
             { href: "/hr/departments", label: "Departments", icon: IconBuilding },
+            { href: "/hr/departments/org-chart", label: "Org chart", icon: IconSitemap },
             { href: "/hr/positions", label: "Positions", icon: IconBriefcase2 },
+            { href: "/hr/attendance", label: "Attendance", icon: IconClockHour4 },
             { href: "/hr/leave-requests", label: "Leave requests", icon: IconCalendarOff },
             { href: "/hr/leave-types", label: "Leave types", icon: IconBeach },
             { href: "/hr/payroll-runs", label: "Payroll runs", icon: IconCash },
+        ],
+    },
+    {
+        label: "Projects",
+        items: [
+            { href: "/projects", label: "Projects", icon: IconChecklist },
+            { href: "/projects/time", label: "Time entries", icon: IconClock },
+            { href: "/projects/time/approvals", label: "Approvals", icon: IconChecks },
         ],
     },
     {
