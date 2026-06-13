@@ -11,6 +11,7 @@ import {
     IconBuilding,
     IconBuildingBank,
     IconBuildingWarehouse,
+    IconBuildingFactory2,
     IconCalendarOff,
     IconClockHour4,
     IconCash,
@@ -111,7 +112,18 @@ const groups: NavGroup[] = [
             { href: "/projects", label: "Projects", icon: IconChecklist },
             { href: "/projects/time", label: "Time entries", icon: IconClock },
             { href: "/projects/time/approvals", label: "Approvals", icon: IconChecks },
-        ],
+        ]
+    },
+    {
+        label: "Assets",
+        items: [
+            {
+                href: "/assets",
+                label: "Fixed assets",
+                icon: IconBuildingFactory2,
+                requiredPermission: "assets:read",
+            },
+        ]
     },
     {
         label: "Ledger",
