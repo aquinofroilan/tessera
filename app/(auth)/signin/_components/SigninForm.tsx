@@ -26,7 +26,11 @@ import { useAuthSubmitState } from "../../_components/useAuthSubmitState";
 import { signinSchema, type SigninValues } from "./signin-schema";
 import { SsoButtons } from "./SsoButtons";
 
-export function SigninForm() {
+type SigninFormProps = {
+    onSwitchToMagicLink: () => void;
+};
+
+export function SigninForm({ onSwitchToMagicLink }: SigninFormProps) {
     const { status, error, submit, disabled } = useAuthSubmitState({ redirectTo: "/" });
     const [showPassword, setShowPassword] = useState(false);
     const form = useForm<SigninValues>({
@@ -142,6 +146,14 @@ export function SigninForm() {
                     submittingLabel="Signing you in…"
                     successLabel="Signed in · redirecting"
                 />
+
+                <button
+                    type="button"
+                    onClick={onSwitchToMagicLink}
+                    disabled={disabled}
+                    className="cursor-pointer self-center font-mono text-[10px] tracking-[0.08em] text-(--ink-soft) uppercase no-underline transition-colors hover:text-(--accent) disabled:cursor-not-allowed disabled:opacity-60">
+                    Email me a sign-in link instead
+                </button>
 
                 <AuthFinePrint items={["End-to-end encrypted", "SOC 2 Type II", "MFA available"]} />
             </form>
