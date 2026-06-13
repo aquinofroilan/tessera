@@ -2,16 +2,31 @@ import "server-only";
 
 import { cache } from "react";
 
-import { apiCreate, apiGetOrNull, apiList } from "@/lib/api/dal";
+import { apiCreate, apiGet, apiGetOrNull, apiList } from "@/lib/api/dal";
 import { authHeaders, authed } from "@/lib/api/auth-helpers";
 import { serverClient } from "@/lib/http";
 import type {
     CreateDepartmentRequest,
     DepartmentResponse,
+    DepartmentTreeNode,
+    SetDepartmentParentRequest,
     UpdateDepartmentRequest,
 } from "./departments";
 
 const DEPARTMENTS_PATH = "/hr/departments";
+
+export const listDepartmentOrgChart = (): Promise<DepartmentTreeNode[]> =>
+    apiGet<DepartmentTreeNode[]>(`${DEPARTMENTS_PATH}/org-chart`);
+
+export const setDepartmentParent = (
+    id: string,
+    body: SetDepartmentParentRequest,
+): Promise<DepartmentResponse> =>
+    authed(async () =>
+        serverClient.put<DepartmentResponse>(`${DEPARTMENTS_PATH}/${id}/parent`, body, {
+            headers: await authHeaders(),
+        }),
+    );
 
 export const listDepartments = (activeOnly = false): Promise<DepartmentResponse[]> =>
     apiList<DepartmentResponse>(DEPARTMENTS_PATH, { activeOnly });
