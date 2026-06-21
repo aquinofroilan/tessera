@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+    IconArrowsExchange,
     IconArrowsTransferDown,
     IconBell,
     IconBook2,
@@ -13,6 +14,7 @@ import {
     IconBuildingWarehouse,
     IconBuildingFactory2,
     IconCalendarOff,
+    IconCalendarStats,
     IconClockHour4,
     IconCash,
     IconChartPie,
@@ -123,7 +125,19 @@ const groups: NavGroup[] = [
                 icon: IconBuildingFactory2,
                 requiredPermission: "assets:read",
             },
-        ]
+            {
+                href: "/assets/depreciation-runs",
+                label: "Depreciation",
+                icon: IconCalendarStats,
+                requiredPermission: "assets:read",
+            },
+            {
+                href: "/assets/disposals",
+                label: "Disposals",
+                icon: IconArrowsExchange,
+                requiredPermission: "assets:read",
+            },
+        ],
     },
     {
         label: "Ledger",
