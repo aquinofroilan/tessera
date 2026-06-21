@@ -42,6 +42,8 @@ export type TimeEntryResponse = {
     notes: string | null;
     approvedBy: string | null;
     approvedAt: IsoDateTime | null;
+    invoiced: boolean;
+    invoiceId: string | null;
     organizationId: string;
     createdAt: IsoDateTime | null;
     updatedAt: IsoDateTime | null;

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { IconDownload, IconPlus } from "@tabler/icons-react";
+import { IconPlus } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
+import { CsvIoActions } from "../../../_components/CsvIoActions";
 import { PageHeader } from "../../../_components/PageHeader";
 import { PaginationFooter } from "../../_components/PaginationFooter";
 import { PartiesTable } from "../../_components/PartiesTable";
@@ -44,10 +45,7 @@ const VendorsListPage = async ({ searchParams }: Props) => {
                         description="Who bills you. Manage contacts, payment terms, and default expense routing."
                         actions={
                             <>
-                                <Button variant="outline" size="sm">
-                                    <IconDownload stroke={1.8} />
-                                    Export
-                                </Button>
+                                <CsvIoActions entity="vendors" label="Vendors" importable={false} />
                                 <Button asChild variant="default" size="sm">
                                     <Link href="/finance/ap/vendors/new">
                                         <IconPlus stroke={1.8} />

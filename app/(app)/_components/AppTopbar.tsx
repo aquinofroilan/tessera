@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { IconBell, IconHelpCircle } from "@tabler/icons-react";
 import { Button } from "@/components/ui";
 import { CommandPaletteTrigger } from "./CommandPaletteTrigger";
+import { NotificationBell } from "./NotificationBell";
 
 export type Crumb = {
     label: string;
@@ -40,10 +42,21 @@ export function AppTopbar({ crumbs }: { crumbs: Crumb[] }) {
                 Docs
             </Button>
 
-            <Button variant="ghost" size="icon-sm" aria-label="Notifications" className="relative">
-                <IconBell stroke={1.8} />
-                <span className="absolute top-1.25 right-1.25 size-1.75 rounded-full border-2 border-(--paper) bg-(--accent)" />
-            </Button>
+            <Suspense
+                fallback={
+                    <Button
+                        asChild
+                        variant="ghost"
+                        size="icon-sm"
+                        aria-label="Notifications"
+                        className="relative">
+                        <Link href="/notifications">
+                            <IconBell stroke={1.8} />
+                        </Link>
+                    </Button>
+                }>
+                <NotificationBell />
+            </Suspense>
         </header>
     );
 }

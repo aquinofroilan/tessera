@@ -8,15 +8,16 @@ import {
     type DepartmentFormValues,
 } from "../../_data/department-form-schema";
 import { useEntityForm } from "../../_data/use-entity-form";
-import { TextFormField } from "../../_components/form-fields";
+import { SelectFormField, type SelectOption, TextFormField } from "../../_components/form-fields";
 
 type Props = {
     defaultValues: DepartmentFormValues;
     submitLabel: string;
     action: (values: DepartmentFormValues) => Promise<{ ok: false; error: string } | void>;
+    parentOptions?: SelectOption[];
 };
 
-export const DepartmentForm = ({ defaultValues, submitLabel, action }: Props) => {
+export const DepartmentForm = ({ defaultValues, submitLabel, action, parentOptions }: Props) => {
     const router = useRouter();
     const { form, onSubmit } = useEntityForm({
         schema: departmentFormSchema,
@@ -48,6 +49,18 @@ export const DepartmentForm = ({ defaultValues, submitLabel, action }: Props) =>
                             placeholder="Optional — what this team does"
                             className="gap-1.5 md:col-span-2"
                         />
+                        {parentOptions && (
+                            <SelectFormField
+                                control={form.control}
+                                name="parentId"
+                                label="Reports into"
+                                options={parentOptions}
+                                placeholder="Top-level (no parent)"
+                                noneLabel="Top-level (no parent)"
+                                description="The department this one rolls up under in the org chart."
+                                className="gap-1.5 md:col-span-2"
+                            />
+                        )}
                     </div>
                 </Card>
 

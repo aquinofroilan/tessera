@@ -7,13 +7,16 @@ import { Button, Card } from "@/components/ui";
 import { AppTopbar } from "../../_components/AppTopbar";
 import { Block } from "../../_components/Block";
 import { PageHeader } from "../../_components/PageHeader";
+import { listAccounts } from "@/lib/api/finance/accounts-dal";
 import { listCustomers } from "@/lib/api/finance/customers-dal";
 import { listEmployees } from "@/lib/api/hr/employees-dal";
 import { getProject } from "@/lib/api/projects/projects-dal";
 import { getTaskTree } from "@/lib/api/projects/tasks-dal";
+import { listTimeEntries } from "@/lib/api/projects/time-entries-dal";
 import { ProfileGrid } from "../../hr/_components/ProfileGrid";
 import { ProjectStatusBadge } from "../_components/ProjectStatusBadge";
 import { TaskTree } from "../_components/TaskTree";
+import { GenerateInvoiceCard } from "./_components/GenerateInvoiceCard";
 import { LifecycleActions } from "./_components/LifecycleActions";
 
 type Props = { params: Promise<{ id: string }> };
@@ -35,10 +38,14 @@ const ProjectDetailPage = async ({ params }: Props) => {
     const project = await getProject(id);
     if (!project) notFound();
 
-    const [customers, employees, taskTree] = await Promise.all([
+    const isTandM = project.billingType === "TIME_AND_MATERIALS";
+
+    const [customers, employees, taskTree, accounts, projectTimeEntries] = await Promise.all([
         listCustomers(),
         listEmployees(),
         getTaskTree(id),
+        isTandM ? listAccounts() : Promise.resolve([]),
+        isTandM ? listTimeEntries({ projectId: id, status: "APPROVED" }) : Promise.resolve([]),
     ]);
     const customer = project.customerId
         ? customers.find((c) => c.id === project.customerId)
@@ -53,6 +60,24 @@ const ProjectDetailPage = async ({ params }: Props) => {
             { employeeNumber: e.employeeNumber, firstName: e.firstName, lastName: e.lastName },
         ]),
     );
+
+    const billable = projectTimeEntries.filter(
+        (e) => e.billable && !e.invoiced && e.rate !== null && Number(e.rate) > 0,
+    );
+    const billableHours = billable
+        .reduce((sum, e) => sum + Number(e.hours), 0)
+        .toString();
+    const billableAmount = billable
+        .reduce((sum, e) => sum + Number(e.hours) * Number(e.rate ?? "0"), 0)
+        .toString();
+
+    const defaultRevenueAccount =
+        customer?.defaultRevenueAccountId
+            ? accounts.find((a) => a.id === customer.defaultRevenueAccountId)
+            : undefined;
+    const revenueAccountOptions = accounts
+        .filter((a) => a.type === "REVENUE" && a.isActive)
+        .map((a) => ({ id: a.id, code: a.code, name: a.name }));
 
     return (
         <>
@@ -125,6 +150,29 @@ const ProjectDetailPage = async ({ params }: Props) => {
                             ]}
                         />
                     </Block>
+
+                    {isTandM && (
+                        <Block
+                            title="Billing"
+                            description="T&M only. Approved billable un-billed entries with a rate roll into one invoice line each, against the revenue account.">
+                            <GenerateInvoiceCard
+                                projectId={project.id}
+                                customerName={customer?.name ?? null}
+                                defaultRevenueAccount={
+                                    defaultRevenueAccount
+                                        ? {
+                                              code: defaultRevenueAccount.code,
+                                              name: defaultRevenueAccount.name,
+                                          }
+                                        : null
+                                }
+                                revenueAccountOptions={revenueAccountOptions}
+                                billableCount={billable.length}
+                                billableHours={billableHours}
+                                billableAmount={billableAmount}
+                            />
+                        </Block>
+                    )}
 
                     <Block
                         title="Work breakdown"

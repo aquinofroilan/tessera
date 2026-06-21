@@ -4,7 +4,7 @@ import { Button, Eyebrow } from "@/components/ui";
 import { TesseraLogo } from "@/components/atoms/tessera-logo";
 import { AuthCallout } from "../../_components/AuthCallout";
 import { AuthShellFooter } from "../../_components/AuthShellFooter";
-import { SigninForm } from "./SigninForm";
+import { SigninSurface } from "./SigninSurface";
 
 export function SigninFormPanel() {
     return (
@@ -34,7 +34,7 @@ export function SigninFormPanel() {
                         them.
                     </p>
 
-                    <SigninForm />
+                    <SigninSurface />
 
                     <AuthCallout icon={<IconSparkles className="size-4" />} title="Don't have an account yet?">
                         Try Tessera free for 30 days — every module, no credit card.{" "}
