@@ -3,16 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+    IconArrowsExchange,
     IconArrowsTransferDown,
+    IconBell,
     IconBook2,
     IconBeach,
     IconBriefcase2,
     IconBuilding,
     IconBuildingBank,
     IconBuildingWarehouse,
+    IconBuildingFactory2,
     IconCalendarOff,
+    IconCalendarStats,
+    IconClockHour4,
     IconCash,
     IconChartPie,
+    IconClipboardList,
     IconChecklist,
     IconChecks,
     IconClock,
@@ -24,8 +30,11 @@ import {
     IconPackage,
     IconReceipt2,
     IconReportAnalytics,
+    IconRobot,
     IconRuler,
     IconSettings,
+    IconSitemap,
+    IconUserCircle,
     IconUsers,
     type Icon,
 } from "@tabler/icons-react";
@@ -36,6 +45,7 @@ import { cn } from "@/lib/utils";
 type NavItem = {
     href: string;
     label: string;
+    requiredPermission?: string;
     icon: Icon;
     badge?: string;
 };
@@ -65,6 +75,16 @@ const groups: NavGroup[] = [
         ],
     },
     {
+        label: "Procurement",
+        items: [
+            {
+                href: "/procurement/purchase-requests",
+                label: "Purchase requests",
+                icon: IconClipboardList,
+            },
+        ],
+    },
+    {
         label: "Inventory",
         items: [
             { href: "/inventory/items", label: "Items", icon: IconPackage },
@@ -77,9 +97,12 @@ const groups: NavGroup[] = [
     {
         label: "People",
         items: [
+            { href: "/hr/me", label: "My profile", icon: IconUserCircle },
             { href: "/hr/employees", label: "Employees", icon: IconUsers },
             { href: "/hr/departments", label: "Departments", icon: IconBuilding },
+            { href: "/hr/departments/org-chart", label: "Org chart", icon: IconSitemap },
             { href: "/hr/positions", label: "Positions", icon: IconBriefcase2 },
+            { href: "/hr/attendance", label: "Attendance", icon: IconClockHour4 },
             { href: "/hr/leave-requests", label: "Leave requests", icon: IconCalendarOff },
             { href: "/hr/leave-types", label: "Leave types", icon: IconBeach },
             { href: "/hr/payroll-runs", label: "Payroll runs", icon: IconCash },
@@ -91,6 +114,35 @@ const groups: NavGroup[] = [
             { href: "/projects", label: "Projects", icon: IconChecklist },
             { href: "/projects/time", label: "Time entries", icon: IconClock },
             { href: "/projects/time/approvals", label: "Approvals", icon: IconChecks },
+        ]
+    },
+    {
+        label: "Assets",
+        items: [
+            {
+                href: "/assets",
+                label: "Fixed assets",
+                icon: IconBuildingFactory2,
+                requiredPermission: "assets:read",
+            },
+            {
+                href: "/assets/depreciation-runs",
+                label: "Depreciation",
+                icon: IconCalendarStats,
+                requiredPermission: "assets:read",
+            },
+            {
+                href: "/assets/disposals",
+                label: "Disposals",
+                icon: IconArrowsExchange,
+                requiredPermission: "assets:read",
+            },
+            {
+                href: "/assets/reports",
+                label: "Reports",
+                icon: IconChartPie,
+                requiredPermission: "assets:read",
+            },
         ],
     },
     {
@@ -108,13 +160,42 @@ const groups: NavGroup[] = [
         ],
     },
     {
+        label: "Automation",
+        items: [
+            {
+                href: "/workflow/rules",
+                label: "Workflow rules",
+                icon: IconRobot,
+                requiredPermission: "workflow:manage",
+            },
+        ],
+    },
+    {
         label: "Account",
-        items: [{ href: "/finance/settings", label: "Settings", icon: IconSettings }],
+        items: [
+            { href: "/settings/notifications", label: "Notifications", icon: IconBell },
+            { href: "/finance/settings", label: "Settings", icon: IconSettings },
+        ],
     },
 ];
 
-export function AppSidebar() {
+type Props = {
+    permissions: string[];
+};
+
+const filterByPermissions = (allGroups: NavGroup[], permissions: ReadonlySet<string>): NavGroup[] =>
+    allGroups
+        .map((group) => ({
+            ...group,
+            items: group.items.filter(
+                (item) => !item.requiredPermission || permissions.has(item.requiredPermission),
+            ),
+        }))
+        .filter((group) => group.items.length > 0);
+
+export function AppSidebar({ permissions }: Props) {
     const pathname = usePathname();
+    const visibleGroups = filterByPermissions(groups, new Set(permissions));
 
     return (
         <aside className="hidden w-62 shrink-0 flex-col border-r border-(--rule) bg-(--paper-2) p-3.5 md:flex">
@@ -141,7 +222,7 @@ export function AppSidebar() {
             </Button>
 
             <nav className="flex-1 overflow-y-auto">
-                {groups.map((group) => (
+                {visibleGroups.map((group) => (
                     <div key={group.label} className="mb-4.5">
                         <div className="px-2.5 pb-2 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">
                             {group.label}
