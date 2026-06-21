@@ -5,10 +5,11 @@ import { Card } from "@/components/ui";
 import { AppTopbar } from "../../../_components/AppTopbar";
 import { Block } from "../../../_components/Block";
 import { PageHeader } from "../../../_components/PageHeader";
-import { getDepartment } from "@/lib/api/hr/departments-dal";
+import { getDepartment, listDepartments } from "@/lib/api/hr/departments-dal";
 import { listEmployees } from "@/lib/api/hr/employees-dal";
 import { EditDepartmentForm } from "./_components/EditDepartmentForm";
 import { DepartmentDeactivateButton } from "./_components/DepartmentDeactivateButton";
+import { SetParentControl } from "./_components/SetParentControl";
 import { EmployeesTable } from "../../_components/EmployeesTable";
 
 type Props = { params: Promise<{ id: string }> };
@@ -24,7 +25,16 @@ const DepartmentDetailPage = async ({ params }: Props) => {
     const department = await getDepartment(id);
     if (!department) notFound();
 
-    const members = await listEmployees({ departmentId: id });
+    const [members, allDepartments] = await Promise.all([
+        listEmployees({ departmentId: id }),
+        listDepartments(true),
+    ]);
+    const parentName = department.parentId
+        ? (allDepartments.find((d) => d.id === department.parentId)?.name ?? null)
+        : null;
+    const parentOptions = allDepartments
+        .filter((d) => d.id !== department.id)
+        .map((d) => ({ id: d.id, code: d.code, name: d.name }));
 
     return (
         <>
@@ -64,6 +74,20 @@ const DepartmentDetailPage = async ({ params }: Props) => {
                                 }}
                             />
                         </Card>
+                    </Block>
+
+                    <Block
+                        title="Hierarchy"
+                        description={
+                            parentName
+                                ? `Currently rolls up under ${parentName}.`
+                                : "Currently a top-level department."
+                        }>
+                        <SetParentControl
+                            id={department.id}
+                            currentParentId={department.parentId}
+                            options={parentOptions}
+                        />
                     </Block>
 
                     <Block
