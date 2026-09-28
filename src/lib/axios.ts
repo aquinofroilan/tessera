@@ -2,16 +2,15 @@ import Axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 
 export const axios = Axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
 });
 
 axios.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // We will inject the token from our Zustand store here later
-    // const token = useAuthStore.getState().token;
-    // if (token) {
-    //   config.headers.Authorization = \`Bearer \${token}\`;
-    // }
+    const token = localStorage.getItem('tessera_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     config.headers.Accept = 'application/json';
     return config;
   },
