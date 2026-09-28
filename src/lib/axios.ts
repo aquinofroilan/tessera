@@ -2,7 +2,7 @@ import Axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 
 export const axios = Axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
 });
 
 axios.interceptors.request.use(
