@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist_Mono, Inter } from "next/font/google";
+import { Fraunces, Geist_Mono, Inter, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui";
 import type { ReactNode } from "react";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({
     variable: "--font-inter",
@@ -30,7 +32,7 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
     return (
         <html
             lang="en"
-            className={cn("h-full font-sans antialiased", inter.variable, fraunces.variable, geistMono.variable)}>
+            className={cn("h-full font-sans antialiased", inter.variable, fraunces.variable, geistMono.variable, "font-sans", geist.variable)}>
             <body className="flex min-h-full flex-col">
                 {children}
                 <Toaster />

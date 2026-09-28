@@ -1,27 +1,19 @@
-import type { ComponentProps } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react"
+import { Input as InputPrimitive } from "@base-ui/react/input"
+import { cn } from "cn"
 
-import { cn } from "@/lib/utils";
-
-const inputVariants = cva(
-    "w-full min-w-0 border transition-colors outline-none placeholder:text-(--muted-2) hover:border-(--muted-2) disabled:cursor-not-allowed disabled:opacity-70 aria-invalid:border-(--accent) aria-invalid:shadow-[0_0_0_3px_rgb(185_58_29/10%)] [appearance:textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none",
-    {
-        variants: {
-            tone: {
-                default:
-                    "rounded-[10px] border-border bg-card px-3.5 py-3 text-[14.5px] text-foreground focus:border-foreground focus:shadow-[0_0_0_3px_rgb(23_22_15/6%)]",
-                compact:
-                    "rounded-lg border-(--rule) bg-(--paper-2) px-3 py-1.75 text-sm text-(--ink) focus:border-(--ink) focus:bg-(--card)",
-            },
-        },
-        defaultVariants: { tone: "default" },
-    },
-);
-
-type InputProps = ComponentProps<"input"> & VariantProps<typeof inputVariants>;
-
-function Input({ className, type, tone, ...props }: InputProps) {
-    return <input type={type} data-slot="input" className={cn(inputVariants({ tone, className }))} {...props} />;
+function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  return (
+    <InputPrimitive
+      type={type}
+      data-slot="input"
+      className={cn(
+        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
-export { Input, inputVariants, type InputProps };
+export { Input }
