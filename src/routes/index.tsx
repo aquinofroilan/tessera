@@ -2,6 +2,8 @@ import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@t
 import { ProtectedRoute } from '../components/router/ProtectedRoute';
 import { loginRoute } from '../features/auth/routes/login';
 import { signupRoute } from '../features/auth/routes/signup';
+import { forgotPasswordRoute } from '../features/auth/routes/forgotPassword';
+import { resetPasswordRoute } from '../features/auth/routes/resetPassword';
 
 // Root route acts as the main layout wrapper
 export const rootRoute = createRootRoute({
@@ -42,6 +44,8 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   signupRoute,
+  forgotPasswordRoute,
+  resetPasswordRoute,
   protectedLayoutRoute.addChildren([dashboardRoute]),
 ]);
 

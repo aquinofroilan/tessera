@@ -30,3 +30,12 @@ export interface RegisterCredentials {
     orgBaseCurrency: string;
     orgDescription?: string;
 }
+
+export interface ForgotPasswordCredentials {
+    email: string;
+}
+
+export interface ResetPasswordCredentials {
+    token: string;
+    newPassword: string;
+}
