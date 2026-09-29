@@ -1,6 +1,6 @@
 import { createRoute, Link } from '@tanstack/react-router';
-import { rootRoute } from '../../../routes';
-import { AuthLayout, ForgotPasswordForm } from '../components';
+import { rootRoute } from '@/src/routes';
+import { AuthLayout, ForgotPasswordForm } from '@/src/features/auth/components';
 
 export const forgotPasswordRoute = createRoute({
     getParentRoute: () => rootRoute,

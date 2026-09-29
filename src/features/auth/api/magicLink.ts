@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { axios } from "../../../lib/axios";
-import type { RequestMagicLinkCredentials, ConsumeMagicLinkCredentials, AuthResponse } from "../types";
+import { axios } from "@/src/lib/axios";
+import type { RequestMagicLinkCredentials, ConsumeMagicLinkCredentials, AuthResponse } from "@/src/features/auth/types";
 
 export const requestMagicLink = (data: RequestMagicLinkCredentials): Promise<{ message: string }> => {
     return axios.post('/api/v1/auth/login-link/request', data);

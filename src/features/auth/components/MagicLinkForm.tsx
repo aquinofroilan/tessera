@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useRequestMagicLink } from "../api/magicLink";
+import { useRequestMagicLink } from "@/src/features/auth/api/magicLink";
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 import { CheckCircle2 } from "lucide-react";
 
