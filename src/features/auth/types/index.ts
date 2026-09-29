@@ -18,3 +18,15 @@ export interface LoginCredentials {
     email: string;
     password: string;
 }
+
+export interface RegisterCredentials {
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    password: string;
+    orgName: string;
+    orgSlug: string;
+    orgBaseCurrency: string;
+    orgDescription?: string;
+}
