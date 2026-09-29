@@ -1,11 +1,11 @@
 import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
-import { ProtectedRoute } from '../components/router/ProtectedRoute';
-import { loginRoute } from '../features/auth/routes/login';
-import { signupRoute } from '../features/auth/routes/signup';
-import { forgotPasswordRoute } from '../features/auth/routes/forgotPassword';
-import { resetPasswordRoute } from '../features/auth/routes/resetPassword';
-import { magicLinkRoute } from '../features/auth/routes/magicLink';
-import { invitationRoute } from '../features/auth/routes/invitation';
+import { ProtectedRoute } from '@/src/components/router/ProtectedRoute';
+import { loginRoute } from '@/src/features/auth/routes/login';
+import { signupRoute } from '@/src/features/auth/routes/signup';
+import { forgotPasswordRoute } from '@/src/features/auth/routes/forgotPassword';
+import { resetPasswordRoute } from '@/src/features/auth/routes/resetPassword';
+import { magicLinkRoute } from '@/src/features/auth/routes/magicLink';
+import { invitationRoute } from '@/src/features/auth/routes/invitation';
 
 // Root route acts as the main layout wrapper
 export const rootRoute = createRootRoute({
