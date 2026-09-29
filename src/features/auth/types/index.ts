@@ -39,3 +39,11 @@ export interface ResetPasswordCredentials {
     token: string;
     newPassword: string;
 }
+
+export interface RequestMagicLinkCredentials {
+    email: string;
+}
+
+export interface ConsumeMagicLinkCredentials {
+    token: string;
+}
