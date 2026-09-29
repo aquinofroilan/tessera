@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, Link } from "@tanstack/react-router";
 import { useLogin } from "../api/login";
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 
@@ -59,7 +59,12 @@ export const LoginForm = () => {
                     name="password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Password</FormLabel>
+                            <div className="flex items-center justify-between">
+                                <FormLabel>Password</FormLabel>
+                                <Link to="/forgot-password" className="text-sm text-primary hover:underline font-medium">
+                                    Forgot password?
+                                </Link>
+                            </div>
                             <FormControl>
                                 <Input
                                     type="password"
