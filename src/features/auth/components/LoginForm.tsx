@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 import { useLogin } from "../api/login";
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 
@@ -16,7 +16,7 @@ export const LoginForm = () => {
     const navigate = useNavigate();
     const loginMutation = useLogin({
         onSuccess: () => {
-            navigate("/dashboard");
+            navigate({ to: "/dashboard" });
         },
     });
 
