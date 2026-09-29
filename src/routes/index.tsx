@@ -5,6 +5,7 @@ import { signupRoute } from '../features/auth/routes/signup';
 import { forgotPasswordRoute } from '../features/auth/routes/forgotPassword';
 import { resetPasswordRoute } from '../features/auth/routes/resetPassword';
 import { magicLinkRoute } from '../features/auth/routes/magicLink';
+import { invitationRoute } from '../features/auth/routes/invitation';
 
 // Root route acts as the main layout wrapper
 export const rootRoute = createRootRoute({
@@ -48,6 +49,7 @@ const routeTree = rootRoute.addChildren([
   forgotPasswordRoute,
   resetPasswordRoute,
   magicLinkRoute,
+  invitationRoute,
   protectedLayoutRoute.addChildren([dashboardRoute]),
 ]);
 
