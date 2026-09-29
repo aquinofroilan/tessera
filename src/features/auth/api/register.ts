@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { axios } from "../../../lib/axios";
-import type { RegisterCredentials } from "../types";
+import { axios } from "@/src/lib/axios";
+import type { RegisterCredentials } from "@/src/features/auth/types";
 
 export const registerWithEmailAndPassword = (data: RegisterCredentials): Promise<{ message: string, userId: string }> => {
     return axios.post('/api/v1/auth/signup', data);

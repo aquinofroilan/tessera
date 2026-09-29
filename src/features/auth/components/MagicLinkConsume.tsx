@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { useConsumeMagicLink } from "../api/magicLink";
-import { useAuthStore } from "../stores/authStore";
+import { useConsumeMagicLink } from "@/src/features/auth/api/magicLink";
+import { useAuthStore } from "@/src/features/auth/stores/authStore";
 import { Button } from "@/components/ui";
 
 interface MagicLinkConsumeProps {

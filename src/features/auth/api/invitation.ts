@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { axios } from "../../../lib/axios";
+import { axios } from "@/src/lib/axios";
 import type { 
     ValidateInvitationCredentials, 
     ValidateInvitationResponse, 
     AcceptInvitationCredentials 
-} from "../types";
+} from "@/src/features/auth/types";
 
 export const validateInvitation = (data: ValidateInvitationCredentials): Promise<ValidateInvitationResponse> => {
     return axios.post('/api/v1/auth/invitations/validate', data);

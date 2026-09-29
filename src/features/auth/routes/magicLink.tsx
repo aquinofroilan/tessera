@@ -1,6 +1,6 @@
 import { createRoute, Link } from '@tanstack/react-router';
-import { rootRoute } from '../../../routes';
-import { AuthLayout, MagicLinkForm, MagicLinkConsume } from '../components';
+import { rootRoute } from '@/src/routes';
+import { AuthLayout, MagicLinkForm, MagicLinkConsume } from '@/src/features/auth/components';
 import { z } from 'zod';
 
 const magicLinkSearchSchema = z.object({

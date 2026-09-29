@@ -1,6 +1,6 @@
 import { createRoute, Link } from '@tanstack/react-router';
-import { rootRoute } from '../../../routes';
-import { AuthLayout, SignupForm } from '../components';
+import { rootRoute } from '@/src/routes';
+import { AuthLayout, SignupForm } from '@/src/features/auth/components';
 
 export const signupRoute = createRoute({
     getParentRoute: () => rootRoute,

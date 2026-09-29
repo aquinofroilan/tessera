@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { axios } from "../../../lib/axios";
-import type { AuthResponse, LoginCredentials } from "../types";
+import { axios } from "@/src/lib/axios";
+import type { AuthResponse, LoginCredentials } from "@/src/features/auth/types";
 
 export const loginWithEmailAndPassword = (data: LoginCredentials): Promise<AuthResponse> => {
     // Usually OAuth2 token endpoints require form-urlencoded data

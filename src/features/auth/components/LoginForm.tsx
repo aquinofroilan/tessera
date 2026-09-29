@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, Link } from "@tanstack/react-router";
-import { useLogin } from "../api/login";
+import { useLogin } from "@/src/features/auth/api/login";
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 
 const loginSchema = z.object({

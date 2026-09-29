@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { axios } from "../../../lib/axios";
-import type { User } from "../types";
+import { axios } from "@/src/lib/axios";
+import type { User } from "@/src/features/auth/types";
 
 export const getUser = (): Promise<User> => {
     return axios.get('/api/v1/users/me');
