@@ -47,3 +47,22 @@ export interface RequestMagicLinkCredentials {
 export interface ConsumeMagicLinkCredentials {
     token: string;
 }
+
+export interface ValidateInvitationCredentials {
+    token: string;
+}
+
+export interface ValidateInvitationResponse {
+    email: string;
+    role: string;
+    organizationId: string;
+    existingUser: boolean;
+}
+
+export interface AcceptInvitationCredentials {
+    token: string;
+    username?: string;
+    password?: string;
+    firstName?: string;
+    lastName?: string;
+}
