@@ -36,7 +36,7 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
             { token, newPassword: values.newPassword },
             {
                 onSuccess: () => {
-                    navigate({ to: "/login" });
+                    navigate({ to: "/auth/signin" });
                 },
                 onError: (error: any) => {
                     setErrorMsg(error?.response?.data?.error || "Failed to reset password. The link might be expired.");

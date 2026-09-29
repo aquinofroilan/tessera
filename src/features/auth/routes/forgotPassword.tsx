@@ -13,7 +13,7 @@ export const forgotPasswordRoute = createRoute({
             <ForgotPasswordForm />
             <div className="mt-4 text-center text-sm">
                 Remember your password?{' '}
-                <Link to="/login" className="text-primary hover:underline font-medium">
+                <Link to="/auth/signin" className="text-primary hover:underline font-medium">
                     Log in
                 </Link>
             </div>
