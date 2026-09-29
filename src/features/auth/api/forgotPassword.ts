@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { axios } from "../../../lib/axios";
-import type { ForgotPasswordCredentials } from "../types";
+import { axios } from "@/src/lib/axios";
+import type { ForgotPasswordCredentials } from "@/src/features/auth/types";
 
 export const requestPasswordReset = (data: ForgotPasswordCredentials): Promise<{ message: string }> => {
     return axios.post('/api/v1/auth/forgot-password', data);
