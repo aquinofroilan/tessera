@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
-import { useResetPassword } from "../api/resetPassword";
+import { useResetPassword } from "@/src/features/auth/api/resetPassword";
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 
 const resetPasswordSchema = z.object({

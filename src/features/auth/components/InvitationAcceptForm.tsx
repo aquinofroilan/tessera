@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
-import { useValidateInvitation, useAcceptInvitation } from "../api/invitation";
+import { useValidateInvitation, useAcceptInvitation } from "@/src/features/auth/api/invitation";
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 
 const newUserSchema = z.object({

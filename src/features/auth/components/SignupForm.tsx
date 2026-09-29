@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
-import { useRegister } from "../api/register";
+import { useRegister } from "@/src/features/auth/api/register";
 import { 
     Button, 
     Input, 

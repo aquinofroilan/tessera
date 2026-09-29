@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useForgotPassword } from "../api/forgotPassword";
+import { useForgotPassword } from "@/src/features/auth/api/forgotPassword";
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 import { CheckCircle2 } from "lucide-react";
 
