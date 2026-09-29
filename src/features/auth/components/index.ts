@@ -3,3 +3,5 @@ export * from './LoginForm';
 export * from './SignupForm';
 export * from './ForgotPasswordForm';
 export * from './ResetPasswordForm';
+export * from './MagicLinkForm';
+export * from './MagicLinkConsume';
