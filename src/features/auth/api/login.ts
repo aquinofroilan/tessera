@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { axios } from "@/lib/axios";
+import { axios } from "../../../lib/axios";
 import type { AuthResponse, LoginCredentials } from "../types";
 
 export const loginWithEmailAndPassword = (data: LoginCredentials): Promise<AuthResponse> => {
