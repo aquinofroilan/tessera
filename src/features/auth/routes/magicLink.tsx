@@ -33,7 +33,7 @@ export const magicLinkRoute = createRoute({
                 <MagicLinkForm />
                 <div className="mt-4 text-center text-sm">
                     Prefer to use a password?{' '}
-                    <Link to="/login" className="text-primary hover:underline font-medium">
+                    <Link to="/auth/signin" className="text-primary hover:underline font-medium">
                         Log in
                     </Link>
                 </div>
