@@ -42,7 +42,7 @@ export const SignupForm = () => {
     
     const registerMutation = useRegister({
         onSuccess: () => {
-            navigate({ to: "/login" });
+            navigate({ to: "/auth/signin" });
         },
     });
 
