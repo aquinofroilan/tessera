@@ -1,6 +1,6 @@
 import { createRoute } from '@tanstack/react-router';
-import { rootRoute } from '../../../routes';
-import { AuthLayout, InvitationAcceptForm } from '../components';
+import { rootRoute } from '@/src/routes';
+import { AuthLayout, InvitationAcceptForm } from '@/src/features/auth/components';
 import { z } from 'zod';
 
 const invitationSearchSchema = z.object({
