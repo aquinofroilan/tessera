@@ -35,13 +35,13 @@ export const InvitationAcceptForm = ({ token }: InvitationAcceptFormProps) => {
 
     const onAcceptExisting = () => {
         acceptMutation.mutate({ token }, {
-            onSuccess: () => navigate({ to: "/login" }),
+            onSuccess: () => navigate({ to: "/auth/signin" }),
         });
     };
 
     const onSubmitNewUser = (values: NewUserValues) => {
         acceptMutation.mutate({ token, ...values }, {
-            onSuccess: () => navigate({ to: "/login" }),
+            onSuccess: () => navigate({ to: "/auth/signin" }),
         });
     };
 

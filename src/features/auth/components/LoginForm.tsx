@@ -34,7 +34,7 @@ export const LoginForm = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 animate-in fade-in slide-in-from-left-4 duration-300">
                 <FormField
                     control={form.control}
                     name="email"
@@ -61,7 +61,7 @@ export const LoginForm = () => {
                         <FormItem>
                             <div className="flex items-center justify-between">
                                 <FormLabel>Password</FormLabel>
-                                <Link to="/forgot-password" className="text-sm text-primary hover:underline font-medium">
+                                <Link to="/auth/forgot-password" className="text-sm text-primary hover:underline font-medium">
                                     Forgot password?
                                 </Link>
                             </div>
@@ -91,7 +91,7 @@ export const LoginForm = () => {
                         <span className="w-full border-t" />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
+                        <span className="bg-card px-2 text-muted-foreground">
                             Or continue with
                         </span>
                     </div>

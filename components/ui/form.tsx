@@ -123,7 +123,7 @@ function FormDescription({ className, ...props }: ComponentProps<"p">) {
     );
 }
 
-const formMessageClass = "font-mono text-[10px] tracking-[0.08em] text-(--accent) uppercase";
+const formMessageClass = "font-mono text-[10px] tracking-[0.08em] text-destructive uppercase";
 
 function FormMessage({ className, ...props }: ComponentProps<"p">) {
     const { error, formMessageId } = useFormField();

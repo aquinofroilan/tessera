@@ -18,7 +18,7 @@ export const resetPasswordRoute = createRoute({
             return (
                 <AuthLayout title="Invalid Link" description="The password reset link is invalid or missing a token.">
                     <div className="text-center mt-4">
-                        <Link to="/forgot-password" className="text-primary hover:underline font-medium">
+                        <Link to="/auth/forgot-password" className="text-primary hover:underline font-medium">
                             Request a new link
                         </Link>
                     </div>
