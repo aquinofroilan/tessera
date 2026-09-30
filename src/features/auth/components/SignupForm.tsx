@@ -224,7 +224,7 @@ export const SignupForm = () => {
                             )}
                         />
 
-                        <div className="flex gap-4 pt-2">
+                        <div className="flex gap-4">
                             <Button type="button" variant="outline" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
                                 Back
                             </Button>

@@ -11,7 +11,7 @@ export const forgotPasswordRoute = createRoute({
             description="Enter your email to receive a reset link"
         >
             <ForgotPasswordForm />
-            <div className="mt-4 text-center text-sm">
+            <div className="text-center text-sm">
                 Remember your password?{' '}
                 <Link to="/auth/signin" className="text-primary hover:underline font-medium">
                     Log in
