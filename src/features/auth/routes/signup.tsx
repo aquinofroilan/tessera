@@ -11,7 +11,7 @@ export const signupRoute = createRoute({
             description="Enter your details to get started"
         >
             <SignupForm />
-            <div className="mt-4 text-center text-sm">
+            <div className="text-center text-sm animate-in fade-in slide-in-from-right-4 duration-300">
                 Already have an account?{' '}
                 <Link to="/auth/signin" className="text-primary hover:underline font-medium">
                     Log in
