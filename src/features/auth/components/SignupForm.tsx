@@ -224,12 +224,12 @@ export const SignupForm = () => {
                             )}
                         />
 
-                        <div className="flex gap-4">
-                            <Button type="button" variant="outline" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
-                                Back
-                            </Button>
+                        <div className="flex flex-col gap-4">
                             <Button type="submit" className="w-full" disabled={registerMutation.isPending}>
                                 {registerMutation.isPending ? "Creating..." : "Create Account"}
+                            </Button>
+                            <Button type="button" variant="outline" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
+                                Back
                             </Button>
                         </div>
                     </div>
