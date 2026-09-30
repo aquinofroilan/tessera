@@ -30,7 +30,7 @@ const buttonVariants = cva(
                 chip: "rounded-full border-(--rule) bg-(--paper) text-(--ink-soft) hover:border-(--muted-2) hover:text-(--ink) aria-selected:border-(--ink) aria-selected:bg-(--ink) aria-selected:text-(--paper)",
             },
             size: {
-                default: "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+                default: "h-11 gap-2 px-6 text-[14.5px] has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
                 xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg",
                 sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem]",
                 lg: "h-9 gap-1.5 px-2.5",
