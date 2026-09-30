@@ -31,7 +31,7 @@ export const magicLinkRoute = createRoute({
                 description="We'll email you a secure, passwordless link to instantly log in."
             >
                 <MagicLinkForm />
-                <div className="text-center text-sm">
+                <div className="text-center text-sm animate-in fade-in slide-in-from-right-4 duration-300">
                     Prefer to use a password?{' '}
                     <Link to="/auth/signin" className="text-primary hover:underline font-medium">
                         Log in
