@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -61,6 +61,19 @@ export const SignupForm = () => {
         },
         mode: "onChange",
     });
+
+    const orgName = form.watch("orgName");
+    const isOrgSlugDirty = form.formState.dirtyFields.orgSlug;
+
+    useEffect(() => {
+        if (!isOrgSlugDirty) {
+            const slug = (orgName || "").toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+            if (slug !== form.getValues("orgSlug")) {
+                form.setValue("orgSlug", slug, { shouldValidate: orgName.length > 0 });
+            }
+        }
+    }, [orgName, isOrgSlugDirty, form]);
+
 
     const nextStep = async () => {
         const isValid = await form.trigger(["firstName", "lastName", "username", "email", "password"]);
@@ -224,12 +237,12 @@ export const SignupForm = () => {
                             )}
                         />
 
-                        <div className="flex gap-4 pt-2">
-                            <Button type="button" variant="outline" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
-                                Back
-                            </Button>
+                        <div className="flex flex-col gap-4">
                             <Button type="submit" className="w-full" disabled={registerMutation.isPending}>
                                 {registerMutation.isPending ? "Creating..." : "Create Account"}
+                            </Button>
+                            <Button type="button" variant="outline" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
+                                Back
                             </Button>
                         </div>
                     </div>
