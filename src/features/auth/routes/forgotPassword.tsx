@@ -4,7 +4,7 @@ import { AuthLayout, ForgotPasswordForm } from '@/src/features/auth/components';
 
 export const forgotPasswordRoute = createRoute({
     getParentRoute: () => rootRoute,
-    path: '/forgot-password',
+    path: '/auth/forgot-password',
     component: () => (
         <AuthLayout 
             title="Reset Password" 
