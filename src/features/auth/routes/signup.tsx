@@ -9,6 +9,15 @@ export const signupRoute = createRoute({
         <AuthLayout 
             title="Create an account" 
             description="Enter your details to get started"
+            variant="editorial"
+            editorialContent={
+                <div className="auth-editorial-content">
+                    <span className="auth-editorial-kicker">Tessera · built for the whole shop</span>
+                    <p className="auth-editorial-quote">
+                        Run the whole shop on <em>Tessera.</em>
+                    </p>
+                </div>
+            }
         >
             <SignupForm />
             <div className="text-center text-sm animate-in fade-in slide-in-from-right-4 duration-300">
