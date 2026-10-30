@@ -1,11 +1,13 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "tessera",
       "dependencies": {
         "@base-ui/react": "^1.8.0",
+        "@fontsource/fraunces": "^5.3.0",
+        "@fontsource/geist": "^5.3.0",
+        "@fontsource/geist-mono": "^5.3.0",
         "@fontsource/inter": "^5.3.0",
         "@fontsource/playfair-display": "^5.3.0",
         "@hookform/resolvers": "^5.2.2",
@@ -157,6 +159,12 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.9", "", { "dependencies": { "@floating-ui/dom": "^1.8.0" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-JDjEFGCpImxDCA7JJKviA0M9+RtmJdj0m/NVU5IMgBK+AmZouAQQ7/+2GLH0GXXY0YMw9oXPB8hKdbPYg5QLYg=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.12", "", {}, "sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww=="],
+
+    "@fontsource/fraunces": ["@fontsource/fraunces@5.3.0", "", {}, "sha512-LEHTOBiZufQzAvnAe2rZ8ZknbDS28Q9kzwb0L+gZJEmjLGr8hhZ/5NuHXwDuHBWhVXYoiGGXmrb0H6Ko/RrHTg=="],
+
+    "@fontsource/geist": ["@fontsource/geist@5.3.0", "", {}, "sha512-u03ftlfVwb05uijq2jGDJ03/HKGqMKaNFk7KOhkpBUex8+BhrAOfMs/XciJ2UUNUX9fEsZbZQld/RWMA2oFU7g=="],
+
+    "@fontsource/geist-mono": ["@fontsource/geist-mono@5.3.0", "", {}, "sha512-UtJ1BBBCVpMYdIcW7nEB45UAoAw5M53ZXs2t0ciPW+IokuAAIc56M8+kW5tXbRJCTpDw4XTtU7proT6NdQAHTg=="],
 
     "@fontsource/inter": ["@fontsource/inter@5.3.0", "", {}, "sha512-RofMylZmjlJEfELXeNHFWBRcSs75rGU/6bV2S2jfnvv/3rPXPGe0LgUJTklcHZ9lM4OZmAVFhcJPnACfb91A3g=="],
 
