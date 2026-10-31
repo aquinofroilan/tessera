@@ -175,7 +175,7 @@ export const SignupForm = () => {
                             )}
                         />
                         
-                        <Button type="button" onClick={nextStep} className="w-full">
+                        <Button type="button" variant="pill" size="pill-lg" onClick={nextStep} className="w-full">
                             Continue Setup
                         </Button>
                     </div>
@@ -292,7 +292,9 @@ export const SignupForm = () => {
                         <div className="flex flex-col gap-4">
                             <Button
                                 type="submit"
-                                className="w-full rounded-[10px] bg-(--ink) px-5 py-3.5 text-[15px] font-medium text-(--paper) transition-[background-color,transform] duration-150 hover:-translate-y-px hover:bg-(--accent) active:translate-y-0 motion-reduce:transition-none"
+                                variant="pill"
+                                size="pill-lg"
+                                className="w-full"
                                 disabled={registerMutation.isPending}
                             >
                                 {registerMutation.isPending ? "Creating..." : "Create Account"}
@@ -311,7 +313,7 @@ export const SignupForm = () => {
                                     SOC 2 ready
                                 </span>
                             </div>
-                            <Button type="button" variant="outline" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
+                            <Button type="button" variant="pill-outline" size="pill-lg" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
                                 Back
                             </Button>
                         </div>
