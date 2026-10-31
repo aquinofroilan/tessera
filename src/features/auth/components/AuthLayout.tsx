@@ -72,7 +72,7 @@ export const AuthLayout = ({
     return (
         <div className="min-h-screen grid place-items-center bg-muted/30">
             <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-xl border shadow-sm">
-                <div className="space-y-2 text-center animate-in fade-in zoom-in-95 duration-300">
+                <div className="space-y-2 text-center">
                     <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
                     {description && (
                         <p className="text-muted-foreground text-sm">{description}</p>

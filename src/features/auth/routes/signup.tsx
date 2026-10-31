@@ -53,7 +53,7 @@ export const signupRoute = createRoute({
             }
         >
             <SignupForm />
-            <div className="text-center text-sm animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="text-center text-sm">
                 Already have an account?{' '}
                 <Link to="/auth/signin" className="text-primary hover:underline font-medium">
                     Log in

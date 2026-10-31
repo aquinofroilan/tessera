@@ -17,7 +17,8 @@ import {
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue
+    SelectValue,
+    FormDivider,
 } from "@/components/ui";
 
 const signupSchema = z.object({
@@ -94,7 +95,8 @@ export const SignupForm = () => {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 {step === 0 && (
-                    <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+                    <div className="space-y-4">
+                        <FormDivider label="or with work email" className="mb-5" />
                         <div className="grid grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
@@ -170,7 +172,7 @@ export const SignupForm = () => {
                 )}
 
                 {step === 1 && (
-                    <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+                    <div className="space-y-4">
                         <FormField
                             control={form.control}
                             name="orgName"
