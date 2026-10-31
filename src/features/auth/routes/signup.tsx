@@ -1,7 +1,9 @@
 import { createRoute, Link } from '@tanstack/react-router';
 import { IconArrowUpRight, IconLifebuoy } from '@tabler/icons-react';
+import packageJson from '../../../../package.json';
 import { rootRoute } from '@/src/routes';
-import { AuthLayout, SignupForm } from '@/src/features/auth/components';
+import { AuthLayout } from '@/src/features/auth/components/AuthLayout';
+import { SignupForm } from '@/src/features/auth/components/SignupForm';
 
 export const signupRoute = createRoute({
     getParentRoute: () => rootRoute,
@@ -44,12 +46,32 @@ export const signupRoute = createRoute({
             }
             editorialContent={
                 <div>
+                    <div className="mb-12 flex justify-end">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-[rgb(246_241_230/22%)] px-3 py-1.5 font-mono text-[11px] tracking-[0.08em] text-[rgb(246_241_230/70%)] uppercase">
+                            <span
+                                aria-hidden="true"
+                                className="size-1.5 rounded-full bg-(--moss) shadow-[0_0_0_3px_rgb(61_90_58/30%)] motion-safe:animate-[pulse_2.4s_ease-in-out_infinite] motion-reduce:animate-none"
+                            />
+                            Tessera v{packageJson.version} · live
+                        </span>
+                    </div>
                     <span className="mb-7 flex items-center gap-2.5 font-mono text-[11px] tracking-[0.18em] text-(--accent-light) uppercase before:h-px before:w-6 before:bg-(--accent-light) before:content-['']">
                         Tessera · built for the whole shop
                     </span>
-                    <p className="max-w-[12ch] font-display text-[46px] leading-[1.08] font-light tracking-[-0.025em] text-(--paper) max-[520px]:text-4xl">
-                        Run the whole shop on <em className="text-(--accent-light) italic">Tessera.</em>
-                    </p>
+                    <blockquote className="mb-5 max-w-[18ch] font-display text-[38px] leading-[1.08] font-light tracking-[-0.025em] text-(--paper) italic max-[520px]:text-[30px]">
+                        “The operating system for the <em className="text-(--accent-light)">whole shop.</em>”
+                    </blockquote>
+                    <div className="flex items-center gap-3">
+                        <span className="grid size-9.5 place-items-center rounded-full bg-[linear-gradient(135deg,var(--plum),var(--accent))] font-display text-[15px] font-medium text-(--paper) shadow-[inset_0_0_0_2px_rgb(255_255_255/20%)]">
+                            JM
+                        </span>
+                        <div>
+                            <div className="text-[14px] font-medium tracking-[-0.005em] text-(--paper)">Jordan M.</div>
+                            <div className="mt-0.5 font-mono text-[11px] tracking-[0.05em] text-[rgb(246_241_230/60%)]">
+                                Founder, Field Notes Co.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             }
             editorialFooter={
