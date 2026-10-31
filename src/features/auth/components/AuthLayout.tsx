@@ -9,6 +9,7 @@ type AuthLayoutProps = {
     headerAction?: React.ReactNode;
     editorialIntro?: React.ReactNode;
     editorialContent?: React.ReactNode;
+    editorialFooter?: React.ReactNode;
 };
 
 export const AuthLayout = ({
@@ -19,6 +20,7 @@ export const AuthLayout = ({
     headerAction,
     editorialIntro,
     editorialContent,
+    editorialFooter,
 }: AuthLayoutProps) => {
     if (variant === 'editorial') {
         return (
@@ -51,6 +53,7 @@ export const AuthLayout = ({
                             {children}
                         </div>
                     </div>
+                    {editorialFooter && <footer className="mt-10">{editorialFooter}</footer>}
                 </main>
                 <aside className="relative flex min-w-0 overflow-hidden bg-(--ink) px-10 pt-7 pb-10 text-(--paper) max-[900px]:order-[-1] max-[900px]:min-h-105 max-[900px]:px-7 max-[900px]:py-10 max-[520px]:min-h-85 max-[520px]:px-5.5 max-[520px]:py-7.5">
                     <div
