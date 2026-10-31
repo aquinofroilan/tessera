@@ -97,7 +97,7 @@ export const SignupForm = () => {
                 {step === 0 && (
                     <div className="space-y-4">
                         <FormDivider label="or with work email" className="mb-5" />
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
                             <FormField
                                 control={form.control}
                                 name="firstName"
@@ -186,7 +186,7 @@ export const SignupForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
                             <FormField
                                 control={form.control}
                                 name="orgSlug"
