@@ -4,6 +4,7 @@ import packageJson from '../../../../package.json';
 import { rootRoute } from '@/src/routes';
 import { AuthLayout } from '@/src/features/auth/components/AuthLayout';
 import { SignupForm } from '@/src/features/auth/components/SignupForm';
+import { DashboardPreview, defaultDashKpis } from '@/components/organisms/dashboard-preview';
 
 export const signupRoute = createRoute({
     getParentRoute: () => rootRoute,
@@ -72,8 +73,35 @@ export const signupRoute = createRoute({
                             </div>
                         </div>
                     </div>
+                    <div className="mt-10">
+                        <DashboardPreview greeting="Good morning," name="Jordan" kpis={defaultDashKpis} />
+                    </div>
+                    <div className="grid gap-3">
+                        <div className="mb-1.5 border-b border-[rgb(216_207_186/28%)] pb-2.5 font-mono text-[10px] tracking-[0.16em] text-[rgb(246_241_230/50%)] uppercase">
+                            Trial includes
+                        </div>
+                        {[
+                            ["Invoices & billing", "Create, send, and track"],
+                            ["Cash flow", "Know what is coming next"],
+                            ["Team workspace", "One place for the whole shop"],
+                        ].map(([title, detail]) => (
+                            <div key={title} className="flex items-center gap-3 text-sm text-[rgb(246_241_230/90%)]">
+                                <span className="grid size-5.5 flex-none place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]">
+                                    <span aria-hidden="true" className="text-[12px]">✓</span>
+                                </span>
+                                <span>
+                                    <strong className="font-medium text-(--paper)">{title}</strong>{" "}
+                                    <span className="text-[13px] text-[rgb(246_241_230/55%)]">{detail}</span>
+                                </span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             }
+            editorialFloatingStats={[
+                { label: "Revenue MTD", value: "$284K" },
+                { label: "Cash position", value: "$491K" },
+            ]}
             editorialFooter={
                 <nav aria-label="Resources" className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.05em] text-(--muted)">
                     <a href="#" className="transition-colors hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">

@@ -10,6 +10,7 @@ type AuthLayoutProps = {
     editorialIntro?: React.ReactNode;
     editorialContent?: React.ReactNode;
     editorialFooter?: React.ReactNode;
+    editorialFloatingStats?: Array<{ label: string; value: string }>;
 };
 
 export const AuthLayout = ({
@@ -21,6 +22,7 @@ export const AuthLayout = ({
     editorialIntro,
     editorialContent,
     editorialFooter,
+    editorialFloatingStats = [],
 }: AuthLayoutProps) => {
     if (variant === 'editorial') {
         return (
@@ -65,6 +67,25 @@ export const AuthLayout = ({
                         className="pointer-events-none absolute -bottom-37.5 -left-37.5 size-125 rounded-full bg-[radial-gradient(circle,rgb(62_106_140/18%)_0%,transparent_60%)]"
                     />
                     <div className="signup-right-grain" aria-hidden="true" />
+                    {editorialFloatingStats.slice(0, 2).map((stat, index) => (
+                        <div
+                            key={stat.label}
+                            aria-hidden="true"
+                            className={[
+                                "pointer-events-none absolute z-1 hidden rounded-[10px] border border-[rgb(216_207_186/28%)] bg-[rgb(246_241_230/8%)] px-3.5 py-2.5 backdrop-blur-md min-[1101px]:block motion-reduce:animate-none",
+                                index === 0
+                                    ? "right-[8%] top-[28%] motion-safe:animate-[drift1_8s_ease-in-out_infinite]"
+                                    : "right-[18%] top-[62%] motion-safe:animate-[drift2_10s_ease-in-out_infinite]",
+                            ].join(" ")}
+                        >
+                            <div className="font-mono text-[9px] tracking-widest text-[rgb(246_241_230/55%)] uppercase">
+                                {stat.label}
+                            </div>
+                            <div className="mt-0.5 font-display text-lg font-normal tracking-[-0.02em] text-(--paper) tabular-nums">
+                                {stat.value}
+                            </div>
+                        </div>
+                    ))}
                     <div className="relative z-1 mx-auto flex w-full max-w-125 self-center flex-col">
                         {editorialContent}
                     </div>
