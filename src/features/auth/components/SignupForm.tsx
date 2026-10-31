@@ -20,6 +20,8 @@ import {
     SelectValue,
     FormDivider,
     Checkbox,
+    PasswordInput,
+    PasswordStrengthMeter,
 } from "@/components/ui";
 
 const signupSchema = z.object({
@@ -163,8 +165,9 @@ export const SignupForm = () => {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input type="password" placeholder="••••••••" {...field} />
+                                        <PasswordInput placeholder="••••••••" {...field} />
                                     </FormControl>
+                                    <PasswordStrengthMeter value={field.value} />
                                     <FormMessage />
                                 </FormItem>
                             )}

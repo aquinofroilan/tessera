@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, Link } from "@tanstack/react-router";
 import { useLogin } from "@/src/features/auth/api/login";
-import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
+import { Button, Input, PasswordInput, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
 
 const loginSchema = z.object({
     email: z.string().email({ message: "Invalid email address" }),
@@ -66,8 +66,7 @@ export const LoginForm = () => {
                                 </Link>
                             </div>
                             <FormControl>
-                                <Input
-                                    type="password"
+                                <PasswordInput
                                     placeholder="••••••••"
                                     {...field}
                                     disabled={loginMutation.isPending}
