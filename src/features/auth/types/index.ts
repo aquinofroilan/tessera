@@ -29,6 +29,7 @@ export interface RegisterCredentials {
     orgSlug: string;
     orgBaseCurrency: string;
     orgDescription?: string;
+    termsAccepted: boolean;
 }
 
 export interface ForgotPasswordCredentials {
