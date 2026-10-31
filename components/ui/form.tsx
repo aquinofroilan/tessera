@@ -89,7 +89,8 @@ function FormLabel({ className, ...props }: ComponentProps<typeof LabelPrimitive
         <Label
             data-slot="form-label"
             data-error={!!error}
-            className={cn("data-[error=true]:text-destructive", className)}
+            variant="eyebrow"
+            className={cn("mb-1.5 data-[error=true]:text-(--accent)", className)}
             htmlFor={formItemId}
             {...props}
         />
