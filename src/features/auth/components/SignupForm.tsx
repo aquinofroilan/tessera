@@ -19,6 +19,7 @@ import {
     SelectTrigger,
     SelectValue,
     FormDivider,
+    Checkbox,
 } from "@/components/ui";
 
 const signupSchema = z.object({
@@ -33,6 +34,9 @@ const signupSchema = z.object({
         required_error: "Base currency is required" 
     }),
     orgDescription: z.string().optional(),
+    termsAccepted: z.boolean().refine((value) => value, {
+        message: "You must accept the terms and privacy policy",
+    }),
 });
 
 type SignupValues = z.infer<typeof signupSchema>;
@@ -59,6 +63,7 @@ export const SignupForm = () => {
             orgSlug: "",
             orgBaseCurrency: "USD",
             orgDescription: "",
+            termsAccepted: false,
         },
         mode: "onChange",
     });
@@ -234,6 +239,46 @@ export const SignupForm = () => {
                                     <FormControl>
                                         <Input placeholder="What does your org do?" {...field} />
                                     </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="termsAccepted"
+                            render={({ field }) => (
+                                <FormItem className="gap-1.5">
+                                    <div className="flex items-start gap-3">
+                                        <FormControl>
+                                            <Checkbox
+                                                id="terms-consent"
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange}
+                                                aria-label="Accept the terms of service and privacy policy"
+                                            />
+                                        </FormControl>
+                                        <label
+                                            htmlFor="terms-consent"
+                                            className="text-[13px] leading-[1.5] text-(--ink-soft)"
+                                        >
+                                            I agree to the{" "}
+                                            <a
+                                                href="/terms"
+                                                className="text-(--ink) underline decoration-(--rule) underline-offset-2 hover:decoration-(--accent) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                            >
+                                                Terms of Service
+                                            </a>{" "}
+                                            and{" "}
+                                            <a
+                                                href="/privacy"
+                                                className="text-(--ink) underline decoration-(--rule) underline-offset-2 hover:decoration-(--accent) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                            >
+                                                Privacy Policy
+                                            </a>
+                                            .
+                                        </label>
+                                    </div>
                                     <FormMessage />
                                 </FormItem>
                             )}
