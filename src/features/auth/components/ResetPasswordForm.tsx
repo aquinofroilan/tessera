@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useResetPassword } from "@/src/features/auth/api/resetPassword";
-import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
+import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
+import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
 
 const resetPasswordSchema = z.object({
     newPassword: z.string().min(8, { message: "Password must be at least 8 characters" }),
@@ -61,8 +62,9 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
                         <FormItem>
                             <FormLabel>New Password</FormLabel>
                             <FormControl>
-                                <Input type="password" placeholder="••••••••" {...field} disabled={resetPasswordMutation.isPending} />
+                                <PasswordInput placeholder="••••••••" {...field} disabled={resetPasswordMutation.isPending} />
                             </FormControl>
+                            <PasswordStrengthMeter value={field.value} />
                             <FormMessage />
                         </FormItem>
                     )}
@@ -75,7 +77,7 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
                         <FormItem>
                             <FormLabel>Confirm Password</FormLabel>
                             <FormControl>
-                                <Input type="password" placeholder="••••••••" {...field} disabled={resetPasswordMutation.isPending} />
+                                <PasswordInput placeholder="••••••••" {...field} disabled={resetPasswordMutation.isPending} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

@@ -21,6 +21,7 @@ import {
     FormDivider,
     Checkbox,
 } from "@/components/ui";
+import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
 
 const signupSchema = z.object({
     firstName: z.string().min(1, { message: "First name is required" }),
@@ -163,8 +164,9 @@ export const SignupForm = () => {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input type="password" placeholder="••••••••" {...field} />
+                                        <PasswordInput placeholder="••••••••" {...field} />
                                     </FormControl>
+                                    <PasswordStrengthMeter value={field.value} />
                                     <FormMessage />
                                 </FormItem>
                             )}

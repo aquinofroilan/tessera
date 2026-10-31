@@ -4,6 +4,7 @@ import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useValidateInvitation, useAcceptInvitation } from "@/src/features/auth/api/invitation";
 import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
+import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
 
 const newUserSchema = z.object({
     firstName: z.string().min(1, { message: "First name is required" }),
@@ -142,8 +143,9 @@ export const InvitationAcceptForm = ({ token }: InvitationAcceptFormProps) => {
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Input type="password" placeholder="••••••••" {...field} disabled={acceptMutation.isPending} />
+                                <PasswordInput placeholder="••••••••" {...field} disabled={acceptMutation.isPending} />
                             </FormControl>
+                            <PasswordStrengthMeter value={field.value} />
                             <FormMessage />
                         </FormItem>
                     )}
