@@ -2,6 +2,7 @@ import { useMemo, useState, type ComponentProps } from "react";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 type PasswordInputProps = ComponentProps<typeof Input>;
@@ -17,16 +18,18 @@ function PasswordInput({ className, disabled, ...props }: PasswordInputProps) {
                 disabled={disabled}
                 className={cn("pr-11", className)}
             />
-            <button
+            <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 aria-label={visible ? "Hide password" : "Show password"}
                 aria-pressed={visible}
                 disabled={disabled}
                 onClick={() => setVisible((current) => !current)}
-                className="absolute inset-y-0 right-0 grid w-11 place-items-center text-(--muted) outline-none transition-colors hover:text-(--ink) focus-visible:text-(--ink) focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-(--ink) disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none"
+                className="absolute inset-y-0 right-0 my-auto h-full w-11 rounded-none text-(--muted) outline-none transition-colors hover:bg-transparent hover:text-(--ink) focus-visible:text-(--ink) focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-(--ink) motion-reduce:transition-none"
             >
                 {visible ? <IconEyeOff aria-hidden="true" size={16} /> : <IconEye aria-hidden="true" size={16} />}
-            </button>
+            </Button>
         </div>
     );
 }
