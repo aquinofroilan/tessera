@@ -7,6 +7,7 @@ type AuthLayoutProps = {
     description?: string;
     variant?: 'default' | 'editorial';
     headerAction?: React.ReactNode;
+    editorialIntro?: React.ReactNode;
     editorialContent?: React.ReactNode;
 };
 
@@ -16,6 +17,7 @@ export const AuthLayout = ({
     description,
     variant = 'default',
     headerAction,
+    editorialIntro,
     editorialContent,
 }: AuthLayoutProps) => {
     if (variant === 'editorial') {
@@ -38,12 +40,14 @@ export const AuthLayout = ({
                     </header>
                     <div className="flex flex-1 items-center justify-center">
                         <div className="w-full max-w-105">
-                            <div className="mb-8">
-                                <h1 className="mb-3.5 font-display text-[46px] leading-[0.98] font-normal tracking-[-0.03em] text-(--ink) max-[520px]:text-[38px]">
-                                    {title}
-                                </h1>
-                                {description && <p className="max-w-[40ch] text-[15px] text-(--ink-soft)">{description}</p>}
-                            </div>
+                            {editorialIntro ?? (
+                                <div className="mb-8">
+                                    <h1 className="mb-3.5 font-display text-[46px] leading-[0.98] font-normal tracking-[-0.03em] text-(--ink) max-[520px]:text-[38px]">
+                                        {title}
+                                    </h1>
+                                    {description && <p className="max-w-[40ch] text-[15px] text-(--ink-soft)">{description}</p>}
+                                </div>
+                            )}
                             {children}
                         </div>
                     </div>
