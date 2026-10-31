@@ -10,6 +10,15 @@ export const signupRoute = createRoute({
             title="Create an account" 
             description="Enter your details to get started"
             variant="editorial"
+            headerAction={
+                <Link
+                    to="/auth/signin"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-transparent px-3.5 py-2 text-[13px] text-(--ink-soft) transition-[border-color,background-color] duration-150 hover:border-(--rule) hover:bg-(--paper-2) focus-visible:ring-2 focus-visible:ring-(--ink) focus-visible:ring-offset-2 focus-visible:ring-offset-(--paper)"
+                >
+                    Already have an account?
+                    <strong className="ml-0.5 font-medium text-(--ink)">Sign in</strong>
+                </Link>
+            }
             editorialContent={
                 <div>
                     <span className="mb-7 flex items-center gap-2.5 font-mono text-[11px] tracking-[0.18em] text-(--accent-light) uppercase before:h-px before:w-6 before:bg-(--accent-light) before:content-['']">

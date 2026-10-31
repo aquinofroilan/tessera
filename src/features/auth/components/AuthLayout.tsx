@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from '@tanstack/react-router';
 
 type AuthLayoutProps = {
     children: React.ReactNode;
     title: string;
     description?: string;
     variant?: 'default' | 'editorial';
+    headerAction?: React.ReactNode;
     editorialContent?: React.ReactNode;
 };
 
@@ -13,12 +15,27 @@ export const AuthLayout = ({
     title,
     description,
     variant = 'default',
+    headerAction,
     editorialContent,
 }: AuthLayoutProps) => {
     if (variant === 'editorial') {
         return (
             <div className="grid min-h-screen grid-cols-2 overflow-x-hidden bg-(--paper) max-[900px]:grid-cols-1">
                 <main className="flex min-w-0 flex-col px-10 pt-7 pb-10 max-[900px]:px-7 max-[900px]:py-10 max-[520px]:px-5.5 max-[520px]:py-7.5">
+                    <header className="mb-16 flex items-center justify-between max-[900px]:mb-10">
+                        <Link
+                            to="/auth/signup"
+                            aria-label="Tessera home"
+                            className="inline-flex items-baseline gap-1 font-display text-[26px] font-medium tracking-[-0.02em] text-(--ink) italic"
+                        >
+                            Tessera
+                            <span
+                                aria-hidden="true"
+                                className="mb-0.75 size-1.5 self-center rounded-full bg-(--accent)"
+                            />
+                        </Link>
+                        {headerAction}
+                    </header>
                     <div className="flex flex-1 items-center justify-center">
                         <div className="w-full max-w-105">
                             <div className="mb-8">
