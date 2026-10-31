@@ -14,7 +14,6 @@ export { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent, Ch
 export { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "./command";
 export { Card, CardHeader, CardTitle, CardEyebrow, CardDescription, CardContent, CardFooter } from "./card";
 export { Checkbox } from "./checkbox";
-export { PasswordInput, PasswordStrengthMeter } from "./password-input";
 export { Dialog, DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from "./dialog";
 export { Toaster as DefaultToaster, Toast, ToastAction, ToastClose, ToastContent, ToastDescription, ToastPortal, ToastProvider, ToastTitle, ToastViewport, createToastManager, toast, useToastManager } from "./toast";
 export { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue } from "./select";

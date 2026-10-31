@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useResetPassword } from "@/src/features/auth/api/resetPassword";
-import { Button, PasswordInput, PasswordStrengthMeter, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
+import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
+import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
 
 const resetPasswordSchema = z.object({
     newPassword: z.string().min(8, { message: "Password must be at least 8 characters" }),

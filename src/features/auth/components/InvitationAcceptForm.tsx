@@ -3,7 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useValidateInvitation, useAcceptInvitation } from "@/src/features/auth/api/invitation";
-import { Button, Input, PasswordInput, PasswordStrengthMeter, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
+import { Button, Input, Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui";
+import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
 
 const newUserSchema = z.object({
     firstName: z.string().min(1, { message: "First name is required" }),

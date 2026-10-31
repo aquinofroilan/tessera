@@ -20,9 +20,8 @@ import {
     SelectValue,
     FormDivider,
     Checkbox,
-    PasswordInput,
-    PasswordStrengthMeter,
 } from "@/components/ui";
+import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
 
 const signupSchema = z.object({
     firstName: z.string().min(1, { message: "First name is required" }),
