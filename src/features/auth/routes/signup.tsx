@@ -11,10 +11,12 @@ export const signupRoute = createRoute({
             description="Enter your details to get started"
             variant="editorial"
             editorialContent={
-                <div className="auth-editorial-content">
-                    <span className="auth-editorial-kicker">Tessera · built for the whole shop</span>
-                    <p className="auth-editorial-quote">
-                        Run the whole shop on <em>Tessera.</em>
+                <div>
+                    <span className="mb-7 flex items-center gap-2.5 font-mono text-[11px] tracking-[0.18em] text-(--accent-light) uppercase before:h-px before:w-6 before:bg-(--accent-light) before:content-['']">
+                        Tessera · built for the whole shop
+                    </span>
+                    <p className="max-w-[12ch] font-display text-[46px] leading-[1.08] font-light tracking-[-0.025em] text-(--paper) max-[520px]:text-4xl">
+                        Run the whole shop on <em className="text-(--accent-light) italic">Tessera.</em>
                     </p>
                 </div>
             }
