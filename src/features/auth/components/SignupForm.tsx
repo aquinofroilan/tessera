@@ -5,23 +5,12 @@ import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
 import { IconCheck } from "@tabler/icons-react";
 import { useRegister } from "@/src/features/auth/api/register";
-import { 
-    Button, 
-    Input, 
-    Form, 
-    FormControl, 
-    FormField, 
-    FormItem, 
-    FormLabel, 
-    FormMessage,
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-    FormDivider,
-    Checkbox,
-} from "@/components/ui";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormDivider } from "@/components/ui/form-divider";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
 
 const signupSchema = z.object({
@@ -98,9 +87,22 @@ export const SignupForm = () => {
         registerMutation.mutate(values);
     };
 
+    const registrationError =
+        registerMutation.error instanceof Error
+            ? registerMutation.error.message
+            : "We couldn't create your account. Please try again.";
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                {registerMutation.isError && (
+                    <div
+                        role="alert"
+                        className="rounded-[10px] border border-(--accent) bg-(--accent-soft) px-3.5 py-3 text-[13px] leading-[1.45] text-(--accent-deep)"
+                    >
+                        {registrationError}
+                    </div>
+                )}
                 {step === 0 && (
                     <div className="space-y-4">
                         <FormDivider label="or with work email" className="mb-5" />
