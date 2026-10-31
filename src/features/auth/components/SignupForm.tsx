@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
+import { IconCheck } from "@tabler/icons-react";
 import { useRegister } from "@/src/features/auth/api/register";
 import { 
     Button, 
@@ -287,9 +288,27 @@ export const SignupForm = () => {
                         />
 
                         <div className="flex flex-col gap-4">
-                            <Button type="submit" className="w-full" disabled={registerMutation.isPending}>
+                            <Button
+                                type="submit"
+                                className="w-full rounded-[10px] bg-(--ink) px-5 py-3.5 text-[15px] font-medium text-(--paper) transition-[background-color,transform] duration-150 hover:-translate-y-px hover:bg-(--accent) active:translate-y-0 motion-reduce:transition-none"
+                                disabled={registerMutation.isPending}
+                            >
                                 {registerMutation.isPending ? "Creating..." : "Create Account"}
                             </Button>
+                            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 font-mono text-[11px] leading-[1.4] text-(--muted)">
+                                <span className="inline-flex items-center gap-1.5">
+                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    No credit card
+                                </span>
+                                <span className="inline-flex items-center gap-1.5">
+                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    Cancel anytime
+                                </span>
+                                <span className="inline-flex items-center gap-1.5">
+                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    SOC 2 ready
+                                </span>
+                            </div>
                             <Button type="button" variant="outline" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
                                 Back
                             </Button>
