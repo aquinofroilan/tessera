@@ -1,5 +1,6 @@
 import { createRoute, Link } from '@tanstack/react-router';
 import { IconArrowUpRight, IconLifebuoy } from '@tabler/icons-react';
+import packageJson from '../../../../package.json';
 import { rootRoute } from '@/src/routes';
 import { AuthLayout } from '@/src/features/auth/components/AuthLayout';
 import { SignupForm } from '@/src/features/auth/components/SignupForm';
@@ -51,7 +52,7 @@ export const signupRoute = createRoute({
                                 aria-hidden="true"
                                 className="size-1.5 rounded-full bg-(--moss) shadow-[0_0_0_3px_rgb(61_90_58/30%)] motion-safe:animate-[pulse_2.4s_ease-in-out_infinite] motion-reduce:animate-none"
                             />
-                            Tessera v2.4 · live
+                            Tessera v{packageJson.version} · live
                         </span>
                     </div>
                     <span className="mb-7 flex items-center gap-2.5 font-mono text-[11px] tracking-[0.18em] text-(--accent-light) uppercase before:h-px before:w-6 before:bg-(--accent-light) before:content-['']">
