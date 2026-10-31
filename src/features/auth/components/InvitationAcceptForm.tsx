@@ -66,7 +66,7 @@ export const InvitationAcceptForm = ({ token }: InvitationAcceptFormProps) => {
 
     if (validationData.existingUser) {
         return (
-            <div className="space-y-6 text-center animate-in fade-in zoom-in duration-300">
+            <div className="space-y-6 text-center">
                 <div className="space-y-2">
                     <p className="text-muted-foreground text-sm">
                         You've been invited to join an organization with the email <strong>{validationData.email}</strong>.
@@ -88,7 +88,7 @@ export const InvitationAcceptForm = ({ token }: InvitationAcceptFormProps) => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmitNewUser)} className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+            <form onSubmit={form.handleSubmit(onSubmitNewUser)} className="space-y-4">
                 <div className="bg-muted/50 p-3 rounded-md mb-4 text-center">
                     <p className="text-sm font-medium">Invited as {validationData.email}</p>
                     <p className="text-xs text-muted-foreground">Please complete your profile to join.</p>

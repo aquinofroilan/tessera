@@ -30,7 +30,7 @@ export const MagicLinkForm = () => {
 
     if (isSubmitted) {
         return (
-            <div className="flex flex-col items-center justify-center space-y-4 text-center animate-in fade-in zoom-in duration-300">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <CheckCircle2 className="w-12 h-12 text-primary" />
                 <div className="space-y-2">
                     <h3 className="text-xl font-medium">Check your email</h3>
@@ -45,7 +45,7 @@ export const MagicLinkForm = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
                     control={form.control}
                     name="email"
