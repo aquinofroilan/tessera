@@ -64,6 +64,7 @@ export const AuthLayout = ({
                         aria-hidden="true"
                         className="pointer-events-none absolute -bottom-37.5 -left-37.5 size-125 rounded-full bg-[radial-gradient(circle,rgb(62_106_140/18%)_0%,transparent_60%)]"
                     />
+                    <div className="signup-right-grain" aria-hidden="true" />
                     <div className="relative z-1 mx-auto flex w-full max-w-125 self-center flex-col">
                         {editorialContent}
                     </div>
