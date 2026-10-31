@@ -10,6 +10,28 @@ export const signupRoute = createRoute({
             title="Create an account" 
             description="Enter your details to get started"
             variant="editorial"
+            editorialIntro={
+                <div className="mb-8">
+                    <div className="mb-5 flex items-center gap-2.5 font-mono text-[11px] tracking-[0.14em] text-(--ink-soft) uppercase">
+                        <span>Start your trial</span>
+                        <span className="rounded-full bg-(--moss-soft) px-2.25 py-0.75 text-[10px] tracking-[0.1em] text-(--moss)">
+                            30 days · free
+                        </span>
+                    </div>
+                    <h1 className="mb-3.5 max-w-[12ch] font-display text-[46px] leading-[0.98] font-light tracking-[-0.03em] text-(--ink) max-[520px]:text-[38px]">
+                        Run the whole shop on <em className="text-(--accent) italic">Tessera.</em>
+                    </h1>
+                    <p className="max-w-[40ch] text-[15px] text-(--ink-soft)">
+                        No credit card. No sales call. Every module, every feature — for 30 days.{' '}
+                        <Link
+                            to="/auth/signup"
+                            className="text-(--ink) underline decoration-(--rule) underline-offset-2 transition-colors duration-150 hover:decoration-(--accent) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                        >
+                            Learn more
+                        </Link>
+                    </p>
+                </div>
+            }
             headerAction={
                 <Link
                     to="/auth/signin"
