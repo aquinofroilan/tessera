@@ -1,48 +1,54 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { useConsumeMagicLink } from "@/src/features/auth/api/magicLink";
-import { useAuthStore } from "@/src/features/auth/stores/authStore";
-import { Button } from "@/components/ui";
+import { useEffect, useState } from "react"
+import { useNavigate } from "@tanstack/react-router"
+import { useConsumeMagicLink } from "@/src/features/auth/api/magicLink"
+import { useAuthStore } from "@/src/features/auth/stores/authStore"
+import { Button } from "@/components/ui/button"
 
-interface MagicLinkConsumeProps {
-    token: string;
+interface MagicLinkConsumeProps
+{
+    token: string
 }
 
-export const MagicLinkConsume = ({ token }: MagicLinkConsumeProps) => {
-    const navigate = useNavigate();
-    const consumeMutation = useConsumeMagicLink();
-    const setUser = useAuthStore((state) => state.setUser);
-    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+export const MagicLinkConsume = ( { token }: MagicLinkConsumeProps ) =>
+{
+    const navigate = useNavigate()
+    const consumeMutation = useConsumeMagicLink()
+    const setUser = useAuthStore( ( state ) => state.setUser )
+    const [errorMsg, setErrorMsg] = useState<string | null>( null )
 
-    useEffect(() => {
+    useEffect( () =>
+    {
         // Automatically consume token on mount
         consumeMutation.mutate(
             { token },
             {
-                onSuccess: (data) => {
+                onSuccess: ( data ) =>
+                {
                     // Store user state and navigate to dashboard
-                    setUser(data.user);
-                    navigate({ to: "/dashboard" });
+                    setUser( data.user )
+                    navigate( { to: "/dashboard" } )
                 },
-                onError: (error: any) => {
-                    setErrorMsg(error?.response?.data?.error || "This magic link is invalid or has expired.");
+                onError: ( error: any ) =>
+                {
+                    setErrorMsg( error?.response?.data?.error || "This magic link is invalid or has expired." )
                 }
             }
-        );
+        )
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [token]);
+    }, [token] )
 
-    if (errorMsg) {
+    if ( errorMsg )
+    {
         return (
             <div className="text-center space-y-4">
                 <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
-                    {errorMsg}
+                    { errorMsg }
                 </div>
-                <Button variant="outline" onClick={() => navigate({ to: "/magic-link" })}>
+                <Button variant="outline" onClick={ () => navigate( { to: "/magic-link" } ) }>
                     Request a new link
                 </Button>
             </div>
-        );
+        )
     }
 
     return (
@@ -50,5 +56,5 @@ export const MagicLinkConsume = ({ token }: MagicLinkConsumeProps) => {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             <p className="text-muted-foreground text-sm">Authenticating your magic link...</p>
         </div>
-    );
-};
+    )
+}
