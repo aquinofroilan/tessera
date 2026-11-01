@@ -10,14 +10,14 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default:
-                    "rounded-lg bg-primary text-primary-foreground hover:bg-primary/80 active:not-aria-[haspopup]:translate-y-px",
+                    "rounded-full bg-primary text-primary-foreground hover:bg-primary/80 active:not-aria-[haspopup]:translate-y-px",
                 outline:
-                    "rounded-lg border-border bg-background hover:bg-muted hover:text-foreground active:not-aria-[haspopup]:translate-y-px",
+                    "rounded-full border-border bg-background hover:bg-muted hover:text-foreground active:not-aria-[haspopup]:translate-y-px",
                 secondary:
-                    "rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 active:not-aria-[haspopup]:translate-y-px",
-                ghost: "rounded-lg hover:bg-muted hover:text-foreground active:not-aria-[haspopup]:translate-y-px",
+                    "rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 active:not-aria-[haspopup]:translate-y-px",
+                ghost: "rounded-full hover:bg-muted hover:text-foreground active:not-aria-[haspopup]:translate-y-px",
                 destructive:
-                    "rounded-lg bg-destructive/10 text-destructive hover:bg-destructive/20 active:not-aria-[haspopup]:translate-y-px",
+                    "rounded-full bg-destructive/10 text-destructive hover:bg-destructive/20 active:not-aria-[haspopup]:translate-y-px",
                 link: "text-primary underline-offset-4 hover:underline",
                 pill: "rounded-full bg-foreground text-background tracking-[-0.005em] hover:-translate-y-px hover:bg-(--accent)",
                 "pill-outline":
@@ -31,12 +31,12 @@ const buttonVariants = cva(
             },
             size: {
                 default: "h-11 gap-2 px-6 text-[14.5px] has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
-                xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg",
-                sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem]",
+                xs: "h-6 gap-1 rounded-full px-2 text-xs in-data-[slot=button-group]:rounded-full",
+                sm: "h-7 gap-1 rounded-full px-2.5 text-[0.8rem]",
                 lg: "h-9 gap-1.5 px-2.5",
                 icon: "size-8",
-                "icon-xs": "size-6 rounded-[min(var(--radius-md),10px)] [&_svg:not([class*='size-'])]:size-3",
-                "icon-sm": "size-7 rounded-[min(var(--radius-md),12px)]",
+                "icon-xs": "size-6 rounded-full [&_svg:not([class*='size-'])]:size-3",
+                "icon-sm": "size-7 rounded-full",
                 "icon-lg": "size-9",
                 pill: "gap-2 px-4.5 py-2.5 text-sm",
                 "pill-lg": "gap-2.5 px-5 py-3.5 text-[15px]",
