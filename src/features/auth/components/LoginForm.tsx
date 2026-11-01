@@ -96,9 +96,11 @@ export const LoginForm = () => {
                     )}
                 />
 
-                <Button 
-                    type="submit" 
-                    className="w-full" 
+                <Button
+                    type="submit"
+                    variant="pill"
+                    size="pill-lg"
+                    className="w-full"
                     disabled={loginMutation.isPending}
                 >
                     {loginMutation.isPending ? "Signing in..." : "Sign in"}
@@ -115,9 +117,10 @@ export const LoginForm = () => {
                     </div>
                 </div>
 
-                <Button 
-                    type="button" 
-                    variant="outline" 
+                <Button
+                    type="button"
+                    variant="pill-outline"
+                    size="pill-lg"
                     className="w-full"
                     onClick={() => navigate({ to: "/magic-link" })}
                 >

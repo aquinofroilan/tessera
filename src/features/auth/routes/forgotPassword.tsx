@@ -1,22 +1,68 @@
 import { createRoute, Link } from '@tanstack/react-router';
+import { IconCheck } from '@tabler/icons-react';
 import { rootRoute } from '@/src/routes';
-import { AuthLayout, ForgotPasswordForm } from '@/src/features/auth/components';
+import { AuthLayout } from '@/src/features/auth/components/AuthLayout';
+import { ForgotPasswordForm } from '@/src/features/auth/components/ForgotPasswordForm';
 
 export const forgotPasswordRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/auth/forgot-password',
     component: () => (
-        <AuthLayout 
-            title="Reset Password" 
+        <AuthLayout
+            title="Forgot password"
             description="Enter your email to receive a reset link"
+            variant="editorial"
+            editorialIntro={
+                <div className="mb-8">
+                    <div className="mb-5 font-mono text-[11px] tracking-[0.14em] text-(--ink-soft) uppercase">
+                        Get back in
+                    </div>
+                    <h1 className="mb-3.5 max-w-[12ch] font-display text-[46px] leading-[0.98] font-light tracking-[-0.03em] text-(--ink) max-[520px]:text-[38px]">
+                        Find your way <em className="text-(--accent) italic">back.</em>
+                    </h1>
+                    <p className="max-w-[40ch] text-[15px] text-(--ink-soft)">
+                        We&apos;ll send a secure link to help you get back into your workspace.
+                    </p>
+                </div>
+            }
+            headerAction={
+                <Link
+                    to="/auth/signin"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-transparent px-3.5 py-2 text-[13px] text-(--ink-soft) transition-[border-color,background-color] duration-150 hover:border-(--rule) hover:bg-(--paper-2) focus-visible:ring-2 focus-visible:ring-(--ink) focus-visible:ring-offset-2 focus-visible:ring-offset-(--paper)"
+                >
+                    Remember it?
+                    <strong className="ml-0.5 font-medium text-(--ink)">Log in</strong>
+                </Link>
+            }
+            editorialContent={
+                <div>
+                    <span className="mb-7 flex items-center gap-2.5 font-mono text-[11px] tracking-[0.18em] text-(--accent-light) uppercase before:h-px before:w-6 before:bg-(--accent-light) before:content-['']">
+                        A simple way forward
+                    </span>
+                    <blockquote className="mb-6 max-w-[18ch] font-display text-[38px] leading-[1.08] font-light tracking-[-0.025em] text-(--paper) italic max-[520px]:text-[30px]">
+                        “Your work is still here, <em className="text-(--accent-light)">right where you left it.</em>”
+                    </blockquote>
+                    <div className="grid gap-3 font-mono text-[11px] tracking-[0.05em] text-[rgb(246_241_230/65%)]">
+                        {["One secure reset link", "No changes to your workspace", "Back to work in a moment"].map((item) => (
+                            <span key={item} className="flex items-center gap-2.5">
+                                <span className="grid size-5.5 place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]">
+                                    <IconCheck aria-hidden="true" size={12} stroke={2.4} />
+                                </span>
+                                {item}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            }
+            editorialFooter={
+                <nav aria-label="Resources" className="flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.05em] text-(--muted)">
+                    <a href="#" className="hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Status</a>
+                    <a href="#" className="hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Security</a>
+                    <a href="#" className="hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Docs</a>
+                </nav>
+            }
         >
             <ForgotPasswordForm />
-            <div className="text-center text-sm">
-                Remember your password?{' '}
-                <Link to="/auth/signin" className="text-primary hover:underline font-medium">
-                    Log in
-                </Link>
-            </div>
         </AuthLayout>
     ),
 });
