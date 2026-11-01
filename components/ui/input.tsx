@@ -4,12 +4,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const inputVariants = cva(
-    "w-full min-w-0 border transition-colors outline-none placeholder:text-(--muted-2) hover:border-(--muted-2) disabled:cursor-not-allowed disabled:opacity-70 aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 [appearance:textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none",
+    "w-full min-w-0 border transition-[border-color,background-color,box-shadow] outline-none placeholder:text-(--muted-2) hover:border-(--muted-2) focus-visible:border-(--ink) focus-visible:shadow-[0_0_0_3px_rgb(23_22_15/6%)] disabled:cursor-not-allowed disabled:opacity-70 aria-invalid:border-(--accent) aria-invalid:shadow-[0_0_0_3px_rgb(185_58_29/12%)] autofill:bg-(--card) [appearance:textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none",
     {
         variants: {
             tone: {
                 default:
-                    "rounded-[10px] border-border bg-card px-3.5 py-3 text-[14.5px] text-foreground focus:border-foreground focus:shadow-[0_0_0_3px_rgb(23_22_15/6%)]",
+                    "rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-[14.5px] text-(--ink)",
                 compact:
                     "rounded-lg border-(--rule) bg-(--paper-2) px-3 py-1.75 text-sm text-(--ink) focus:border-(--ink) focus:bg-(--card)",
             },
