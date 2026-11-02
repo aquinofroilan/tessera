@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "@tanstack/react-router"
 import { useConsumeMagicLink } from "@/src/features/auth/api/magicLink"
-import { useAuthStore } from "@/src/features/auth/stores/authStore"
 import { Button } from "@/components/ui/button"
 
 interface MagicLinkConsumeProps
@@ -13,7 +12,6 @@ export const MagicLinkConsume = ( { token }: MagicLinkConsumeProps ) =>
 {
     const navigate = useNavigate()
     const consumeMutation = useConsumeMagicLink()
-    const setUser = useAuthStore( ( state ) => state.setUser )
     const [errorMsg, setErrorMsg] = useState<string | null>( null )
 
     useEffect( () =>
@@ -22,10 +20,8 @@ export const MagicLinkConsume = ( { token }: MagicLinkConsumeProps ) =>
         consumeMutation.mutate(
             { token },
             {
-                onSuccess: ( data ) =>
+                onSuccess: () =>
                 {
-                    // Store user state and navigate to dashboard
-                    setUser( data.user )
                     navigate( { to: "/dashboard" } )
                 },
                 onError: ( error: any ) =>

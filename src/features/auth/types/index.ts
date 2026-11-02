@@ -11,8 +11,12 @@ export interface AuthResponse {
     refresh_token: string;
     expires_in: number;
     token_type: string;
-    user: User;
+    user?: User;
 }
+
+export type AuthenticatedResponse = AuthResponse & {
+    user: User;
+};
 
 export interface LoginCredentials {
     email: string;
