@@ -3,7 +3,8 @@ import { axios } from "@/src/lib/axios";
 import type { RegisterCredentials } from "@/src/features/auth/types";
 
 export const registerWithEmailAndPassword = (data: RegisterCredentials): Promise<{ message: string, userId: string }> => {
-    return axios.post('/api/v1/auth/signup', data);
+    const { termsAccepted: _termsAccepted, ...signupRequest } = data;
+    return axios.post('/api/v1/auth/signup', signupRequest);
 };
 
 type UseRegisterOptions = {

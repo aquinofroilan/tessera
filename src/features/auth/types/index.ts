@@ -29,6 +29,10 @@ export interface RegisterCredentials {
     orgSlug: string;
     orgBaseCurrency: string;
     orgDescription?: string;
+    orgFiscalYearStart: string;
+    orgTimezone: string;
+    orgLegalName: string;
+    orgTradeName: string;
     termsAccepted: boolean;
 }
 
