@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { axios } from "@/src/lib/axios";
-import type { AuthResponse, LoginCredentials } from "@/src/features/auth/types";
+import type { AuthenticatedResponse, AuthResponse, LoginCredentials } from "@/src/features/auth/types";
+import { useAuthStore } from "@/src/features/auth/stores/authStore";
+import { getUser } from "@/src/features/auth/api/getUser";
 
 export const loginWithEmailAndPassword = (data: LoginCredentials): Promise<AuthResponse> => {
     // Usually OAuth2 token endpoints require form-urlencoded data
@@ -18,17 +20,18 @@ export const loginWithEmailAndPassword = (data: LoginCredentials): Promise<AuthR
 };
 
 type UseLoginOptions = {
-    onSuccess?: (data: AuthResponse) => void;
+    onSuccess?: (data: AuthenticatedResponse) => void;
 };
 
 export const useLogin = ({ onSuccess }: UseLoginOptions = {}) => {
     return useMutation({
         mutationFn: loginWithEmailAndPassword,
-        onSuccess: (data) => {
-            // Here you can store the token in localStorage or Zustand
+        onSuccess: async (data) => {
             localStorage.setItem('tessera_token', data.access_token);
+            const user = data.user ?? await getUser();
+            useAuthStore.getState().setUser(user);
             if (onSuccess) {
-                onSuccess(data);
+                onSuccess({ ...data, user });
             }
         },
     });
