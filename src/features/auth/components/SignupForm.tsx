@@ -25,6 +25,10 @@ const signupSchema = z.object({
         required_error: "Base currency is required" 
     }),
     orgDescription: z.string().optional(),
+    orgFiscalYearStart: z.string().min(1, { message: "Fiscal year start is required" }),
+    orgTimezone: z.string().min(1, { message: "Organization timezone is required" }),
+    orgLegalName: z.string().min(1, { message: "Legal name is required" }),
+    orgTradeName: z.string().min(1, { message: "Trade name is required" }),
     termsAccepted: z.boolean().refine((value) => value, {
         message: "You must accept the terms and privacy policy",
     }),
@@ -54,6 +58,10 @@ export const SignupForm = () => {
             orgSlug: "",
             orgBaseCurrency: "USD",
             orgDescription: "",
+            orgFiscalYearStart: "",
+            orgTimezone: "",
+            orgLegalName: "",
+            orgTradeName: "",
             termsAccepted: false,
         },
         mode: "onChange",
@@ -84,7 +92,10 @@ export const SignupForm = () => {
     };
 
     const onSubmit = (values: SignupValues) => {
-        registerMutation.mutate(values);
+        registerMutation.mutate({
+            ...values,
+            orgFiscalYearStart: `${values.orgFiscalYearStart}T00:00:00`,
+        });
     };
 
     const registrationError =
@@ -248,6 +259,77 @@ export const SignupForm = () => {
                                 </FormItem>
                             )}
                         />
+                        <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
+                            <FormField
+                                control={form.control}
+                                name="orgLegalName"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Legal Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Acme Corporation, Inc." {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="orgTradeName"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Trade Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Acme" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
+                            <FormField
+                                control={form.control}
+                                name="orgFiscalYearStart"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Fiscal Year Start</FormLabel>
+                                        <FormControl>
+                                            <Input type="date" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="orgTimezone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Timezone</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select a timezone" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="UTC">UTC</SelectItem>
+                                                <SelectItem value="America/New_York">Eastern Time</SelectItem>
+                                                <SelectItem value="America/Chicago">Central Time</SelectItem>
+                                                <SelectItem value="America/Denver">Mountain Time</SelectItem>
+                                                <SelectItem value="America/Los_Angeles">Pacific Time</SelectItem>
+                                                <SelectItem value="Asia/Manila">Philippine Time</SelectItem>
+                                                <SelectItem value="Europe/London">London</SelectItem>
+                                                <SelectItem value="Europe/Paris">Central European Time</SelectItem>
+                                                <SelectItem value="Asia/Tokyo">Japan Time</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
                         <FormField
                             control={form.control}
