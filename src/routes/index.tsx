@@ -6,6 +6,7 @@ import { forgotPasswordRoute } from '@/src/features/auth/routes/forgotPassword';
 import { resetPasswordRoute } from '@/src/features/auth/routes/resetPassword';
 import { magicLinkRoute } from '@/src/features/auth/routes/magicLink';
 import { invitationRoute } from '@/src/features/auth/routes/invitation';
+import { DashboardPage } from '@/src/features/dashboard/pages/DashboardPage';
 
 // Root route acts as the main layout wrapper
 export const rootRoute = createRootRoute({
@@ -23,14 +24,7 @@ export const protectedLayoutRoute = createRoute({
 export const dashboardRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/dashboard',
-  component: () => (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold text-gray-900">Tessera Dashboard</h1>
-        <p className="text-gray-600">You are securely logged in.</p>
-      </div>
-    </div>
-  ),
+  component: DashboardPage,
 });
 
 // Redirect root to dashboard
