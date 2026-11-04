@@ -21,6 +21,7 @@ import {
     WorkflowSquare01Icon,
 } from 'hugeicons-react'
 import { useNavigate } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/src/features/auth/stores/authStore'
 import { DashboardNavItem } from './DashboardNavItem'
 
@@ -61,7 +62,9 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
 
     return (
         <>
-            <button
+            <Button
+                variant="pill-ghost"
+                size="icon"
                 type="button"
                 className={ `fixed inset-0 z-[19] bg-(--ink)/30 transition-opacity duration-200 lg:hidden ${ open ? 'visible opacity-100' : 'invisible opacity-0' }` }
                 aria-label="Close navigation"
@@ -73,14 +76,14 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                     <span className="mb-1 size-1.5 rounded-full bg-(--accent)" aria-hidden="true" />
                 </div>
 
-                <button type="button" className="mb-[18px] flex w-full items-center gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) p-2.5 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">
+                <Button type="button" variant="pill-ghost" size="sm" className="mb-[18px] flex w-full items-center gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) p-2.5 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">
                     <span className="grid size-7 shrink-0 place-items-center rounded-[7px] bg-(--accent) font-display text-sm font-medium italic text-(--paper)" aria-hidden="true">H</span>
                     <span className="flex min-w-0 flex-1 flex-col">
                         <strong className="truncate text-[13px] font-medium tracking-[-0.005em]">Hollis &amp; Dray</strong>
                         <small className="truncate font-mono text-[10px] tracking-[0.03em] text-(--muted)">Millwork · workspace</small>
                     </span>
                     <ArrowDown01Icon className="shrink-0 text-(--muted)" size={ 16 } aria-hidden="true" />
-                </button>
+                </Button>
 
                 <nav className="min-h-0 flex-1 space-y-[18px] overflow-y-auto">
                     <div className="grid gap-0.5">
@@ -99,14 +102,14 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
 
                 <div className="flex-1" />
 
-                <button type="button" className="flex w-full items-center gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) p-2.5 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)" onClick={ handleLogout }>
+                <Button type="button" variant="pill-ghost" size="sm" className="flex w-full items-center gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) p-2.5 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)" onClick={ handleLogout }>
                     <span className="grid size-8 shrink-0 place-items-center rounded-full bg-linear-to-br from-(--plum) to-(--accent) font-display text-[13px] font-medium text-(--paper) shadow-[inset_0_0_0_2px_rgb(255_255_255_/_20%)]" aria-hidden="true">{ initials }</span>
                     <span className="flex min-w-0 flex-1 flex-col">
                         <strong className="truncate text-[13px] font-medium tracking-[-0.003em]">{ displayName }</strong>
                         <small className="truncate text-[11px] text-(--muted)">{ user?.role ?? 'Workspace member' }</small>
                     </span>
                     <Logout01Icon className="shrink-0 text-(--muted)" size={ 16 } aria-label="Sign out" />
-                </button>
+                </Button>
             </aside>
         </>
     )
