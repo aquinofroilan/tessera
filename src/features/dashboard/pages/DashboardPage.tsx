@@ -1,6 +1,7 @@
 import { IconArrowUpRight, IconCircleCheck, IconClock, IconPlus } from '@tabler/icons-react'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { useAuthStore } from '@/src/features/auth/stores/authStore'
+import { Button } from '@/components/ui/button'
 
 const placeholderSlots = [
     {
@@ -31,10 +32,10 @@ export const DashboardPage = () => {
                     <h1 className="mb-2.5 font-display text-[clamp(36px,4vw,48px)] font-light leading-none tracking-[-0.03em]">Good morning, <em className="text-(--accent)">{ firstName }.</em></h1>
                     <p className="text-[15px] text-(--ink-soft)">A calm starting point for the whole shop.</p>
                 </div>
-                <button type="button" className="mt-[18px] inline-flex items-center gap-1.5 self-end rounded-lg bg-(--ink) px-2.5 py-2 text-[13px] font-medium text-(--paper) transition-colors hover:bg-(--accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink) sm:mt-0">
+                <Button type="button" variant="pill-ghost" size="sm" className="mt-[18px] inline-flex items-center gap-1.5 self-end rounded-lg bg-(--ink) px-2.5 py-2 text-[13px] font-medium text-(--paper) transition-colors hover:bg-(--accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink) sm:mt-0">
                     <IconPlus size={ 16 } stroke={ 2.2 } aria-hidden="true" />
                     Create something
-                </button>
+                </Button>
             </div>
 
             <section className="mb-5 flex w-full items-start gap-4 rounded-xl border border-(--rule) bg-(--paper-2) p-5 shadow-[0_1px_0_rgb(23_22_15_/_3%),0_8px_24px_-16px_rgb(23_22_15_/_18%)] sm:p-6" aria-label="Dashboard shell status">
