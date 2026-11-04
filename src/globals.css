@@ -73,6 +73,26 @@
 }
 
 @theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted-2: var(--muted-2);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-accent-light: var(--accent-light);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-soft: var(--accent-soft);
+  --color-moss: var(--moss);
+  --color-moss-soft: var(--moss-soft);
+  --color-ochre: var(--ochre);
+  --color-ochre-soft: var(--ochre-soft);
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --color-plum: var(--plum);
+  --color-plum-soft: var(--plum-soft);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
