@@ -11,8 +11,12 @@ export interface AuthResponse {
     refresh_token: string;
     expires_in: number;
     token_type: string;
-    user: User;
+    user?: User;
 }
+
+export type AuthenticatedResponse = AuthResponse & {
+    user: User;
+};
 
 export interface LoginCredentials {
     email: string;
@@ -29,6 +33,11 @@ export interface RegisterCredentials {
     orgSlug: string;
     orgBaseCurrency: string;
     orgDescription?: string;
+    orgFiscalYearStart: string;
+    orgTimezone: string;
+    orgLegalName: string;
+    orgTradeName: string;
+    termsAccepted: boolean;
 }
 
 export interface ForgotPasswordCredentials {
