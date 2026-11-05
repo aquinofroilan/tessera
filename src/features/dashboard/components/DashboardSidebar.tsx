@@ -149,8 +149,6 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                     </div>
                 </nav>
 
-                <div className="flex-1" />
-
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button type="button" variant="pill-ghost" size="sm" className="h-auto flex w-full items-center justify-start gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) px-2.5 py-1 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)" aria-label={`Account menu for ${displayName}`}>
