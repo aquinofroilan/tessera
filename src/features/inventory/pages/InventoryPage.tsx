@@ -77,7 +77,7 @@ export const InventoryPage = () => {
 
     return (
         <DashboardShell>
-            <div className="mx-auto w-full max-w-7xl">
+            <div className="w-full">
                 <div className="mb-7 flex items-end justify-between gap-6 border-b border-(--rule) pb-6 max-sm:block">
                     <div>
                         <p className="mb-3 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory</p>
