@@ -8,6 +8,8 @@ import { magicLinkRoute } from '@/src/features/auth/routes/magicLink';
 import { invitationRoute } from '@/src/features/auth/routes/invitation';
 import { DashboardPage } from '@/src/features/dashboard/pages/DashboardPage';
 import { LandingPage } from '@/src/features/landing/pages/LandingPage';
+import { InventoryPage } from '@/src/features/inventory/pages/InventoryPage';
+import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
 
 // Root route acts as the main layout wrapper
 export const rootRoute = createRootRoute({
@@ -26,6 +28,18 @@ export const dashboardRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/dashboard',
   component: DashboardPage,
+});
+
+const productCreateRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/products/new',
+  component: ProductCreatePage,
+});
+
+const inventoryRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory',
+  component: InventoryPage,
 });
 
 const landingRoute = createRoute({
@@ -52,7 +66,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute]),
 ]);
 
 export const router = createRouter({ routeTree });
