@@ -20,7 +20,7 @@ export const DashboardNavItem = ( {
         variant="pill-ghost"
         size="sm"
         type="button"
-        className={ `group flex w-full items-center justify-start gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13.5px] tracking-[-0.003em] text-(--ink-soft) transition-colors duration-150 hover:bg-(--paper) hover:text-(--ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink) ${ active ? 'bg-(--ink) font-medium text-(--paper) hover:bg-(--ink) hover:text-(--paper)' : '' }` }
+        className={ `group h-auto flex w-full items-center justify-start gap-[11px] rounded-lg px-2.5 py-2 text-left text-[13.5px] tracking-[-0.003em] text-(--ink-soft) transition-colors duration-150 hover:bg-(--paper) hover:text-(--ink) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink) ${ active ? 'bg-(--ink) font-medium text-(--paper) hover:bg-(--ink) hover:text-(--paper)' : '' }` }
         aria-current={ active ? 'page' : undefined }
         onClick={ onClick }
     >

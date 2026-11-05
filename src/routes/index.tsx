@@ -1,4 +1,5 @@
 import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
+import { z } from 'zod';
 import { ProtectedRoute } from '@/src/components/router/ProtectedRoute';
 import { loginRoute } from '@/src/features/auth/routes/login';
 import { signupRoute } from '@/src/features/auth/routes/signup';
@@ -36,11 +37,36 @@ const productCreateRoute = createRoute({
   component: ProductCreatePage,
 });
 
+const inventorySearchSchema = z.object({
+  search: z.string().optional().catch(undefined),
+  category: z.string().optional().catch(undefined),
+  activeFilter: z.enum(['true', 'false']).optional().catch(undefined),
+});
+
 const inventoryRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/inventory',
-  component: InventoryPage,
+  validateSearch: inventorySearchSchema,
+  component: InventoryRouteComponent,
 });
+
+function InventoryRouteComponent() {
+  const search = inventoryRoute.useSearch();
+  const navigate = inventoryRoute.useNavigate();
+
+  return (
+    <InventoryPage
+      searchParams={search}
+      updateSearchParams={(updates) =>
+        navigate({
+          replace: true,
+          search: (previous) => ({ ...previous, ...updates }),
+        })
+      }
+      clearSearchParams={() => navigate({ replace: true, search: {} })}
+    />
+  );
+}
 
 const landingRoute = createRoute({
   getParentRoute: () => rootRoute,
