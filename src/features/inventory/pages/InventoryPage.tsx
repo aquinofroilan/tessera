@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
+import { toast } from 'sonner'
 import { PackagePlus, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -60,11 +61,28 @@ export const InventoryPage = () => {
         return () => window.clearTimeout( timeout )
     }, [ search ] )
 
-    const { data: products, isPending, isError, error } = useProducts( {
+    const { data: products, isPending, isError, error, refetch } = useProducts( {
         search: debouncedSearch || undefined,
         category: category.trim() || undefined,
         isActive: activeFilter === 'true',
     } )
+
+    useEffect( () => {
+        const toastId = 'inventory-products-fetch-error'
+
+        if ( isError ) {
+            toast.error( 'Could not load products', {
+                id: toastId,
+                description: getProductsErrorMessage( error ),
+                action: {
+                    label: 'Retry',
+                    onClick: () => { void refetch() },
+                },
+            } )
+        } else {
+            toast.dismiss( toastId )
+        }
+    }, [ error, isError, refetch ] )
 
     const clearFilters = () => {
         setSearch( '' )
@@ -119,9 +137,7 @@ export const InventoryPage = () => {
 
                 <Card className="overflow-hidden">
                     <CardContent className="p-0">
-                        { isError ? (
-                            <div className="m-5 rounded-xl border border-(--accent)/25 bg-(--accent-soft) p-4 text-sm text-(--accent-deep)" role="alert">{ getProductsErrorMessage( error ) }</div>
-                        ) : isPending ? (
+                        { isError ? null : isPending ? (
                             <div className="p-8 text-center text-sm text-(--muted)" role="status" aria-live="polite">Loading products…</div>
                         ) : products?.length ? (
                             <Table>
