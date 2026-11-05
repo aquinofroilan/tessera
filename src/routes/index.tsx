@@ -10,6 +10,7 @@ import { invitationRoute } from '@/src/features/auth/routes/invitation';
 import { DashboardPage } from '@/src/features/dashboard/pages/DashboardPage';
 import { LandingPage } from '@/src/features/landing/pages/LandingPage';
 import { InventoryPage } from '@/src/features/inventory/pages/InventoryPage';
+import { ProductCategorySettingsPage } from '@/src/features/inventory/pages/ProductCategorySettingsPage';
 import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
 
 // Root route acts as the main layout wrapper
@@ -37,9 +38,15 @@ const productCreateRoute = createRoute({
   component: ProductCreatePage,
 });
 
+const productCategorySettingsRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/settings/product-categories',
+  component: ProductCategorySettingsPage,
+});
+
 const inventorySearchSchema = z.object({
   search: z.string().optional().catch(undefined),
-  category: z.string().optional().catch(undefined),
+  categoryId: z.string().optional().catch(undefined),
   activeFilter: z.enum(['true', 'false']).optional().catch(undefined),
 });
 
@@ -92,7 +99,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productCategorySettingsRoute]),
 ]);
 
 export const router = createRouter({ routeTree });

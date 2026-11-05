@@ -8,7 +8,10 @@ import { Card, CardContent, CardDescription, CardEyebrow, CardFooter, CardHeader
 import { Checkbox } from '@/components/ui/checkbox'
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Spinner } from '@/components/ui/spinner'
 import { Textarea } from '@/components/ui/textarea'
+import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useCreateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 
@@ -16,7 +19,7 @@ const productSchema = z.object( {
     sku: z.string().trim().min( 1, 'SKU is required' ).max( 64, 'SKU must be 64 characters or fewer' ),
     name: z.string().trim().min( 1, 'Product name is required' ).max( 255, 'Name must be 255 characters or fewer' ),
     description: z.string().max( 2000, 'Description must be 2,000 characters or fewer' ),
-    category: z.string().max( 128, 'Category must be 128 characters or fewer' ),
+    categoryId: z.string().refine( value => !value || z.uuid().safeParse( value ).success, 'Choose a valid product category' ),
     imageUrl: z.string().max( 2048, 'Image URL must be 2,048 characters or fewer' ).refine( value => !value.trim() || URL.canParse( value.trim() ), 'Enter a valid URL' ),
     listPrice: z.string().trim().min( 1, 'List price is required' ).refine( value => Number.isFinite( Number( value ) ) && Number( value ) >= 0, 'Enter a number that is zero or greater' ),
     priceCurrency: z.string(),
@@ -32,7 +35,7 @@ const defaultValues: ProductFormValues = {
     sku: '',
     name: '',
     description: '',
-    category: '',
+    categoryId: '',
     imageUrl: '',
     listPrice: '',
     priceCurrency: 'USD',
@@ -62,6 +65,7 @@ function getErrorMessage ( error: unknown ) {
 
 export const ProductCreateForm = () => {
     const mutation = useCreateProduct()
+    const categoriesQuery = useProductCategories()
     const [ createdProduct, setCreatedProduct ] = useState<ProductResponse | null>( null )
     const form = useForm( {
         defaultValues,
@@ -75,7 +79,7 @@ export const ProductCreateForm = () => {
                 sku: value.sku.trim(),
                 name: value.name.trim(),
                 description: value.description.trim() || undefined,
-                category: value.category.trim() || undefined,
+                categoryId: value.categoryId || undefined,
                 imageUrl: value.imageUrl.trim() || undefined,
                 listPrice: Number( value.listPrice ),
                 priceCurrency: value.priceCurrency.trim() || undefined,
@@ -155,12 +159,22 @@ export const ProductCreateForm = () => {
                                     </Field>
                                 )
                             } } />
-                            <form.Field name="category" children={ field => {
+                            <form.Field name="categoryId" children={ field => {
                                 const isInvalid = field.state.meta.errors.length > 0
                                 return (
                                     <Field data-invalid={ isInvalid }>
                                         <FieldLabel htmlFor={ field.name }>Category</FieldLabel>
-                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Widgets" maxLength={ 128 } disabled={ mutation.isPending } />
+                                        <Select value={ field.state.value || undefined } onValueChange={ value => field.handleChange( value === '__none__' ? '' : value ?? '' ) } disabled={ mutation.isPending || categoriesQuery.isPending || categoriesQuery.isError }>
+                                            <SelectTrigger id={ field.name } aria-label="Product category" aria-invalid={ isInvalid } className={ textInputClass }>
+                                                <SelectValue placeholder={ categoriesQuery.isPending ? 'Loading categories…' : 'Select a category' } />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="__none__">No category</SelectItem>
+                                                { categoriesQuery.data?.map( category => <SelectItem key={ category.id } value={ category.id }>{ category.name }</SelectItem> ) }
+                                            </SelectContent>
+                                        </Select>
+                                        { categoriesQuery.isError ? <FieldDescription className="text-(--accent-deep)">Categories could not be loaded. <button type="button" className="underline underline-offset-2" onClick={ () => { void categoriesQuery.refetch() } }>Retry</button></FieldDescription> : null }
+                                        { !categoriesQuery.isPending && !categoriesQuery.isError && !categoriesQuery.data?.length ? <FieldDescription>No categories yet. <Link className="underline underline-offset-2" to="/inventory/settings/product-categories">Manage categories</Link></FieldDescription> : null }
                                         { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
                                     </Field>
                                 )
@@ -255,7 +269,8 @@ export const ProductCreateForm = () => {
                         <CardFooter className="-mx-5 mt-5 justify-end gap-2 border-t border-(--rule-soft) px-5 pt-4 pb-0">
                             <Button asChild variant="pill-ghost" className="text-(--ink-soft) hover:bg-(--paper-2)"><Link to="/inventory">Cancel</Link></Button>
                             <Button type="submit" variant="pill-ghost" form="product-create-form" className="bg-(--ink) text-(--paper) hover:bg-(--accent)" disabled={ mutation.isPending }>
-                                <PackagePlus size={ 16 } aria-hidden="true" />{ mutation.isPending ? 'Creating…' : 'Create product' }
+                                { mutation.isPending ? <Spinner className="size-4 text-current" aria-label="Creating product" /> : <PackagePlus size={ 16 } aria-hidden="true" /> }
+                                { mutation.isPending ? 'Creating…' : 'Create product' }
                             </Button>
                         </CardFooter>
                     </CardContent>
