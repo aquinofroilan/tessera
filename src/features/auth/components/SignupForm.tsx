@@ -3,22 +3,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
+import { IconCheck } from "@tabler/icons-react";
 import { useRegister } from "@/src/features/auth/api/register";
-import { 
-    Button, 
-    Input, 
-    Form, 
-    FormControl, 
-    FormField, 
-    FormItem, 
-    FormLabel, 
-    FormMessage,
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormDivider } from "@/components/ui/form-divider";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
 
 const signupSchema = z.object({
     firstName: z.string().min(1, { message: "First name is required" }),
@@ -32,6 +25,13 @@ const signupSchema = z.object({
         required_error: "Base currency is required" 
     }),
     orgDescription: z.string().optional(),
+    orgFiscalYearStart: z.string().min(1, { message: "Fiscal year start is required" }),
+    orgTimezone: z.string().min(1, { message: "Organization timezone is required" }),
+    orgLegalName: z.string().min(1, { message: "Legal name is required" }),
+    orgTradeName: z.string().min(1, { message: "Trade name is required" }),
+    termsAccepted: z.boolean().refine((value) => value, {
+        message: "You must accept the terms and privacy policy",
+    }),
 });
 
 type SignupValues = z.infer<typeof signupSchema>;
@@ -58,6 +58,11 @@ export const SignupForm = () => {
             orgSlug: "",
             orgBaseCurrency: "USD",
             orgDescription: "",
+            orgFiscalYearStart: "",
+            orgTimezone: "",
+            orgLegalName: "",
+            orgTradeName: "",
+            termsAccepted: false,
         },
         mode: "onChange",
     });
@@ -87,15 +92,32 @@ export const SignupForm = () => {
     };
 
     const onSubmit = (values: SignupValues) => {
-        registerMutation.mutate(values);
+        registerMutation.mutate({
+            ...values,
+            orgFiscalYearStart: `${values.orgFiscalYearStart}T00:00:00`,
+        });
     };
+
+    const registrationError =
+        registerMutation.error instanceof Error
+            ? registerMutation.error.message
+            : "We couldn't create your account. Please try again.";
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                {registerMutation.isError && (
+                    <div
+                        role="alert"
+                        className="rounded-[10px] border border-(--accent) bg-(--accent-soft) px-3.5 py-3 text-[13px] leading-[1.45] text-(--accent-deep)"
+                    >
+                        {registrationError}
+                    </div>
+                )}
                 {step === 0 && (
-                    <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
-                        <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                        <FormDivider label="or with work email" className="mb-5" />
+                        <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
                             <FormField
                                 control={form.control}
                                 name="firstName"
@@ -156,21 +178,22 @@ export const SignupForm = () => {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input type="password" placeholder="••••••••" {...field} />
+                                        <PasswordInput placeholder="••••••••" {...field} />
                                     </FormControl>
+                                    <PasswordStrengthMeter value={field.value} />
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
                         
-                        <Button type="button" onClick={nextStep} className="w-full">
+                        <Button type="button" variant="pill" size="pill-lg" onClick={nextStep} className="w-full">
                             Continue Setup
                         </Button>
                     </div>
                 )}
 
                 {step === 1 && (
-                    <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+                    <div className="space-y-4">
                         <FormField
                             control={form.control}
                             name="orgName"
@@ -184,7 +207,7 @@ export const SignupForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
                             <FormField
                                 control={form.control}
                                 name="orgSlug"
@@ -236,12 +259,143 @@ export const SignupForm = () => {
                                 </FormItem>
                             )}
                         />
+                        <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
+                            <FormField
+                                control={form.control}
+                                name="orgLegalName"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Legal Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Acme Corporation, Inc." {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="orgTradeName"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Trade Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Acme" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
+                            <FormField
+                                control={form.control}
+                                name="orgFiscalYearStart"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Fiscal Year Start</FormLabel>
+                                        <FormControl>
+                                            <Input type="date" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="orgTimezone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Timezone</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select a timezone" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="UTC">UTC</SelectItem>
+                                                <SelectItem value="America/New_York">Eastern Time</SelectItem>
+                                                <SelectItem value="America/Chicago">Central Time</SelectItem>
+                                                <SelectItem value="America/Denver">Mountain Time</SelectItem>
+                                                <SelectItem value="America/Los_Angeles">Pacific Time</SelectItem>
+                                                <SelectItem value="Asia/Manila">Philippine Time</SelectItem>
+                                                <SelectItem value="Europe/London">London</SelectItem>
+                                                <SelectItem value="Europe/Paris">Central European Time</SelectItem>
+                                                <SelectItem value="Asia/Tokyo">Japan Time</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <FormField
+                            control={form.control}
+                            name="termsAccepted"
+                            render={({ field }) => (
+                                <FormItem className="gap-1.5">
+                                    <div className="flex items-start gap-3">
+                                        <FormControl>
+                                            <Checkbox
+                                                id="terms-consent"
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange}
+                                                aria-label="Accept the terms of service and privacy policy"
+                                            />
+                                        </FormControl>
+                                        <label
+                                            htmlFor="terms-consent"
+                                            className="text-[13px] leading-[1.5] text-(--ink-soft)"
+                                        >
+                                            I agree to the{" "}
+                                            <a
+                                                href="/terms"
+                                                className="text-(--ink) underline decoration-(--rule) underline-offset-2 hover:decoration-(--accent) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                            >
+                                                Terms of Service
+                                            </a>{" "}
+                                            and{" "}
+                                            <a
+                                                href="/privacy"
+                                                className="text-(--ink) underline decoration-(--rule) underline-offset-2 hover:decoration-(--accent) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                            >
+                                                Privacy Policy
+                                            </a>
+                                            .
+                                        </label>
+                                    </div>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
                         <div className="flex flex-col gap-4">
-                            <Button type="submit" className="w-full" disabled={registerMutation.isPending}>
+                            <Button
+                                type="submit"
+                                variant="pill"
+                                size="pill-lg"
+                                className="w-full"
+                                disabled={registerMutation.isPending}
+                            >
                                 {registerMutation.isPending ? "Creating..." : "Create Account"}
                             </Button>
-                            <Button type="button" variant="outline" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
+                            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 font-mono text-[11px] leading-[1.4] text-(--muted)">
+                                <span className="inline-flex items-center gap-1.5">
+                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    No credit card
+                                </span>
+                                <span className="inline-flex items-center gap-1.5">
+                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    Cancel anytime
+                                </span>
+                                <span className="inline-flex items-center gap-1.5">
+                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    SOC 2 ready
+                                </span>
+                            </div>
+                            <Button type="button" variant="pill-outline" size="pill-lg" onClick={prevStep} className="w-full" disabled={registerMutation.isPending}>
                                 Back
                             </Button>
                         </div>

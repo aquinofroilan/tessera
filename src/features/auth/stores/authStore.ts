@@ -10,7 +10,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => ({
     user: null,
-    isAuthenticated: false,
+    isAuthenticated: Boolean(localStorage.getItem('tessera_token')),
     setUser: (user) => set({ user, isAuthenticated: !!user }),
     logout: () => {
         localStorage.removeItem('tessera_token');
