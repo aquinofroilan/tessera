@@ -6,25 +6,14 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Spinner } from '@/components/ui/spinner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { useProducts } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
+import { formatPrice } from '@/src/features/inventory/utils/formatPrice'
 
 const inputClass = 'h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
-
-function formatPrice ( product: ProductResponse ) {
-    const amount = Number( product.listPrice )
-    const currency = product.priceCurrency?.trim()
-
-    if ( !currency ) return amount.toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 } )
-
-    try {
-        return new Intl.NumberFormat( undefined, { style: 'currency', currency } ).format( amount )
-    } catch {
-        return `${ currency } ${ amount.toLocaleString( undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 } ) }`
-    }
-}
 
 function getProductsErrorMessage ( error: unknown ) {
     if ( typeof error === 'object' && error !== null && 'response' in error ) {
@@ -138,7 +127,10 @@ export const InventoryPage = () => {
                 <Card className="overflow-hidden">
                     <CardContent className="p-0">
                         { isError ? null : isPending ? (
-                            <div className="p-8 text-center text-sm text-(--muted)" role="status" aria-live="polite">Loading products…</div>
+                            <div className="flex items-center justify-center gap-2 p-8 text-sm text-(--muted)" aria-live="polite">
+                                <Spinner className="size-4 text-(--accent)" aria-label="Loading products" />
+                                <span>Loading products…</span>
+                            </div>
                         ) : products?.length ? (
                             <Table>
                                 <TableHeader>
