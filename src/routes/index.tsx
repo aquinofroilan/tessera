@@ -7,6 +7,7 @@ import { resetPasswordRoute } from '@/src/features/auth/routes/resetPassword';
 import { magicLinkRoute } from '@/src/features/auth/routes/magicLink';
 import { invitationRoute } from '@/src/features/auth/routes/invitation';
 import { DashboardPage } from '@/src/features/dashboard/pages/DashboardPage';
+import { LandingPage } from '@/src/features/landing/pages/LandingPage';
 
 // Root route acts as the main layout wrapper
 export const rootRoute = createRootRoute({
@@ -27,6 +28,12 @@ export const dashboardRoute = createRoute({
   component: DashboardPage,
 });
 
+const landingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/landing',
+  component: LandingPage,
+});
+
 // Redirect root to dashboard
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -44,6 +51,7 @@ const routeTree = rootRoute.addChildren([
   resetPasswordRoute,
   magicLinkRoute,
   invitationRoute,
+  landingRoute,
   protectedLayoutRoute.addChildren([dashboardRoute]),
 ]);
 

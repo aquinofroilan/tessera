@@ -73,6 +73,13 @@
 }
 
 @theme inline {
+  --container-screen-2xl: var(--breakpoint-2xl);
+  --animate-brand-marquee: brand-marquee 38s linear infinite;
+  @keyframes brand-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
   --color-paper: var(--paper);
   --color-paper-2: var(--paper-2);
   --color-paper-3: var(--paper-3);
