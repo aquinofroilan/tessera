@@ -4,26 +4,46 @@ import type { CreateProductCategoryRequest, ProductCategoryResponse, UpdateProdu
 
 const CATEGORIES_ENDPOINT = '/api/v1/inventory/categories'
 
+type ProductCategoryApiResponse = Omit<ProductCategoryResponse, 'isActive'> & {
+    active?: boolean
+    isActive?: boolean
+}
+
+const normalizeProductCategory = ( category: ProductCategoryApiResponse ): ProductCategoryResponse => ( {
+    id: category.id,
+    name: category.name,
+    description: category.description,
+    isActive: category.active ?? category.isActive ?? false,
+} )
+
 export type ProductCategoryListParams = {
     activeOnly?: boolean
 }
 
-export const getProductCategories = ( { activeOnly = true }: ProductCategoryListParams = {} ): Promise<ProductCategoryResponse[]> =>
-    axios.get( CATEGORIES_ENDPOINT, { params: { activeOnly } } )
+export const getProductCategories = async ( { activeOnly = true }: ProductCategoryListParams = {} ): Promise<ProductCategoryResponse[]> => {
+    const categories: ProductCategoryApiResponse[] = await axios.get( CATEGORIES_ENDPOINT, { params: { activeOnly } } )
+    return categories.map( normalizeProductCategory )
+}
 
 export const useProductCategories = ( params: ProductCategoryListParams = {} ) => useQuery( {
     queryKey: [ 'inventory', 'product-categories', params ],
     queryFn: () => getProductCategories( params ),
 } )
 
-export const createProductCategory = ( body: CreateProductCategoryRequest ): Promise<ProductCategoryResponse> =>
-    axios.post( CATEGORIES_ENDPOINT, body )
+export const createProductCategory = async ( body: CreateProductCategoryRequest ): Promise<ProductCategoryResponse> => {
+    const category: ProductCategoryApiResponse = await axios.post( CATEGORIES_ENDPOINT, body )
+    return normalizeProductCategory( category )
+}
 
-export const updateProductCategory = ( id: string, body: UpdateProductCategoryRequest ): Promise<ProductCategoryResponse> =>
-    axios.patch( `${ CATEGORIES_ENDPOINT }/${ id }`, body )
+export const updateProductCategory = async ( id: string, body: UpdateProductCategoryRequest ): Promise<ProductCategoryResponse> => {
+    const category: ProductCategoryApiResponse = await axios.patch( `${ CATEGORIES_ENDPOINT }/${ id }`, body )
+    return normalizeProductCategory( category )
+}
 
-export const deactivateProductCategory = ( id: string ): Promise<ProductCategoryResponse> =>
-    axios.delete( `${ CATEGORIES_ENDPOINT }/${ id }` )
+export const deactivateProductCategory = async ( id: string ): Promise<ProductCategoryResponse> => {
+    const category: ProductCategoryApiResponse = await axios.delete( `${ CATEGORIES_ENDPOINT }/${ id }` )
+    return normalizeProductCategory( category )
+}
 
 export const useCreateProductCategory = () => {
     const queryClient = useQueryClient()

@@ -92,15 +92,15 @@ const SelectItem = ({ className, children, ...props }: ComponentProps<typeof Sel
         <SelectPrimitive.Item
             data-slot="select-item"
             className={cn(
-                "relative flex w-full cursor-default items-center gap-2 rounded-md py-2 pr-8 pl-2.5 text-[14px] outline-hidden select-none",
-                "focus:bg-accent focus:text-accent-foreground",
+                "group/select-item relative flex w-full cursor-default items-center gap-2 rounded-md py-2 pr-8 pl-2.5 text-[14px] outline-hidden select-none",
+                "focus:bg-(--accent) focus:text-(--paper) data-highlighted:bg-(--accent) data-highlighted:text-(--paper)",
                                 "data-disabled:pointer-events-none data-disabled:opacity-50",
                 className,
             )}
             {...props}>
             <span className="pointer-events-none absolute right-2.5 flex size-4 items-center justify-center">
                 <SelectPrimitive.ItemIndicator>
-                    <Tick01Icon className="size-4 text-foreground" strokeWidth={2} />
+                    <Tick01Icon className="size-4 text-foreground group-data-[highlighted]/select-item:text-(--paper)" strokeWidth={2} />
                 </SelectPrimitive.ItemIndicator>
             </span>
             <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
