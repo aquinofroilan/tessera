@@ -2,7 +2,7 @@ export type CreateProductRequest = {
     sku: string
     name: string
     description?: string
-    category?: string
+    categoryId?: string | null
     imageUrl?: string
     listPrice: number
     priceCurrency?: string
@@ -17,7 +17,7 @@ export type ProductResponse = {
     sku: string
     name: string
     description: string | null
-    category: string | null
+    categoryId: string | null
     imageUrl: string | null
     listPrice: number
     priceCurrency: string | null

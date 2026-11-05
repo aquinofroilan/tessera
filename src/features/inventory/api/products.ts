@@ -5,7 +5,7 @@ import type { CreateProductRequest, ProductResponse } from '../types/products'
 const PRODUCTS_ENDPOINT = '/api/v1/inventory/products'
 
 export type ProductListParams = {
-    category?: string
+    categoryId?: string
     isActive?: boolean
     search?: string
 }
@@ -14,7 +14,7 @@ export const getProducts = ( params: ProductListParams = {} ): Promise<ProductRe
     axios.get( PRODUCTS_ENDPOINT, {
         params: {
             ...params,
-            category: params.category?.trim() || undefined,
+            categoryId: params.categoryId?.trim() || undefined,
             search: params.search?.trim() || undefined,
             isActive: params.isActive ?? true,
         },

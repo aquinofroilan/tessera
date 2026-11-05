@@ -9,23 +9,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Spinner } from '@/components/ui/spinner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
+import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useProducts } from '@/src/features/inventory/api/products'
+import type { InventoryPageProps } from '@/src/features/inventory/types/inventory'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { formatPrice } from '@/src/features/inventory/utils/formatPrice'
 
 const inputClass = 'h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
-
-type InventorySearchParams = {
-    search?: string
-    category?: string
-    activeFilter?: 'true' | 'false'
-}
-
-type InventoryPageProps = {
-    searchParams: InventorySearchParams
-    updateSearchParams: ( updates: InventorySearchParams ) => void
-    clearSearchParams: () => void
-}
 
 function getProductsErrorMessage ( error: unknown ) {
     if ( typeof error === 'object' && error !== null && 'response' in error ) {
@@ -52,7 +42,7 @@ function getTrackingLabels ( product: ProductResponse ) {
 }
 
 export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchParams }: InventoryPageProps ) => {
-    const { search = '', category = '', activeFilter = 'true' } = searchParams
+    const { search = '', categoryId = '', activeFilter = 'true' } = searchParams
     const [ searchInput, setSearchInput ] = useState( search )
     const searchNavigationTimer = useRef<number | null>( null )
 
@@ -72,9 +62,10 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
         }, 300 )
     }
 
+    const categoriesQuery = useProductCategories( { activeOnly: false } )
     const { data: products, isPending, isError, error, refetch } = useProducts( {
         search: search.trim() || undefined,
-        category: category.trim() || undefined,
+        categoryId: categoryId || undefined,
         isActive: activeFilter === 'true',
     } )
 
@@ -95,13 +86,31 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
         }
     }, [ error, isError, refetch ] )
 
+    useEffect( () => {
+        const toastId = 'inventory-product-categories-fetch-error'
+
+        if ( categoriesQuery.isError ) {
+            toast.error( 'Could not load product categories', {
+                id: toastId,
+                description: 'Category names and filters are unavailable. Check your connection and try again.',
+                action: {
+                    label: 'Retry',
+                    onClick: () => { void categoriesQuery.refetch() },
+                },
+            } )
+        } else {
+            toast.dismiss( toastId )
+        }
+    }, [ categoriesQuery.isError, categoriesQuery.refetch ] )
+
     const clearFilters = () => {
         if ( searchNavigationTimer.current !== null ) window.clearTimeout( searchNavigationTimer.current )
         setSearchInput( '' )
         clearSearchParams()
     }
 
-    const filtered = Boolean( search.trim() || category.trim() || activeFilter !== 'true' )
+    const filtered = Boolean( search.trim() || categoryId || activeFilter !== 'true' )
+    const categoryNames = new Map( ( categoriesQuery.data ?? [] ).map( category => [ category.id, category.name ] ) )
 
     return (
         <DashboardShell>
@@ -128,7 +137,15 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
 
                     <label className="grid gap-1.5 text-xs font-medium text-(--ink-soft)">
                         Category
-                        <Input value={ category } onChange={ event => updateSearchParams( { category: event.target.value || undefined } ) } className={ inputClass } placeholder="All categories" aria-label="Filter by category" />
+                        <Select value={ categoryId || '__all__' } onValueChange={ value => updateSearchParams( { categoryId: !value || value === '__all__' ? undefined : value } ) } disabled={ categoriesQuery.isPending || categoriesQuery.isError }>
+                            <SelectTrigger className="h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm" aria-label="Filter by product category">
+                                <SelectValue placeholder={ categoriesQuery.isPending ? 'Loading categories…' : 'All categories' } />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="__all__">All categories</SelectItem>
+                                { categoriesQuery.data?.map( category => <SelectItem key={ category.id } value={ category.id }>{ category.name }{ category.isActive ? '' : ' (Inactive)' }</SelectItem> ) }
+                            </SelectContent>
+                        </Select>
                     </label>
 
                     <label className="grid gap-1.5 text-xs font-medium text-(--ink-soft)">
@@ -174,7 +191,7 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
                                                     <span className="block font-medium">{ product.name }</span>
                                                     { product.description ? <span className="mt-0.5 block max-w-[42ch] truncate text-xs text-(--muted)">{ product.description }</span> : null }
                                                 </TableCell>
-                                                <TableCell className="text-(--ink-soft)">{ product.category || '—' }</TableCell>
+                                                <TableCell className="text-(--ink-soft)">{ product.categoryId ? categoryNames.get( product.categoryId ) ?? 'Category unavailable' : '—' }</TableCell>
                                                 <TableCell className="text-right font-medium">{ formatPrice( product ) }</TableCell>
                                                 <TableCell>
                                                     { trackingLabels.length ? (

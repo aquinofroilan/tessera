@@ -22,6 +22,7 @@ import {
     WorkflowSquare01Icon,
 } from 'hugeicons-react'
 import { useNavigate, useRouterState } from '@tanstack/react-router'
+import { Tag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useUser } from '@/src/features/auth/api/getUser'
@@ -113,17 +114,31 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                     <div className="grid gap-0.5">
                         <p className="px-2.5 pb-1.5 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Modules</p>
                         { moduleNavigation.map( ( item ) => (
-                            <DashboardNavItem
-                                key={ item.label }
-                                { ...item }
-                                active={ item.label === 'Inventory'
-                                    ? pathname.startsWith( '/inventory' )
-                                    : item.label === 'Overview' && pathname === '/dashboard' }
-                                onClick={ () => {
-                                    onClose()
-                                    if ( item.label === 'Inventory' ) navigate( { to: '/inventory' } )
-                                } }
-                            />
+                            <div key={ item.label }>
+                                <DashboardNavItem
+                                    { ...item }
+                                    active={ item.label === 'Inventory'
+                                        ? pathname === '/inventory' || pathname === '/inventory/products/new'
+                                        : item.label === 'Overview' && pathname === '/dashboard' }
+                                    onClick={ () => {
+                                        onClose()
+                                        if ( item.label === 'Inventory' ) navigate( { to: '/inventory' } )
+                                    } }
+                                />
+                                { item.label === 'Inventory' && pathname.startsWith( '/inventory' ) ? (
+                                    <div className="ml-5 border-l border-(--rule) pl-2">
+                                        <DashboardNavItem
+                                            label="Product categories"
+                                            icon={ <Tag size={ 17 } /> }
+                                            active={ pathname === '/inventory/settings/product-categories' }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/inventory/settings/product-categories' } )
+                                            } }
+                                        />
+                                    </div>
+                                ) : null }
+                            </div>
                         ) ) }
                     </div>
 
