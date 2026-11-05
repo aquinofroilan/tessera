@@ -88,7 +88,7 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button type="button" variant="pill-ghost" size="sm" className="mb-[18px] flex w-full items-center justify-start gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) p-2.5 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)" aria-label="Choose workspace">
+                        <Button type="button" variant="pill-ghost" size="sm" className="mb-[18px] h-auto flex w-full items-center justify-start gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) px-2.5 py-1 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)" aria-label="Choose workspace">
                             <span className="grid size-7 shrink-0 place-items-center rounded-[7px] bg-(--accent) font-display text-sm font-medium italic text-(--paper)" aria-hidden="true">H</span>
                             <span className="flex min-w-0 flex-1 flex-col">
                                 <strong className="truncate text-[13px] font-medium tracking-[-0.005em]">Hollis &amp; Dray</strong>
@@ -138,7 +138,7 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button type="button" variant="pill-ghost" size="sm" className="flex w-full items-center justify-start gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) p-2.5 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)" aria-label={`Account menu for ${displayName}`}>
+                        <Button type="button" variant="pill-ghost" size="sm" className="h-auto flex w-full items-center justify-start gap-2.5 rounded-[10px] border border-(--rule) bg-(--paper) px-2.5 py-1 text-left transition-colors duration-150 hover:border-(--muted-2) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)" aria-label={`Account menu for ${displayName}`}>
                             <span className="grid size-8 shrink-0 place-items-center rounded-full bg-linear-to-br from-(--plum) to-(--accent) font-display text-[13px] font-medium text-(--paper) shadow-[inset_0_0_0_2px_rgb(255_255_255_/_20%)]" aria-hidden="true">{ initials }</span>
                             <span className="flex min-w-0 flex-1 flex-col">
                                 <strong className="truncate text-[13px] font-medium tracking-[-0.003em]">{ displayName }</strong>

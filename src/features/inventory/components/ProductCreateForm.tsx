@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useForm } from '@tanstack/react-form'
 import { z } from 'zod'
 import { ArrowLeft, Check, PackagePlus } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardEyebrow, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { useCreateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 
@@ -62,32 +63,34 @@ function getErrorMessage ( error: unknown ) {
 export const ProductCreateForm = () => {
     const mutation = useCreateProduct()
     const [ createdProduct, setCreatedProduct ] = useState<ProductResponse | null>( null )
-    const form = useForm<ProductFormValues>( {
-        resolver: zodResolver( productSchema ),
+    const form = useForm( {
         defaultValues,
+        validators: {
+            onSubmit: productSchema,
+        },
+        onSubmit: ( { value } ) => {
+            if ( mutation.isPending ) return
+            setCreatedProduct( null )
+            mutation.mutate( {
+                sku: value.sku.trim(),
+                name: value.name.trim(),
+                description: value.description.trim() || undefined,
+                category: value.category.trim() || undefined,
+                imageUrl: value.imageUrl.trim() || undefined,
+                listPrice: Number( value.listPrice ),
+                priceCurrency: value.priceCurrency.trim() || undefined,
+                taxGroupId: value.taxGroupId.trim() || null,
+                isLotTracked: value.isLotTracked,
+                isSerialized: value.isSerialized,
+                hasExpiry: value.hasExpiry,
+            }, {
+                onSuccess: product => {
+                    setCreatedProduct( product )
+                    form.reset()
+                },
+            } )
+        },
     } )
-
-    const onSubmit = ( values: ProductFormValues ) => {
-        setCreatedProduct( null )
-        mutation.mutate( {
-            sku: values.sku.trim(),
-            name: values.name.trim(),
-            description: values.description.trim() || undefined,
-            category: values.category.trim() || undefined,
-            imageUrl: values.imageUrl.trim() || undefined,
-            listPrice: Number( values.listPrice ),
-            priceCurrency: values.priceCurrency.trim() || undefined,
-            taxGroupId: values.taxGroupId.trim() || null,
-            isLotTracked: values.isLotTracked,
-            isSerialized: values.isSerialized,
-            hasExpiry: values.hasExpiry,
-        }, {
-            onSuccess: product => {
-                setCreatedProduct( product )
-                form.reset( defaultValues )
-            },
-        } )
-    }
 
     const trackingOptions = [
         { name: 'isLotTracked' as const, label: 'Track lots', description: 'Group stock by production or receipt lot.' },
@@ -96,10 +99,10 @@ export const ProductCreateForm = () => {
     ]
 
     return (
-        <div className="mx-auto w-full max-w-5xl">
+        <div className="w-full">
             <div className="mb-6">
                 <Button asChild variant="pill-ghost" size="sm" className="mb-5 -ml-2 text-(--ink-soft) hover:bg-(--paper-2)">
-                    <Link to="/dashboard"><ArrowLeft size={ 15 } />Dashboard</Link>
+                    <Link to="/inventory"><ArrowLeft size={ 15 } />Products</Link>
                 </Button>
                 <p className="mb-2 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory / Products / New</p>
                 <h1 className="font-display text-[clamp(34px,4vw,48px)] font-light leading-tight tracking-[-.035em]">Add a product</h1>
@@ -115,61 +118,149 @@ export const ProductCreateForm = () => {
 
             { mutation.isError ? <div className="mb-5 rounded-xl border border-(--accent)/25 bg-(--accent-soft) p-4 text-sm text-(--accent-deep)" role="alert">{ getErrorMessage( mutation.error ) }</div> : null }
 
-            <Form { ...form }>
-                <form onSubmit={ form.handleSubmit( onSubmit ) } className="grid gap-5">
-                    <Card>
-                        <CardHeader>
-                            <CardEyebrow>Product identity</CardEyebrow>
-                            <CardTitle>Basic information</CardTitle>
-                            <CardDescription>Give this product a unique SKU and a clear name.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="grid gap-5 sm:grid-cols-2">
-                            <FormField control={ form.control } name="sku" render={ ( { field } ) => <FormItem><FormLabel>SKU <span className="text-(--accent)">*</span></FormLabel><FormControl><Input { ...field } className={ textInputClass } placeholder="WIDGET-001" maxLength={ 64 } disabled={ mutation.isPending } /></FormControl><FormMessage /></FormItem> } />
-                            <FormField control={ form.control } name="name" render={ ( { field } ) => <FormItem><FormLabel>Product name <span className="text-(--accent)">*</span></FormLabel><FormControl><Input { ...field } className={ textInputClass } placeholder="Standard Widget" maxLength={ 255 } disabled={ mutation.isPending } /></FormControl><FormMessage /></FormItem> } />
-                            <FormField control={ form.control } name="category" render={ ( { field } ) => <FormItem><FormLabel>Category</FormLabel><FormControl><Input { ...field } className={ textInputClass } placeholder="Widgets" maxLength={ 128 } disabled={ mutation.isPending } /></FormControl><FormMessage /></FormItem> } />
-                            <FormField control={ form.control } name="imageUrl" render={ ( { field } ) => <FormItem><FormLabel>Image URL</FormLabel><FormControl><Input { ...field } className={ textInputClass } type="url" placeholder="https://example.com/widget.png" maxLength={ 2048 } disabled={ mutation.isPending } /></FormControl><FormMessage /></FormItem> } />
-                            <FormField control={ form.control } name="description" render={ ( { field } ) => <FormItem className="sm:col-span-2"><FormLabel>Description</FormLabel><FormControl><textarea { ...field } className="min-h-28 w-full resize-y rounded-[10px] border border-(--rule) bg-(--card) px-3.5 py-3 text-sm outline-none placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:shadow-[0_0_0_3px_rgb(23_22_15_/_6%)] disabled:cursor-not-allowed disabled:opacity-70" placeholder="Describe what this product is used for." maxLength={ 2000 } disabled={ mutation.isPending } /></FormControl><p className="text-right font-mono text-[10px] text-(--muted)">{ form.watch( 'description' ).length } / 2,000</p><FormMessage /></FormItem> } />
-                        </CardContent>
-                    </Card>
+            <form
+                id="product-create-form"
+                onSubmit={ event => {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    void form.handleSubmit()
+                } }
+                className="grid w-full gap-5"
+            >
+                <Card>
+                    <CardHeader>
+                        <CardEyebrow>Product identity</CardEyebrow>
+                        <CardTitle>Basic information</CardTitle>
+                        <CardDescription>Give this product a unique SKU and a clear name.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup className="grid gap-5 sm:grid-cols-2">
+                            <form.Field name="sku" children={ field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ field.name }>SKU <span className="text-(--accent)">*</span></FieldLabel>
+                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="WIDGET-001" maxLength={ 64 } disabled={ mutation.isPending } />
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } } />
+                            <form.Field name="name" children={ field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ field.name }>Product name <span className="text-(--accent)">*</span></FieldLabel>
+                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Standard Widget" maxLength={ 255 } disabled={ mutation.isPending } />
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } } />
+                            <form.Field name="category" children={ field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ field.name }>Category</FieldLabel>
+                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Widgets" maxLength={ 128 } disabled={ mutation.isPending } />
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } } />
+                            <form.Field name="imageUrl" children={ field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ field.name }>Image URL</FieldLabel>
+                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } type="url" placeholder="https://example.com/widget.png" maxLength={ 2048 } disabled={ mutation.isPending } />
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } } />
+                            <form.Field name="description" children={ field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid } className="sm:col-span-2">
+                                        <FieldLabel htmlFor={ field.name }>Description</FieldLabel>
+                                        <Textarea id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className="min-h-28 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" placeholder="Describe what this product is used for." maxLength={ 2000 } disabled={ mutation.isPending } />
+                                        <p className="text-right font-mono text-[10px] text-(--muted)">{ field.state.value.length } / 2,000</p>
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } } />
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
-                    <Card>
-                        <CardHeader>
-                            <CardEyebrow>Pricing & tax</CardEyebrow>
-                            <CardTitle>How you sell it</CardTitle>
-                            <CardDescription>Set the list price and optional tax group for this product.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="grid gap-5 sm:grid-cols-2">
-                            <FormField control={ form.control } name="listPrice" render={ ( { field } ) => <FormItem><FormLabel>List price <span className="text-(--accent)">*</span></FormLabel><FormControl><Input { ...field } className={ textInputClass } type="number" inputMode="decimal" min="0" step="any" placeholder="0.00" disabled={ mutation.isPending } /></FormControl><FormMessage /></FormItem> } />
-                            <FormField control={ form.control } name="priceCurrency" render={ ( { field } ) => <FormItem><FormLabel>Price currency</FormLabel><FormControl><Input { ...field } className={ textInputClass } placeholder="USD" disabled={ mutation.isPending } /></FormControl><FormMessage /></FormItem> } />
-                            <FormField control={ form.control } name="taxGroupId" render={ ( { field } ) => <FormItem className="sm:col-span-2"><FormLabel>Tax group ID</FormLabel><FormControl><Input { ...field } className={ textInputClass } placeholder="Optional tax group UUID" disabled={ mutation.isPending } /></FormControl><FormMessage /></FormItem> } />
-                        </CardContent>
-                    </Card>
+                <Card>
+                    <CardHeader>
+                        <CardEyebrow>Pricing &amp; tax</CardEyebrow>
+                        <CardTitle>How you sell it</CardTitle>
+                        <CardDescription>Set the list price and optional tax group for this product.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup className="grid gap-5 sm:grid-cols-2">
+                            <form.Field name="listPrice" children={ field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ field.name }>List price <span className="text-(--accent)">*</span></FieldLabel>
+                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } type="number" inputMode="decimal" min="0" step="any" placeholder="0.00" disabled={ mutation.isPending } />
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } } />
+                            <form.Field name="priceCurrency" children={ field => (
+                                <Field>
+                                    <FieldLabel htmlFor={ field.name }>Price currency</FieldLabel>
+                                    <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } className={ textInputClass } placeholder="USD" disabled={ mutation.isPending } />
+                                </Field>
+                            ) } />
+                            <form.Field name="taxGroupId" children={ field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid } className="sm:col-span-2">
+                                        <FieldLabel htmlFor={ field.name }>Tax group ID</FieldLabel>
+                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Optional tax group UUID" disabled={ mutation.isPending } />
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } } />
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
-                    <Card>
-                        <CardHeader>
-                            <CardEyebrow>Inventory tracking</CardEyebrow>
-                            <CardTitle>Tracking options</CardTitle>
-                            <CardDescription>Turn on the inventory details this product requires. All are off by default.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="grid gap-3 sm:grid-cols-3">
+                <Card>
+                    <CardHeader>
+                        <CardEyebrow>Inventory tracking</CardEyebrow>
+                        <CardTitle>Tracking options</CardTitle>
+                        <CardDescription>Turn on the inventory details this product requires. All are off by default.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup data-slot="checkbox-group" className="grid gap-3 sm:grid-cols-3">
                             { trackingOptions.map( option => (
-                                <FormField key={ option.name } control={ form.control } name={ option.name } render={ ( { field } ) => (
-                                    <label className="flex cursor-pointer gap-3 rounded-xl border border-(--rule) bg-(--paper) p-3.5 transition-colors hover:border-(--muted-2) has-[:disabled]:cursor-not-allowed has-[:checked]:border-(--moss) has-[:checked]:bg-(--moss-soft)/45">
-                                        <input ref={ field.ref } name={ field.name } type="checkbox" checked={ field.value } onBlur={ field.onBlur } onChange={ field.onChange } disabled={ mutation.isPending } className="mt-0.5 size-4 shrink-0 accent-(--moss)" />
-                                        <span><span className="block text-sm font-medium">{ option.label }</span><span className="mt-1 block text-xs leading-relaxed text-(--muted)">{ option.description }</span></span>
-                                    </label>
-                                ) } />
+                                <form.Field key={ option.name } name={ option.name } children={ field => {
+                                    const isInvalid = field.state.meta.errors.length > 0
+                                    return (
+                                        <Field orientation="horizontal" data-invalid={ isInvalid } className={ `items-start rounded-xl border border-(--rule) bg-(--paper) p-3.5 transition-colors hover:border-(--muted-2) has-[:disabled]:cursor-not-allowed ${ field.state.value ? 'border-(--moss) bg-(--moss-soft)/45' : '' }` }>
+                                            <Checkbox id={ field.name } name={ field.name } checked={ field.state.value } onBlur={ field.handleBlur } onCheckedChange={ checked => field.handleChange( checked === true ) } aria-invalid={ isInvalid } disabled={ mutation.isPending } className="mt-0.5" />
+                                            <div className="grid gap-1">
+                                                <FieldLabel htmlFor={ field.name } className="font-medium">{ option.label }</FieldLabel>
+                                                <FieldDescription className="text-xs leading-relaxed text-(--muted)">{ option.description }</FieldDescription>
+                                                { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                            </div>
+                                        </Field>
+                                    )
+                                } } />
                             ) ) }
-                        </CardContent>
-                        <CardFooter className="justify-end gap-2">
-                            <Button asChild variant="pill-ghost" className="text-(--ink-soft) hover:bg-(--paper-2)"><Link to="/dashboard">Cancel</Link></Button>
-                            <Button type="submit" variant="pill-ghost" className="bg-(--ink) text-(--paper) hover:bg-(--accent)" disabled={ mutation.isPending }>
+                        </FieldGroup>
+                        <CardFooter className="-mx-5 mt-5 justify-end gap-2 border-t border-(--rule-soft) px-5 pt-4 pb-0">
+                            <Button asChild variant="pill-ghost" className="text-(--ink-soft) hover:bg-(--paper-2)"><Link to="/inventory">Cancel</Link></Button>
+                            <Button type="submit" variant="pill-ghost" form="product-create-form" className="bg-(--ink) text-(--paper) hover:bg-(--accent)" disabled={ mutation.isPending }>
                                 <PackagePlus size={ 16 } aria-hidden="true" />{ mutation.isPending ? 'Creating…' : 'Create product' }
                             </Button>
                         </CardFooter>
-                    </Card>
-                </form>
-            </Form>
+                    </CardContent>
+                </Card>
+            </form>
         </div>
     )
 }
