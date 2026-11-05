@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { PackagePlus, Search } from 'lucide-react'
@@ -14,6 +14,18 @@ import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { formatPrice } from '@/src/features/inventory/utils/formatPrice'
 
 const inputClass = 'h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
+
+type InventorySearchParams = {
+    search?: string
+    category?: string
+    activeFilter?: 'true' | 'false'
+}
+
+type InventoryPageProps = {
+    searchParams: InventorySearchParams
+    updateSearchParams: ( updates: InventorySearchParams ) => void
+    clearSearchParams: () => void
+}
 
 function getProductsErrorMessage ( error: unknown ) {
     if ( typeof error === 'object' && error !== null && 'response' in error ) {
@@ -39,19 +51,29 @@ function getTrackingLabels ( product: ProductResponse ) {
     return labels
 }
 
-export const InventoryPage = () => {
-    const [ search, setSearch ] = useState( '' )
-    const [ debouncedSearch, setDebouncedSearch ] = useState( '' )
-    const [ category, setCategory ] = useState( '' )
-    const [ activeFilter, setActiveFilter ] = useState( 'true' )
+export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchParams }: InventoryPageProps ) => {
+    const { search = '', category = '', activeFilter = 'true' } = searchParams
+    const [ searchInput, setSearchInput ] = useState( search )
+    const searchNavigationTimer = useRef<number | null>( null )
 
     useEffect( () => {
-        const timeout = window.setTimeout( () => setDebouncedSearch( search.trim() ), 300 )
-        return () => window.clearTimeout( timeout )
+        setSearchInput( search )
     }, [ search ] )
 
+    useEffect( () => () => {
+        if ( searchNavigationTimer.current !== null ) window.clearTimeout( searchNavigationTimer.current )
+    }, [] )
+
+    const handleSearchChange = ( value: string ) => {
+        setSearchInput( value )
+        if ( searchNavigationTimer.current !== null ) window.clearTimeout( searchNavigationTimer.current )
+        searchNavigationTimer.current = window.setTimeout( () => {
+            updateSearchParams( { search: value || undefined } )
+        }, 300 )
+    }
+
     const { data: products, isPending, isError, error, refetch } = useProducts( {
-        search: debouncedSearch || undefined,
+        search: search.trim() || undefined,
         category: category.trim() || undefined,
         isActive: activeFilter === 'true',
     } )
@@ -74,10 +96,9 @@ export const InventoryPage = () => {
     }, [ error, isError, refetch ] )
 
     const clearFilters = () => {
-        setSearch( '' )
-        setDebouncedSearch( '' )
-        setCategory( '' )
-        setActiveFilter( 'true' )
+        if ( searchNavigationTimer.current !== null ) window.clearTimeout( searchNavigationTimer.current )
+        setSearchInput( '' )
+        clearSearchParams()
     }
 
     const filtered = Boolean( search.trim() || category.trim() || activeFilter !== 'true' )
@@ -101,18 +122,18 @@ export const InventoryPage = () => {
                         Search products
                         <span className="relative">
                             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-(--muted)" aria-hidden="true" />
-                            <Input value={ search } onChange={ event => setSearch( event.target.value ) } className={ `${ inputClass } pl-9` } placeholder="Search products" aria-label="Search products" />
+                            <Input value={ searchInput } onChange={ event => handleSearchChange( event.target.value ) } className={ `${ inputClass } pl-9` } placeholder="Search products" aria-label="Search products" />
                         </span>
                     </label>
 
                     <label className="grid gap-1.5 text-xs font-medium text-(--ink-soft)">
                         Category
-                        <Input value={ category } onChange={ event => setCategory( event.target.value ) } className={ inputClass } placeholder="All categories" aria-label="Filter by category" />
+                        <Input value={ category } onChange={ event => updateSearchParams( { category: event.target.value || undefined } ) } className={ inputClass } placeholder="All categories" aria-label="Filter by category" />
                     </label>
 
                     <label className="grid gap-1.5 text-xs font-medium text-(--ink-soft)">
                         Status
-                        <Select value={ activeFilter } onValueChange={ value => setActiveFilter( value ?? 'true' ) }>
+                        <Select value={ activeFilter } onValueChange={ value => updateSearchParams( { activeFilter: value === 'false' ? 'false' : 'true' } ) }>
                             <SelectTrigger className="h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm" aria-label="Filter by product status">
                                 <SelectValue />
                             </SelectTrigger>
