@@ -1,9 +1,10 @@
 import { Link } from '@tanstack/react-router'
-import { ArrowLeft, CalendarClock, Package, Tag } from 'lucide-react'
+import { ArrowLeft, CalendarClock, Package, Tag } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
+import { ProductEditSheet } from '@/src/features/inventory/components/ProductEditSheet'
 import { useProduct } from '@/src/features/inventory/api/products'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
@@ -66,9 +67,12 @@ function ProductDetails ( { product }: { product: ProductResponse } ) {
                     <h1 className="break-words font-display text-[clamp(34px,4vw,48px)] font-light leading-none tracking-[-0.03em]">{ product.name }</h1>
                     <p className="mt-2.5 font-mono text-sm text-(--ink-soft)">{ product.sku }</p>
                 </div>
-                <Button asChild variant="pill-ghost" size="sm" className="mt-5 rounded-lg border border-(--rule) sm:mt-0">
-                    <Link to="/inventory"><ArrowLeft size={ 15 } aria-hidden="true" />Back to products</Link>
-                </Button>
+                <div className="mt-5 flex shrink-0 flex-wrap gap-2 sm:mt-0">
+                    <ProductEditSheet product={ product } />
+                    <Button asChild variant="pill-ghost" size="sm" className="rounded-lg border border-(--rule)">
+                        <Link to="/inventory"><ArrowLeft size={ 15 } aria-hidden="true" />Back to products</Link>
+                    </Button>
+                </div>
             </div>
 
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(260px,0.8fr)]">

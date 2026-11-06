@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { IconCheck } from '@tabler/icons-react'
+import { IconCheck } from '@/components/ui/hugeicons'
 import { AuthLayout } from '@/src/features/auth/components/AuthLayout'
 import { LoginForm } from '@/src/features/auth/components/LoginForm'
 
@@ -42,7 +42,7 @@ export const LoginPage = () => (
                     { ["Invoices & billing", "Cash flow clarity", "One connected workspace"].map( ( item ) => (
                         <span key={ item } className="flex items-center gap-2.5">
                             <span className="grid size-5.5 place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]">
-                                <IconCheck aria-hidden="true" size={ 12 } stroke={ 2.4 } />
+                                <IconCheck aria-hidden="true" size={ 12 } strokeWidth={ 2.4 } />
                             </span>
                             { item }
                         </span>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { z } from 'zod'
-import { ArrowLeft, Check, PackagePlus } from 'lucide-react'
+import { ArrowLeft, Check, PackagePlus } from '@/components/ui/hugeicons'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardEyebrow, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'

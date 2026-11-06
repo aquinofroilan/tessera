@@ -1,4 +1,4 @@
-import { IconBell, IconMenu2, IconPlus, IconSearch } from '@tabler/icons-react'
+import { IconBell, IconMenu2, IconPlus, IconSearch } from '@/components/ui/hugeicons'
 import { useRouterState } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 
@@ -51,7 +51,7 @@ export const DashboardTopbar = ( { onMenuClick }: DashboardTopbarProps ) => {
             </Button>
 
             <Button type="button" variant="pill-ghost" size="sm" className="inline-flex items-center gap-1.5 rounded-lg bg-(--ink) px-2.5 py-2 text-[13px] font-medium text-(--paper) transition-colors hover:bg-(--accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink) sm:px-3">
-                <IconPlus size={ 16 } stroke={ 2.2 } aria-hidden="true" />
+                <IconPlus size={ 16 } strokeWidth={ 2.2 } aria-hidden="true" />
                 <span>New</span>
             </Button>
         </header>
