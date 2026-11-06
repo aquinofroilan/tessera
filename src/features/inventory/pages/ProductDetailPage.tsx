@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { ProductEditSheet } from '@/src/features/inventory/components/ProductEditSheet'
+import { ProductDeactivateDialog } from '@/src/features/inventory/components/ProductDeactivateDialog'
 import { ProductVariantsTable } from '@/src/features/inventory/components/ProductVariantsTable'
 import { useProduct } from '@/src/features/inventory/api/products'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
@@ -82,6 +83,7 @@ function ProductDetails ( { product }: { product: ProductResponse } ) {
                 </div>
                 <div className="mt-5 flex shrink-0 flex-wrap gap-2 sm:mt-0">
                     <ProductEditSheet product={ product } />
+                    { product.isActive ? <ProductDeactivateDialog productId={ product.id } productName={ product.name } /> : null }
                     <Button asChild variant="pill-ghost" size="sm" className="rounded-lg border border-(--rule)">
                         <Link to="/inventory"><ArrowLeft size={ 15 } aria-hidden="true" />Back to products</Link>
                     </Button>

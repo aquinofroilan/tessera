@@ -41,6 +41,9 @@ export const createProduct = ( body: CreateProductRequest ): Promise<ProductResp
 export const updateProduct = ( id: string, body: UpdateProductRequest ): Promise<ProductResponse> =>
     axios.patch( `${ PRODUCTS_ENDPOINT }/${ encodeURIComponent( id ) }`, body )
 
+export const deactivateProduct = ( id: string ): Promise<ProductResponse> =>
+    axios.delete( `${ PRODUCTS_ENDPOINT }/${ encodeURIComponent( id ) }` )
+
 export const useCreateProduct = () => useMutation( {
     mutationFn: createProduct,
 } )
@@ -51,6 +54,18 @@ export const useUpdateProduct = () => {
     return useMutation( {
         mutationFn: ( { id, ...body }: UpdateProductRequest & { id: string } ) => updateProduct( id, body ),
         onSuccess: ( product ) => {
+            queryClient.setQueryData( [ 'inventory', 'product', product.id ], product )
+            queryClient.invalidateQueries( { queryKey: [ 'inventory', 'products' ] } )
+        },
+    } )
+}
+
+export const useDeactivateProduct = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation( {
+        mutationFn: deactivateProduct,
+        onSuccess: product => {
             queryClient.setQueryData( [ 'inventory', 'product', product.id ], product )
             queryClient.invalidateQueries( { queryKey: [ 'inventory', 'products' ] } )
         },
