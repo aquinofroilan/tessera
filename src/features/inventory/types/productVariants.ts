@@ -14,3 +14,10 @@ export type CreateProductVariantRequest = {
     skuSuffix?: string
     attributes: Record<string, string>
 }
+
+export type UpdateProductVariantRequest = {
+    name: string
+    skuSuffix: string | null
+    attributes: Record<string, string>
+    isActive: boolean
+}

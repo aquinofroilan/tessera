@@ -4,14 +4,32 @@ import type { CreateProductRequest, ProductResponse, UpdateProductRequest } from
 
 const PRODUCTS_ENDPOINT = '/api/v1/inventory/products'
 
+type ProductApiResponse = Omit<ProductResponse, 'isActive' | 'isLotTracked' | 'isSerialized' | 'hasExpiry'> & {
+    active?: boolean
+    isActive?: boolean
+    lotTracked?: boolean
+    isLotTracked?: boolean
+    serialized?: boolean
+    isSerialized?: boolean
+    hasExpiry?: boolean
+}
+
+const mapProductResponse = ( product: ProductApiResponse ): ProductResponse => ( {
+    ...product,
+    isActive: product.isActive ?? product.active ?? false,
+    isLotTracked: product.isLotTracked ?? product.lotTracked ?? false,
+    isSerialized: product.isSerialized ?? product.serialized ?? false,
+    hasExpiry: product.hasExpiry ?? false,
+} )
+
 export type ProductListParams = {
     categoryId?: string
     isActive?: boolean
     search?: string
 }
 
-export const getProducts = ( params: ProductListParams = {} ): Promise<ProductResponse[]> =>
-    axios.get( PRODUCTS_ENDPOINT, {
+export const getProducts = async ( params: ProductListParams = {} ): Promise<ProductResponse[]> => {
+    const products: ProductApiResponse[] = await axios.get( PRODUCTS_ENDPOINT, {
         params: {
             ...params,
             categoryId: params.categoryId?.trim() || undefined,
@@ -19,9 +37,13 @@ export const getProducts = ( params: ProductListParams = {} ): Promise<ProductRe
             isActive: params.isActive ?? true,
         },
     } )
+    return products.map( mapProductResponse )
+}
 
-export const getProduct = ( id: string ): Promise<ProductResponse> =>
-    axios.get( `${ PRODUCTS_ENDPOINT }/${ encodeURIComponent( id ) }` )
+export const getProduct = async ( id: string ): Promise<ProductResponse> => {
+    const product: ProductApiResponse = await axios.get( `${ PRODUCTS_ENDPOINT }/${ encodeURIComponent( id ) }` )
+    return mapProductResponse( product )
+}
 
 export const useProduct = ( id: string ) => useQuery( {
     queryKey: [ 'inventory', 'product', id ],
@@ -35,11 +57,15 @@ export const useProducts = ( params: ProductListParams = {} ) => useQuery( {
     queryFn: () => getProducts( params ),
 } )
 
-export const createProduct = ( body: CreateProductRequest ): Promise<ProductResponse> =>
-    axios.post( PRODUCTS_ENDPOINT, body )
+export const createProduct = async ( body: CreateProductRequest ): Promise<ProductResponse> => {
+    const product: ProductApiResponse = await axios.post( PRODUCTS_ENDPOINT, body )
+    return mapProductResponse( product )
+}
 
-export const updateProduct = ( id: string, body: UpdateProductRequest ): Promise<ProductResponse> =>
-    axios.patch( `${ PRODUCTS_ENDPOINT }/${ encodeURIComponent( id ) }`, body )
+export const updateProduct = async ( id: string, body: UpdateProductRequest ): Promise<ProductResponse> => {
+    const product: ProductApiResponse = await axios.patch( `${ PRODUCTS_ENDPOINT }/${ encodeURIComponent( id ) }`, body )
+    return mapProductResponse( product )
+}
 
 export const useCreateProduct = () => useMutation( {
     mutationFn: createProduct,
