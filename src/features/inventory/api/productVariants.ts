@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { axios } from '@/src/lib/axios'
-import type { ProductVariantResponse, UpdateProductVariantRequest } from '../types/productVariants'
+import type { CreateProductVariantRequest, ProductVariantResponse, UpdateProductVariantRequest } from '../types/productVariants'
 
 const PRODUCT_VARIANTS_ENDPOINT = '/api/v1/inventory/products'
 
@@ -9,6 +9,9 @@ export const getProductVariants = ( productId: string ): Promise<ProductVariantR
 
 export const getProductVariant = ( productId: string, variantId: string ): Promise<ProductVariantResponse> =>
     axios.get( `${ PRODUCT_VARIANTS_ENDPOINT }/${ encodeURIComponent( productId ) }/variants/${ encodeURIComponent( variantId ) }` )
+
+export const createProductVariant = ( productId: string, body: CreateProductVariantRequest ): Promise<ProductVariantResponse> =>
+    axios.post( `${ PRODUCT_VARIANTS_ENDPOINT }/${ encodeURIComponent( productId ) }/variants`, body )
 
 export const updateProductVariant = ( productId: string, variantId: string, body: UpdateProductVariantRequest ): Promise<ProductVariantResponse> =>
     axios.put( `${ PRODUCT_VARIANTS_ENDPOINT }/${ encodeURIComponent( productId ) }/variants/${ encodeURIComponent( variantId ) }`, body )
@@ -26,6 +29,18 @@ export const useProductVariant = ( productId: string, variantId: string ) => use
     enabled: Boolean( productId && variantId ),
     retry: false,
 } )
+
+export const useCreateProductVariant = ( productId: string ) => {
+    const queryClient = useQueryClient()
+
+    return useMutation( {
+        mutationFn: ( body: CreateProductVariantRequest ) => createProductVariant( productId, body ),
+        onSuccess: ( variant ) => {
+            queryClient.setQueryData<ProductVariantResponse[]>( [ 'inventory', 'product', productId, 'variants' ], previous => [ ...( previous ?? [] ), variant ] )
+            queryClient.invalidateQueries( { queryKey: [ 'inventory', 'product', productId, 'variants' ] } )
+        },
+    } )
+}
 
 export const useUpdateProductVariant = ( productId: string, variantId: string ) => {
     const queryClient = useQueryClient()
