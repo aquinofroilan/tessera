@@ -13,6 +13,7 @@ import { InventoryPage } from '@/src/features/inventory/pages/InventoryPage';
 import { ProductCategorySettingsPage } from '@/src/features/inventory/pages/ProductCategorySettingsPage';
 import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
 import { ProductDetailPage } from '@/src/features/inventory/pages/ProductDetailPage';
+import { ProductVariantDetailPage } from '@/src/features/inventory/pages/ProductVariantDetailPage';
 import { clearPendingRequestToasts } from '@/src/lib/axios';
 
 // Root route acts as the main layout wrapper
@@ -56,6 +57,17 @@ const productCategorySettingsRoute = createRoute({
   path: '/inventory/settings/product-categories',
   component: ProductCategorySettingsPage,
 });
+
+const productVariantDetailRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/item/$uuid/variant/$variantUuid',
+  component: ProductVariantDetailRouteComponent,
+});
+
+function ProductVariantDetailRouteComponent() {
+  const { uuid, variantUuid } = productVariantDetailRoute.useParams();
+  return <ProductVariantDetailPage productId={uuid} variantId={variantUuid} />;
+}
 
 const inventorySearchSchema = z.object({
   search: z.string().optional().catch(undefined),
@@ -112,7 +124,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productCategorySettingsRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute]),
 ]);
 
 export const router = createRouter({ routeTree });

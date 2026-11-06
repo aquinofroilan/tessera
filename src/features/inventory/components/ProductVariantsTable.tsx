@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { Spinner } from '@/components/ui/spinner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useProductVariants } from '@/src/features/inventory/api/productVariants'
@@ -57,7 +58,16 @@ export function ProductVariantsTable ( { productId }: { productId: string } ) {
                             return (
                                 <TableRow key={ variant.id }>
                                     <TableCell className="font-mono text-xs text-(--ink-soft)">{ variant.code }</TableCell>
-                                    <TableCell className="font-medium">{ variant.name }</TableCell>
+                                    <TableCell className="font-medium">
+                                        <Link
+                                            to="/inventory/item/$uuid/variant/$variantUuid"
+                                            params={ { uuid: productId, variantUuid: variant.id } }
+                                            aria-label={ `View ${ variant.name } variant details` }
+                                            className="rounded-sm text-(--ink) underline decoration-transparent underline-offset-4 transition-colors hover:text-(--accent) hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                        >
+                                            { variant.name }
+                                        </Link>
+                                    </TableCell>
                                     <TableCell className="font-mono text-xs text-(--ink-soft)">{ variant.skuSuffix || '—' }</TableCell>
                                     <TableCell>
                                         { attributes.length ? (
