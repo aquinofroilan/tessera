@@ -3,6 +3,7 @@ import { toast } from 'sonner'
 import { Pencil } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Field, FieldDescription, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
@@ -33,7 +34,7 @@ type ProductFormValues = {
 }
 
 const inputClass = 'h-11 rounded-[10px] border-(--rule) bg-(--card) px-3.5 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
-const labelClass = 'grid gap-1.5 text-xs font-medium text-(--ink-soft)'
+const fieldClass = 'gap-1.5 text-xs font-medium text-(--ink-soft)'
 
 function getInitialValues ( product: ProductResponse ): ProductFormValues {
     return {
@@ -143,21 +144,21 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
                             { updateMutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getErrorMessage( updateMutation.error ) }</p> : null }
 
                             <div className="grid gap-4 sm:grid-cols-2">
-                                <label className={ labelClass }>
-                                    SKU <span className="text-(--accent)">*</span>
-                                    <Input value={ values.sku } onChange={ event => updateValue( 'sku', event.target.value ) } className={ inputClass } maxLength={ 64 } required disabled={ isPending } />
-                                </label>
-                                <label className={ labelClass }>
-                                    Product name <span className="text-(--accent)">*</span>
-                                    <Input value={ values.name } onChange={ event => updateValue( 'name', event.target.value ) } className={ inputClass } maxLength={ 255 } required disabled={ isPending } />
-                                </label>
+                                <Field className={ fieldClass }>
+                                    <FieldLabel htmlFor="product-edit-sku">SKU <span className="text-(--accent)">*</span></FieldLabel>
+                                    <Input id="product-edit-sku" value={ values.sku } onChange={ event => updateValue( 'sku', event.target.value ) } className={ inputClass } maxLength={ 64 } required disabled={ isPending } />
+                                </Field>
+                                <Field className={ fieldClass }>
+                                    <FieldLabel htmlFor="product-edit-name">Product name <span className="text-(--accent)">*</span></FieldLabel>
+                                    <Input id="product-edit-name" value={ values.name } onChange={ event => updateValue( 'name', event.target.value ) } className={ inputClass } maxLength={ 255 } required disabled={ isPending } />
+                                </Field>
                             </div>
 
                             <div className="grid gap-4 sm:grid-cols-2">
-                                <label className={ labelClass }>
-                                    Category
+                                <Field className={ fieldClass }>
+                                    <FieldLabel htmlFor="product-edit-category">Category</FieldLabel>
                                     <Select value={ values.categoryId || '__none__' } onValueChange={ value => updateValue( 'categoryId', !value || value === '__none__' ? '' : value ) } disabled={ isPending || categoriesQuery.isPending || categoriesQuery.isError }>
-                                        <SelectTrigger className={ inputClass } aria-label="Product category">
+                                        <SelectTrigger id="product-edit-category" className={ inputClass } aria-label="Product category">
                                             <SelectValue placeholder={ categoriesQuery.isPending ? 'Loading categories…' : 'Select a category' } />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -166,34 +167,34 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
                                             { availableCategories.map( category => <SelectItem key={ category.id } value={ category.id }>{ category.name }{ category.isActive ? '' : ' (Inactive)' }</SelectItem> ) }
                                         </SelectContent>
                                     </Select>
-                                    { categoriesQuery.isError ? <span className="font-normal text-(--accent-deep)">Categories are unavailable. The current category will be preserved.</span> : null }
-                                </label>
-                                <label className={ labelClass }>
-                                    Image URL
-                                    <Input type="url" value={ values.imageUrl } onChange={ event => updateValue( 'imageUrl', event.target.value ) } className={ inputClass } maxLength={ 2048 } placeholder="https://example.com/product.png" disabled={ isPending } />
-                                </label>
+                                    { categoriesQuery.isError ? <FieldDescription className="text-(--accent-deep)">Categories are unavailable. The current category will be preserved.</FieldDescription> : null }
+                                </Field>
+                                <Field className={ fieldClass }>
+                                    <FieldLabel htmlFor="product-edit-image-url">Image URL</FieldLabel>
+                                    <Input id="product-edit-image-url" type="url" value={ values.imageUrl } onChange={ event => updateValue( 'imageUrl', event.target.value ) } className={ inputClass } maxLength={ 2048 } placeholder="https://example.com/product.png" disabled={ isPending } />
+                                </Field>
                             </div>
 
-                            <label className={ labelClass }>
-                                Description
-                                <Textarea value={ values.description } onChange={ event => updateValue( 'description', event.target.value ) } className="min-h-24 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" maxLength={ 2000 } disabled={ isPending } />
-                            </label>
+                            <Field className={ fieldClass }>
+                                <FieldLabel htmlFor="product-edit-description-field">Description</FieldLabel>
+                                <Textarea id="product-edit-description-field" value={ values.description } onChange={ event => updateValue( 'description', event.target.value ) } className="min-h-24 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" maxLength={ 2000 } disabled={ isPending } />
+                            </Field>
 
                             <div className="grid gap-4 sm:grid-cols-2">
-                                <label className={ labelClass }>
-                                    List price <span className="text-(--accent)">*</span>
-                                    <Input type="number" inputMode="decimal" min="0" step="any" value={ values.listPrice } onChange={ event => updateValue( 'listPrice', event.target.value ) } className={ inputClass } required disabled={ isPending } />
-                                </label>
-                                <label className={ labelClass }>
-                                    Currency
-                                    <Input value={ values.priceCurrency } onChange={ event => updateValue( 'priceCurrency', event.target.value ) } className={ inputClass } maxLength={ 3 } placeholder="USD" disabled={ isPending } />
-                                </label>
+                                <Field className={ fieldClass }>
+                                    <FieldLabel htmlFor="product-edit-list-price">List price <span className="text-(--accent)">*</span></FieldLabel>
+                                    <Input id="product-edit-list-price" type="number" inputMode="decimal" min="0" step="any" value={ values.listPrice } onChange={ event => updateValue( 'listPrice', event.target.value ) } className={ inputClass } required disabled={ isPending } />
+                                </Field>
+                                <Field className={ fieldClass }>
+                                    <FieldLabel htmlFor="product-edit-currency">Currency</FieldLabel>
+                                    <Input id="product-edit-currency" value={ values.priceCurrency } onChange={ event => updateValue( 'priceCurrency', event.target.value ) } className={ inputClass } maxLength={ 3 } placeholder="USD" disabled={ isPending } />
+                                </Field>
                             </div>
 
-                            <label className={ labelClass }>
-                                Tax group ID
-                                <Input value={ values.taxGroupId } onChange={ event => updateValue( 'taxGroupId', event.target.value ) } className={ inputClass } maxLength={ 128 } disabled={ isPending } />
-                            </label>
+                            <Field className={ fieldClass }>
+                                <FieldLabel htmlFor="product-edit-tax-group">Tax group ID</FieldLabel>
+                                <Input id="product-edit-tax-group" value={ values.taxGroupId } onChange={ event => updateValue( 'taxGroupId', event.target.value ) } className={ inputClass } maxLength={ 128 } disabled={ isPending } />
+                            </Field>
 
                             <fieldset className="grid gap-3 rounded-xl border border-(--rule) p-4 sm:grid-cols-2">
                                 <legend className="px-1 font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">Tracking options</legend>
