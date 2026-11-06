@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
+import { ProductVariantEditSheet } from '@/src/features/inventory/components/ProductVariantEditSheet'
 import { useProductVariant } from '@/src/features/inventory/api/productVariants'
 import { useProduct } from '@/src/features/inventory/api/products'
 
@@ -65,7 +66,10 @@ export function ProductVariantDetailPage ( { productId, variantId }: ProductVari
                                 <p className="font-mono text-sm text-(--ink-soft)">{ variantQuery.data.code }</p>
                                 <h1 className="mt-1 break-words font-display text-[clamp(34px,4vw,48px)] font-light leading-tight tracking-[-0.03em]">{ variantQuery.data.name }</h1>
                             </div>
-                            <span className={ `mb-1 inline-flex rounded-full px-2.5 py-1 text-[11px] font-medium ${ variantQuery.data.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ variantQuery.data.isActive ? 'Active' : 'Inactive' }</span>
+                            <div className="mt-5 flex shrink-0 items-center gap-2 sm:mt-0">
+                                <ProductVariantEditSheet productId={ productId } variant={ variantQuery.data } />
+                                <span className={ `inline-flex rounded-full px-2.5 py-1 text-[11px] font-medium ${ variantQuery.data.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ variantQuery.data.isActive ? 'Active' : 'Inactive' }</span>
+                            </div>
                         </div>
 
                         <Card>

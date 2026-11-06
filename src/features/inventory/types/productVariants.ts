@@ -7,3 +7,10 @@ export type ProductVariantResponse = {
     attributes: Record<string, string>
     isActive: boolean
 }
+
+export type UpdateProductVariantRequest = {
+    name: string
+    skuSuffix: string | null
+    attributes: Record<string, string>
+    isActive: boolean
+}
