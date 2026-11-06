@@ -14,7 +14,19 @@ export interface AuthResponse {
     user?: User;
 }
 
+export interface SignInResponse {
+    accessToken: string;
+    refreshToken: string;
+    expiresIn: number;
+    tokenType: string;
+    user?: User;
+}
+
 export type AuthenticatedResponse = AuthResponse & {
+    user: User;
+};
+
+export type AuthenticatedSignInResponse = SignInResponse & {
     user: User;
 };
 

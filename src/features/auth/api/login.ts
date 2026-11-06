@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { axios } from "@/src/lib/axios";
-import type { AuthenticatedResponse, AuthResponse, LoginCredentials } from "@/src/features/auth/types";
+import type { AuthenticatedSignInResponse, LoginCredentials, SignInResponse } from "@/src/features/auth/types";
 import { useAuthStore } from "@/src/features/auth/stores/authStore";
 import { getUser } from "@/src/features/auth/api/getUser";
 
-export const loginWithEmailAndPassword = (data: LoginCredentials): Promise<AuthResponse> => {
+export const loginWithEmailAndPassword = (data: LoginCredentials): Promise<SignInResponse> => {
     return axios.post('/api/v1/auth/signin', {
         username: data.email,
         password: data.password,
@@ -12,7 +12,7 @@ export const loginWithEmailAndPassword = (data: LoginCredentials): Promise<AuthR
 };
 
 type UseLoginOptions = {
-    onSuccess?: (data: AuthenticatedResponse) => void;
+    onSuccess?: (data: AuthenticatedSignInResponse) => void;
 };
 
 export const useLogin = ({ onSuccess }: UseLoginOptions = {}) => {
