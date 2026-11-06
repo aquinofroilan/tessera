@@ -20,6 +20,16 @@ export const getProducts = ( params: ProductListParams = {} ): Promise<ProductRe
         },
     } )
 
+export const getProduct = ( id: string ): Promise<ProductResponse> =>
+    axios.get( `${ PRODUCTS_ENDPOINT }/${ encodeURIComponent( id ) }` )
+
+export const useProduct = ( id: string ) => useQuery( {
+    queryKey: [ 'inventory', 'product', id ],
+    queryFn: () => getProduct( id ),
+    enabled: Boolean( id ),
+    retry: false,
+} )
+
 export const useProducts = ( params: ProductListParams = {} ) => useQuery( {
     queryKey: [ 'inventory', 'products', params ],
     queryFn: () => getProducts( params ),

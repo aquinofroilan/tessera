@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { PackagePlus, Search } from 'lucide-react'
+import { PackagePlus, Pencil, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -43,6 +43,7 @@ function getTrackingLabels ( product: ProductResponse ) {
 
 export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchParams }: InventoryPageProps ) => {
     const { search = '', categoryId = '', activeFilter = 'true' } = searchParams
+    const navigate = useNavigate()
     const [ searchInput, setSearchInput ] = useState( search )
     const searchNavigationTimer = useRef<number | null>( null )
 
@@ -179,16 +180,31 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
                                         <TableHead className="text-right">List price</TableHead>
                                         <TableHead>Tracking</TableHead>
                                         <TableHead>Status</TableHead>
+                                        <TableHead className="w-12 text-right"><span className="sr-only">Actions</span></TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     { products.map( product => {
                                         const trackingLabels = getTrackingLabels( product )
                                         return (
-                                            <TableRow key={ product.id }>
+                                            <TableRow
+                                                key={ product.id }
+                                                className="cursor-pointer"
+                                                onClick={ event => {
+                                                    if ( event.target instanceof Element && event.target.closest( 'a, button, input, select, [role="button"]' ) ) return
+                                                    void navigate( { to: '/inventory/item/$uuid', params: { uuid: product.id } } )
+                                                } }
+                                            >
                                                 <TableCell className="font-mono text-xs text-(--ink-soft)">{ product.sku }</TableCell>
                                                 <TableCell>
-                                                    <span className="block font-medium">{ product.name }</span>
+                                                    <Link
+                                                        to="/inventory/item/$uuid"
+                                                        params={ { uuid: product.id } }
+                                                        aria-label={ `View product ${ product.name }` }
+                                                        className="block w-fit rounded-sm font-medium text-(--ink) underline decoration-transparent underline-offset-4 transition-colors hover:text-(--accent) hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                                    >
+                                                        { product.name }
+                                                    </Link>
                                                     { product.description ? <span className="mt-0.5 block max-w-[42ch] truncate text-xs text-(--muted)">{ product.description }</span> : null }
                                                 </TableCell>
                                                 <TableCell className="text-(--ink-soft)">{ product.categoryId ? categoryNames.get( product.categoryId ) ?? 'Category unavailable' : '—' }</TableCell>
@@ -202,6 +218,13 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
                                                 </TableCell>
                                                 <TableCell>
                                                     <span className={ `inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${ product.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ product.isActive ? 'Active' : 'Inactive' }</span>
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <Button asChild type="button" variant="pill-ghost" size="icon" className="size-8 rounded-lg" aria-label={ `Open ${ product.name } product details` }>
+                                                        <Link to="/inventory/item/$uuid" params={ { uuid: product.id } } title={ `Open ${ product.name } product details` }>
+                                                            <Pencil size={ 15 } aria-hidden="true" />
+                                                        </Link>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         )

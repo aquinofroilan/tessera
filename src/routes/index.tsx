@@ -12,6 +12,7 @@ import { LandingPage } from '@/src/features/landing/pages/LandingPage';
 import { InventoryPage } from '@/src/features/inventory/pages/InventoryPage';
 import { ProductCategorySettingsPage } from '@/src/features/inventory/pages/ProductCategorySettingsPage';
 import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
+import { ProductDetailPage } from '@/src/features/inventory/pages/ProductDetailPage';
 import { clearPendingRequestToasts } from '@/src/lib/axios';
 
 // Root route acts as the main layout wrapper
@@ -38,6 +39,17 @@ const productCreateRoute = createRoute({
   path: '/inventory/products/new',
   component: ProductCreatePage,
 });
+
+const productDetailRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/item/$uuid',
+  component: ProductDetailRouteComponent,
+});
+
+function ProductDetailRouteComponent() {
+  const { uuid } = productDetailRoute.useParams();
+  return <ProductDetailPage productId={uuid} />;
+}
 
 const productCategorySettingsRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
@@ -100,7 +112,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productCategorySettingsRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productCategorySettingsRoute]),
 ]);
 
 export const router = createRouter({ routeTree });
