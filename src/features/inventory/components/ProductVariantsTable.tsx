@@ -3,6 +3,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { ProductVariantCreateSheet } from '@/src/features/inventory/components/ProductVariantCreateSheet'
 import { useProductVariants } from '@/src/features/inventory/api/productVariants'
+import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
 
 function getErrorMessage ( error: unknown ) {
     if ( typeof error === 'object' && error !== null && 'response' in error ) {
@@ -76,7 +77,7 @@ export function ProductVariantsTable ( { productId }: { productId: string } ) {
                                     <TableCell>
                                         { attributes.length ? (
                                             <div className="flex flex-wrap gap-1.5">
-                                                { attributes.map( ( [ key, value ] ) => <span key={ key } className="rounded-full bg-(--paper-2) px-2 py-0.5 text-[11px] text-(--ink-soft)">{ key }: { value }</span> ) }
+                                                { attributes.map( ( [ key, value ] ) => <span key={ key } className="rounded-full bg-(--paper-2) px-2 py-0.5 text-[11px] text-(--ink-soft)">{ key }: { formatVariantAttribute( value ) }</span> ) }
                                             </div>
                                         ) : <span className="text-(--muted)">—</span> }
                                     </TableCell>
