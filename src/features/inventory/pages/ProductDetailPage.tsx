@@ -1,4 +1,6 @@
 import { Link } from '@tanstack/react-router'
+import { formatDistanceToNow } from 'date-fns'
+import type { ReactNode } from 'react'
 import { ArrowLeft, CalendarClock, Package, Tag } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -34,12 +36,23 @@ function getErrorMessage ( error: unknown ) {
     return 'Product details could not be loaded. Check your connection and try again.'
 }
 
-function formatDate ( value: string ) {
-    const date = new Date( value )
-    return Number.isNaN( date.getTime() ) ? '—' : date.toLocaleString()
+function formatExactDate ( date: Date ) {
+    return date.toLocaleString()
 }
 
-function DetailItem ( { label, value }: { label: string, value: string } ) {
+function RecordDate ( { value }: { value: string } ) {
+    const date = new Date( value )
+    if ( Number.isNaN( date.getTime() ) ) return <>—</>
+
+    return (
+        <span className="grid gap-0.5">
+            <time dateTime={ date.toISOString() } title={ formatExactDate( date ) }>{ formatDistanceToNow( date, { addSuffix: true } ) }</time>
+            <span className="text-xs text-(--muted)">{ formatExactDate( date ) }</span>
+        </span>
+    )
+}
+
+function DetailItem ( { label, value }: { label: string, value: ReactNode } ) {
     return (
         <div className="grid gap-1 border-b border-(--rule) py-3 last:border-b-0 sm:grid-cols-[150px_1fr] sm:gap-4">
             <dt className="text-xs font-medium text-(--muted)">{ label }</dt>
@@ -124,8 +137,8 @@ function ProductDetails ( { product }: { product: ProductResponse } ) {
                             <dl>
                                 <DetailItem label="Product ID" value={ product.id } />
                                 <DetailItem label="Organization ID" value={ product.organizationId } />
-                                <DetailItem label="Created" value={ formatDate( product.createdAt ) } />
-                                <DetailItem label="Last updated" value={ formatDate( product.updatedAt ) } />
+                                <DetailItem label="Created" value={ <RecordDate value={ product.createdAt } /> } />
+                                <DetailItem label="Last updated" value={ <RecordDate value={ product.updatedAt } /> } />
                             </dl>
                         </CardContent>
                     </Card>
