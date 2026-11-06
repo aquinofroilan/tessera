@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { ProductVariantEditSheet } from '@/src/features/inventory/components/ProductVariantEditSheet'
+import { ProductVariantDeactivateDialog } from '@/src/features/inventory/components/ProductVariantDeactivateDialog'
 import { useProductVariant } from '@/src/features/inventory/api/productVariants'
 import { useProduct } from '@/src/features/inventory/api/products'
 
@@ -68,6 +69,7 @@ export function ProductVariantDetailPage ( { productId, variantId }: ProductVari
                             </div>
                             <div className="mt-5 flex shrink-0 items-center gap-2 sm:mt-0">
                                 <ProductVariantEditSheet productId={ productId } variant={ variantQuery.data } />
+                                { variantQuery.data.isActive ? <ProductVariantDeactivateDialog productId={ productId } variantId={ variantId } variantName={ variantQuery.data.name } /> : null }
                                 <span className={ `inline-flex rounded-full px-2.5 py-1 text-[11px] font-medium ${ variantQuery.data.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ variantQuery.data.isActive ? 'Active' : 'Inactive' }</span>
                             </div>
                         </div>
