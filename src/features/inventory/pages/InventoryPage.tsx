@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { PackagePlus, Pencil, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -43,7 +43,6 @@ function getTrackingLabels ( product: ProductResponse ) {
 
 export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchParams }: InventoryPageProps ) => {
     const { search = '', categoryId = '', activeFilter = 'true' } = searchParams
-    const navigate = useNavigate()
     const [ searchInput, setSearchInput ] = useState( search )
     const searchNavigationTimer = useRef<number | null>( null )
 
@@ -187,14 +186,7 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
                                     { products.map( product => {
                                         const trackingLabels = getTrackingLabels( product )
                                         return (
-                                            <TableRow
-                                                key={ product.id }
-                                                className="cursor-pointer"
-                                                onClick={ event => {
-                                                    if ( event.target instanceof Element && event.target.closest( 'a, button, input, select, [role="button"]' ) ) return
-                                                    void navigate( { to: '/inventory/item/$uuid', params: { uuid: product.id } } )
-                                                } }
-                                            >
+                                            <TableRow key={ product.id }>
                                                 <TableCell className="font-mono text-xs text-(--ink-soft)">{ product.sku }</TableCell>
                                                 <TableCell>
                                                     <Link
