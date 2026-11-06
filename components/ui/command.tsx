@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from "react";
 import { Command as CommandPrimitive } from "cmdk";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch } from "@/components/ui/hugeicons";
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
@@ -45,7 +45,7 @@ const CommandDialog = ({
 
 const CommandInput = ({ className, ...props }: ComponentProps<typeof CommandPrimitive.Input>) => (
     <div className="flex items-center gap-2 border-b border-(--rule) px-3.5" cmdk-input-wrapper="">
-        <IconSearch className="size-3.5 text-(--muted)" stroke={1.8} />
+        <IconSearch className="size-3.5 text-(--muted)" strokeWidth={1.8} />
         <CommandPrimitive.Input
             data-slot="command-input"
             className={cn(

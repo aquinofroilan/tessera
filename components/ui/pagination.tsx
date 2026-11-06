@@ -1,5 +1,5 @@
 import { type ComponentProps } from "react";
-import { IconChevronLeft, IconChevronRight, IconDots } from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight, IconDots } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -63,7 +63,7 @@ function PaginationPrevious({
             size="sm"
             className={cn("font-sans normal-nums", className)}
             {...props}>
-            <IconChevronLeft data-icon="inline-start" stroke={1.8} />
+            <IconChevronLeft data-icon="inline-start" strokeWidth={1.8} />
             <span className="hidden sm:block">{text}</span>
         </PaginationLink>
     );
@@ -81,7 +81,7 @@ function PaginationNext({
             className={cn("font-sans normal-nums", className)}
             {...props}>
             <span className="hidden sm:block">{text}</span>
-            <IconChevronRight data-icon="inline-end" stroke={1.8} />
+            <IconChevronRight data-icon="inline-end" strokeWidth={1.8} />
         </PaginationLink>
     );
 }
@@ -93,7 +93,7 @@ function PaginationEllipsis({ className, ...props }: ComponentProps<"span">) {
             data-slot="pagination-ellipsis"
             className={cn("flex size-8 items-center justify-center", className)}
             {...props}>
-            <IconDots className="size-4" stroke={1.8} />
+            <IconDots className="size-4" strokeWidth={1.8} />
             <span className="sr-only">More pages</span>
         </span>
     );

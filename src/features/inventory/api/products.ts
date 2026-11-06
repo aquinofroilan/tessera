@@ -1,6 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { axios } from '@/src/lib/axios'
-import type { CreateProductRequest, ProductResponse } from '../types/products'
+import type { CreateProductRequest, ProductResponse, UpdateProductRequest } from '../types/products'
 
 const PRODUCTS_ENDPOINT = '/api/v1/inventory/products'
 
@@ -38,6 +38,21 @@ export const useProducts = ( params: ProductListParams = {} ) => useQuery( {
 export const createProduct = ( body: CreateProductRequest ): Promise<ProductResponse> =>
     axios.post( PRODUCTS_ENDPOINT, body )
 
+export const updateProduct = ( id: string, body: UpdateProductRequest ): Promise<ProductResponse> =>
+    axios.patch( `${ PRODUCTS_ENDPOINT }/${ encodeURIComponent( id ) }`, body )
+
 export const useCreateProduct = () => useMutation( {
     mutationFn: createProduct,
 } )
+
+export const useUpdateProduct = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation( {
+        mutationFn: ( { id, ...body }: UpdateProductRequest & { id: string } ) => updateProduct( id, body ),
+        onSuccess: ( product ) => {
+            queryClient.setQueryData( [ 'inventory', 'product', product.id ], product )
+            queryClient.invalidateQueries( { queryKey: [ 'inventory', 'products' ] } )
+        },
+    } )
+}

@@ -9,7 +9,7 @@ import
         IconCircleCheck,
         IconInfoCircle,
         IconLoader2,
-    } from "@tabler/icons-react"
+    } from "@/components/ui/hugeicons"
 
 const Toaster = ( { ...props }: ToasterProps ) =>
 {
@@ -19,11 +19,11 @@ const Toaster = ( { ...props }: ToasterProps ) =>
             position="bottom-right"
             className="toaster group"
             icons={ {
-                success: <IconCircleCheck className="size-4 text-(--accent)" stroke={ 1.8 } />,
-                info: <IconInfoCircle className="size-4 text-(--ink-soft)" stroke={ 1.8 } />,
-                warning: <IconAlertTriangle className="size-4 text-(--accent)" stroke={ 1.8 } />,
-                error: <IconAlertOctagon className="size-4 text-(--accent)" stroke={ 1.8 } />,
-                loading: <IconLoader2 className="size-4 animate-spin text-(--muted)" stroke={ 1.8 } />,
+                success: <IconCircleCheck className="size-4 text-(--accent)" strokeWidth={ 1.8 } />,
+                info: <IconInfoCircle className="size-4 text-(--ink-soft)" strokeWidth={ 1.8 } />,
+                warning: <IconAlertTriangle className="size-4 text-(--accent)" strokeWidth={ 1.8 } />,
+                error: <IconAlertOctagon className="size-4 text-(--accent)" strokeWidth={ 1.8 } />,
+                loading: <IconLoader2 className="size-4 animate-spin text-(--muted)" strokeWidth={ 1.8 } />,
             } }
             style={
                 {
