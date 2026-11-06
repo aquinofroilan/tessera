@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { Spinner } from '@/components/ui/spinner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { ProductVariantCreateSheet } from '@/src/features/inventory/components/ProductVariantCreateSheet'
 import { useProductVariants } from '@/src/features/inventory/api/productVariants'
 
 function getErrorMessage ( error: unknown ) {
@@ -25,10 +26,13 @@ export function ProductVariantsTable ( { productId }: { productId: string } ) {
     return (
         <section aria-labelledby="product-variants-heading" className="mt-4 overflow-hidden rounded-2xl border border-(--rule) bg-(--paper)">
             <div className="flex items-end justify-between gap-4 border-b border-(--rule) px-5 py-4 sm:px-6">
-                <div>
+                <div className="flex w-full min-w-0 items-center justify-between gap-2">
                     <h2 id="product-variants-heading" className="font-display text-xl font-light">Variants</h2>
+                    <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+                        <ProductVariantCreateSheet productId={ productId } />
+                        { variantsQuery.data ? <span className="whitespace-nowrap font-mono text-xs text-(--muted)">{ variantsQuery.data.length } total</span> : null }
+                    </div>
                 </div>
-                { variantsQuery.data ? <span className="font-mono text-xs text-(--muted)">{ variantsQuery.data.length } total</span> : null }
             </div>
 
             { variantsQuery.isPending ? (
