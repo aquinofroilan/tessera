@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from "react";
 import { Select as SelectPrimitive } from "radix-ui";
-import { Tick01Icon, ArrowDown01Icon, ArrowUp01Icon } from "hugeicons-react";
+import { Tick01Icon, ArrowDown01Icon, ArrowUp01Icon } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 

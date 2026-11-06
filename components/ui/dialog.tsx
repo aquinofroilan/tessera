@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { IconX } from "@tabler/icons-react";
+import { IconX } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 
@@ -53,7 +53,7 @@ const DialogContent = ({
                 <DialogPrimitive.Close
                     className="absolute top-3.5 right-3.5 rounded-md p-1 text-(--muted) transition-colors hover:bg-(--paper-2) hover:text-(--ink) focus:outline-none focus-visible:ring-2 focus-visible:ring-(--accent)"
                     aria-label="Close">
-                    <IconX className="size-4" stroke={1.8} />
+                    <IconX className="size-4" strokeWidth={1.8} />
                 </DialogPrimitive.Close>
             )}
         </DialogPrimitive.Content>

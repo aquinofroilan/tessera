@@ -1,5 +1,5 @@
 import { useMemo, useState, type ComponentProps } from "react";
-import { IconEye, IconEyeOff } from "@tabler/icons-react";
+import { IconEye, IconEyeOff } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

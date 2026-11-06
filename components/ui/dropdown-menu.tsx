@@ -2,7 +2,7 @@
 
 import { type ComponentProps } from "react";
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
-import { IconCheck, IconChevronRight, IconPointFilled } from "@tabler/icons-react";
+import { IconCheck, IconChevronRight, IconPointFilled } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 

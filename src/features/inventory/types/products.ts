@@ -12,6 +12,14 @@ export type CreateProductRequest = {
     hasExpiry: boolean
 }
 
+export type UpdateProductRequest = Omit<Partial<CreateProductRequest>, 'description' | 'imageUrl' | 'priceCurrency' | 'taxGroupId'> & {
+    description?: string | null
+    imageUrl?: string | null
+    priceCurrency?: string | null
+    taxGroupId?: string | null
+    isActive?: boolean
+}
+
 export type ProductResponse = {
     id: string
     sku: string

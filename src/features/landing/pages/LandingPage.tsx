@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Boxes, Check, CircleDollarSign, Cog, Grid2X2, MessageSquare, ShoppingCart, Users } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Boxes, Check, CircleDollarSign, Cog, Grid2X2, MessageSquare, ShoppingCart, Users } from '@/components/ui/hugeicons'
 import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'

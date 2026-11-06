@@ -16,13 +16,13 @@ import {
     Settings01Icon,
     ShoppingCart01Icon,
     ToolsIcon,
+    Tag,
     UserGroupIcon,
     UserShield01Icon,
     Wallet01Icon,
     WorkflowSquare01Icon,
-} from 'hugeicons-react'
+} from '@/components/ui/hugeicons'
 import { useNavigate, useRouterState } from '@tanstack/react-router'
-import { Tag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useUser } from '@/src/features/auth/api/getUser'
