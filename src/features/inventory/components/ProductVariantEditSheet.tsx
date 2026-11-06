@@ -9,6 +9,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { Switch } from '@/components/ui/switch'
 import { useUpdateProductVariant } from '@/src/features/inventory/api/productVariants'
 import type { ProductVariantResponse } from '@/src/features/inventory/types/productVariants'
+import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
 
 type ProductVariantEditSheetProps = {
     productId: string
@@ -19,6 +20,9 @@ type AttributeRow = {
     id: number
     key: string
     value: string
+    originalValue?: unknown
+    hasOriginalValue: boolean
+    valueChanged: boolean
 }
 
 type FormValues = {
@@ -53,7 +57,14 @@ function getInitialValues ( variant: ProductVariantResponse ): FormValues {
 }
 
 function getInitialAttributes ( variant: ProductVariantResponse ): AttributeRow[] {
-    return Object.entries( variant.attributes ?? {} ).map( ( [ key, value ], index ) => ( { id: index + 1, key, value } ) )
+    return Object.entries( variant.attributes ?? {} ).map( ( [ key, value ], index ) => ( {
+        id: index + 1,
+        key,
+        value: formatVariantAttribute( value ),
+        originalValue: value,
+        hasOriginalValue: true,
+        valueChanged: false,
+    } ) )
 }
 
 export function ProductVariantEditSheet ( { productId, variant }: ProductVariantEditSheetProps ) {
@@ -77,7 +88,7 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
     }
 
     const updateAttribute = ( id: number, key: 'key' | 'value', value: string ) => {
-        setAttributes( previous => previous.map( row => row.id === id ? { ...row, [ key ]: value } : row ) )
+        setAttributes( previous => previous.map( row => row.id === id ? { ...row, [ key ]: value, ...( key === 'value' ? { valueChanged: true } : {} ) } : row ) )
         setValidationError( null )
     }
 
@@ -85,7 +96,7 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
         event.preventDefault()
         const name = values.name.trim()
         const pairs = attributes
-            .map( row => ( { key: row.key.trim(), value: row.value.trim() } ) )
+            .map( row => ( { ...row, key: row.key.trim(), value: row.value.trim() } ) )
             .filter( row => row.key || row.value )
         const keys = pairs.map( row => row.key )
 
@@ -105,7 +116,7 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
         mutation.mutate( {
             name,
             skuSuffix: values.skuSuffix.trim() || null,
-            attributes: Object.fromEntries( pairs.map( row => [ row.key, row.value ] ) ),
+            attributes: Object.fromEntries( pairs.map( row => [ row.key, row.hasOriginalValue && !row.valueChanged ? row.originalValue : row.value ] ) ),
             isActive: values.isActive,
         }, {
             onSuccess: updated => {
@@ -156,7 +167,7 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
                                         <h3 id="variant-edit-attributes-heading" className="text-sm font-medium text-(--ink)">Attributes</h3>
                                         <p className="mt-0.5 text-xs text-(--muted)">Edit the name and value pairs for this variant.</p>
                                     </div>
-                                    <Button type="button" variant="pill-ghost" size="sm" className="shrink-0 border border-(--rule)" onClick={ () => setAttributes( previous => [ ...previous, { id: Date.now() + previous.length, key: '', value: '' } ] ) } disabled={ isPending }>
+                                    <Button type="button" variant="pill-ghost" size="sm" className="shrink-0 border border-(--rule)" onClick={ () => setAttributes( previous => [ ...previous, { id: Date.now() + previous.length, key: '', value: '', hasOriginalValue: false, valueChanged: false } ] ) } disabled={ isPending }>
                                         <Plus size={ 14 } aria-hidden="true" />Add attribute
                                     </Button>
                                 </div>

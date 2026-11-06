@@ -1,4 +1,6 @@
 import { Link } from '@tanstack/react-router'
+import { formatDistanceToNow } from 'date-fns'
+import type { ReactNode } from 'react'
 import { ArrowLeft, Tag } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -8,6 +10,7 @@ import { ProductVariantEditSheet } from '@/src/features/inventory/components/Pro
 import { ProductVariantDeactivateDialog } from '@/src/features/inventory/components/ProductVariantDeactivateDialog'
 import { useProductVariant } from '@/src/features/inventory/api/productVariants'
 import { useProduct } from '@/src/features/inventory/api/products'
+import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
 
 type ProductVariantDetailPageProps = {
     productId: string
@@ -84,9 +87,12 @@ export function ProductVariantDetailPage ( { productId, variantId }: ProductVari
                                     <DetailItem label="Code" value={ variantQuery.data.code } />
                                     <DetailItem label="Name" value={ variantQuery.data.name } />
                                     <DetailItem label="SKU suffix" value={ variantQuery.data.skuSuffix || '—' } />
-                                    <DetailItem label="Attributes" value={ Object.entries( variantQuery.data.attributes ?? {} ).map( ( [ key, value ] ) => `${ key }: ${ value }` ).join( ', ' ) || '—' } />
+                                    <DetailItem label="Attributes" value={ Object.entries( variantQuery.data.attributes ?? {} ).map( ( [ key, value ] ) => `${ key }: ${ formatVariantAttribute( value ) }` ).join( ', ' ) || '—' } />
                                     <DetailItem label="Variant ID" value={ variantQuery.data.id } />
+                                    <DetailItem label="Organization ID" value={ variantQuery.data.organizationId } />
                                     <DetailItem label="Product" value={ productQuery.isError ? 'Product details unavailable' : productName } />
+                                    <DetailItem label="Created" value={ formatRecordDate( variantQuery.data.createdAt ) } />
+                                    <DetailItem label="Last updated" value={ formatRecordDate( variantQuery.data.updatedAt ) } />
                                 </dl>
                             </CardContent>
                         </Card>
@@ -97,7 +103,20 @@ export function ProductVariantDetailPage ( { productId, variantId }: ProductVari
     )
 }
 
-function DetailItem ( { label, value }: { label: string, value: string } ) {
+function formatRecordDate ( value: string | null ): ReactNode {
+    if ( !value ) return '—'
+    const date = new Date( value )
+    if ( Number.isNaN( date.getTime() ) ) return '—'
+
+    return (
+        <span className="grid gap-0.5">
+            <time dateTime={ date.toISOString() } title={ date.toLocaleString() }>{ formatDistanceToNow( date, { addSuffix: true } ) }</time>
+            <span className="text-xs text-(--muted)">{ date.toLocaleString() }</span>
+        </span>
+    )
+}
+
+function DetailItem ( { label, value }: { label: string, value: ReactNode } ) {
     return (
         <div className="grid gap-1 border-b border-(--rule) py-3 last:border-b-0 sm:grid-cols-[150px_1fr] sm:gap-4">
             <dt className="text-xs font-medium text-(--muted)">{ label }</dt>
