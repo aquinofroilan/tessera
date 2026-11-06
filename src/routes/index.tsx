@@ -12,6 +12,7 @@ import { LandingPage } from '@/src/features/landing/pages/LandingPage';
 import { InventoryPage } from '@/src/features/inventory/pages/InventoryPage';
 import { ProductCategorySettingsPage } from '@/src/features/inventory/pages/ProductCategorySettingsPage';
 import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
+import { clearPendingRequestToasts } from '@/src/lib/axios';
 
 // Root route acts as the main layout wrapper
 export const rootRoute = createRootRoute({
@@ -103,6 +104,7 @@ const routeTree = rootRoute.addChildren([
 ]);
 
 export const router = createRouter({ routeTree });
+router.subscribe('onBeforeNavigate', clearPendingRequestToasts);
 
 // Register router for full strict mode types
 declare module '@tanstack/react-router' {
