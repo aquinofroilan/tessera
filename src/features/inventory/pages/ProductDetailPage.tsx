@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { ProductEditSheet } from '@/src/features/inventory/components/ProductEditSheet'
+import { ProductVariantsTable } from '@/src/features/inventory/components/ProductVariantsTable'
 import { useProduct } from '@/src/features/inventory/api/products'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
@@ -76,7 +77,6 @@ function ProductDetails ( { product }: { product: ProductResponse } ) {
         <>
             <div className="mb-7 flex items-end justify-between gap-5 border-b border-(--rule) pb-6 max-sm:block">
                 <div className="min-w-0">
-                    <p className="mb-3 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory / Product</p>
                     <h1 className="break-words font-display text-[clamp(34px,4vw,48px)] font-light leading-none tracking-[-0.03em]">{ product.name }</h1>
                     <p className="mt-2.5 font-mono text-sm text-(--ink-soft)">{ product.sku }</p>
                 </div>
@@ -144,6 +144,7 @@ function ProductDetails ( { product }: { product: ProductResponse } ) {
                     </Card>
                 </div>
             </div>
+            <ProductVariantsTable productId={ product.id } />
             <div className="mt-4 flex items-center gap-2 text-xs text-(--muted)">
                 <CalendarClock size={ 14 } aria-hidden="true" />Record dates are shown in your local time.
             </div>
@@ -165,7 +166,6 @@ export const ProductDetailPage = ( { productId }: ProductDetailPageProps ) => {
                     </div>
                 ) : productQuery.isError ? (
                     <div className="mx-auto max-w-xl py-12 text-center">
-                        <p className="mb-2 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory / Product</p>
                         <h1 className="font-display text-3xl font-light">{ status === 404 ? 'Product not found' : 'Could not load product' }</h1>
                         <p className="mt-2 text-sm text-(--muted)">{ status === 404 ? 'This product may have been removed or may no longer be available in this workspace.' : getErrorMessage( productQuery.error ) }</p>
                         <div className="mt-5 flex justify-center gap-2">
