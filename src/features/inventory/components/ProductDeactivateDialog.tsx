@@ -5,24 +5,11 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { Spinner } from '@/components/ui/spinner'
 import { useDeactivateProduct } from '@/src/features/inventory/api/products'
+import { getApiErrorMessage } from '@/src/lib/api-error'
 
 type ProductDeactivateDialogProps = {
     productId: string
     productName: string
-}
-
-function getErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'status' in response && response.status === 403 ) {
-            return 'You do not have permission to deactivate products. Ask an administrator for inventory:write access.'
-        }
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) return data.message
-        }
-    }
-    return 'The product could not be deactivated. Check your connection and try again.'
 }
 
 export function ProductDeactivateDialog ( { productId, productName }: ProductDeactivateDialogProps ) {
@@ -35,7 +22,7 @@ export function ProductDeactivateDialog ( { productId, productName }: ProductDea
                 toast.success( 'Product deactivated', { description: `${ product.name } is no longer active.` } )
                 setOpen( false )
             },
-            onError: error => toast.error( 'Could not deactivate product', { description: getErrorMessage( error ) } ),
+            onError: error => toast.error( 'Could not deactivate product', { description: getApiErrorMessage( error, 'The product could not be deactivated. Check your connection and try again.', { 403: 'You do not have permission to deactivate products. Ask an administrator for inventory:write access.' } ) } ),
         } )
     }
 

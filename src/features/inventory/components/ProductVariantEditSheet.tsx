@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch'
 import { useUpdateProductVariant } from '@/src/features/inventory/api/productVariants'
 import type { ProductVariantResponse } from '@/src/features/inventory/types/productVariants'
 import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
+import { getApiErrorMessage } from '@/src/lib/api-error'
 
 type ProductVariantEditSheetProps = {
     productId: string
@@ -33,20 +34,6 @@ type FormValues = {
 
 const inputClass = 'h-11 rounded-[10px] border-(--rule) bg-(--card) px-3.5 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
 const fieldClass = 'gap-1.5 text-xs font-medium text-(--ink-soft)'
-
-function getErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'status' in response && response.status === 403 ) {
-            return 'You do not have permission to edit product variants. Ask an administrator for inventory:write access.'
-        }
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) return data.message
-        }
-    }
-    return 'Variant changes could not be saved. Check your connection and try again.'
-}
 
 function getInitialValues ( variant: ProductVariantResponse ): FormValues {
     return {
@@ -123,7 +110,7 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
                 toast.success( 'Variant updated', { description: `${ updated.name } has been saved.` } )
                 setOpen( false )
             },
-            onError: error => toast.error( 'Could not update variant', { description: getErrorMessage( error ) } ),
+            onError: error => toast.error( 'Could not update variant', { description: getApiErrorMessage( error, 'Variant changes could not be saved. Check your connection and try again.', { 403: 'You do not have permission to edit product variants. Ask an administrator for inventory:write access.' } ) } ),
         } )
     }
 
@@ -143,7 +130,7 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
 
                         <div className="flex-1 space-y-5 p-6">
                             { validationError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ validationError }</p> : null }
-                            { mutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getErrorMessage( mutation.error ) }</p> : null }
+                            { mutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getApiErrorMessage( mutation.error, 'Variant changes could not be saved. Check your connection and try again.', { 403: 'You do not have permission to edit product variants. Ask an administrator for inventory:write access.' } ) }</p> : null }
 
                             <Field className={ fieldClass }>
                                 <FieldLabel htmlFor="variant-edit-code">Code</FieldLabel>

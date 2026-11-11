@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useUpdateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
+import { getApiErrorMessage } from '@/src/lib/api-error'
 
 type ProductEditSheetProps = {
     product: ProductResponse
@@ -51,17 +52,6 @@ function getInitialValues ( product: ProductResponse ): ProductFormValues {
         hasExpiry: product.hasExpiry,
         isActive: product.isActive,
     }
-}
-
-function getErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) return data.message
-        }
-    }
-    return 'Product changes could not be saved. Check your connection and try again.'
 }
 
 export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
@@ -118,7 +108,7 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
                 toast.success( 'Product updated', { description: `${ updated.name } has been saved.` } )
                 setOpen( false )
             },
-            onError: error => toast.error( 'Could not update product', { description: getErrorMessage( error ) } ),
+            onError: error => toast.error( 'Could not update product', { description: getApiErrorMessage( error, 'Product changes could not be saved. Check your connection and try again.' ) } ),
         } )
     }
 
@@ -141,7 +131,7 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
 
                         <div className="flex-1 space-y-5 p-6">
                             { validationError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ validationError }</p> : null }
-                            { updateMutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getErrorMessage( updateMutation.error ) }</p> : null }
+                            { updateMutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getApiErrorMessage( updateMutation.error, 'Product changes could not be saved. Check your connection and try again.' ) }</p> : null }
 
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <Field className={ fieldClass }>

@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { useCreateProductCategory, useDeactivateProductCategory, useProductCategories, useUpdateProductCategory } from '@/src/features/inventory/api/productCategories'
 import type { ProductCategoryResponse } from '@/src/features/inventory/types/productCategories'
+import { getApiErrorMessage } from '@/src/lib/api-error'
 
 const categorySchema = z.object( {
     name: z.string().trim().min( 1, 'Category name is required' ).max( 128, 'Category name must be 128 characters or fewer' ),
@@ -27,20 +28,6 @@ type CategoryValues = z.infer<typeof categorySchema>
 
 const emptyCategory: CategoryValues = { name: '', description: '' }
 const inputClass = 'h-11 rounded-[10px] border-(--rule) bg-(--card) px-3.5 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
-
-function getCategoryErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'status' in response && response.status === 403 ) {
-            return 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.'
-        }
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) return data.message
-        }
-    }
-    return 'Product categories could not be loaded. Check your connection and try again.'
-}
 
 const ProductCategoryEditor = () => {
     const createMutation = useCreateProductCategory()
@@ -59,7 +46,7 @@ const ProductCategoryEditor = () => {
                     toast.success( 'Category created', { description: `${ created.name } is ready to use.` } )
                     form.reset()
                 },
-                onError: error => toast.error( 'Could not create category', { description: getCategoryErrorMessage( error ) } ),
+                onError: error => toast.error( 'Could not create category', { description: getApiErrorMessage( error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ) } ),
             } )
         },
     } )
@@ -142,7 +129,7 @@ const CategoryDetailsDialog = ( { category, onOpenChange }: CategoryDetailsDialo
                     toast.success( 'Category updated', { description: `${ updated.name } is ${ updated.isActive ? 'enabled' : 'disabled' }.` } )
                     onOpenChange( false )
                 },
-                onError: error => toast.error( 'Could not update category', { description: getCategoryErrorMessage( error ) } ),
+            onError: error => toast.error( 'Could not update category', { description: getApiErrorMessage( error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ) } ),
             } )
         },
     } )
@@ -153,7 +140,7 @@ const CategoryDetailsDialog = ( { category, onOpenChange }: CategoryDetailsDialo
                 toast.success( 'Category deleted', { description: `${ category.name } is no longer available for new products.` } )
                 onOpenChange( false )
             },
-            onError: error => toast.error( 'Could not delete category', { description: getCategoryErrorMessage( error ) } ),
+            onError: error => toast.error( 'Could not delete category', { description: getApiErrorMessage( error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ) } ),
         } )
     }
 
@@ -225,7 +212,7 @@ export const ProductCategorySettingsPage = () => {
         if ( categoriesQuery.isError ) {
             toast.error( 'Could not load product categories', {
                 id: toastId,
-                description: getCategoryErrorMessage( categoriesQuery.error ),
+                description: getApiErrorMessage( categoriesQuery.error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ),
                 action: { label: 'Retry', onClick: () => { void categoriesQuery.refetch() } },
             } )
         } else {

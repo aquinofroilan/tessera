@@ -4,22 +4,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { ProductVariantCreateSheet } from '@/src/features/inventory/components/ProductVariantCreateSheet'
 import { useProductVariants } from '@/src/features/inventory/api/productVariants'
 import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
+import { getApiErrorMessage } from '@/src/lib/api-error'
 
-function getErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'status' in response && response.status === 403 ) {
-            return 'You do not have permission to view product variants. Ask an administrator for inventory:read access.'
-        }
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) {
-                return data.message
-            }
-        }
-    }
-    return 'Product variants could not be loaded. Check your connection and try again.'
-}
 
 export function ProductVariantsTable ( { productId }: { productId: string } ) {
     const variantsQuery = useProductVariants( productId )
@@ -43,7 +29,7 @@ export function ProductVariantsTable ( { productId }: { productId: string } ) {
                 </div>
             ) : variantsQuery.isError ? (
                 <div className="flex flex-col items-start gap-3 p-5 sm:p-6" role="alert">
-                    <p className="text-sm text-(--accent-deep)">{ getErrorMessage( variantsQuery.error ) }</p>
+                    <p className="text-sm text-(--accent-deep)">{ getApiErrorMessage( variantsQuery.error, 'Product variants could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to view product variants. Ask an administrator for inventory:read access.' } ) }</p>
                     <button type="button" onClick={ () => { void variantsQuery.refetch() } } className="rounded-sm text-sm font-medium text-(--ink) underline underline-offset-4 hover:text-(--accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Retry</button>
                 </div>
             ) : variantsQuery.data?.length ? (

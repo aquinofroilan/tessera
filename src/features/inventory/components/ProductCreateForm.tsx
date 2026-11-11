@@ -14,6 +14,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useCreateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
+import { getApiErrorMessage } from '@/src/lib/api-error'
 
 const productSchema = z.object( {
     sku: z.string().trim().min( 1, 'SKU is required' ).max( 64, 'SKU must be 64 characters or fewer' ),
@@ -46,22 +47,6 @@ const defaultValues: ProductFormValues = {
 }
 
 const textInputClass = 'h-11 rounded-[10px] border-(--rule) bg-(--card) px-3.5 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
-
-function getErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'status' in response && response.status === 403 ) {
-            return 'You do not have permission to create inventory products. Ask an administrator for inventory:write access.'
-        }
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) {
-                return data.message
-            }
-        }
-    }
-    return 'The product could not be created. Check your connection and try again.'
-}
 
 export const ProductCreateForm = () => {
     const mutation = useCreateProduct()
@@ -120,7 +105,7 @@ export const ProductCreateForm = () => {
                 </div>
             ) : null }
 
-            { mutation.isError ? <div className="mb-5 rounded-xl border border-(--accent)/25 bg-(--accent-soft) p-4 text-sm text-(--accent-deep)" role="alert">{ getErrorMessage( mutation.error ) }</div> : null }
+            { mutation.isError ? <div className="mb-5 rounded-xl border border-(--accent)/25 bg-(--accent-soft) p-4 text-sm text-(--accent-deep)" role="alert">{ getApiErrorMessage( mutation.error, 'The product could not be created. Check your connection and try again.', { 403: 'You do not have permission to create inventory products. Ask an administrator for inventory:write access.' } ) }</div> : null }
 
             <form
                 id="product-create-form"

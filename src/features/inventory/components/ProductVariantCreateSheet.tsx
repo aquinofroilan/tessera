@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Spinner } from '@/components/ui/spinner'
 import { useCreateProductVariant } from '@/src/features/inventory/api/productVariants'
+import { getApiErrorMessage } from '@/src/lib/api-error'
 
 type ProductVariantCreateSheetProps = {
     productId: string
@@ -26,20 +27,6 @@ type FormValues = {
 
 const inputClass = 'h-11 rounded-[10px] border-(--rule) bg-(--card) px-3.5 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
 const fieldClass = 'gap-1.5 text-xs font-medium text-(--ink-soft)'
-
-function getErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'status' in response && response.status === 403 ) {
-            return 'You do not have permission to create product variants. Ask an administrator for inventory:write access.'
-        }
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) return data.message
-        }
-    }
-    return 'The variant could not be created. Check your connection and try again.'
-}
 
 export function ProductVariantCreateSheet ( { productId }: ProductVariantCreateSheetProps ) {
     const [ open, setOpen ] = useState( false )
@@ -98,7 +85,7 @@ export function ProductVariantCreateSheet ( { productId }: ProductVariantCreateS
                 setOpen( false )
                 resetForm()
             },
-            onError: error => toast.error( 'Could not create variant', { description: getErrorMessage( error ) } ),
+            onError: error => toast.error( 'Could not create variant', { description: getApiErrorMessage( error, 'The variant could not be created. Check your connection and try again.', { 403: 'You do not have permission to create product variants. Ask an administrator for inventory:write access.' } ) } ),
         } )
     }
 
@@ -120,7 +107,7 @@ export function ProductVariantCreateSheet ( { productId }: ProductVariantCreateS
 
                         <div className="flex-1 space-y-5 p-6">
                             { validationError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ validationError }</p> : null }
-                            { mutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getErrorMessage( mutation.error ) }</p> : null }
+                            { mutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getApiErrorMessage( mutation.error, 'The variant could not be created. Check your connection and try again.', { 403: 'You do not have permission to create product variants. Ask an administrator for inventory:write access.' } ) }</p> : null }
 
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <Field className={ fieldClass }>

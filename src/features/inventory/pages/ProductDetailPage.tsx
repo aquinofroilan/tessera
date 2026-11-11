@@ -13,29 +13,10 @@ import { useProduct } from '@/src/features/inventory/api/products'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { formatPrice } from '@/src/features/inventory/utils/formatPrice'
+import { getApiErrorMessage, getApiErrorStatus } from '@/src/lib/api-error'
 
 type ProductDetailPageProps = {
     productId: string
-}
-
-function getErrorStatus ( error: unknown ): number | undefined {
-    if ( typeof error !== 'object' || error === null || !('response' in error) ) return undefined
-    const response = error.response
-    if ( typeof response !== 'object' || response === null || !('status' in response) ) return undefined
-    return typeof response.status === 'number' ? response.status : undefined
-}
-
-function getErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) {
-                return data.message
-            }
-        }
-    }
-    return 'Product details could not be loaded. Check your connection and try again.'
 }
 
 function formatExactDate ( date: Date ) {
@@ -156,7 +137,7 @@ function ProductDetails ( { product }: { product: ProductResponse } ) {
 
 export const ProductDetailPage = ( { productId }: ProductDetailPageProps ) => {
     const productQuery = useProduct( productId )
-    const status = getErrorStatus( productQuery.error )
+    const status = getApiErrorStatus( productQuery.error )
 
     return (
         <DashboardShell>
@@ -169,7 +150,7 @@ export const ProductDetailPage = ( { productId }: ProductDetailPageProps ) => {
                 ) : productQuery.isError ? (
                     <div className="mx-auto max-w-xl py-12 text-center">
                         <h1 className="font-display text-3xl font-light">{ status === 404 ? 'Product not found' : 'Could not load product' }</h1>
-                        <p className="mt-2 text-sm text-(--muted)">{ status === 404 ? 'This product may have been removed or may no longer be available in this workspace.' : getErrorMessage( productQuery.error ) }</p>
+                        <p className="mt-2 text-sm text-(--muted)">{ status === 404 ? 'This product may have been removed or may no longer be available in this workspace.' : getApiErrorMessage( productQuery.error, 'Product details could not be loaded. Check your connection and try again.' ) }</p>
                         <div className="mt-5 flex justify-center gap-2">
                             { status !== 404 ? <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ () => { void productQuery.refetch() } }>Retry</Button> : null }
                             <Button asChild variant="pill-ghost" className="bg-(--ink) text-(--paper) hover:bg-(--accent)">

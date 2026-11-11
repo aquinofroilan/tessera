@@ -14,24 +14,9 @@ import { useProducts } from '@/src/features/inventory/api/products'
 import type { InventoryPageProps } from '@/src/features/inventory/types/inventory'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { formatPrice } from '@/src/features/inventory/utils/formatPrice'
+import { getApiErrorMessage } from '@/src/lib/api-error'
 
 const inputClass = 'h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
-
-function getProductsErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'status' in response && response.status === 403 ) {
-            return 'You do not have permission to view inventory products. Ask an administrator for inventory:read access.'
-        }
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) {
-                return data.message
-            }
-        }
-    }
-    return 'Products could not be loaded. Check your connection and try again.'
-}
 
 function getTrackingLabels ( product: ProductResponse ) {
     const labels = []
@@ -75,7 +60,7 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
         if ( isError ) {
             toast.error( 'Could not load products', {
                 id: toastId,
-                description: getProductsErrorMessage( error ),
+                description: getApiErrorMessage( error, 'Products could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to view inventory products. Ask an administrator for inventory:read access.' } ),
                 action: {
                     label: 'Retry',
                     onClick: () => { void refetch() },

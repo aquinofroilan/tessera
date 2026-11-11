@@ -11,34 +11,17 @@ import { ProductVariantDeactivateDialog } from '@/src/features/inventory/compone
 import { useProductVariant } from '@/src/features/inventory/api/productVariants'
 import { useProduct } from '@/src/features/inventory/api/products'
 import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
+import { getApiErrorMessage, getApiErrorStatus } from '@/src/lib/api-error'
 
 type ProductVariantDetailPageProps = {
     productId: string
     variantId: string
 }
 
-function getStatus ( error: unknown ): number | undefined {
-    if ( typeof error !== 'object' || error === null || !('response' in error) ) return undefined
-    const response = error.response
-    if ( typeof response !== 'object' || response === null || !('status' in response) ) return undefined
-    return typeof response.status === 'number' ? response.status : undefined
-}
-
-function getErrorMessage ( error: unknown ) {
-    if ( typeof error === 'object' && error !== null && 'response' in error ) {
-        const response = error.response
-        if ( typeof response === 'object' && response !== null && 'data' in response ) {
-            const data = response.data
-            if ( typeof data === 'object' && data !== null && 'message' in data && typeof data.message === 'string' ) return data.message
-        }
-    }
-    return 'Variant details could not be loaded. Check your connection and try again.'
-}
-
 export function ProductVariantDetailPage ( { productId, variantId }: ProductVariantDetailPageProps ) {
     const variantQuery = useProductVariant( productId, variantId )
     const productQuery = useProduct( productId )
-    const status = getStatus( variantQuery.error )
+    const status = getApiErrorStatus( variantQuery.error )
     const productName = productQuery.data?.name ?? 'Product'
 
     return (
@@ -52,7 +35,7 @@ export function ProductVariantDetailPage ( { productId, variantId }: ProductVari
                 ) : variantQuery.isError ? (
                     <div className="mx-auto max-w-xl py-12 text-center">
                         <h1 className="font-display text-3xl font-light">{ status === 404 ? 'Variant not found' : 'Could not load variant' }</h1>
-                        <p className="mt-2 text-sm text-(--muted)">{ status === 404 ? 'This variant may have been removed or may no longer be available.' : getErrorMessage( variantQuery.error ) }</p>
+                        <p className="mt-2 text-sm text-(--muted)">{ status === 404 ? 'This variant may have been removed or may no longer be available.' : getApiErrorMessage( variantQuery.error, 'Variant details could not be loaded. Check your connection and try again.' ) }</p>
                         <div className="mt-5 flex justify-center gap-2">
                             { status !== 404 ? <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ () => { void variantQuery.refetch() } }>Retry</Button> : null }
                             <Button asChild variant="pill-ghost" className="bg-(--ink) text-(--paper) hover:bg-(--accent)">
