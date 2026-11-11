@@ -200,18 +200,18 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
                 </div>
 
                 <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-[minmax(220px,1fr)_minmax(180px,0.7fr)_180px]">
-                    <label className="grid gap-1.5 text-xs font-medium text-(--ink-soft)">
-                        Search products
-                        <span className="relative">
+                    <div className="grid gap-1.5">
+                        <label htmlFor="inventory-product-search" className="text-xs font-medium text-(--ink-soft)">Search products</label>
+                        <div className="relative">
                             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-(--muted)" aria-hidden="true" />
-                            <Input value={ searchInput } onChange={ event => handleSearchChange( event.target.value ) } className={ `${ inputClass } pl-9` } placeholder="Search products" aria-label="Search products" />
-                        </span>
-                    </label>
+                            <Input id="inventory-product-search" value={ searchInput } onChange={ event => handleSearchChange( event.target.value ) } className={ `${ inputClass } pl-9` } placeholder="Search products" />
+                        </div>
+                    </div>
 
-                    <label className="grid gap-1.5 text-xs font-medium text-(--ink-soft)">
-                        Category
+                    <div className="grid gap-1.5">
+                        <label htmlFor="inventory-category-filter" className="text-xs font-medium text-(--ink-soft)">Category</label>
                         <Select value={ categoryId || '__all__' } onValueChange={ value => updateSearchParams( { categoryId: !value || value === '__all__' ? undefined : value } ) } disabled={ categoriesQuery.isPending || categoriesQuery.isError }>
-                            <SelectTrigger className="h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm" aria-label="Filter by product category">
+                            <SelectTrigger id="inventory-category-filter" className="h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm">
                                 <SelectValue placeholder={ categoriesQuery.isPending ? 'Loading categories…' : 'All categories' } />
                             </SelectTrigger>
                             <SelectContent>
@@ -219,12 +219,12 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
                                 { categoriesQuery.data?.map( category => <SelectItem key={ category.id } value={ category.id }>{ category.name }{ category.isActive ? '' : ' (Inactive)' }</SelectItem> ) }
                             </SelectContent>
                         </Select>
-                    </label>
+                    </div>
 
-                    <label className="grid gap-1.5 text-xs font-medium text-(--ink-soft)">
-                        Status
+                    <div className="grid gap-1.5">
+                        <label htmlFor="inventory-status-filter" className="text-xs font-medium text-(--ink-soft)">Status</label>
                         <Select value={ activeFilter } onValueChange={ value => updateSearchParams( { activeFilter: value === 'false' ? 'false' : 'true' } ) }>
-                            <SelectTrigger className="h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm" aria-label="Filter by product status">
+                            <SelectTrigger id="inventory-status-filter" className="h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -232,7 +232,7 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
                                 <SelectItem value="false">Inactive</SelectItem>
                             </SelectContent>
                         </Select>
-                    </label>
+                    </div>
                 </div>
 
                 <Card className="overflow-hidden">
