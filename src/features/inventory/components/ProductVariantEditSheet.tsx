@@ -75,7 +75,13 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
     }
 
     const updateAttribute = ( id: number, key: 'key' | 'value', value: string ) => {
-        setAttributes( previous => previous.map( row => row.id === id ? { ...row, [ key ]: value, ...( key === 'value' ? { valueChanged: true } : {} ) } : row ) )
+        setAttributes( previous => previous.map( row => {
+            if ( row.id !== id ) return row
+
+            const updatedRow = { ...row, [ key ]: value }
+            if ( key === 'value' ) updatedRow.valueChanged = true
+            return updatedRow
+        } ) )
         setValidationError( null )
     }
 

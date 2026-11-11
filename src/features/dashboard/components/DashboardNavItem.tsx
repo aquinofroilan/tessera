@@ -26,6 +26,6 @@ export const DashboardNavItem = ( {
     >
         <span className={ `grid size-[18px] shrink-0 place-items-center text-(--muted) ${ active ? 'text-(--paper)' : '' }` } aria-hidden="true">{ icon }</span>
         <span>{ label }</span>
-        { badge ? <span className={ `ml-auto rounded-full bg-(--rule) px-1.5 py-px font-mono text-[10px] tracking-[0.02em] text-(--ink-soft) ${ active ? 'bg-(--accent) text-(--paper)' : '' }` }>{ badge }</span> : null }
+        { badge && <span className={ `ml-auto rounded-full bg-(--rule) px-1.5 py-px font-mono text-[10px] tracking-[0.02em] text-(--ink-soft) ${ active ? 'bg-(--accent) text-(--paper)' : '' }` }>{ badge }</span> }
     </Button>
 )

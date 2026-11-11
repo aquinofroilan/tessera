@@ -230,6 +230,59 @@ export const ProductCategorySettingsPage = () => {
         }
     }, [ categoriesQuery.error, categoriesQuery.isError, categoriesQuery.refetch ] )
 
+    const renderCategoryList = () => {
+        if ( categoriesQuery.isPending ) {
+            return <div className="flex items-center justify-center gap-2 p-10 text-sm text-(--muted)" role="status" aria-live="polite"><Spinner className="size-4 text-(--accent)" aria-label="Loading categories" />Loading categories…</div>
+        }
+
+        if ( categoriesQuery.isError ) {
+            return <div className="p-8 text-center text-sm text-(--muted)">Category data is unavailable. Use the retry action in the notification to try again.</div>
+        }
+
+        if ( categoriesQuery.data?.length ) {
+            return (
+                <Table>
+                    <TableHeader>
+                        <TableRow className="hover:bg-transparent">
+                            <TableHead>Category</TableHead>
+                            <TableHead>Description</TableHead>
+                            <TableHead>Status</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        { categoriesQuery.data.map( category => (
+                            <TableRow
+                                key={ category.id }
+                                className="cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-(--ink)"
+                                tabIndex={ 0 }
+                                aria-label={ `Edit category ${ category.name }` }
+                                onClick={ () => setEditingCategory( category ) }
+                                onKeyDown={ event => {
+                                    if ( event.key === 'Enter' || event.key === ' ' ) {
+                                        event.preventDefault()
+                                        setEditingCategory( category )
+                                    }
+                                } }
+                            >
+                                <TableCell className="font-medium">{ category.name }</TableCell>
+                                <TableCell className="max-w-[32ch] truncate text-(--ink-soft)">{ category.description || '—' }</TableCell>
+                                <TableCell><span className={ `inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${ category.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ category.isActive ? 'Enabled' : 'Disabled' }</span></TableCell>
+                            </TableRow>
+                        ) ) }
+                    </TableBody>
+                </Table>
+            )
+        }
+
+        return (
+            <div className="px-5 py-14 text-center">
+                <div className="mx-auto mb-4 grid size-11 place-items-center rounded-xl bg-(--paper-2) text-(--ink)"><Tag size={ 19 } aria-hidden="true" /></div>
+                <h2 className="font-display text-2xl">No categories yet</h2>
+                <p className="mx-auto mt-2 max-w-md text-sm text-(--muted)">Create categories here to make them available on product forms and filters.</p>
+            </div>
+        )
+    }
+
     return (
         <DashboardShell>
             <div className="w-full">
@@ -249,48 +302,7 @@ export const ProductCategorySettingsPage = () => {
                             <CardDescription>{ categoriesQuery.data?.length ?? 0 } total, including inactive categories.</CardDescription>
                         </CardHeader>
                         <CardContent className="p-0">
-                            { categoriesQuery.isPending ? (
-                                <div className="flex items-center justify-center gap-2 p-10 text-sm text-(--muted)" role="status" aria-live="polite"><Spinner className="size-4 text-(--accent)" aria-label="Loading categories" />Loading categories…</div>
-                            ) : categoriesQuery.isError ? (
-                                <div className="p-8 text-center text-sm text-(--muted)">Category data is unavailable. Use the retry action in the notification to try again.</div>
-                            ) : categoriesQuery.data?.length ? (
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="hover:bg-transparent">
-                                            <TableHead>Category</TableHead>
-                                            <TableHead>Description</TableHead>
-                                            <TableHead>Status</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        { categoriesQuery.data.map( category => (
-                                            <TableRow
-                                                key={ category.id }
-                                                className="cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-(--ink)"
-                                                tabIndex={ 0 }
-                                                aria-label={ `Edit category ${ category.name }` }
-                                                onClick={ () => setEditingCategory( category ) }
-                                                onKeyDown={ event => {
-                                                    if ( event.key === 'Enter' || event.key === ' ' ) {
-                                                        event.preventDefault()
-                                                        setEditingCategory( category )
-                                                    }
-                                                } }
-                                            >
-                                                <TableCell className="font-medium">{ category.name }</TableCell>
-                                                <TableCell className="max-w-[32ch] truncate text-(--ink-soft)">{ category.description || '—' }</TableCell>
-                                                <TableCell><span className={ `inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${ category.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ category.isActive ? 'Enabled' : 'Disabled' }</span></TableCell>
-                                            </TableRow>
-                                        ) ) }
-                                    </TableBody>
-                                </Table>
-                            ) : (
-                                <div className="px-5 py-14 text-center">
-                                    <div className="mx-auto mb-4 grid size-11 place-items-center rounded-xl bg-(--paper-2) text-(--ink)"><Tag size={ 19 } aria-hidden="true" /></div>
-                                    <h2 className="font-display text-2xl">No categories yet</h2>
-                                    <p className="mx-auto mt-2 max-w-md text-sm text-(--muted)">Create categories here to make them available on product forms and filters.</p>
-                                </div>
-                            ) }
+                            { renderCategoryList() }
                         </CardContent>
                     </Card>
                 </div>

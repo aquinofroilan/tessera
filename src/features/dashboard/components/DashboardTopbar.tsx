@@ -8,11 +8,14 @@ type DashboardTopbarProps = Readonly<{
 
 export const DashboardTopbar = ( { onMenuClick }: DashboardTopbarProps ) => {
     const pathname = useRouterState( { select: state => state.location.pathname } )
-    const breadcrumbs = pathname === '/inventory/products/new'
-        ? [ 'Inventory', 'Products', 'New' ]
-        : pathname.startsWith( '/inventory' )
-            ? [ 'Inventory', 'Products' ]
-            : [ 'Overview' ]
+    let breadcrumbs: string[]
+    if ( pathname === '/inventory/products/new' ) {
+        breadcrumbs = [ 'Inventory', 'Products', 'New' ]
+    } else if ( pathname.startsWith( '/inventory' ) ) {
+        breadcrumbs = [ 'Inventory', 'Products' ]
+    } else {
+        breadcrumbs = [ 'Overview' ]
+    }
 
     return (
         <header className="sticky top-0 z-10 flex h-[58px] shrink-0 items-center gap-2 border-b border-(--rule) bg-(--paper)/80 px-4 backdrop-blur-xl sm:gap-5 sm:px-7">

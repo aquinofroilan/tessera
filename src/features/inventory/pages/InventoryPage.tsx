@@ -97,6 +97,94 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
     const filtered = Boolean( search.trim() || categoryId || activeFilter !== 'true' )
     const categoryNames = new Map( ( categoriesQuery.data ?? [] ).map( category => [ category.id, category.name ] ) )
 
+    const renderProductContent = () => {
+        if ( isError ) return null
+
+        if ( isPending ) {
+            return (
+                <div className="flex items-center justify-center gap-2 p-8 text-sm text-(--muted)" aria-live="polite">
+                    <Spinner className="size-4 text-(--accent)" aria-label="Loading products" />
+                    <span>Loading products…</span>
+                </div>
+            )
+        }
+
+        if ( products?.length ) {
+            return (
+                <Table>
+                    <TableHeader>
+                        <TableRow className="hover:bg-transparent">
+                            <TableHead>SKU</TableHead>
+                            <TableHead>Product</TableHead>
+                            <TableHead>Category</TableHead>
+                            <TableHead className="text-right">List price</TableHead>
+                            <TableHead>Tracking</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="w-12 text-right"><span className="sr-only">Actions</span></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        { products.map( product => {
+                            const trackingLabels = getTrackingLabels( product )
+                            return (
+                                <TableRow key={ product.id }>
+                                    <TableCell className="font-mono text-xs text-(--ink-soft)">{ product.sku }</TableCell>
+                                    <TableCell>
+                                        <Link
+                                            to="/inventory/item/$uuid"
+                                            params={ { uuid: product.id } }
+                                            aria-label={ `View product ${ product.name }` }
+                                            className="block w-fit rounded-sm font-medium text-(--ink) underline decoration-transparent underline-offset-4 transition-colors hover:text-(--accent) hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                        >
+                                            { product.name }
+                                        </Link>
+                                        { product.description ? <span className="mt-0.5 block max-w-[42ch] truncate text-xs text-(--muted)">{ product.description }</span> : null }
+                                    </TableCell>
+                                    <TableCell className="text-(--ink-soft)">{ product.categoryId ? categoryNames.get( product.categoryId ) ?? 'Category unavailable' : '—' }</TableCell>
+                                    <TableCell className="text-right font-medium">{ formatPrice( product ) }</TableCell>
+                                    <TableCell>
+                                        { trackingLabels.length ? (
+                                            <div className="flex flex-wrap gap-1.5">
+                                                { trackingLabels.map( label => <span key={ label } className="rounded-full bg-(--paper-2) px-2 py-0.5 text-[11px] text-(--ink-soft)">{ label }</span> ) }
+                                            </div>
+                                        ) : <span className="text-(--muted)">None</span> }
+                                    </TableCell>
+                                    <TableCell>
+                                        <span className={ `inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${ product.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ product.isActive ? 'Active' : 'Inactive' }</span>
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <Button asChild type="button" variant="pill-ghost" size="icon" className="size-8 rounded-lg" aria-label={ `Open ${ product.name } product details` }>
+                                            <Link to="/inventory/item/$uuid" params={ { uuid: product.id } } title={ `Open ${ product.name } product details` }>
+                                                <Pencil size={ 15 } aria-hidden="true" />
+                                            </Link>
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        } ) }
+                    </TableBody>
+                </Table>
+            )
+        }
+
+        return (
+            <div className="px-5 py-14 text-center">
+                <div className="mx-auto mb-4 grid size-11 place-items-center rounded-xl bg-(--paper-2) text-(--ink)">
+                    <PackagePlus size={20} aria-hidden="true" />
+                </div>
+                <h2 className="font-display text-2xl">{ filtered ? 'No products match these filters' : 'No products yet' }</h2>
+                <p className="mx-auto mt-2 max-w-md text-sm text-(--muted)">{ filtered ? 'Try a different search or clear the filters to see more products.' : 'Add your first product to start building the inventory catalog.' }</p>
+                { filtered ? (
+                    <Button type="button" variant="pill-ghost" className="mt-5 border border-(--rule)" onClick={ clearFilters }>Clear filters</Button>
+                ) : (
+                    <Button asChild variant="pill-ghost" className="mt-5 bg-(--ink) text-(--paper) hover:bg-(--accent)">
+                        <Link to="/inventory/products/new"><PackagePlus size={16} aria-hidden="true" />Add product</Link>
+                    </Button>
+                ) }
+            </div>
+        )
+    }
+
     return (
         <DashboardShell>
             <div className="w-full">
@@ -149,81 +237,7 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
 
                 <Card className="overflow-hidden">
                     <CardContent className="p-0">
-                        { isError ? null : isPending ? (
-                            <div className="flex items-center justify-center gap-2 p-8 text-sm text-(--muted)" aria-live="polite">
-                                <Spinner className="size-4 text-(--accent)" aria-label="Loading products" />
-                                <span>Loading products…</span>
-                            </div>
-                        ) : products?.length ? (
-                            <Table>
-                                <TableHeader>
-                                    <TableRow className="hover:bg-transparent">
-                                        <TableHead>SKU</TableHead>
-                                        <TableHead>Product</TableHead>
-                                        <TableHead>Category</TableHead>
-                                        <TableHead className="text-right">List price</TableHead>
-                                        <TableHead>Tracking</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead className="w-12 text-right"><span className="sr-only">Actions</span></TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    { products.map( product => {
-                                        const trackingLabels = getTrackingLabels( product )
-                                        return (
-                                            <TableRow key={ product.id }>
-                                                <TableCell className="font-mono text-xs text-(--ink-soft)">{ product.sku }</TableCell>
-                                                <TableCell>
-                                                    <Link
-                                                        to="/inventory/item/$uuid"
-                                                        params={ { uuid: product.id } }
-                                                        aria-label={ `View product ${ product.name }` }
-                                                        className="block w-fit rounded-sm font-medium text-(--ink) underline decoration-transparent underline-offset-4 transition-colors hover:text-(--accent) hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
-                                                    >
-                                                        { product.name }
-                                                    </Link>
-                                                    { product.description ? <span className="mt-0.5 block max-w-[42ch] truncate text-xs text-(--muted)">{ product.description }</span> : null }
-                                                </TableCell>
-                                                <TableCell className="text-(--ink-soft)">{ product.categoryId ? categoryNames.get( product.categoryId ) ?? 'Category unavailable' : '—' }</TableCell>
-                                                <TableCell className="text-right font-medium">{ formatPrice( product ) }</TableCell>
-                                                <TableCell>
-                                                    { trackingLabels.length ? (
-                                                        <div className="flex flex-wrap gap-1.5">
-                                                            { trackingLabels.map( label => <span key={ label } className="rounded-full bg-(--paper-2) px-2 py-0.5 text-[11px] text-(--ink-soft)">{ label }</span> ) }
-                                                        </div>
-                                                    ) : <span className="text-(--muted)">None</span> }
-                                                </TableCell>
-                                                <TableCell>
-                                                    <span className={ `inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${ product.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ product.isActive ? 'Active' : 'Inactive' }</span>
-                                                </TableCell>
-                                                <TableCell className="text-right">
-                                                    <Button asChild type="button" variant="pill-ghost" size="icon" className="size-8 rounded-lg" aria-label={ `Open ${ product.name } product details` }>
-                                                        <Link to="/inventory/item/$uuid" params={ { uuid: product.id } } title={ `Open ${ product.name } product details` }>
-                                                            <Pencil size={ 15 } aria-hidden="true" />
-                                                        </Link>
-                                                    </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    } ) }
-                                </TableBody>
-                            </Table>
-                        ) : (
-                            <div className="px-5 py-14 text-center">
-                                <div className="mx-auto mb-4 grid size-11 place-items-center rounded-xl bg-(--paper-2) text-(--ink)">
-                                    <PackagePlus size={20} aria-hidden="true" />
-                                </div>
-                                <h2 className="font-display text-2xl">{ filtered ? 'No products match these filters' : 'No products yet' }</h2>
-                                <p className="mx-auto mt-2 max-w-md text-sm text-(--muted)">{ filtered ? 'Try a different search or clear the filters to see more products.' : 'Add your first product to start building the inventory catalog.' }</p>
-                                { filtered ? (
-                                    <Button type="button" variant="pill-ghost" className="mt-5 border border-(--rule)" onClick={ clearFilters }>Clear filters</Button>
-                                ) : (
-                                    <Button asChild variant="pill-ghost" className="mt-5 bg-(--ink) text-(--paper) hover:bg-(--accent)">
-                                        <Link to="/inventory/products/new"><PackagePlus size={16} aria-hidden="true" />Add product</Link>
-                                    </Button>
-                                ) }
-                            </div>
-                        ) }
+                        { renderProductContent() }
                     </CardContent>
                 </Card>
             </div>

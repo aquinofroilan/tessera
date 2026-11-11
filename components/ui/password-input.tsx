@@ -50,9 +50,34 @@ function PasswordStrengthMeter({ value }: PasswordStrengthMeterProps) {
         return score;
     }, [value]);
 
-    const state = strength <= 1 ? "weak" : strength === 2 ? "medium" : "strong";
-    const label = !value ? "Enter a password" : state === "weak" ? "Weak" : state === "medium" ? "Getting there" : "Strong";
-    const tone = state === "weak" ? "--accent" : state === "medium" ? "--ochre" : "--moss";
+    let state: "weak" | "medium" | "strong";
+    if (strength <= 1) {
+        state = "weak";
+    } else if (strength === 2) {
+        state = "medium";
+    } else {
+        state = "strong";
+    }
+
+    let label: string;
+    if (!value) {
+        label = "Enter a password";
+    } else if (state === "weak") {
+        label = "Weak";
+    } else if (state === "medium") {
+        label = "Getting there";
+    } else {
+        label = "Strong";
+    }
+
+    let tone: string;
+    if (state === "weak") {
+        tone = "--accent";
+    } else if (state === "medium") {
+        tone = "--ochre";
+    } else {
+        tone = "--moss";
+    }
 
     return (
         <div className="space-y-2" aria-live="polite">

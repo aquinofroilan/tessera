@@ -53,6 +53,18 @@ const moduleNavigation = [
     { label: 'Workflow', icon: <WorkflowSquare01Icon size={ 18 } /> },
 ]
 
+const isModuleNavigationItemActive = ( label: string, pathname: string ) => {
+    if ( label === 'Inventory' ) {
+        return pathname === '/inventory' || pathname === '/inventory/products/new'
+    }
+
+    if ( label === 'Overview' ) {
+        return pathname === '/dashboard'
+    }
+
+    return false
+}
+
 export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => {
     const navigate = useNavigate()
     const pathname = useRouterState( { select: state => state.location.pathname } )
@@ -117,9 +129,7 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                             <div key={ item.label }>
                                 <DashboardNavItem
                                     { ...item }
-                                    active={ item.label === 'Inventory'
-                                        ? pathname === '/inventory' || pathname === '/inventory/products/new'
-                                        : item.label === 'Overview' && pathname === '/dashboard' }
+                                    active={ isModuleNavigationItemActive( item.label, pathname ) }
                                     onClick={ () => {
                                         onClose()
                                         if ( item.label === 'Inventory' ) navigate( { to: '/inventory' } )

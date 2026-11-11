@@ -184,6 +184,63 @@ function ChartTooltipContent({
                         const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`;
                         const itemConfig = getPayloadConfigFromPayload(config, item, key);
                         const indicatorColor = color ?? item.payload?.fill ?? item.color;
+                        let tooltipContent: ReactNode;
+
+                        if (formatter && item?.value !== undefined && item.name) {
+                            tooltipContent = formatter(item.value, item.name, item, index, item.payload);
+                        } else {
+                            let indicatorContent: ReactNode = null;
+
+                            if (itemConfig?.icon) {
+                                indicatorContent = <itemConfig.icon />;
+                            } else if (!hideIndicator) {
+                                indicatorContent = (
+                                    <div
+                                        className={cn(
+                                            "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
+                                            {
+                                                "size-2.5": indicator === "dot",
+                                                "w-1": indicator === "line",
+                                                "w-0 border-[1.5px] border-dashed bg-transparent":
+                                                    indicator === "dashed",
+                                                "my-0.5": nestLabel && indicator === "dashed",
+                                            },
+                                        )}
+                                        style={
+                                            {
+                                                "--color-bg": indicatorColor,
+                                                "--color-border": indicatorColor,
+                                            } as CSSProperties
+                                        }
+                                    />
+                                );
+                            }
+
+                            tooltipContent = (
+                                <>
+                                    {indicatorContent}
+                                    <div
+                                        className={cn(
+                                            "flex flex-1 justify-between leading-none",
+                                            nestLabel ? "items-end" : "items-center",
+                                        )}>
+                                        <div className="grid gap-1.5">
+                                            {nestLabel ? tooltipLabel : null}
+                                            <span className="text-muted-foreground">
+                                                {itemConfig?.label ?? item.name}
+                                            </span>
+                                        </div>
+                                        {item.value != null && (
+                                            <span className="text-foreground font-mono font-medium tabular-nums">
+                                                {typeof item.value === "number"
+                                                    ? item.value.toLocaleString()
+                                                    : String(item.value)}
+                                            </span>
+                                        )}
+                                    </div>
+                                </>
+                            );
+                        }
 
                         return (
                             <div
@@ -192,55 +249,7 @@ function ChartTooltipContent({
                                     "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:size-2.5",
                                     indicator === "dot" && "items-center",
                                 )}>
-                                {formatter && item?.value !== undefined && item.name ? (
-                                    formatter(item.value, item.name, item, index, item.payload)
-                                ) : (
-                                    <>
-                                        {itemConfig?.icon ? (
-                                            <itemConfig.icon />
-                                        ) : (
-                                            !hideIndicator && (
-                                                <div
-                                                    className={cn(
-                                                        "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
-                                                        {
-                                                            "size-2.5": indicator === "dot",
-                                                            "w-1": indicator === "line",
-                                                            "w-0 border-[1.5px] border-dashed bg-transparent":
-                                                                indicator === "dashed",
-                                                            "my-0.5": nestLabel && indicator === "dashed",
-                                                        },
-                                                    )}
-                                                    style={
-                                                        {
-                                                            "--color-bg": indicatorColor,
-                                                            "--color-border": indicatorColor,
-                                                        } as CSSProperties
-                                                    }
-                                                />
-                                            )
-                                        )}
-                                        <div
-                                            className={cn(
-                                                "flex flex-1 justify-between leading-none",
-                                                nestLabel ? "items-end" : "items-center",
-                                            )}>
-                                            <div className="grid gap-1.5">
-                                                {nestLabel ? tooltipLabel : null}
-                                                <span className="text-muted-foreground">
-                                                    {itemConfig?.label ?? item.name}
-                                                </span>
-                                            </div>
-                                            {item.value != null && (
-                                                <span className="text-foreground font-mono font-medium tabular-nums">
-                                                    {typeof item.value === "number"
-                                                        ? item.value.toLocaleString()
-                                                        : String(item.value)}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </>
-                                )}
+                                {tooltipContent}
                             </div>
                         );
                     })}
