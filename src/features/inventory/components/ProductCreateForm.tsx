@@ -124,67 +124,77 @@ export const ProductCreateForm = () => {
                     </CardHeader>
                     <CardContent>
                         <FieldGroup className="grid gap-5 sm:grid-cols-2">
-                            <form.Field name="sku" children={ field => {
-                                const isInvalid = field.state.meta.errors.length > 0
-                                return (
-                                    <Field data-invalid={ isInvalid }>
-                                        <FieldLabel htmlFor={ field.name }>SKU <span className="text-(--accent)">*</span></FieldLabel>
-                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="WIDGET-001" maxLength={ 64 } disabled={ mutation.isPending } />
-                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                    </Field>
-                                )
-                            } } />
-                            <form.Field name="name" children={ field => {
-                                const isInvalid = field.state.meta.errors.length > 0
-                                return (
-                                    <Field data-invalid={ isInvalid }>
-                                        <FieldLabel htmlFor={ field.name }>Product name <span className="text-(--accent)">*</span></FieldLabel>
-                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Standard Widget" maxLength={ 255 } disabled={ mutation.isPending } />
-                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                    </Field>
-                                )
-                            } } />
-                            <form.Field name="categoryId" children={ field => {
-                                const isInvalid = field.state.meta.errors.length > 0
-                                return (
-                                    <Field data-invalid={ isInvalid }>
-                                        <FieldLabel htmlFor={ field.name }>Category</FieldLabel>
-                                        <Select value={ field.state.value || undefined } onValueChange={ value => field.handleChange( value === '__none__' ? '' : value ?? '' ) } disabled={ mutation.isPending || categoriesQuery.isPending || categoriesQuery.isError }>
-                                            <SelectTrigger id={ field.name } aria-label="Product category" aria-invalid={ isInvalid } className={ textInputClass }>
-                                                <SelectValue placeholder={ categoriesQuery.isPending ? 'Loading categories…' : 'Select a category' } />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="__none__">No category</SelectItem>
-                                                { categoriesQuery.data?.map( category => <SelectItem key={ category.id } value={ category.id }>{ category.name }</SelectItem> ) }
-                                            </SelectContent>
-                                        </Select>
-                                        { categoriesQuery.isError ? <FieldDescription className="text-(--accent-deep)">Categories could not be loaded. <button type="button" className="underline underline-offset-2" onClick={ () => { void categoriesQuery.refetch() } }>Retry</button></FieldDescription> : null }
-                                        { !categoriesQuery.isPending && !categoriesQuery.isError && !categoriesQuery.data?.length ? <FieldDescription>No categories yet. <Link className="underline underline-offset-2" to="/inventory/settings/product-categories">Manage categories</Link></FieldDescription> : null }
-                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                    </Field>
-                                )
-                            } } />
-                            <form.Field name="imageUrl" children={ field => {
-                                const isInvalid = field.state.meta.errors.length > 0
-                                return (
-                                    <Field data-invalid={ isInvalid }>
-                                        <FieldLabel htmlFor={ field.name }>Image URL</FieldLabel>
-                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } type="url" placeholder="https://example.com/widget.png" maxLength={ 2048 } disabled={ mutation.isPending } />
-                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                    </Field>
-                                )
-                            } } />
-                            <form.Field name="description" children={ field => {
-                                const isInvalid = field.state.meta.errors.length > 0
-                                return (
-                                    <Field data-invalid={ isInvalid } className="sm:col-span-2">
-                                        <FieldLabel htmlFor={ field.name }>Description</FieldLabel>
-                                        <Textarea id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className="min-h-28 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" placeholder="Describe what this product is used for." maxLength={ 2000 } disabled={ mutation.isPending } />
-                                        <p className="text-right font-mono text-[10px] text-(--muted)">{ field.state.value.length } / 2,000</p>
-                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                    </Field>
-                                )
-                            } } />
+                            <form.Field name="sku">
+                                { field => {
+                                    const isInvalid = field.state.meta.errors.length > 0
+                                    return (
+                                        <Field data-invalid={ isInvalid }>
+                                            <FieldLabel htmlFor={ field.name }>SKU <span className="text-(--accent)">*</span></FieldLabel>
+                                            <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="WIDGET-001" maxLength={ 64 } disabled={ mutation.isPending } />
+                                            { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                        </Field>
+                                    )
+                                } }
+                            </form.Field>
+                            <form.Field name="name">
+                                { field => {
+                                    const isInvalid = field.state.meta.errors.length > 0
+                                    return (
+                                        <Field data-invalid={ isInvalid }>
+                                            <FieldLabel htmlFor={ field.name }>Product name <span className="text-(--accent)">*</span></FieldLabel>
+                                            <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Standard Widget" maxLength={ 255 } disabled={ mutation.isPending } />
+                                            { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                        </Field>
+                                    )
+                                } }
+                            </form.Field>
+                            <form.Field name="categoryId">
+                                { field => {
+                                    const isInvalid = field.state.meta.errors.length > 0
+                                    return (
+                                        <Field data-invalid={ isInvalid }>
+                                            <FieldLabel htmlFor={ field.name }>Category</FieldLabel>
+                                            <Select value={ field.state.value || undefined } onValueChange={ value => field.handleChange( value === '__none__' ? '' : value ?? '' ) } disabled={ mutation.isPending || categoriesQuery.isPending || categoriesQuery.isError }>
+                                                <SelectTrigger id={ field.name } aria-label="Product category" aria-invalid={ isInvalid } className={ textInputClass }>
+                                                    <SelectValue placeholder={ categoriesQuery.isPending ? 'Loading categories…' : 'Select a category' } />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="__none__">No category</SelectItem>
+                                                    { categoriesQuery.data?.map( category => <SelectItem key={ category.id } value={ category.id }>{ category.name }</SelectItem> ) }
+                                                </SelectContent>
+                                            </Select>
+                                            { categoriesQuery.isError ? <FieldDescription className="text-(--accent-deep)">Categories could not be loaded. <button type="button" className="underline underline-offset-2" onClick={ () => { void categoriesQuery.refetch() } }>Retry</button></FieldDescription> : null }
+                                            { !categoriesQuery.isPending && !categoriesQuery.isError && !categoriesQuery.data?.length ? <FieldDescription>No categories yet. <Link className="underline underline-offset-2" to="/inventory/settings/product-categories">Manage categories</Link></FieldDescription> : null }
+                                            { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                        </Field>
+                                    )
+                                } }
+                            </form.Field>
+                            <form.Field name="imageUrl">
+                                { field => {
+                                    const isInvalid = field.state.meta.errors.length > 0
+                                    return (
+                                        <Field data-invalid={ isInvalid }>
+                                            <FieldLabel htmlFor={ field.name }>Image URL</FieldLabel>
+                                            <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } type="url" placeholder="https://example.com/widget.png" maxLength={ 2048 } disabled={ mutation.isPending } />
+                                            { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                        </Field>
+                                    )
+                                } }
+                            </form.Field>
+                            <form.Field name="description">
+                                { field => {
+                                    const isInvalid = field.state.meta.errors.length > 0
+                                    return (
+                                        <Field data-invalid={ isInvalid } className="sm:col-span-2">
+                                            <FieldLabel htmlFor={ field.name }>Description</FieldLabel>
+                                            <Textarea id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className="min-h-28 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" placeholder="Describe what this product is used for." maxLength={ 2000 } disabled={ mutation.isPending } />
+                                            <p className="text-right font-mono text-[10px] text-(--muted)">{ field.state.value.length } / 2,000</p>
+                                            { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                        </Field>
+                                    )
+                                } }
+                            </form.Field>
                         </FieldGroup>
                     </CardContent>
                 </Card>
@@ -197,32 +207,38 @@ export const ProductCreateForm = () => {
                     </CardHeader>
                     <CardContent>
                         <FieldGroup className="grid gap-5 sm:grid-cols-2">
-                            <form.Field name="listPrice" children={ field => {
-                                const isInvalid = field.state.meta.errors.length > 0
-                                return (
-                                    <Field data-invalid={ isInvalid }>
-                                        <FieldLabel htmlFor={ field.name }>List price <span className="text-(--accent)">*</span></FieldLabel>
-                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } type="number" inputMode="decimal" min="0" step="any" placeholder="0.00" disabled={ mutation.isPending } />
-                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                            <form.Field name="listPrice">
+                                { field => {
+                                    const isInvalid = field.state.meta.errors.length > 0
+                                    return (
+                                        <Field data-invalid={ isInvalid }>
+                                            <FieldLabel htmlFor={ field.name }>List price <span className="text-(--accent)">*</span></FieldLabel>
+                                            <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } type="number" inputMode="decimal" min="0" step="any" placeholder="0.00" disabled={ mutation.isPending } />
+                                            { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                        </Field>
+                                    )
+                                } }
+                            </form.Field>
+                            <form.Field name="priceCurrency">
+                                { field => (
+                                    <Field>
+                                        <FieldLabel htmlFor={ field.name }>Price currency</FieldLabel>
+                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } className={ textInputClass } placeholder="USD" disabled={ mutation.isPending } />
                                     </Field>
-                                )
-                            } } />
-                            <form.Field name="priceCurrency" children={ field => (
-                                <Field>
-                                    <FieldLabel htmlFor={ field.name }>Price currency</FieldLabel>
-                                    <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } className={ textInputClass } placeholder="USD" disabled={ mutation.isPending } />
-                                </Field>
-                            ) } />
-                            <form.Field name="taxGroupId" children={ field => {
-                                const isInvalid = field.state.meta.errors.length > 0
-                                return (
-                                    <Field data-invalid={ isInvalid } className="sm:col-span-2">
-                                        <FieldLabel htmlFor={ field.name }>Tax group ID</FieldLabel>
-                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Optional tax group UUID" disabled={ mutation.isPending } />
-                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                    </Field>
-                                )
-                            } } />
+                                ) }
+                            </form.Field>
+                            <form.Field name="taxGroupId">
+                                { field => {
+                                    const isInvalid = field.state.meta.errors.length > 0
+                                    return (
+                                        <Field data-invalid={ isInvalid } className="sm:col-span-2">
+                                            <FieldLabel htmlFor={ field.name }>Tax group ID</FieldLabel>
+                                            <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Optional tax group UUID" disabled={ mutation.isPending } />
+                                            { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                        </Field>
+                                    )
+                                } }
+                            </form.Field>
                         </FieldGroup>
                     </CardContent>
                 </Card>
@@ -236,19 +252,21 @@ export const ProductCreateForm = () => {
                     <CardContent>
                         <FieldGroup data-slot="checkbox-group" className="grid gap-3 sm:grid-cols-3">
                             { trackingOptions.map( option => (
-                                <form.Field key={ option.name } name={ option.name } children={ field => {
-                                    const isInvalid = field.state.meta.errors.length > 0
-                                    return (
-                                        <Field orientation="horizontal" data-invalid={ isInvalid } className={ `items-start rounded-xl border border-(--rule) bg-(--paper) p-3.5 transition-colors hover:border-(--muted-2) has-[:disabled]:cursor-not-allowed ${ field.state.value ? 'border-(--moss) bg-(--moss-soft)/45' : '' }` }>
-                                            <Checkbox id={ field.name } name={ field.name } checked={ field.state.value } onBlur={ field.handleBlur } onCheckedChange={ checked => field.handleChange( checked === true ) } aria-invalid={ isInvalid } disabled={ mutation.isPending } className="mt-0.5" />
-                                            <div className="grid gap-1">
-                                                <FieldLabel htmlFor={ field.name } className="font-medium">{ option.label }</FieldLabel>
-                                                <FieldDescription className="text-xs leading-relaxed text-(--muted)">{ option.description }</FieldDescription>
-                                                { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                            </div>
-                                        </Field>
-                                    )
-                                } } />
+                                <form.Field key={ option.name } name={ option.name }>
+                                    { field => {
+                                        const isInvalid = field.state.meta.errors.length > 0
+                                        return (
+                                            <Field orientation="horizontal" data-invalid={ isInvalid } className={ `items-start rounded-xl border border-(--rule) bg-(--paper) p-3.5 transition-colors hover:border-(--muted-2) has-[:disabled]:cursor-not-allowed ${ field.state.value ? 'border-(--moss) bg-(--moss-soft)/45' : '' }` }>
+                                                <Checkbox id={ field.name } name={ field.name } checked={ field.state.value } onBlur={ field.handleBlur } onCheckedChange={ checked => field.handleChange( checked === true ) } aria-invalid={ isInvalid } disabled={ mutation.isPending } className="mt-0.5" />
+                                                <div className="grid gap-1">
+                                                    <FieldLabel htmlFor={ field.name } className="font-medium">{ option.label }</FieldLabel>
+                                                    <FieldDescription className="text-xs leading-relaxed text-(--muted)">{ option.description }</FieldDescription>
+                                                    { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                                </div>
+                                            </Field>
+                                        )
+                                    } }
+                                </form.Field>
                             ) ) }
                         </FieldGroup>
                         <CardFooter className="-mx-5 mt-5 justify-end gap-2 border-t border-(--rule-soft) px-5 pt-4 pb-0">
