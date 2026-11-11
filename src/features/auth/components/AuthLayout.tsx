@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@tanstack/react-router';
 
-type AuthLayoutProps = {
+type AuthLayoutProps = Readonly<{
     children: React.ReactNode;
     title: string;
     description?: string;
@@ -11,7 +11,7 @@ type AuthLayoutProps = {
     editorialContent?: React.ReactNode;
     editorialFooter?: React.ReactNode;
     editorialFloatingStats?: Array<{ label: string; value: string }>;
-};
+}>;
 
 export const AuthLayout = ({
     children,

@@ -2,27 +2,27 @@
 
 import type { ComponentProps } from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { IconX } from "@tabler/icons-react";
+import { IconX } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 
-const Dialog = ({ ...props }: ComponentProps<typeof DialogPrimitive.Root>) => (
+const Dialog = ({ ...props }: Readonly<ComponentProps<typeof DialogPrimitive.Root>>) => (
     <DialogPrimitive.Root data-slot="dialog" {...props} />
 );
 
-const DialogTrigger = ({ ...props }: ComponentProps<typeof DialogPrimitive.Trigger>) => (
+const DialogTrigger = ({ ...props }: Readonly<ComponentProps<typeof DialogPrimitive.Trigger>>) => (
     <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
 );
 
-const DialogPortal = ({ ...props }: ComponentProps<typeof DialogPrimitive.Portal>) => (
+const DialogPortal = ({ ...props }: Readonly<ComponentProps<typeof DialogPrimitive.Portal>>) => (
     <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 );
 
-const DialogClose = ({ ...props }: ComponentProps<typeof DialogPrimitive.Close>) => (
+const DialogClose = ({ ...props }: Readonly<ComponentProps<typeof DialogPrimitive.Close>>) => (
     <DialogPrimitive.Close data-slot="dialog-close" {...props} />
 );
 
-const DialogOverlay = ({ className, ...props }: ComponentProps<typeof DialogPrimitive.Overlay>) => (
+const DialogOverlay = ({ className, ...props }: Readonly<ComponentProps<typeof DialogPrimitive.Overlay>>) => (
     <DialogPrimitive.Overlay
         data-slot="dialog-overlay"
         className={cn(
@@ -38,7 +38,7 @@ const DialogContent = ({
     children,
     showCloseButton = true,
     ...props
-}: ComponentProps<typeof DialogPrimitive.Content> & { showCloseButton?: boolean }) => (
+}: Readonly<ComponentProps<typeof DialogPrimitive.Content> & { showCloseButton?: boolean }>) => (
     <DialogPortal>
         <DialogOverlay />
         <DialogPrimitive.Content
@@ -53,14 +53,14 @@ const DialogContent = ({
                 <DialogPrimitive.Close
                     className="absolute top-3.5 right-3.5 rounded-md p-1 text-(--muted) transition-colors hover:bg-(--paper-2) hover:text-(--ink) focus:outline-none focus-visible:ring-2 focus-visible:ring-(--accent)"
                     aria-label="Close">
-                    <IconX className="size-4" stroke={1.8} />
+                    <IconX className="size-4" strokeWidth={1.8} />
                 </DialogPrimitive.Close>
             )}
         </DialogPrimitive.Content>
     </DialogPortal>
 );
 
-const DialogTitle = ({ className, ...props }: ComponentProps<typeof DialogPrimitive.Title>) => (
+const DialogTitle = ({ className, ...props }: Readonly<ComponentProps<typeof DialogPrimitive.Title>>) => (
     <DialogPrimitive.Title
         data-slot="dialog-title"
         className={cn("text-sm font-medium tracking-[-0.005em] text-(--ink)", className)}
@@ -68,7 +68,7 @@ const DialogTitle = ({ className, ...props }: ComponentProps<typeof DialogPrimit
     />
 );
 
-const DialogDescription = ({ className, ...props }: ComponentProps<typeof DialogPrimitive.Description>) => (
+const DialogDescription = ({ className, ...props }: Readonly<ComponentProps<typeof DialogPrimitive.Description>>) => (
     <DialogPrimitive.Description
         data-slot="dialog-description"
         className={cn("text-[13px] text-(--muted)", className)}

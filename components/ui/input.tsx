@@ -18,7 +18,7 @@ const inputVariants = cva(
     },
 );
 
-type InputProps = ComponentProps<"input"> & VariantProps<typeof inputVariants>;
+type InputProps = Readonly<ComponentProps<"input"> & VariantProps<typeof inputVariants>>;
 
 function Input({ className, type, tone, ...props }: InputProps) {
     return <input type={type} data-slot="input" className={cn(inputVariants({ tone, className }))} {...props} />;

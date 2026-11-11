@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { IconCheck } from '@tabler/icons-react'
+import { IconCheck } from '@/components/ui/hugeicons'
 import { AuthLayout } from '@/src/features/auth/components/AuthLayout'
 import { ForgotPasswordForm } from '@/src/features/auth/components/ForgotPasswordForm'
 
@@ -32,7 +32,7 @@ export const ForgotPasswordPage = () => (
                 <div className="grid gap-3 font-mono text-[11px] tracking-[0.05em] text-[rgb(246_241_230/65%)]">
                     { ["One secure reset link", "No changes to your workspace", "Back to work in a moment"].map( ( item ) => (
                         <span key={ item } className="flex items-center gap-2.5">
-                            <span className="grid size-5.5 place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]"><IconCheck aria-hidden="true" size={ 12 } stroke={ 2.4 } /></span>
+                            <span className="grid size-5.5 place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]"><IconCheck aria-hidden="true" size={ 12 } strokeWidth={ 2.4 } /></span>
                             { item }
                         </span>
                     ) ) }

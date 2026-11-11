@@ -35,9 +35,9 @@ export type ChartConfig = Record<
     } & ({ color?: string; theme?: never } | { color?: never; theme: Record<keyof typeof THEMES, string> })
 >;
 
-type ChartContextProps = {
+type ChartContextProps = Readonly<{
     config: ChartConfig;
-};
+}>;
 
 const ChartContext = createContext<ChartContextProps | null>(null);
 
@@ -58,14 +58,14 @@ function ChartContainer({
     config,
     initialDimension = INITIAL_DIMENSION,
     ...props
-}: ComponentProps<"div"> & {
+}: Readonly<ComponentProps<"div"> & {
     config: ChartConfig;
     children: ComponentProps<typeof RechartsResponsiveContainer>["children"];
     initialDimension?: {
         width: number;
         height: number;
     };
-}) {
+}>) {
     const uniqueId = useId();
     const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
 
@@ -88,7 +88,7 @@ function ChartContainer({
     );
 }
 
-const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
+const ChartStyle = ({ id, config }: Readonly<{ id: string; config: ChartConfig }>) => {
     const colorConfig = Object.entries(config).filter(([, config]) => config.theme ?? config.color);
 
     if (!colorConfig.length) {
@@ -133,14 +133,14 @@ function ChartTooltipContent({
     color,
     nameKey,
     labelKey,
-}: ComponentProps<typeof RechartsTooltip> &
+}: Readonly<ComponentProps<typeof RechartsTooltip> &
     ComponentProps<"div"> & {
         hideLabel?: boolean;
         hideIndicator?: boolean;
         indicator?: "line" | "dot" | "dashed";
         nameKey?: string;
         labelKey?: string;
-    } & Omit<DefaultTooltipContentProps<TooltipValueType, TooltipNameType>, "accessibilityLayer">) {
+    } & Omit<DefaultTooltipContentProps<TooltipValueType, TooltipNameType>, "accessibilityLayer">>) {
     const { config } = useChart();
 
     const tooltipLabel = useMemo(() => {
@@ -184,6 +184,63 @@ function ChartTooltipContent({
                         const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`;
                         const itemConfig = getPayloadConfigFromPayload(config, item, key);
                         const indicatorColor = color ?? item.payload?.fill ?? item.color;
+                        let tooltipContent: ReactNode;
+
+                        if (formatter && item?.value !== undefined && item.name) {
+                            tooltipContent = formatter(item.value, item.name, item, index, item.payload);
+                        } else {
+                            let indicatorContent: ReactNode = null;
+
+                            if (itemConfig?.icon) {
+                                indicatorContent = <itemConfig.icon />;
+                            } else if (!hideIndicator) {
+                                indicatorContent = (
+                                    <div
+                                        className={cn(
+                                            "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
+                                            {
+                                                "size-2.5": indicator === "dot",
+                                                "w-1": indicator === "line",
+                                                "w-0 border-[1.5px] border-dashed bg-transparent":
+                                                    indicator === "dashed",
+                                                "my-0.5": nestLabel && indicator === "dashed",
+                                            },
+                                        )}
+                                        style={
+                                            {
+                                                "--color-bg": indicatorColor,
+                                                "--color-border": indicatorColor,
+                                            } as CSSProperties
+                                        }
+                                    />
+                                );
+                            }
+
+                            tooltipContent = (
+                                <>
+                                    {indicatorContent}
+                                    <div
+                                        className={cn(
+                                            "flex flex-1 justify-between leading-none",
+                                            nestLabel ? "items-end" : "items-center",
+                                        )}>
+                                        <div className="grid gap-1.5">
+                                            {nestLabel ? tooltipLabel : null}
+                                            <span className="text-muted-foreground">
+                                                {itemConfig?.label ?? item.name}
+                                            </span>
+                                        </div>
+                                        {item.value != null && (
+                                            <span className="text-foreground font-mono font-medium tabular-nums">
+                                                {typeof item.value === "number"
+                                                    ? item.value.toLocaleString()
+                                                    : String(item.value)}
+                                            </span>
+                                        )}
+                                    </div>
+                                </>
+                            );
+                        }
 
                         return (
                             <div
@@ -192,55 +249,7 @@ function ChartTooltipContent({
                                     "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:size-2.5",
                                     indicator === "dot" && "items-center",
                                 )}>
-                                {formatter && item?.value !== undefined && item.name ? (
-                                    formatter(item.value, item.name, item, index, item.payload)
-                                ) : (
-                                    <>
-                                        {itemConfig?.icon ? (
-                                            <itemConfig.icon />
-                                        ) : (
-                                            !hideIndicator && (
-                                                <div
-                                                    className={cn(
-                                                        "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
-                                                        {
-                                                            "size-2.5": indicator === "dot",
-                                                            "w-1": indicator === "line",
-                                                            "w-0 border-[1.5px] border-dashed bg-transparent":
-                                                                indicator === "dashed",
-                                                            "my-0.5": nestLabel && indicator === "dashed",
-                                                        },
-                                                    )}
-                                                    style={
-                                                        {
-                                                            "--color-bg": indicatorColor,
-                                                            "--color-border": indicatorColor,
-                                                        } as CSSProperties
-                                                    }
-                                                />
-                                            )
-                                        )}
-                                        <div
-                                            className={cn(
-                                                "flex flex-1 justify-between leading-none",
-                                                nestLabel ? "items-end" : "items-center",
-                                            )}>
-                                            <div className="grid gap-1.5">
-                                                {nestLabel ? tooltipLabel : null}
-                                                <span className="text-muted-foreground">
-                                                    {itemConfig?.label ?? item.name}
-                                                </span>
-                                            </div>
-                                            {item.value != null && (
-                                                <span className="text-foreground font-mono font-medium tabular-nums">
-                                                    {typeof item.value === "number"
-                                                        ? item.value.toLocaleString()
-                                                        : String(item.value)}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </>
-                                )}
+                                {tooltipContent}
                             </div>
                         );
                     })}
@@ -257,10 +266,10 @@ function ChartLegendContent({
     payload,
     verticalAlign = "bottom",
     nameKey,
-}: ComponentProps<"div"> & {
+}: Readonly<ComponentProps<"div"> & {
     hideIcon?: boolean;
     nameKey?: string;
-} & DefaultLegendContentProps) {
+} & DefaultLegendContentProps>) {
     const { config } = useChart();
 
     if (!payload?.length) {

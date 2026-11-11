@@ -2,12 +2,12 @@
 
 import type { ComponentProps } from "react";
 import { Command as CommandPrimitive } from "cmdk";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch } from "@/components/ui/hugeicons";
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
-const Command = ({ className, ...props }: ComponentProps<typeof CommandPrimitive>) => (
+const Command = ({ className, ...props }: Readonly<ComponentProps<typeof CommandPrimitive>>) => (
     <CommandPrimitive
         data-slot="command"
         className={cn("flex size-full flex-col overflow-hidden rounded-lg bg-(--card) text-(--ink)", className)}
@@ -15,11 +15,11 @@ const Command = ({ className, ...props }: ComponentProps<typeof CommandPrimitive
     />
 );
 
-type CommandDialogProps = ComponentProps<typeof Dialog> & {
+type CommandDialogProps = Readonly<ComponentProps<typeof Dialog> & {
     title?: string;
     description?: string;
     className?: string;
-};
+}>;
 
 const CommandDialog = ({
     title = "Command palette",
@@ -43,9 +43,9 @@ const CommandDialog = ({
     </Dialog>
 );
 
-const CommandInput = ({ className, ...props }: ComponentProps<typeof CommandPrimitive.Input>) => (
+const CommandInput = ({ className, ...props }: Readonly<ComponentProps<typeof CommandPrimitive.Input>>) => (
     <div className="flex items-center gap-2 border-b border-(--rule) px-3.5" cmdk-input-wrapper="">
-        <IconSearch className="size-3.5 text-(--muted)" stroke={1.8} />
+        <IconSearch className="size-3.5 text-(--muted)" strokeWidth={1.8} />
         <CommandPrimitive.Input
             data-slot="command-input"
             className={cn(
@@ -57,7 +57,7 @@ const CommandInput = ({ className, ...props }: ComponentProps<typeof CommandPrim
     </div>
 );
 
-const CommandList = ({ className, ...props }: ComponentProps<typeof CommandPrimitive.List>) => (
+const CommandList = ({ className, ...props }: Readonly<ComponentProps<typeof CommandPrimitive.List>>) => (
     <CommandPrimitive.List
         data-slot="command-list"
         className={cn("max-h-80 overflow-x-hidden overflow-y-auto py-1.5", className)}
@@ -65,7 +65,7 @@ const CommandList = ({ className, ...props }: ComponentProps<typeof CommandPrimi
     />
 );
 
-const CommandEmpty = ({ className, ...props }: ComponentProps<typeof CommandPrimitive.Empty>) => (
+const CommandEmpty = ({ className, ...props }: Readonly<ComponentProps<typeof CommandPrimitive.Empty>>) => (
     <CommandPrimitive.Empty
         data-slot="command-empty"
         className={cn("py-6 text-center text-[13px] text-(--muted)", className)}
@@ -73,7 +73,7 @@ const CommandEmpty = ({ className, ...props }: ComponentProps<typeof CommandPrim
     />
 );
 
-const CommandGroup = ({ className, ...props }: ComponentProps<typeof CommandPrimitive.Group>) => (
+const CommandGroup = ({ className, ...props }: Readonly<ComponentProps<typeof CommandPrimitive.Group>>) => (
     <CommandPrimitive.Group
         data-slot="command-group"
         className={cn("overflow-hidden text-(--ink)", className)}
@@ -81,7 +81,7 @@ const CommandGroup = ({ className, ...props }: ComponentProps<typeof CommandPrim
     />
 );
 
-const CommandSeparator = ({ className, ...props }: ComponentProps<typeof CommandPrimitive.Separator>) => (
+const CommandSeparator = ({ className, ...props }: Readonly<ComponentProps<typeof CommandPrimitive.Separator>>) => (
     <CommandPrimitive.Separator
         data-slot="command-separator"
         className={cn("my-1 h-px bg-(--rule)", className)}
@@ -89,7 +89,7 @@ const CommandSeparator = ({ className, ...props }: ComponentProps<typeof Command
     />
 );
 
-const CommandItem = ({ className, ...props }: ComponentProps<typeof CommandPrimitive.Item>) => (
+const CommandItem = ({ className, ...props }: Readonly<ComponentProps<typeof CommandPrimitive.Item>>) => (
     <CommandPrimitive.Item
         data-slot="command-item"
         className={cn(
@@ -104,7 +104,7 @@ const CommandItem = ({ className, ...props }: ComponentProps<typeof CommandPrimi
     />
 );
 
-const CommandShortcut = ({ className, ...props }: ComponentProps<"span">) => (
+const CommandShortcut = ({ className, ...props }: Readonly<ComponentProps<"span">>) => (
     <span
         data-slot="command-shortcut"
         className={cn(

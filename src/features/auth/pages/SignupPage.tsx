@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { IconArrowUpRight, IconLifebuoy } from '@tabler/icons-react'
+import { IconArrowUpRight, IconLifebuoy } from '@/components/ui/hugeicons'
 import packageJson from '../../../../package.json'
 import { AuthLayout } from '@/src/features/auth/components/AuthLayout'
 import { SignupForm } from '@/src/features/auth/components/SignupForm'
@@ -106,14 +106,14 @@ export const SignupPage = () => (
         <SignupForm />
         <div className="mt-6 flex items-start gap-3 rounded-[10px] border border-dashed border-(--rule) bg-(--paper-2) p-3.5 text-[13px] leading-[1.45] text-(--ink-soft)">
             <span className="grid size-7.5 shrink-0 place-items-center rounded-[7px] bg-(--ink) text-(--paper)">
-                <IconLifebuoy aria-hidden="true" size={ 16 } stroke={ 1.8 } />
+                <IconLifebuoy aria-hidden="true" size={ 16 } strokeWidth={ 1.8 } />
             </span>
             <p className="min-w-0">
                 <strong className="font-medium text-(--ink)">Need help migrating?</strong>{ " " }
                 We can help you bring your data over.{ " " }
                 <a href="#" className="inline-flex items-center gap-0.5 font-medium text-(--accent) underline decoration-transparent underline-offset-2 transition-[text-decoration-color] hover:decoration-current focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">
                     Talk to us
-                    <IconArrowUpRight aria-hidden="true" size={ 13 } stroke={ 2 } />
+                    <IconArrowUpRight aria-hidden="true" size={ 13 } strokeWidth={ 2 } />
                 </a>
             </p>
         </div>

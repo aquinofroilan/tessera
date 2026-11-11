@@ -6,7 +6,7 @@ import { useRequestMagicLink } from "@/src/features/auth/api/magicLink"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { CheckCircle2 } from "lucide-react"
+import { CheckCircle2 } from "@/components/ui/hugeicons"
 
 const magicLinkSchema = z.object( {
     email: z.string().email( { message: "Invalid email address" } ),

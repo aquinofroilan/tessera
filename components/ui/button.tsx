@@ -57,10 +57,10 @@ function Button ( {
     size = "default",
     asChild = false,
     ...props
-}: ComponentProps<"button"> &
+}: Readonly<ComponentProps<"button"> &
     VariantProps<typeof buttonVariants> & {
         asChild?: boolean
-    } )
+    }> )
 {
     const Comp = asChild ? Slot.Root : "button"
 

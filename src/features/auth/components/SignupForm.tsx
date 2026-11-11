@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "@tanstack/react-router";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck } from "@/components/ui/hugeicons";
 import { useRegister } from "@/src/features/auth/api/register";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -383,15 +383,15 @@ export const SignupForm = () => {
                             </Button>
                             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 font-mono text-[11px] leading-[1.4] text-(--muted)">
                                 <span className="inline-flex items-center gap-1.5">
-                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    <IconCheck aria-hidden="true" size={12} strokeWidth={2} />
                                     No credit card
                                 </span>
                                 <span className="inline-flex items-center gap-1.5">
-                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    <IconCheck aria-hidden="true" size={12} strokeWidth={2} />
                                     Cancel anytime
                                 </span>
                                 <span className="inline-flex items-center gap-1.5">
-                                    <IconCheck aria-hidden="true" size={12} stroke={2} />
+                                    <IconCheck aria-hidden="true" size={12} strokeWidth={2} />
                                     SOC 2 ready
                                 </span>
                             </div>

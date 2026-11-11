@@ -6,7 +6,7 @@ import { useForgotPassword } from "@/src/features/auth/api/forgotPassword";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { IconArrowLeft, IconCheck } from "@tabler/icons-react";
+import { IconArrowLeft, IconCheck } from "@/components/ui/hugeicons";
 import { Link } from "@tanstack/react-router";
 
 const forgotPasswordSchema = z.object({
@@ -37,7 +37,7 @@ export const ForgotPasswordForm = () => {
         return (
             <div className="space-y-6" role="status" aria-live="polite">
                 <div className="flex items-start gap-3.5 rounded-[10px] border border-(--moss) bg-[rgb(61_90_58/8%)] px-4 py-3.5 text-(--moss)">
-                    <IconCheck aria-hidden="true" className="mt-0.5 shrink-0" size={18} stroke={2.2} />
+                    <IconCheck aria-hidden="true" className="mt-0.5 shrink-0" size={18} strokeWidth={2.2} />
                     <div className="space-y-1">
                         <h2 className="text-[14px] font-medium">Check your email</h2>
                         <p className="text-[13px] leading-[1.45] text-(--ink-soft)">

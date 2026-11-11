@@ -3,10 +3,9 @@ import { useNavigate } from "@tanstack/react-router"
 import { useConsumeMagicLink } from "@/src/features/auth/api/magicLink"
 import { Button } from "@/components/ui/button"
 
-interface MagicLinkConsumeProps
-{
+type MagicLinkConsumeProps = Readonly<{
     token: string
-}
+}>
 
 export const MagicLinkConsume = ( { token }: MagicLinkConsumeProps ) =>
 {

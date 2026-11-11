@@ -1,10 +1,10 @@
 import { type ComponentProps } from "react";
-import { IconChevronLeft, IconChevronRight, IconDots } from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight, IconDots } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-function Pagination({ className, ...props }: ComponentProps<"nav">) {
+function Pagination({ className, ...props }: Readonly<ComponentProps<"nav">>) {
     return (
         <nav
             role="navigation"
@@ -16,7 +16,7 @@ function Pagination({ className, ...props }: ComponentProps<"nav">) {
     );
 }
 
-function PaginationContent({ className, ...props }: ComponentProps<"ul">) {
+function PaginationContent({ className, ...props }: Readonly<ComponentProps<"ul">>) {
     return (
         <ul
             data-slot="pagination-content"
@@ -26,14 +26,14 @@ function PaginationContent({ className, ...props }: ComponentProps<"ul">) {
     );
 }
 
-function PaginationItem({ ...props }: ComponentProps<"li">) {
+function PaginationItem({ ...props }: Readonly<ComponentProps<"li">>) {
     return <li data-slot="pagination-item" {...props} />;
 }
 
-type PaginationLinkProps = {
+type PaginationLinkProps = Readonly<{
     isActive?: boolean;
 } & Pick<ComponentProps<typeof Button>, "size"> &
-    ComponentProps<"a">;
+    ComponentProps<"a">>;
 
 function PaginationLink({ className, isActive, size = "icon-sm", ...props }: PaginationLinkProps) {
     return (
@@ -56,14 +56,14 @@ function PaginationPrevious({
     className,
     text = "Previous",
     ...props
-}: ComponentProps<typeof PaginationLink> & { text?: string }) {
+}: Readonly<ComponentProps<typeof PaginationLink> & { text?: string }>) {
     return (
         <PaginationLink
             aria-label="Go to previous page"
             size="sm"
             className={cn("font-sans normal-nums", className)}
             {...props}>
-            <IconChevronLeft data-icon="inline-start" stroke={1.8} />
+            <IconChevronLeft data-icon="inline-start" strokeWidth={1.8} />
             <span className="hidden sm:block">{text}</span>
         </PaginationLink>
     );
@@ -73,7 +73,7 @@ function PaginationNext({
     className,
     text = "Next",
     ...props
-}: ComponentProps<typeof PaginationLink> & { text?: string }) {
+}: Readonly<ComponentProps<typeof PaginationLink> & { text?: string }>) {
     return (
         <PaginationLink
             aria-label="Go to next page"
@@ -81,19 +81,19 @@ function PaginationNext({
             className={cn("font-sans normal-nums", className)}
             {...props}>
             <span className="hidden sm:block">{text}</span>
-            <IconChevronRight data-icon="inline-end" stroke={1.8} />
+            <IconChevronRight data-icon="inline-end" strokeWidth={1.8} />
         </PaginationLink>
     );
 }
 
-function PaginationEllipsis({ className, ...props }: ComponentProps<"span">) {
+function PaginationEllipsis({ className, ...props }: Readonly<ComponentProps<"span">>) {
     return (
         <span
             aria-hidden
             data-slot="pagination-ellipsis"
             className={cn("flex size-8 items-center justify-center", className)}
             {...props}>
-            <IconDots className="size-4" stroke={1.8} />
+            <IconDots className="size-4" strokeWidth={1.8} />
             <span className="sr-only">More pages</span>
         </span>
     );

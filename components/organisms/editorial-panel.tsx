@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 
@@ -27,7 +27,7 @@ export type EditorialListItem = {
     detail: string;
 };
 
-export type EditorialPanelProps = {
+export type EditorialPanelProps = Readonly<{
     statusChip: ReactNode;
     kicker: string;
     quote: EditorialQuote;
@@ -47,7 +47,7 @@ export type EditorialPanelProps = {
     };
     securityFooter?: ReactNode;
     className?: string;
-};
+}>;
 
 const defaultWashes = {
     topRight: "radial-gradient(circle, rgb(185 58 29 / 28%) 0%, transparent 60%)",
@@ -153,7 +153,7 @@ export function EditorialPanel({
                     {list.items.map((item) => (
                         <div key={item.title} className="flex items-center gap-3 text-sm text-[rgb(246_241_230/90%)]">
                             <span className="grid size-5.5 flex-none place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]">
-                                <IconCheck className="size-3" stroke={2.4} />
+                                <IconCheck className="size-3" strokeWidth={2.4} />
                             </span>
                             <span>
                                 <strong className="text-background font-medium">{item.title}</strong>{" "}

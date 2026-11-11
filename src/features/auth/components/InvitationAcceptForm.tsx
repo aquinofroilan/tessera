@@ -17,10 +17,9 @@ const newUserSchema = z.object( {
 
 type NewUserValues = z.infer<typeof newUserSchema>
 
-interface InvitationAcceptFormProps
-{
+type InvitationAcceptFormProps = Readonly<{
     token: string
-}
+}>
 
 export const InvitationAcceptForm = ( { token }: InvitationAcceptFormProps ) =>
 {

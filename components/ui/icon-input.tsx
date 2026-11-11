@@ -3,10 +3,10 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Input, type InputProps } from "@/components/ui/input";
 
-type IconInputProps = InputProps & {
+type IconInputProps = Readonly<InputProps & {
     startIcon?: ReactNode;
     endAdornment?: ReactNode;
-};
+}>;
 
 const iconOffsetByTone = {
     default: { left: "left-3.5", padLeft: "pl-10", padRight: "pr-11", right: "right-2.5" },

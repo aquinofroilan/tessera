@@ -2,11 +2,11 @@
 
 import type { ComponentProps } from "react";
 import { Checkbox as CheckboxPrimitive } from "radix-ui";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 
-function Checkbox({ className, ...props }: ComponentProps<typeof CheckboxPrimitive.Root>) {
+function Checkbox({ className, ...props }: Readonly<ComponentProps<typeof CheckboxPrimitive.Root>>) {
     return (
         <CheckboxPrimitive.Root
             data-slot="checkbox"
@@ -23,7 +23,7 @@ function Checkbox({ className, ...props }: ComponentProps<typeof CheckboxPrimiti
             <CheckboxPrimitive.Indicator
                 data-slot="checkbox-indicator"
                 className="grid place-content-center text-current transition-none [&>svg]:size-3">
-                <IconCheck stroke={2.5} />
+                <IconCheck strokeWidth={2.5} />
             </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
     );

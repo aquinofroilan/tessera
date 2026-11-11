@@ -1,4 +1,4 @@
-import { IconArrowUpRight, IconCircleCheck, IconClock, IconPlus } from '@tabler/icons-react'
+import { IconArrowUpRight, IconCircleCheck, IconClock, IconPlus } from '@/components/ui/hugeicons'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { useAuthStore } from '@/src/features/auth/stores/authStore'
 import { Button } from '@/components/ui/button'
@@ -33,7 +33,7 @@ export const DashboardPage = () => {
                     <p className="text-[15px] text-(--ink-soft)">A calm starting point for the whole shop.</p>
                 </div>
                 <Button type="button" variant="pill-ghost" size="sm" className="mt-[18px] inline-flex items-center gap-1.5 self-end rounded-lg bg-(--ink) px-2.5 py-2 text-[13px] font-medium text-(--paper) transition-colors hover:bg-(--accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink) sm:mt-0">
-                    <IconPlus size={ 16 } stroke={ 2.2 } aria-hidden="true" />
+                    <IconPlus size={ 16 } strokeWidth={ 2.2 } aria-hidden="true" />
                     Create something
                 </Button>
             </div>
