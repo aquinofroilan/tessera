@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-type PasswordInputProps = ComponentProps<typeof Input>;
+type PasswordInputProps = Readonly<ComponentProps<typeof Input>>;
 
 function PasswordInput({ className, disabled, ...props }: PasswordInputProps) {
     const [visible, setVisible] = useState(false);
@@ -34,9 +34,9 @@ function PasswordInput({ className, disabled, ...props }: PasswordInputProps) {
     );
 }
 
-type PasswordStrengthMeterProps = {
+type PasswordStrengthMeterProps = Readonly<{
     value: string;
-};
+}>;
 
 function PasswordStrengthMeter({ value }: PasswordStrengthMeterProps) {
     const strength = useMemo(() => {

@@ -61,10 +61,10 @@ import {
     XIcon as XSvg,
 } from '@hugeicons/core-free-icons'
 
-type IconProps = Omit<HugeiconsIconProps, 'icon' | 'stroke' | 'strokeWidth'> & {
+type IconProps = Readonly<Omit<HugeiconsIconProps, 'icon' | 'stroke' | 'strokeWidth'> & {
     stroke?: number | string
     strokeWidth?: number | string
-}
+}>
 
 function createIcon ( icon: IconSvgElement ) {
     const Icon = ( { stroke, strokeWidth, ...props }: IconProps ) => {

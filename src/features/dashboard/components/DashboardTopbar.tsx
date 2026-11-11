@@ -2,9 +2,9 @@ import { IconBell, IconMenu2, IconPlus, IconSearch } from '@/components/ui/hugei
 import { useRouterState } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 
-type DashboardTopbarProps = {
+type DashboardTopbarProps = Readonly<{
     onMenuClick: () => void
-}
+}>
 
 export const DashboardTopbar = ( { onMenuClick }: DashboardTopbarProps ) => {
     const pathname = useRouterState( { select: state => state.location.pathname } )

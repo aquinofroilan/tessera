@@ -12,10 +12,10 @@ import type { ProductVariantResponse } from '@/src/features/inventory/types/prod
 import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
 import { getApiErrorMessage } from '@/src/lib/api-error'
 
-type ProductVariantEditSheetProps = {
+type ProductVariantEditSheetProps = Readonly<{
     productId: string
     variant: ProductVariantResponse
-}
+}>
 
 type AttributeRow = {
     id: number

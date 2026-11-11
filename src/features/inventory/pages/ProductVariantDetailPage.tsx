@@ -13,10 +13,10 @@ import { useProduct } from '@/src/features/inventory/api/products'
 import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
 import { getApiErrorMessage, getApiErrorStatus } from '@/src/lib/api-error'
 
-type ProductVariantDetailPageProps = {
+type ProductVariantDetailPageProps = Readonly<{
     productId: string
     variantId: string
-}
+}>
 
 export function ProductVariantDetailPage ( { productId, variantId }: ProductVariantDetailPageProps ) {
     const variantQuery = useProductVariant( productId, variantId )
@@ -99,7 +99,7 @@ function formatRecordDate ( value: string | null ): ReactNode {
     )
 }
 
-function DetailItem ( { label, value }: { label: string, value: ReactNode } ) {
+function DetailItem ( { label, value }: Readonly<{ label: string, value: ReactNode }> ) {
     return (
         <div className="grid gap-1 border-b border-(--rule) py-3 last:border-b-0 sm:grid-cols-[150px_1fr] sm:gap-4">
             <dt className="text-xs font-medium text-(--muted)">{ label }</dt>

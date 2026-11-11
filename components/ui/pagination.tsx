@@ -4,7 +4,7 @@ import { IconChevronLeft, IconChevronRight, IconDots } from "@/components/ui/hug
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-function Pagination({ className, ...props }: ComponentProps<"nav">) {
+function Pagination({ className, ...props }: Readonly<ComponentProps<"nav">>) {
     return (
         <nav
             role="navigation"
@@ -16,7 +16,7 @@ function Pagination({ className, ...props }: ComponentProps<"nav">) {
     );
 }
 
-function PaginationContent({ className, ...props }: ComponentProps<"ul">) {
+function PaginationContent({ className, ...props }: Readonly<ComponentProps<"ul">>) {
     return (
         <ul
             data-slot="pagination-content"
@@ -26,14 +26,14 @@ function PaginationContent({ className, ...props }: ComponentProps<"ul">) {
     );
 }
 
-function PaginationItem({ ...props }: ComponentProps<"li">) {
+function PaginationItem({ ...props }: Readonly<ComponentProps<"li">>) {
     return <li data-slot="pagination-item" {...props} />;
 }
 
-type PaginationLinkProps = {
+type PaginationLinkProps = Readonly<{
     isActive?: boolean;
 } & Pick<ComponentProps<typeof Button>, "size"> &
-    ComponentProps<"a">;
+    ComponentProps<"a">>;
 
 function PaginationLink({ className, isActive, size = "icon-sm", ...props }: PaginationLinkProps) {
     return (
@@ -56,7 +56,7 @@ function PaginationPrevious({
     className,
     text = "Previous",
     ...props
-}: ComponentProps<typeof PaginationLink> & { text?: string }) {
+}: Readonly<ComponentProps<typeof PaginationLink> & { text?: string }>) {
     return (
         <PaginationLink
             aria-label="Go to previous page"
@@ -73,7 +73,7 @@ function PaginationNext({
     className,
     text = "Next",
     ...props
-}: ComponentProps<typeof PaginationLink> & { text?: string }) {
+}: Readonly<ComponentProps<typeof PaginationLink> & { text?: string }>) {
     return (
         <PaginationLink
             aria-label="Go to next page"
@@ -86,7 +86,7 @@ function PaginationNext({
     );
 }
 
-function PaginationEllipsis({ className, ...props }: ComponentProps<"span">) {
+function PaginationEllipsis({ className, ...props }: Readonly<ComponentProps<"span">>) {
     return (
         <span
             aria-hidden

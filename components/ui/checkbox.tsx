@@ -6,7 +6,7 @@ import { IconCheck } from "@/components/ui/hugeicons";
 
 import { cn } from "@/lib/utils";
 
-function Checkbox({ className, ...props }: ComponentProps<typeof CheckboxPrimitive.Root>) {
+function Checkbox({ className, ...props }: Readonly<ComponentProps<typeof CheckboxPrimitive.Root>>) {
     return (
         <CheckboxPrimitive.Root
             data-slot="checkbox"

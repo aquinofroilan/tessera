@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-type TesseraLogoProps = {
+type TesseraLogoProps = Readonly<{
     size?: "sm" | "md";
     className?: string;
-};
+}>;
 
 const sizeClass = {
     sm: "text-[26px] font-medium",

@@ -15,14 +15,14 @@ export const defaultDashKpis: DashKpi[] = [
     { label: "AR · 60+", value: "$22K", delta: "↓ 2 accts", negative: true },
 ];
 
-export type DashboardPreviewProps = {
+export type DashboardPreviewProps = Readonly<{
     greeting: string;
     name: string;
     kpis: DashKpi[];
     url?: string;
     chartLabel?: string;
     chartCadence?: string;
-};
+}>;
 
 export function DashboardPreview({
     greeting,

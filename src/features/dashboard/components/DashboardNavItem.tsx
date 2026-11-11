@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 
-type DashboardNavItemProps = {
+type DashboardNavItemProps = Readonly<{
     label: string
     icon: ReactNode
     active?: boolean
     badge?: string
     onClick?: () => void
-}
+}>
 
 export const DashboardNavItem = ( {
     label,

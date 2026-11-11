@@ -29,10 +29,10 @@ import { useUser } from '@/src/features/auth/api/getUser'
 import { useAuthStore } from '@/src/features/auth/stores/authStore'
 import { DashboardNavItem } from './DashboardNavItem'
 
-type DashboardSidebarProps = {
+type DashboardSidebarProps = Readonly<{
     open: boolean
     onClose: () => void
-}
+}>
 
 const moduleNavigation = [
     { label: 'Overview', icon: <DashboardSquare01Icon size={ 18 } /> },

@@ -102,10 +102,10 @@ const ProductCategoryEditor = () => {
     )
 }
 
-type CategoryDetailsDialogProps = {
+type CategoryDetailsDialogProps = Readonly<{
     category: ProductCategoryResponse
     onOpenChange: ( open: boolean ) => void
-}
+}>
 
 const CategoryDetailsDialog = ( { category, onOpenChange }: CategoryDetailsDialogProps ) => {
     const updateMutation = useUpdateProductCategory()

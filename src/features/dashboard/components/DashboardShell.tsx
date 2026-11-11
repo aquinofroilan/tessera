@@ -2,9 +2,9 @@ import { useState, type ReactNode } from 'react'
 import { DashboardSidebar } from './DashboardSidebar'
 import { DashboardTopbar } from './DashboardTopbar'
 
-type DashboardShellProps = {
+type DashboardShellProps = Readonly<{
     children: ReactNode
-}
+}>
 
 export const DashboardShell = ( { children }: DashboardShellProps ) => {
     const [sidebarOpen, setSidebarOpen] = useState( false )

@@ -7,10 +7,10 @@ import { Spinner } from '@/components/ui/spinner'
 import { useDeactivateProduct } from '@/src/features/inventory/api/products'
 import { getApiErrorMessage } from '@/src/lib/api-error'
 
-type ProductDeactivateDialogProps = {
+type ProductDeactivateDialogProps = Readonly<{
     productId: string
     productName: string
-}
+}>
 
 export function ProductDeactivateDialog ( { productId, productName }: ProductDeactivateDialogProps ) {
     const [ open, setOpen ] = useState( false )

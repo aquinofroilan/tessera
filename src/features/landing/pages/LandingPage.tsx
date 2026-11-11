@@ -25,7 +25,7 @@ const mockDot = 'size-[9px] rounded-full bg-(--rule)'
 const mockSmall = 'block overflow-hidden text-[8px] text-(--muted) uppercase'
 const mockKpi = 'min-w-0 rounded-lg border border-(--rule) bg-(--paper) p-2.5 max-sm:p-1.5'
 
-function CheckLine ( { children }: { children: string } ) {
+function CheckLine ( { children }: Readonly<{ children: string }> ) {
     return <li className="flex items-center gap-2.5 border-t border-(--rule) py-3 last:border-b"><span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-(--moss) text-(--paper)"><Check size={ 13 } aria-hidden="true" /></span><span>{ children }</span></li>
 }
 

@@ -2,10 +2,10 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
-type EyebrowProps = ComponentProps<"div"> & {
+type EyebrowProps = Readonly<ComponentProps<"div"> & {
     tag?: ReactNode;
     tagTone?: "moss" | "paper" | "accent";
-};
+}>;
 
 const tagToneClass: Record<NonNullable<EyebrowProps["tagTone"]>, string> = {
     moss: "bg-(--moss-soft) text-(--moss)",

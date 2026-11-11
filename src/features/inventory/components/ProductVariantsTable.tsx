@@ -7,7 +7,7 @@ import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVar
 import { getApiErrorMessage } from '@/src/lib/api-error'
 
 
-export function ProductVariantsTable ( { productId }: { productId: string } ) {
+export function ProductVariantsTable ( { productId }: Readonly<{ productId: string }> ) {
     const variantsQuery = useProductVariants( productId )
 
     return (

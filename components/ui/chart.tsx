@@ -35,9 +35,9 @@ export type ChartConfig = Record<
     } & ({ color?: string; theme?: never } | { color?: never; theme: Record<keyof typeof THEMES, string> })
 >;
 
-type ChartContextProps = {
+type ChartContextProps = Readonly<{
     config: ChartConfig;
-};
+}>;
 
 const ChartContext = createContext<ChartContextProps | null>(null);
 
@@ -58,14 +58,14 @@ function ChartContainer({
     config,
     initialDimension = INITIAL_DIMENSION,
     ...props
-}: ComponentProps<"div"> & {
+}: Readonly<ComponentProps<"div"> & {
     config: ChartConfig;
     children: ComponentProps<typeof RechartsResponsiveContainer>["children"];
     initialDimension?: {
         width: number;
         height: number;
     };
-}) {
+}>) {
     const uniqueId = useId();
     const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
 
@@ -88,7 +88,7 @@ function ChartContainer({
     );
 }
 
-const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
+const ChartStyle = ({ id, config }: Readonly<{ id: string; config: ChartConfig }>) => {
     const colorConfig = Object.entries(config).filter(([, config]) => config.theme ?? config.color);
 
     if (!colorConfig.length) {
@@ -133,14 +133,14 @@ function ChartTooltipContent({
     color,
     nameKey,
     labelKey,
-}: ComponentProps<typeof RechartsTooltip> &
+}: Readonly<ComponentProps<typeof RechartsTooltip> &
     ComponentProps<"div"> & {
         hideLabel?: boolean;
         hideIndicator?: boolean;
         indicator?: "line" | "dot" | "dashed";
         nameKey?: string;
         labelKey?: string;
-    } & Omit<DefaultTooltipContentProps<TooltipValueType, TooltipNameType>, "accessibilityLayer">) {
+    } & Omit<DefaultTooltipContentProps<TooltipValueType, TooltipNameType>, "accessibilityLayer">>) {
     const { config } = useChart();
 
     const tooltipLabel = useMemo(() => {
@@ -257,10 +257,10 @@ function ChartLegendContent({
     payload,
     verticalAlign = "bottom",
     nameKey,
-}: ComponentProps<"div"> & {
+}: Readonly<ComponentProps<"div"> & {
     hideIcon?: boolean;
     nameKey?: string;
-} & DefaultLegendContentProps) {
+} & DefaultLegendContentProps>) {
     const { config } = useChart();
 
     if (!payload?.length) {

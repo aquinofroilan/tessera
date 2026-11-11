@@ -9,9 +9,9 @@ import { Spinner } from '@/components/ui/spinner'
 import { useCreateProductVariant } from '@/src/features/inventory/api/productVariants'
 import { getApiErrorMessage } from '@/src/lib/api-error'
 
-type ProductVariantCreateSheetProps = {
+type ProductVariantCreateSheetProps = Readonly<{
     productId: string
-}
+}>
 
 type AttributeRow = {
     id: number

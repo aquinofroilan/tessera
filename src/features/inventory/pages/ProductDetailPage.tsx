@@ -15,15 +15,15 @@ import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { formatPrice } from '@/src/features/inventory/utils/formatPrice'
 import { getApiErrorMessage, getApiErrorStatus } from '@/src/lib/api-error'
 
-type ProductDetailPageProps = {
+type ProductDetailPageProps = Readonly<{
     productId: string
-}
+}>
 
 function formatExactDate ( date: Date ) {
     return date.toLocaleString()
 }
 
-function RecordDate ( { value }: { value: string } ) {
+function RecordDate ( { value }: Readonly<{ value: string }> ) {
     const date = new Date( value )
     if ( Number.isNaN( date.getTime() ) ) return <>—</>
 
@@ -35,7 +35,7 @@ function RecordDate ( { value }: { value: string } ) {
     )
 }
 
-function DetailItem ( { label, value }: { label: string, value: ReactNode } ) {
+function DetailItem ( { label, value }: Readonly<{ label: string, value: ReactNode }> ) {
     return (
         <div className="grid gap-1 border-b border-(--rule) py-3 last:border-b-0 sm:grid-cols-[150px_1fr] sm:gap-4">
             <dt className="text-xs font-medium text-(--muted)">{ label }</dt>
@@ -44,7 +44,7 @@ function DetailItem ( { label, value }: { label: string, value: ReactNode } ) {
     )
 }
 
-function ProductDetails ( { product }: { product: ProductResponse } ) {
+function ProductDetails ( { product }: Readonly<{ product: ProductResponse }> ) {
     const categoriesQuery = useProductCategories( { activeOnly: false } )
     const categoryName = product.categoryId
         ? categoriesQuery.data?.find( category => category.id === product.categoryId )?.name ?? 'Category unavailable'

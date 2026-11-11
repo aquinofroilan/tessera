@@ -15,9 +15,9 @@ import { useUpdateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { getApiErrorMessage } from '@/src/lib/api-error'
 
-type ProductEditSheetProps = {
+type ProductEditSheetProps = Readonly<{
     product: ProductResponse
-}
+}>
 
 type ProductFormValues = {
     sku: string

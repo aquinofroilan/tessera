@@ -27,7 +27,7 @@ export type EditorialListItem = {
     detail: string;
 };
 
-export type EditorialPanelProps = {
+export type EditorialPanelProps = Readonly<{
     statusChip: ReactNode;
     kicker: string;
     quote: EditorialQuote;
@@ -47,7 +47,7 @@ export type EditorialPanelProps = {
     };
     securityFooter?: ReactNode;
     className?: string;
-};
+}>;
 
 const defaultWashes = {
     topRight: "radial-gradient(circle, rgb(185 58 29 / 28%) 0%, transparent 60%)",
