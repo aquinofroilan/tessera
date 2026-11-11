@@ -68,27 +68,31 @@ const ProductCategoryEditor = () => {
                     className="grid gap-5"
                 >
                     <FieldGroup className="grid gap-5 sm:grid-cols-2">
-                        <form.Field name="name" children={ field => {
-                            const isInvalid = field.state.meta.errors.length > 0
-                            return (
-                                <Field data-invalid={ isInvalid }>
-                                    <FieldLabel htmlFor={ field.name }>Category name <span className="text-(--accent)">*</span></FieldLabel>
-                                    <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ inputClass } placeholder="Hardware" maxLength={ 128 } disabled={ isPending } />
-                                    { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                </Field>
-                            )
-                        } } />
-                        <form.Field name="description" children={ field => {
-                            const isInvalid = field.state.meta.errors.length > 0
-                            return (
-                                <Field data-invalid={ isInvalid }>
-                                    <FieldLabel htmlFor={ field.name }>Description</FieldLabel>
-                                    <Textarea id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className="min-h-11 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" placeholder="Optional note about this category." maxLength={ 2000 } disabled={ isPending } />
-                                    <FieldDescription>{ field.state.value.length } / 2,000</FieldDescription>
-                                    { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                </Field>
-                            )
-                        } } />
+                        <form.Field name="name">
+                            { field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ field.name }>Category name <span className="text-(--accent)">*</span></FieldLabel>
+                                        <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ inputClass } placeholder="Hardware" maxLength={ 128 } disabled={ isPending } />
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } }
+                        </form.Field>
+                        <form.Field name="description">
+                            { field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ field.name }>Description</FieldLabel>
+                                        <Textarea id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className="min-h-11 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" placeholder="Optional note about this category." maxLength={ 2000 } disabled={ isPending } />
+                                        <FieldDescription>{ field.state.value.length } / 2,000</FieldDescription>
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } }
+                        </form.Field>
                     </FieldGroup>
                     <div className="flex justify-end gap-2">
                         <Button type="submit" variant="pill-ghost" className="bg-(--ink) text-(--paper) hover:bg-(--accent)" disabled={ isPending }>
@@ -153,36 +157,42 @@ const CategoryDetailsDialog = ( { category, onOpenChange }: CategoryDetailsDialo
                 </div>
                 <form onSubmit={ event => { event.preventDefault(); event.stopPropagation(); void form.handleSubmit() } } className="grid gap-5">
                     <FieldGroup className="grid gap-4">
-                        <form.Field name="name" children={ field => {
-                            const isInvalid = field.state.meta.errors.length > 0
-                            return (
-                                <Field data-invalid={ isInvalid }>
-                                    <FieldLabel htmlFor={ `category-${ category.id }-name` }>Category name</FieldLabel>
-                                    <Input id={ `category-${ category.id }-name` } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ inputClass } maxLength={ 128 } disabled={ isPending } />
-                                    { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                </Field>
-                            )
-                        } } />
-                        <form.Field name="description" children={ field => {
-                            const isInvalid = field.state.meta.errors.length > 0
-                            return (
-                                <Field data-invalid={ isInvalid }>
-                                    <FieldLabel htmlFor={ `category-${ category.id }-description` }>Description</FieldLabel>
-                                    <Textarea id={ `category-${ category.id }-description` } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className="min-h-24 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" maxLength={ 2000 } disabled={ isPending } />
-                                    <FieldDescription>{ field.state.value.length } / 2,000</FieldDescription>
-                                    { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
-                                </Field>
-                            )
-                        } } />
-                        <form.Field name="isActive" children={ field => (
-                            <div className="flex items-center justify-between gap-4 rounded-xl border border-(--rule) bg-(--paper) p-3.5">
-                                <div className="grid gap-0.5">
-                                    <FieldLabel htmlFor={ `category-${ category.id }-enabled` } className="cursor-pointer">Enable category</FieldLabel>
-                                    <FieldDescription>{ field.state.value ? 'Available for new products.' : 'Hidden from new product selections.' }</FieldDescription>
+                        <form.Field name="name">
+                            { field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ `category-${ category.id }-name` }>Category name</FieldLabel>
+                                        <Input id={ `category-${ category.id }-name` } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ inputClass } maxLength={ 128 } disabled={ isPending } />
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } }
+                        </form.Field>
+                        <form.Field name="description">
+                            { field => {
+                                const isInvalid = field.state.meta.errors.length > 0
+                                return (
+                                    <Field data-invalid={ isInvalid }>
+                                        <FieldLabel htmlFor={ `category-${ category.id }-description` }>Description</FieldLabel>
+                                        <Textarea id={ `category-${ category.id }-description` } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className="min-h-24 resize-y rounded-[10px] border-(--rule) bg-(--card) px-3.5 py-3 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10" maxLength={ 2000 } disabled={ isPending } />
+                                        <FieldDescription>{ field.state.value.length } / 2,000</FieldDescription>
+                                        { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
+                                    </Field>
+                                )
+                            } }
+                        </form.Field>
+                        <form.Field name="isActive">
+                            { field => (
+                                <div className="flex items-center justify-between gap-4 rounded-xl border border-(--rule) bg-(--paper) p-3.5">
+                                    <div className="grid gap-0.5">
+                                        <FieldLabel htmlFor={ `category-${ category.id }-enabled` } className="cursor-pointer">Enable category</FieldLabel>
+                                        <FieldDescription>{ field.state.value ? 'Available for new products.' : 'Hidden from new product selections.' }</FieldDescription>
+                                    </div>
+                                    <Switch id={ `category-${ category.id }-enabled` } checked={ field.state.value } onCheckedChange={ field.handleChange } disabled={ isPending } aria-label="Enable category" />
                                 </div>
-                                <Switch id={ `category-${ category.id }-enabled` } checked={ field.state.value } onCheckedChange={ field.handleChange } disabled={ isPending } aria-label="Enable category" />
-                            </div>
-                        ) } />
+                            ) }
+                        </form.Field>
                     </FieldGroup>
                     <div className="flex flex-wrap items-center justify-between gap-2 border-t border-(--rule-soft) pt-4">
                         <Button type="button" variant="pill-ghost" className="text-(--accent-deep) hover:bg-(--accent-soft)" onClick={ deleteCategory } disabled={ isPending }>
