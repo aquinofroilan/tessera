@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Spinner } from '@/components/ui/spinner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
+import { InventoryVariantsTable } from '@/src/features/inventory/components/InventoryVariantsTable'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useProducts } from '@/src/features/inventory/api/products'
 import type { InventoryPageProps } from '@/src/features/inventory/types/inventory'
@@ -201,10 +202,10 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
 
                 <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-[minmax(220px,1fr)_minmax(180px,0.7fr)_180px]">
                     <div className="grid gap-1.5">
-                        <label htmlFor="inventory-product-search" className="text-xs font-medium text-(--ink-soft)">Search products</label>
+                        <label htmlFor="inventory-product-search" className="text-xs font-medium text-(--ink-soft)">Search products and variants</label>
                         <div className="relative">
                             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-(--muted)" aria-hidden="true" />
-                            <Input id="inventory-product-search" value={ searchInput } onChange={ event => handleSearchChange( event.target.value ) } className={ `${ inputClass } pl-9` } placeholder="Search products" />
+                            <Input id="inventory-product-search" value={ searchInput } onChange={ event => handleSearchChange( event.target.value ) } className={ `${ inputClass } pl-9` } placeholder="Search products and variants" />
                         </div>
                     </div>
 
@@ -240,6 +241,8 @@ export const InventoryPage = ( { searchParams, updateSearchParams, clearSearchPa
                         { renderProductContent() }
                     </CardContent>
                 </Card>
+
+                <InventoryVariantsTable searchParams={ searchParams } clearSearchParams={ clearSearchParams } />
             </div>
         </DashboardShell>
     )
