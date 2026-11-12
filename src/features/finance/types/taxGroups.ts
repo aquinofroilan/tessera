@@ -21,3 +21,9 @@ export type TaxGroupResponse = {
     createdAt: string | null
     updatedAt: string | null
 }
+
+export type CreateTaxGroupRequest = {
+    name: string
+    code: string
+    taxRateIds: string[]
+}
