@@ -16,6 +16,7 @@ import { ProductDetailPage } from '@/src/features/inventory/pages/ProductDetailP
 import { ProductVariantDetailPage } from '@/src/features/inventory/pages/ProductVariantDetailPage';
 import { TaxGroupSettingsPage } from '@/src/features/finance/pages/TaxGroupSettingsPage';
 import { TaxGroupCreatePage } from '@/src/features/finance/pages/TaxGroupCreatePage';
+import { TaxGroupDetailPage } from '@/src/features/finance/pages/TaxGroupDetailPage';
 import { TaxRatesSettingsPage } from '@/src/features/finance/pages/TaxRatesSettingsPage';
 import { TaxRateCreatePage } from '@/src/features/finance/pages/TaxRateCreatePage';
 import { clearPendingRequestToasts } from '@/src/lib/axios';
@@ -92,6 +93,17 @@ const taxGroupCreateRoute = createRoute({
   component: TaxGroupCreatePage,
 });
 
+const taxGroupDetailRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/finance/tax/groups/$groupId',
+  component: TaxGroupDetailRouteComponent,
+});
+
+function TaxGroupDetailRouteComponent() {
+  const { groupId } = taxGroupDetailRoute.useParams();
+  return <TaxGroupDetailPage groupId={groupId} />;
+}
+
 function ProductVariantDetailRouteComponent() {
   const { uuid, variantUuid } = productVariantDetailRoute.useParams();
   return <ProductVariantDetailPage productId={uuid} variantId={variantUuid} />;
@@ -152,7 +164,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxGroupDetailRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
 ]);
 
 export const router = createRouter({ routeTree });
