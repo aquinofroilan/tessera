@@ -1,12 +1,10 @@
-import type { IsoDateTime } from "./types";
-
 export type NotificationChannel = "IN_APP" | "EMAIL";
 
 export type NotificationPreferenceResponse = {
     kind: string;
     channel: NotificationChannel;
     enabled: boolean;
-    updatedAt: IsoDateTime | null;
+    updatedAt: string | null;
 };
 
 export type NotificationPreferenceEntry = {

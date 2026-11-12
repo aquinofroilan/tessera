@@ -1,5 +1,3 @@
-import type { IsoDate, IsoDateTime } from "../types";
-
 export type EmploymentStatus = "ACTIVE" | "ON_LEAVE" | "TERMINATED";
 
 export const EMPLOYMENT_STATUSES: readonly EmploymentStatus[] = [
@@ -14,7 +12,7 @@ export type CreateEmployeeRequest = {
     email?: string | null;
     jobTitle?: string | null;
     departmentId?: string | null;
-    hireDate: IsoDate;
+    hireDate: string;
 };
 
 export type UpdateEmployeeRequest = {
@@ -25,7 +23,7 @@ export type UpdateEmployeeRequest = {
 };
 
 export type TerminateEmployeeRequest = {
-    terminationDate: IsoDate;
+    terminationDate: string;
 };
 
 export type EmployeeResponse = {
@@ -36,10 +34,10 @@ export type EmployeeResponse = {
     email: string | null;
     jobTitle: string | null;
     departmentId: string | null;
-    hireDate: IsoDate;
+    hireDate: string;
     status: EmploymentStatus;
-    terminationDate: IsoDate | null;
+    terminationDate: string | null;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

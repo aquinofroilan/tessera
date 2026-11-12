@@ -68,9 +68,10 @@ function ChartContainer({
 }>) {
     const uniqueId = useId();
     const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
+    const contextValue = useMemo(() => ({ config }), [config]);
 
     return (
-        <ChartContext.Provider value={{ config }}>
+        <ChartContext.Provider value={contextValue}>
             <div
                 data-slot="chart"
                 data-chart={chartId}
@@ -181,8 +182,9 @@ function ChartTooltipContent({
                 {payload
                     .filter((item) => item.type !== "none")
                     .map((item, index) => {
-                        const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`;
-                        const itemConfig = getPayloadConfigFromPayload(config, item, key);
+                        const configKey = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`;
+                        const itemKey = `${item.dataKey ?? item.name ?? item.color ?? configKey}`;
+                        const itemConfig = getPayloadConfigFromPayload(config, item, configKey);
                         const indicatorColor = color ?? item.payload?.fill ?? item.color;
                         let tooltipContent: ReactNode;
 
@@ -244,7 +246,7 @@ function ChartTooltipContent({
 
                         return (
                             <div
-                                key={index}
+                                key={itemKey}
                                 className={cn(
                                     "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:size-2.5",
                                     indicator === "dot" && "items-center",
@@ -285,13 +287,14 @@ function ChartLegendContent({
             )}>
             {payload
                 .filter((item) => item.type !== "none")
-                .map((item, index) => {
-                    const key = `${nameKey ?? item.dataKey ?? "value"}`;
-                    const itemConfig = getPayloadConfigFromPayload(config, item, key);
+                .map((item) => {
+                    const configKey = `${nameKey ?? item.dataKey ?? "value"}`;
+                    const itemKey = `${item.dataKey ?? item.name ?? item.color ?? configKey}`;
+                    const itemConfig = getPayloadConfigFromPayload(config, item, configKey);
 
                     return (
                         <div
-                            key={index}
+                            key={itemKey}
                             className={cn("[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:size-3")}>
                             {itemConfig?.icon && !hideIcon ? (
                                 <itemConfig.icon />

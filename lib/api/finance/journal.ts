@@ -1,18 +1,16 @@
-import type { IsoDate, IsoDateTime, Money } from "../types";
-
 export type JournalEntryStatus = "DRAFT" | "POSTED" | "VOIDED";
 
 export type JournalEntrySource = "MANUAL" | "SYSTEM";
 
 export type JournalEntryLineRequest = {
     accountId: string;
-    debit?: Money;
-    credit?: Money;
+    debit?: string;
+    credit?: string;
     description?: string | null;
 };
 
 export type CreateJournalEntryRequest = {
-    date: IsoDate;
+    date: string;
     description: string;
     lines: JournalEntryLineRequest[];
     sourceReference?: string | null;
@@ -26,15 +24,15 @@ export type JournalEntryLineResponse = {
     accountId: string;
     accountCode: string;
     accountName: string;
-    debit: Money;
-    credit: Money;
+    debit: string;
+    credit: string;
     description: string | null;
 };
 
 export type JournalEntryResponse = {
     id: string;
     entryNumber: string;
-    date: IsoDate;
+    date: string;
     description: string;
     organizationId: string;
     status: JournalEntryStatus;
@@ -42,11 +40,11 @@ export type JournalEntryResponse = {
     sourceReference: string | null;
     lines: JournalEntryLineResponse[];
     createdBy: string;
-    postedAt: IsoDateTime | null;
-    voidedAt: IsoDateTime | null;
+    postedAt: string | null;
+    voidedAt: string | null;
     voidReason: string | null;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
 
 export type AccountBalanceResponse = {
@@ -54,14 +52,14 @@ export type AccountBalanceResponse = {
     accountCode: string;
     accountName: string;
     accountType: string;
-    totalDebits: Money;
-    totalCredits: Money;
-    balance: Money;
+    totalDebits: string;
+    totalCredits: string;
+    balance: string;
 };
 
 export type TrialBalanceResponse = {
     accounts: AccountBalanceResponse[];
-    totalDebits: Money;
-    totalCredits: Money;
-    asOfDate: IsoDate | null;
+    totalDebits: string;
+    totalCredits: string;
+    asOfDate: string | null;
 };

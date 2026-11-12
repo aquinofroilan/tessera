@@ -1,5 +1,3 @@
-import type { Money, IsoDate, IsoDateTime } from "../types";
-
 export type DepreciationMethod = "STRAIGHT_LINE";
 
 export type AssetStatus = "ACTIVE" | "DISPOSED" | "FULLY_DEPRECIATED";
@@ -10,7 +8,7 @@ export type CreateAssetCategoryRequest = {
     description?: string | null;
     defaultUsefulLifeMonths?: number | null;
     defaultDepreciationMethod?: DepreciationMethod;
-    defaultSalvageValue?: Money;
+    defaultSalvageValue?: string;
 };
 
 export type UpdateAssetCategoryRequest = {
@@ -18,7 +16,7 @@ export type UpdateAssetCategoryRequest = {
     description?: string | null;
     defaultUsefulLifeMonths?: number | null;
     defaultDepreciationMethod?: DepreciationMethod | null;
-    defaultSalvageValue?: Money | null;
+    defaultSalvageValue?: string | null;
     isActive?: boolean | null;
 };
 
@@ -29,20 +27,20 @@ export type AssetCategoryResponse = {
     description: string | null;
     defaultUsefulLifeMonths: number | null;
     defaultDepreciationMethod: DepreciationMethod;
-    defaultSalvageValue: Money;
+    defaultSalvageValue: string;
     isActive: boolean;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
 
 export type CreateFixedAssetRequest = {
     name: string;
     description?: string | null;
     categoryId?: string | null;
-    acquisitionDate: IsoDate;
-    acquisitionCost: Money;
-    salvageValue?: Money;
+    acquisitionDate: string;
+    acquisitionCost: string;
+    salvageValue?: string;
     usefulLifeMonths: number;
     depreciationMethod?: DepreciationMethod;
     location?: string | null;
@@ -69,20 +67,20 @@ export type FixedAssetResponse = {
     name: string;
     description: string | null;
     categoryId: string | null;
-    acquisitionDate: IsoDate;
-    acquisitionCost: Money;
-    salvageValue: Money;
+    acquisitionDate: string;
+    acquisitionCost: string;
+    salvageValue: string;
     usefulLifeMonths: number;
     depreciationMethod: DepreciationMethod;
     location: string | null;
     serialNumber: string | null;
     status: AssetStatus;
-    accumulatedDepreciation: Money;
-    netBookValue: Money;
+    accumulatedDepreciation: string;
+    netBookValue: string;
     assetAccountId: string | null;
     accumulatedDepreciationAccountId: string | null;
     depreciationExpenseAccountId: string | null;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

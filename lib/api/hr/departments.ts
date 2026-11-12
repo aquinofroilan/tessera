@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type CreateDepartmentRequest = {
     code: string;
     name: string;
@@ -24,8 +22,8 @@ export type DepartmentResponse = {
     parentId: string | null;
     organizationId: string;
     isActive: boolean;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
 
 export type DepartmentTreeNode = {

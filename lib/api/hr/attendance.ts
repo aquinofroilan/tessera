@@ -1,5 +1,3 @@
-import type { IsoDate, IsoDateTime } from "../types";
-
 export type AttendanceStatus = "PRESENT" | "ABSENT" | "ON_LEAVE";
 
 export type ClockRequest = {
@@ -8,9 +6,9 @@ export type ClockRequest = {
 
 export type RecordAttendanceRequest = {
     employeeId: string;
-    workDate: IsoDate;
-    clockIn?: IsoDateTime | null;
-    clockOut?: IsoDateTime | null;
+    workDate: string;
+    clockIn?: string | null;
+    clockOut?: string | null;
     status?: AttendanceStatus | null;
     notes?: string | null;
 };
@@ -18,13 +16,13 @@ export type RecordAttendanceRequest = {
 export type AttendanceResponse = {
     id: string;
     employeeId: string;
-    workDate: IsoDate;
-    clockIn: IsoDateTime | null;
-    clockOut: IsoDateTime | null;
+    workDate: string;
+    clockIn: string | null;
+    clockOut: string | null;
     workedMinutes: number | null;
     status: AttendanceStatus;
     notes: string | null;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

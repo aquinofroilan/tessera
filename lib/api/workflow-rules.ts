@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "./types";
-
 export type WorkflowRuleActionType = "NOTIFY_USER" | "NOTIFY_ROLE";
 
 export type CreateWorkflowRuleRequest = {
@@ -28,6 +26,6 @@ export type WorkflowRuleResponse = {
     actionType: WorkflowRuleActionType;
     actionTarget: string;
     enabled: boolean;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

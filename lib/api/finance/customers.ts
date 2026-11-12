@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type CreateCustomerRequest = {
     name: string;
     contactName?: string | null;
@@ -28,6 +26,6 @@ export type CustomerResponse = {
     defaultRevenueAccountId: string | null;
     organizationId: string;
     isActive: boolean;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

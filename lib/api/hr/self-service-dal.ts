@@ -26,5 +26,14 @@ export const getMyLeaveBalance = (leaveTypeId: string, year?: number): Promise<L
 export const listMyCompensationHistory = (): Promise<EmployeeCompensationResponse[]> =>
     apiList<EmployeeCompensationResponse>(`${ME_PATH}/compensation`);
 
-export const getMyCurrentCompensation = (asOf?: string): Promise<EmployeeCompensationResponse | null> =>
-    apiGetOrNull<EmployeeCompensationResponse>(`${ME_PATH}/compensation/current${asOf ? `?asOf=${asOf}` : ""}`);
+export const getMyCurrentCompensation = (asOf?: string): Promise<EmployeeCompensationResponse | null> => {
+    const queryParams = new URLSearchParams();
+    if (asOf) {
+        queryParams.set("asOf", asOf);
+    }
+
+    const query = queryParams.toString();
+    const path = `${ME_PATH}/compensation/current` + (query ? `?${query}` : "");
+
+    return apiGetOrNull<EmployeeCompensationResponse>(path);
+};

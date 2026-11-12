@@ -1,5 +1,3 @@
-import type { IsoDate, IsoDateTime } from "../types";
-
 export type ProjectStatus = "PLANNED" | "ACTIVE" | "ON_HOLD" | "CLOSED" | "CANCELLED";
 
 export const PROJECT_STATUSES: readonly ProjectStatus[] = [
@@ -23,8 +21,8 @@ export type CreateProjectRequest = {
     description?: string | null;
     customerId?: string | null;
     managerEmployeeId?: string | null;
-    startDate: IsoDate;
-    endDate?: IsoDate | null;
+    startDate: string;
+    endDate?: string | null;
     billingType?: ProjectBillingType | null;
 };
 
@@ -33,7 +31,7 @@ export type UpdateProjectRequest = {
     description?: string | null;
     customerId?: string | null;
     managerEmployeeId?: string | null;
-    endDate?: IsoDate | null;
+    endDate?: string | null;
     billingType?: ProjectBillingType | null;
 };
 
@@ -44,11 +42,11 @@ export type ProjectResponse = {
     description: string | null;
     customerId: string | null;
     managerEmployeeId: string | null;
-    startDate: IsoDate;
-    endDate: IsoDate | null;
+    startDate: string;
+    endDate: string | null;
     status: ProjectStatus;
     billingType: ProjectBillingType;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

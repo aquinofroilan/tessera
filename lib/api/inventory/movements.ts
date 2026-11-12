@@ -1,5 +1,3 @@
-import type { IsoDate, IsoDateTime, Money } from "../types";
-
 export type MovementType =
     | "RECEIPT"
     | "ISSUE"
@@ -27,14 +25,14 @@ export const ADJUSTMENT_REASONS: readonly AdjustmentReason[] = [
 export type MovementLineRequest = {
     itemId: string;
     quantity: number;
-    unitCost?: Money | null;
+    unitCost?: string | null;
     warehouseId: string;
     toWarehouseId?: string | null;
 };
 
 export type CreateMovementRequest = {
     type: MovementType;
-    date: IsoDate;
+    date: string;
     referenceNumber?: string | null;
     sourceBillId?: string | null;
     sourceInvoiceId?: string | null;
@@ -52,35 +50,35 @@ export type MovementLineResponse = {
     toWarehouseId: string | null;
     toWarehouseName: string | null;
     quantity: number;
-    unitCost: Money;
-    valueChange: Money;
+    unitCost: string;
+    valueChange: string;
 };
 
 export type MovementResponse = {
     id: string;
     type: MovementType;
-    date: IsoDate;
+    date: string;
     referenceNumber: string | null;
     sourceBillId: string | null;
     sourceInvoiceId: string | null;
     reason: AdjustmentReason | null;
     memo: string | null;
     lines: MovementLineResponse[];
-    totalValue: Money;
+    totalValue: string;
     journalEntryId: string | null;
     organizationId: string;
     createdBy: string;
     createdByName: string | null;
-    createdAt: IsoDateTime | null;
+    createdAt: string | null;
 };
 
 export type MovementSummaryResponse = {
     id: string;
     type: MovementType;
-    date: IsoDate;
+    date: string;
     referenceNumber: string | null;
     itemCount: number;
-    totalValue: Money;
+    totalValue: string;
     journalEntryId: string | null;
-    createdAt: IsoDateTime | null;
+    createdAt: string | null;
 };

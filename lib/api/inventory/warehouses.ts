@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type CreateWarehouseRequest = {
     code: string;
     name: string;
@@ -22,6 +20,6 @@ export type WarehouseResponse = {
     isActive: boolean;
     organizationId: string;
     storageLocationCount: number;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
