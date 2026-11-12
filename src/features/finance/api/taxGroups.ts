@@ -16,6 +16,15 @@ export const useTaxGroups = ( params: TaxGroupListParams = {} ) => useQuery( {
     queryFn: () => getTaxGroups( params ),
 } )
 
+export const getTaxGroup = ( id: string ): Promise<TaxGroupResponse> =>
+    axios.get( `${ TAX_GROUPS_ENDPOINT }/${ id }` )
+
+export const useTaxGroup = ( id: string ) => useQuery( {
+    queryKey: [ 'finance', 'tax-groups', id ],
+    queryFn: () => getTaxGroup( id ),
+    enabled: Boolean( id ),
+} )
+
 export const createTaxGroup = ( body: CreateTaxGroupRequest ): Promise<TaxGroupResponse> =>
     axios.post( TAX_GROUPS_ENDPOINT, body )
 

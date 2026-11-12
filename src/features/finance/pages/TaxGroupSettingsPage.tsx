@@ -89,7 +89,7 @@ export function TaxGroupSettingsPage () {
                     { groups.map( group => (
                         <TableRow key={ group.id }>
                             <TableCell>
-                                <span className="block font-medium text-(--ink)">{ group.name }</span>
+                                <Link to="/finance/tax/groups/$groupId" params={ { groupId: group.id } } className="block font-medium text-(--ink) hover:underline hover:underline-offset-4 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">{ group.name }</Link>
                                 <span className="mt-0.5 block font-mono text-xs text-(--muted)">{ group.code }</span>
                             </TableCell>
                             <TableCell>
