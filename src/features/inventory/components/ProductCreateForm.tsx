@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Spinner } from '@/components/ui/spinner'
 import { Textarea } from '@/components/ui/textarea'
+import { TaxGroupSelector } from '@/src/features/inventory/components/TaxGroupSelector'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useCreateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
@@ -24,7 +25,7 @@ const productSchema = z.object( {
     imageUrl: z.string().max( 2048, 'Image URL must be 2,048 characters or fewer' ).refine( value => !value.trim() || URL.canParse( value.trim() ), 'Enter a valid URL' ),
     listPrice: z.string().trim().min( 1, 'List price is required' ).refine( value => Number.isFinite( Number( value ) ) && Number( value ) >= 0, 'Enter a number that is zero or greater' ),
     priceCurrency: z.string(),
-    taxGroupId: z.string().refine( value => !value.trim() || z.uuid().safeParse( value.trim() ).success, 'Enter a valid UUID' ),
+    taxGroupId: z.string().refine( value => !value.trim() || z.uuid().safeParse( value.trim() ).success, 'Choose a valid tax group' ),
     isLotTracked: z.boolean(),
     isSerialized: z.boolean(),
     hasExpiry: z.boolean(),
@@ -232,8 +233,8 @@ export const ProductCreateForm = () => {
                                     const isInvalid = field.state.meta.errors.length > 0
                                     return (
                                         <Field data-invalid={ isInvalid } className="sm:col-span-2">
-                                            <FieldLabel htmlFor={ field.name }>Tax group ID</FieldLabel>
-                                            <Input id={ field.name } name={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onChange={ event => field.handleChange( event.target.value ) } aria-invalid={ isInvalid } className={ textInputClass } placeholder="Optional tax group UUID" disabled={ mutation.isPending } />
+                                            <FieldLabel htmlFor={ field.name }>Tax group</FieldLabel>
+                                            <TaxGroupSelector id={ field.name } value={ field.state.value } onBlur={ field.handleBlur } onValueChange={ field.handleChange } invalid={ isInvalid } className={ textInputClass } disabled={ mutation.isPending } />
                                             { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
                                         </Field>
                                     )
