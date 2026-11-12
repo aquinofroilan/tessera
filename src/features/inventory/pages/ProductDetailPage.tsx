@@ -91,7 +91,19 @@ function ProductDetails ( { product }: Readonly<{ product: ProductResponse }> ) 
                             <DetailItem label="Category" value={ categoryName } />
                             <DetailItem label="Description" value={ product.description?.trim() || 'No description provided.' } />
                             <DetailItem label="List price" value={ formatPrice( product ) } />
-                            <DetailItem label="Tax group" value={ product.taxGroupId || '—' } />
+                            <DetailItem
+                                label="Tax group"
+                                value={ product.taxGroupId ? (
+                                    <Link
+                                        to="/finance/tax/groups/$groupId"
+                                        params={ { groupId: product.taxGroupId } }
+                                        aria-label={ `View tax group ${ product.taxGroupId }` }
+                                        className="font-mono text-(--accent-deep) underline decoration-(--rule) underline-offset-4 hover:text-(--accent) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                    >
+                                        { product.taxGroupId }
+                                    </Link>
+                                ) : '—' }
+                            />
                         </dl>
                     </CardContent>
                 </Card>
