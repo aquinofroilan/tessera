@@ -158,7 +158,7 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                         <DashboardNavItem
                                             label="Tax settings"
                                             icon={ <Tag size={ 17 } /> }
-                                            active={ pathname === '/finance/tax/groups' }
+                                            active={ pathname.startsWith( '/finance/tax/groups' ) }
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/finance/tax/groups' } )

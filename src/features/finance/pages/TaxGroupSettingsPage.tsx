@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
+import { Plus } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -123,20 +125,25 @@ export function TaxGroupSettingsPage () {
                         <h1 className="font-display text-[clamp(36px,4vw,48px)] font-light leading-none tracking-[-0.03em]">Tax settings</h1>
                         <p className="mt-2.5 text-[15px] text-(--ink-soft)">Review the tax groups and rates configured for this organization.</p>
                     </div>
-                    <div className="mt-5 grid gap-1.5 sm:mt-0 sm:min-w-40">
-                        <label htmlFor="tax-group-status-filter" className="text-xs font-medium text-(--ink-soft)">Group status</label>
-                        <Select value={ statusFilter } onValueChange={ value => {
-                            if ( value === 'all' || value === 'active' || value === 'inactive' ) setStatusFilter( value )
-                        } }>
-                            <SelectTrigger id="tax-group-status-filter" className="h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All groups</SelectItem>
-                                <SelectItem value="active">Active</SelectItem>
-                                <SelectItem value="inactive">Inactive</SelectItem>
-                            </SelectContent>
-                        </Select>
+                    <div className="mt-5 flex flex-wrap items-end gap-3 sm:mt-0">
+                        <div className="grid gap-1.5 sm:min-w-40">
+                            <label htmlFor="tax-group-status-filter" className="text-xs font-medium text-(--ink-soft)">Group status</label>
+                            <Select value={ statusFilter } onValueChange={ value => {
+                                if ( value === 'all' || value === 'active' || value === 'inactive' ) setStatusFilter( value )
+                            } }>
+                                <SelectTrigger id="tax-group-status-filter" className="h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All groups</SelectItem>
+                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="inactive">Inactive</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <Button asChild variant="pill-ghost" className="bg-(--ink) text-(--paper) hover:bg-(--accent)">
+                            <Link to="/finance/tax/groups/new"><Plus size={ 15 } />Create tax group</Link>
+                        </Button>
                     </div>
                 </div>
 
