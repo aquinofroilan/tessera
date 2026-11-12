@@ -58,12 +58,12 @@ const isModuleNavigationItemActive = ( label: string, pathname: string ) => {
         return pathname === '/inventory' || pathname === '/inventory/products/new'
     }
 
-    if ( label === 'Finance & Accounting' ) {
-        return pathname.startsWith( '/finance' )
-    }
-
     if ( label === 'Overview' ) {
         return pathname === '/dashboard'
+    }
+
+    if ( label === 'Finance & Accounting' ) {
+        return pathname.startsWith( '/finance' )
     }
 
     return false
@@ -154,7 +154,7 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                     </div>
                                 ) : null }
                                 { item.label === 'Finance & Accounting' && pathname.startsWith( '/finance' ) ? (
-                                    <div className="ml-5 border-l border-(--rule) pl-2">
+                                    <div className="ml-5 grid border-l border-(--rule) pl-2">
                                         <DashboardNavItem
                                             label="Tax settings"
                                             icon={ <Tag size={ 17 } /> }
@@ -162,6 +162,15 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/finance/tax/groups' } )
+                                            } }
+                                        />
+                                        <DashboardNavItem
+                                            label="Tax rates"
+                                            icon={ <Tag size={ 17 } /> }
+                                            active={ pathname.startsWith( '/finance/tax/rates' ) }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/finance/tax/rates/new' } )
                                             } }
                                         />
                                     </div>
