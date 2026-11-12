@@ -1,14 +1,6 @@
-export type TaxRateResponse = {
-    id: string
-    name: string
-    code: string
-    percentage: number
-    authority: string
-    organizationId: string
-    isActive: boolean
-    createdAt: string | null
-    updatedAt: string | null
-}
+import type { TaxRateResponse } from '@/src/features/finance/types/taxRates'
+
+export type { TaxRateResponse } from '@/src/features/finance/types/taxRates'
 
 export type TaxGroupResponse = {
     id: string

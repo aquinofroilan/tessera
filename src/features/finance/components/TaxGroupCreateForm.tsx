@@ -144,7 +144,12 @@ export function TaxGroupCreateForm () {
                                 <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ () => { void taxRatesQuery.refetch() } }>Retry</Button>
                             </div>
                         ) : taxRates.length === 0 ? (
-                            <FieldDescription>No active tax rates are configured for this organization. Add a tax rate before creating a group.</FieldDescription>
+                            <div className="grid justify-items-start gap-3">
+                                <FieldDescription>No active tax rates are configured for this organization. Add a tax rate before creating a group.</FieldDescription>
+                                <Button asChild type="button" variant="pill-ghost" className="border border-(--rule)">
+                                    <Link to="/finance/tax/rates/new"><Plus size={ 15 } />Create a tax rate</Link>
+                                </Button>
+                            </div>
                         ) : (
                             <form.Field name="taxRateIds">
                                 { field => {
