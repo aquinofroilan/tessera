@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { z } from 'zod'
-import { ArrowLeft, Check, PackagePlus } from '@/components/ui/hugeicons'
+import { Check, PackagePlus } from '@/components/ui/hugeicons'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardEyebrow, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -91,10 +91,6 @@ export const ProductCreateForm = () => {
     return (
         <div className="w-full">
             <div className="mb-6">
-                <Button asChild variant="pill-ghost" size="sm" className="mb-5 -ml-2 text-(--ink-soft) hover:bg-(--paper-2)">
-                    <Link to="/inventory"><ArrowLeft size={ 15 } />Products</Link>
-                </Button>
-                <p className="mb-2 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory / Products / New</p>
                 <h1 className="font-display text-[clamp(34px,4vw,48px)] font-light leading-tight tracking-[-.035em]">Add a product</h1>
                 <p className="mt-2 max-w-2xl text-sm text-(--ink-soft)">Create a product master record to use across inventory, sales, and purchasing.</p>
             </div>

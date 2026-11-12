@@ -100,7 +100,6 @@ export function ProductVariantCreateSheet ( { productId }: ProductVariantCreateS
                 <SheetContent side="right" className="overflow-y-auto p-0 data-[side=right]:max-w-2xl" aria-describedby="variant-create-description">
                     <form onSubmit={ submit } className="flex min-h-full flex-col">
                         <SheetHeader>
-                            <p className="font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory / Variant</p>
                             <SheetTitle>Create variant</SheetTitle>
                             <SheetDescription id="variant-create-description">Add a variant to this product. Code and name are required.</SheetDescription>
                         </SheetHeader>

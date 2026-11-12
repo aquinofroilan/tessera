@@ -287,7 +287,6 @@ export const ProductCategorySettingsPage = () => {
         <DashboardShell>
             <div className="w-full">
                 <div className="mb-7 border-b border-(--rule) pb-6">
-                    <p className="mb-3 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory / Settings</p>
                     <h1 className="font-display text-[clamp(36px,4vw,48px)] font-light leading-none tracking-[-0.03em]">Product categories</h1>
                     <p className="mt-2.5 text-[15px] text-(--ink-soft)">Keep product categories consistent across your organization.</p>
                 </div>

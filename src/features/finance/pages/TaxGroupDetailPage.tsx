@@ -1,5 +1,3 @@
-import { Link } from '@tanstack/react-router'
-import { ArrowLeft } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardEyebrow, CardHeader, CardTitle } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
@@ -34,10 +32,6 @@ export function TaxGroupDetailPage ( { groupId }: TaxGroupDetailPageProps ) {
     return (
         <DashboardShell>
             <div className="w-full">
-                <Button asChild variant="pill-ghost" size="sm" className="mb-5 -ml-2 text-(--ink-soft) hover:bg-(--paper-2)">
-                    <Link to="/finance/tax/groups"><ArrowLeft size={ 15 } />Tax groups</Link>
-                </Button>
-
                 { groupQuery.isPending ? (
                     <div className="flex min-h-64 items-center justify-center gap-2 text-sm text-(--muted)" aria-live="polite">
                         <Spinner className="size-4 text-(--accent)" aria-label="Loading tax group" />
@@ -59,7 +53,6 @@ export function TaxGroupDetailPage ( { groupId }: TaxGroupDetailPageProps ) {
                     <>
                         <div className="mb-7 flex flex-wrap items-end justify-between gap-5 border-b border-(--rule) pb-6">
                             <div>
-                                <p className="mb-3 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Finance &amp; Accounting / Tax settings / Tax group</p>
                                 <h1 className="font-display text-[clamp(36px,4vw,48px)] font-light leading-tight tracking-[-0.03em]">{ group.name }</h1>
                                 <p className="mt-2 font-mono text-sm text-(--ink-soft)">{ group.code }</p>
                             </div>

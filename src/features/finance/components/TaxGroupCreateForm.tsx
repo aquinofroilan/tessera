@@ -2,7 +2,7 @@ import { useForm } from '@tanstack/react-form'
 import { useNavigate, Link } from '@tanstack/react-router'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import { ArrowLeft, Plus } from '@/components/ui/hugeicons'
+import { Plus } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from '@/components/ui/field'
@@ -70,10 +70,6 @@ export function TaxGroupCreateForm () {
     return (
         <div className="w-full">
             <div className="mb-6">
-                <Button asChild variant="pill-ghost" size="sm" className="mb-5 -ml-2 text-(--ink-soft) hover:bg-(--paper-2)">
-                    <Link to="/finance/tax/groups"><ArrowLeft size={ 15 } />Tax groups</Link>
-                </Button>
-                <p className="mb-2 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Finance &amp; Accounting / Tax settings / New</p>
                 <h1 className="font-display text-[clamp(34px,4vw,48px)] font-light leading-tight tracking-[-.035em]">Create a tax group</h1>
                 <p className="mt-2 max-w-2xl text-sm text-(--ink-soft)">Combine organization tax rates into a group for products and transactions.</p>
             </div>
