@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type CreatePositionRequest = {
     code: string;
     title: string;
@@ -21,6 +19,6 @@ export type PositionResponse = {
     payGrade: string | null;
     organizationId: string;
     isActive: boolean;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

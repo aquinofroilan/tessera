@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type CreateStorageLocationRequest = {
     code: string;
     name: string;
@@ -14,6 +12,6 @@ export type StorageLocationResponse = {
     parentLocationId: string | null;
     isActive: boolean;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

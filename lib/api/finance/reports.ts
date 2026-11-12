@@ -1,51 +1,49 @@
-import type { IsoDate, Money } from "../types";
-
 export const CURRENT_PERIOD_EARNINGS = "__current_period_earnings__";
 
 export type ReportAccountLine = {
     accountId: string;
     accountCode: string;
     accountName: string;
-    amount: Money;
-    comparativeAmount: Money | null;
+    amount: string;
+    comparativeAmount: string | null;
     isSynthetic: boolean;
 };
 
 export type ComparativePeriodMeta = {
-    startDate: IsoDate;
-    endDate: IsoDate;
+    startDate: string;
+    endDate: string;
 };
 
 export type IncomeStatementResponse = {
-    startDate: IsoDate;
-    endDate: IsoDate;
+    startDate: string;
+    endDate: string;
     comparativePeriod: ComparativePeriodMeta | null;
     revenue: ReportAccountLine[];
-    totalRevenue: Money;
-    comparativeTotalRevenue: Money | null;
+    totalRevenue: string;
+    comparativeTotalRevenue: string | null;
     expenses: ReportAccountLine[];
-    totalExpenses: Money;
-    comparativeTotalExpenses: Money | null;
-    netIncome: Money;
-    comparativeNetIncome: Money | null;
+    totalExpenses: string;
+    comparativeTotalExpenses: string | null;
+    netIncome: string;
+    comparativeNetIncome: string | null;
 };
 
 export type BalanceSheetResponse = {
-    asOfDate: IsoDate;
-    comparativeAsOfDate: IsoDate | null;
+    asOfDate: string;
+    comparativeAsOfDate: string | null;
     assets: ReportAccountLine[];
-    totalAssets: Money;
-    comparativeTotalAssets: Money | null;
+    totalAssets: string;
+    comparativeTotalAssets: string | null;
     liabilities: ReportAccountLine[];
-    totalLiabilities: Money;
-    comparativeTotalLiabilities: Money | null;
+    totalLiabilities: string;
+    comparativeTotalLiabilities: string | null;
     equity: ReportAccountLine[];
-    totalEquity: Money;
-    comparativeTotalEquity: Money | null;
-    currentEarnings: Money;
-    comparativeCurrentEarnings: Money | null;
-    totalLiabilitiesAndEquity: Money;
-    comparativeTotalLiabilitiesAndEquity: Money | null;
+    totalEquity: string;
+    comparativeTotalEquity: string | null;
+    currentEarnings: string;
+    comparativeCurrentEarnings: string | null;
+    totalLiabilitiesAndEquity: string;
+    comparativeTotalLiabilitiesAndEquity: string | null;
     isBalanced: boolean;
-    outOfBalanceAmount: Money;
+    outOfBalanceAmount: string;
 };

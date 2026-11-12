@@ -1,8 +1,6 @@
-import type { IsoDate } from "../types";
-
 export type GenerateProjectInvoiceRequest = {
     revenueAccountId?: string | null;
-    date?: IsoDate | null;
-    dueDate?: IsoDate | null;
+    date?: string | null;
+    dueDate?: string | null;
     currencyCode?: string | null;
 };

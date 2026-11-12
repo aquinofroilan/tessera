@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useId, type ComponentProps } from "react";
+import { createContext, useContext, useId, useMemo, type ComponentProps } from "react";
 import type { Label as LabelPrimitive } from "radix-ui";
 import { Slot } from "radix-ui";
 import {
@@ -33,8 +33,10 @@ const FormField = <
 >({
     ...props
 }: Readonly<ControllerProps<TFieldValues, TName>>) => {
+    const contextValue = useMemo(() => ({ name: props.name }), [props.name]);
+
     return (
-        <FormFieldContext.Provider value={{ name: props.name }}>
+        <FormFieldContext.Provider value={contextValue}>
             <Controller {...props} />
         </FormFieldContext.Provider>
     );
@@ -74,9 +76,10 @@ const FormItemContext = createContext<FormItemContextValue | null>(null);
 
 function FormItem({ className, ...props }: Readonly<ComponentProps<"div">>) {
     const id = useId();
+    const contextValue = useMemo(() => ({ id }), [id]);
 
     return (
-        <FormItemContext.Provider value={{ id }}>
+        <FormItemContext.Provider value={contextValue}>
             <div data-slot="form-item" className={cn("grid gap-2", className)} {...props} />
         </FormItemContext.Provider>
     );

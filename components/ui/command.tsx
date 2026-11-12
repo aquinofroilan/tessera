@@ -36,7 +36,7 @@ const CommandDialog = ({
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>{description}</DialogDescription>
             </div>
-            <Command className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:pt-2.5 [&_[cmdk-group-heading]]:pb-1.5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:tracking-[0.14em] [&_[cmdk-group-heading]]:text-(--muted) [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group]]:px-1.5 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-1.5 [&_[cmdk-input-wrapper]_svg]:size-4 [&_[cmdk-input]]:h-11">
+            <Command className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:pt-2.5 [&_[cmdk-group-heading]]:pb-1.5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:tracking-[0.14em] [&_[cmdk-group-heading]]:text-(--muted) [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group]]:px-1.5 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-1.5 [&_[data-cmdk-input-wrapper]_svg]:size-4 [&_[cmdk-input]]:h-11">
                 {children}
             </Command>
         </DialogContent>
@@ -44,7 +44,7 @@ const CommandDialog = ({
 );
 
 const CommandInput = ({ className, ...props }: Readonly<ComponentProps<typeof CommandPrimitive.Input>>) => (
-    <div className="flex items-center gap-2 border-b border-(--rule) px-3.5" cmdk-input-wrapper="">
+    <div className="flex items-center gap-2 border-b border-(--rule) px-3.5" data-cmdk-input-wrapper="">
         <IconSearch className="size-3.5 text-(--muted)" strokeWidth={1.8} />
         <CommandPrimitive.Input
             data-slot="command-input"

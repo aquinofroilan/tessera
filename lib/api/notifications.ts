@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "./types";
-
 export type NotificationCategory = "SYSTEM" | "APPROVAL" | "REMINDER" | "EVENT" | "INFO";
 
 export type NotificationResponse = {
@@ -10,8 +8,8 @@ export type NotificationResponse = {
     title: string;
     body: string | null;
     link: string | null;
-    readAt: IsoDateTime | null;
-    createdAt: IsoDateTime | null;
+    readAt: string | null;
+    createdAt: string | null;
 };
 
 export type NotificationUnreadCountResponse = {

@@ -1,4 +1,3 @@
-import type { IsoDate, Money } from "../types";
 import type { MovementType } from "./movements";
 
 export type StockOnHandRow = {
@@ -11,7 +10,7 @@ export type StockOnHandRow = {
 };
 
 export type StockOnHandResponse = {
-    asOfDate: IsoDate;
+    asOfDate: string;
     warehouses: { id: string; code: string; name: string }[];
     rows: StockOnHandRow[];
 };
@@ -22,22 +21,22 @@ export type ValuationRow = {
     name: string;
     totalQuantity: number;
     unitOfMeasure: string;
-    unitCost: Money;
-    totalValue: Money;
+    unitCost: string;
+    totalValue: string;
 };
 
 export type ValuationReportResponse = {
-    asOfDate: IsoDate;
+    asOfDate: string;
     currencyCode: string;
     rows: ValuationRow[];
-    totalValue: Money;
-    glInventoryBalance: Money;
-    variance: Money;
+    totalValue: string;
+    glInventoryBalance: string;
+    variance: string;
 };
 
 export type MovementHistoryRow = {
     movementId: string;
-    date: IsoDate;
+    date: string;
     type: MovementType;
     referenceNumber: string | null;
     itemId: string;
@@ -47,13 +46,13 @@ export type MovementHistoryRow = {
     warehouseName: string;
     quantity: number;
     runningQuantity: number;
-    unitCost: Money;
-    valueChange: Money;
+    unitCost: string;
+    valueChange: string;
 };
 
 export type MovementHistoryResponse = {
-    startDate: IsoDate;
-    endDate: IsoDate;
+    startDate: string;
+    endDate: string;
     currencyCode: string;
     rows: MovementHistoryRow[];
 };

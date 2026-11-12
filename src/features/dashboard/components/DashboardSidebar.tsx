@@ -62,6 +62,10 @@ const isModuleNavigationItemActive = ( label: string, pathname: string ) => {
         return pathname === '/dashboard'
     }
 
+    if ( label === 'Finance & Accounting' ) {
+        return pathname.startsWith( '/finance' )
+    }
+
     return false
 }
 
@@ -133,6 +137,7 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                     onClick={ () => {
                                         onClose()
                                         if ( item.label === 'Inventory' ) navigate( { to: '/inventory' } )
+                                        if ( item.label === 'Finance & Accounting' ) navigate( { to: '/finance/tax/groups' } )
                                     } }
                                 />
                                 { item.label === 'Inventory' && pathname.startsWith( '/inventory' ) ? (
@@ -144,6 +149,28 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/inventory/settings/product-categories' } )
+                                            } }
+                                        />
+                                    </div>
+                                ) : null }
+                                { item.label === 'Finance & Accounting' && pathname.startsWith( '/finance' ) ? (
+                                    <div className="ml-5 grid border-l border-(--rule) pl-2">
+                                        <DashboardNavItem
+                                            label="Tax settings"
+                                            icon={ <Tag size={ 17 } /> }
+                                            active={ pathname.startsWith( '/finance/tax/groups' ) }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/finance/tax/groups' } )
+                                            } }
+                                        />
+                                        <DashboardNavItem
+                                            label="Tax rates"
+                                            icon={ <Tag size={ 17 } /> }
+                                            active={ pathname.startsWith( '/finance/tax/rates' ) }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/finance/tax/rates' } )
                                             } }
                                         />
                                     </div>

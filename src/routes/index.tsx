@@ -14,6 +14,11 @@ import { ProductCategorySettingsPage } from '@/src/features/inventory/pages/Prod
 import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
 import { ProductDetailPage } from '@/src/features/inventory/pages/ProductDetailPage';
 import { ProductVariantDetailPage } from '@/src/features/inventory/pages/ProductVariantDetailPage';
+import { TaxGroupSettingsPage } from '@/src/features/finance/pages/TaxGroupSettingsPage';
+import { TaxGroupCreatePage } from '@/src/features/finance/pages/TaxGroupCreatePage';
+import { TaxGroupDetailPage } from '@/src/features/finance/pages/TaxGroupDetailPage';
+import { TaxRatesSettingsPage } from '@/src/features/finance/pages/TaxRatesSettingsPage';
+import { TaxRateCreatePage } from '@/src/features/finance/pages/TaxRateCreatePage';
 import { clearPendingRequestToasts } from '@/src/lib/axios';
 
 // Root route acts as the main layout wrapper
@@ -58,11 +63,46 @@ const productCategorySettingsRoute = createRoute({
   component: ProductCategorySettingsPage,
 });
 
+const taxRateCreateRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/finance/tax/rates/new',
+  component: TaxRateCreatePage,
+});
+
+const taxRatesSettingsRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/finance/tax/rates',
+  component: TaxRatesSettingsPage,
+});
+
 const productVariantDetailRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/inventory/item/$uuid/variant/$variantUuid',
   component: ProductVariantDetailRouteComponent,
 });
+
+const taxGroupSettingsRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/finance/tax/groups',
+  component: TaxGroupSettingsPage,
+});
+
+const taxGroupCreateRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/finance/tax/groups/new',
+  component: TaxGroupCreatePage,
+});
+
+const taxGroupDetailRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/finance/tax/groups/$groupId',
+  component: TaxGroupDetailRouteComponent,
+});
+
+function TaxGroupDetailRouteComponent() {
+  const { groupId } = taxGroupDetailRoute.useParams();
+  return <TaxGroupDetailPage groupId={groupId} />;
+}
 
 function ProductVariantDetailRouteComponent() {
   const { uuid, variantUuid } = productVariantDetailRoute.useParams();
@@ -124,7 +164,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxGroupDetailRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
 ]);
 
 export const router = createRouter({ routeTree });

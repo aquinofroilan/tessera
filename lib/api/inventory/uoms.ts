@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type CreateUomRequest = {
     code: string;
     name: string;
@@ -12,6 +10,6 @@ export type UomResponse = {
     name: string;
     precision: number;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

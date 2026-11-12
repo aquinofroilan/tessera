@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type AccountType = "ASSET" | "LIABILITY" | "EQUITY" | "REVENUE" | "EXPENSE";
 
 export type CreateAccountRequest = {
@@ -25,6 +23,6 @@ export type AccountResponse = {
     organizationId: string;
     isActive: boolean;
     isSystemAccount: boolean;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

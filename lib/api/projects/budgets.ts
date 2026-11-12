@@ -1,5 +1,3 @@
-import type { IsoDateTime, Money } from "../types";
-
 export type ProjectCostCategory = "LABOR" | "MATERIAL" | "EXPENSE" | "OTHER";
 
 export const PROJECT_COST_CATEGORIES: readonly ProjectCostCategory[] = [
@@ -11,7 +9,7 @@ export const PROJECT_COST_CATEGORIES: readonly ProjectCostCategory[] = [
 
 export type SetProjectBudgetRequest = {
     category: ProjectCostCategory;
-    budgetAmount: Money;
+    budgetAmount: string;
     currency?: string | null;
 };
 
@@ -19,24 +17,24 @@ export type ProjectBudgetResponse = {
     id: string;
     projectId: string;
     category: ProjectCostCategory;
-    budgetAmount: Money;
+    budgetAmount: string;
     currency: string | null;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
 
 export type BudgetVarianceLine = {
     category: ProjectCostCategory;
-    budgeted: Money;
-    actual: Money;
-    remaining: Money;
+    budgeted: string;
+    actual: string;
+    remaining: string;
 };
 
 export type ProjectBudgetVsActualResponse = {
     projectId: string;
     lines: BudgetVarianceLine[];
-    totalBudgeted: Money;
-    totalActual: Money;
-    totalRemaining: Money;
+    totalBudgeted: string;
+    totalActual: string;
+    totalRemaining: string;
 };

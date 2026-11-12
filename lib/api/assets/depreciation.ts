@@ -1,5 +1,3 @@
-import type { IsoDateTime, Money } from "../types";
-
 export type DepreciationRunStatus = "DRAFT" | "POSTED" | "CANCELLED";
 
 export type CreateDepreciationRunRequest = {
@@ -10,7 +8,7 @@ export type CreateDepreciationRunRequest = {
 export type DepreciationRunLineResponse = {
     id: string;
     assetId: string;
-    depreciationAmount: Money;
+    depreciationAmount: string;
     debitAccountId: string | null;
     creditAccountId: string | null;
 };
@@ -20,12 +18,12 @@ export type DepreciationRunResponse = {
     periodYear: number;
     periodMonth: number;
     status: DepreciationRunStatus;
-    totalDepreciation: Money;
+    totalDepreciation: string;
     journalEntryId: string | null;
-    postedAt: IsoDateTime | null;
+    postedAt: string | null;
     postedBy: string | null;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
     lines?: DepreciationRunLineResponse[];
 };

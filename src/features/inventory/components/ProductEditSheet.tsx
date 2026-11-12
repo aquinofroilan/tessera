@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { Spinner } from '@/components/ui/spinner'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { TaxGroupSelector } from '@/src/features/inventory/components/TaxGroupSelector'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useUpdateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
@@ -182,8 +183,14 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
                             </div>
 
                             <Field className={ fieldClass }>
-                                <FieldLabel htmlFor="product-edit-tax-group">Tax group ID</FieldLabel>
-                                <Input id="product-edit-tax-group" value={ values.taxGroupId } onChange={ event => updateValue( 'taxGroupId', event.target.value ) } className={ inputClass } maxLength={ 128 } disabled={ isPending } />
+                                <FieldLabel htmlFor="product-edit-tax-group">Tax group</FieldLabel>
+                                <TaxGroupSelector
+                                    id="product-edit-tax-group"
+                                    value={ values.taxGroupId }
+                                    onValueChange={ value => updateValue( 'taxGroupId', value ) }
+                                    className={ inputClass }
+                                    disabled={ isPending }
+                                />
                             </Field>
 
                             <fieldset className="grid gap-3 rounded-xl border border-(--rule) p-4 sm:grid-cols-2">

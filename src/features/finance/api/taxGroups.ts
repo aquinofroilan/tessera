@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { axios } from '@/src/lib/axios'
-import type { TaxGroupResponse } from '@/src/features/finance/types/taxGroups'
+import type { CreateTaxGroupRequest, TaxGroupResponse } from '@/src/features/finance/types/taxGroups'
 
 const TAX_GROUPS_ENDPOINT = '/api/v1/finance/tax/groups'
 
@@ -15,3 +15,24 @@ export const useTaxGroups = ( params: TaxGroupListParams = {} ) => useQuery( {
     queryKey: [ 'finance', 'tax-groups', params ],
     queryFn: () => getTaxGroups( params ),
 } )
+
+export const getTaxGroup = ( id: string ): Promise<TaxGroupResponse> =>
+    axios.get( `${ TAX_GROUPS_ENDPOINT }/${ id }` )
+
+export const useTaxGroup = ( id: string ) => useQuery( {
+    queryKey: [ 'finance', 'tax-groups', id ],
+    queryFn: () => getTaxGroup( id ),
+    enabled: Boolean( id ),
+} )
+
+export const createTaxGroup = ( body: CreateTaxGroupRequest ): Promise<TaxGroupResponse> =>
+    axios.post( TAX_GROUPS_ENDPOINT, body )
+
+export const useCreateTaxGroup = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation( {
+        mutationFn: createTaxGroup,
+        onSuccess: () => queryClient.invalidateQueries( { queryKey: [ 'finance', 'tax-groups' ] } ),
+    } )
+}

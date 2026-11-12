@@ -1,13 +1,11 @@
-import type { IsoDate, IsoDateTime, Money } from "../types";
-
 export type DisposalType = "SALE" | "WRITE_OFF" | "SCRAP";
 export type DisposalStatus = "DRAFT" | "POSTED" | "CANCELLED";
 
 export type CreateAssetDisposalRequest = {
     assetId: string;
-    disposalDate: IsoDate;
+    disposalDate: string;
     disposalType: DisposalType;
-    proceeds?: Money;
+    proceeds?: string;
     gainLossAccountId?: string | null;
     cashAccountId?: string | null;
     notes?: string | null;
@@ -16,17 +14,17 @@ export type CreateAssetDisposalRequest = {
 export type AssetDisposalResponse = {
     id: string;
     assetId: string;
-    disposalDate: IsoDate;
+    disposalDate: string;
     disposalType: DisposalType;
-    proceeds: Money;
+    proceeds: string;
     status: DisposalStatus;
     journalEntryId: string | null;
     gainLossAccountId: string | null;
     cashAccountId: string | null;
     notes: string | null;
-    postedAt: IsoDateTime | null;
+    postedAt: string | null;
     postedBy: string | null;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

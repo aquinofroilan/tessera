@@ -1,19 +1,17 @@
-import type { IsoDate, IsoDateTime, Money } from "../types";
-
 export type InvoiceStatus = "DRAFT" | "APPROVED" | "PARTIALLY_PAID" | "PAID" | "VOID";
 
 export type PaymentMethod = "CASH" | "CHECK" | "BANK_TRANSFER" | "CREDIT_CARD" | "OTHER";
 
 export type InvoiceLineRequest = {
     accountId: string;
-    amount: Money;
+    amount: string;
     description?: string | null;
 };
 
 export type CreateInvoiceRequest = {
     customerId: string;
-    date: IsoDate;
-    dueDate: IsoDate;
+    date: string;
+    dueDate: string;
     referenceNumber?: string | null;
     taxGroupId?: string | null;
     currencyCode?: string | null;
@@ -25,8 +23,8 @@ export type VoidInvoiceRequest = {
 };
 
 export type RecordReceiptRequest = {
-    receiptDate: IsoDate;
-    amount: Money;
+    receiptDate: string;
+    amount: string;
     paymentMethod: PaymentMethod;
     referenceNumber?: string | null;
 };
@@ -35,7 +33,7 @@ export type InvoiceLineResponse = {
     accountId: string;
     accountCode: string;
     accountName: string;
-    amount: Money;
+    amount: string;
     description: string | null;
 };
 
@@ -44,67 +42,67 @@ export type InvoiceResponse = {
     invoiceNumber: string;
     customerId: string;
     customerName: string;
-    date: IsoDate;
-    dueDate: IsoDate;
+    date: string;
+    dueDate: string;
     referenceNumber: string | null;
     taxGroupId: string | null;
     organizationId: string;
     status: InvoiceStatus;
     lines: InvoiceLineResponse[];
-    totalAmount: Money;
-    taxAmount: Money;
-    amountReceived: Money;
+    totalAmount: string;
+    taxAmount: string;
+    amountReceived: string;
     currencyCode: string;
-    exchangeRate: Money;
-    baseCurrencyAmount: Money;
-    baseCurrencyTaxAmount: Money;
-    baseCurrencyAmountReceived: Money;
+    exchangeRate: string;
+    baseCurrencyAmount: string;
+    baseCurrencyTaxAmount: string;
+    baseCurrencyAmountReceived: string;
     journalEntryId: string | null;
     createdBy: string;
-    approvedAt: IsoDateTime | null;
+    approvedAt: string | null;
     approvedBy: string | null;
-    paidAt: IsoDateTime | null;
-    voidedAt: IsoDateTime | null;
+    paidAt: string | null;
+    voidedAt: string | null;
     voidedBy: string | null;
     voidReason: string | null;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
 
 export type InvoiceSummaryResponse = {
     id: string;
     invoiceNumber: string;
     customerName: string;
-    date: IsoDate;
-    dueDate: IsoDate;
+    date: string;
+    dueDate: string;
     status: InvoiceStatus;
-    totalAmount: Money;
-    taxAmount: Money;
-    amountReceived: Money;
+    totalAmount: string;
+    taxAmount: string;
+    amountReceived: string;
     currencyCode: string;
 };
 
 export type InvoiceReceiptResponse = {
     id: string;
     invoiceId: string;
-    receiptDate: IsoDate;
-    amount: Money;
-    baseCurrencyAmount: Money;
-    exchangeRate: Money;
+    receiptDate: string;
+    amount: string;
+    baseCurrencyAmount: string;
+    exchangeRate: string;
     paymentMethod: PaymentMethod;
     referenceNumber: string | null;
     journalEntryId: string | null;
     createdBy: string;
-    createdAt: IsoDateTime | null;
+    createdAt: string | null;
 };
 
 export type AgingBucket = {
-    current: Money;
-    days1to30: Money;
-    days31to60: Money;
-    days61to90: Money;
-    days90plus: Money;
-    total: Money;
+    current: string;
+    days1to30: string;
+    days31to60: string;
+    days61to90: string;
+    days90plus: string;
+    total: string;
 };
 
 export type CustomerAgingResponse = {
@@ -114,7 +112,7 @@ export type CustomerAgingResponse = {
 };
 
 export type ArAgingReportResponse = {
-    asOfDate: IsoDate;
+    asOfDate: string;
     customers: CustomerAgingResponse[];
     totals: AgingBucket;
 };
