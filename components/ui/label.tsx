@@ -23,7 +23,7 @@ function Label({
     className,
     variant,
     ...props
-}: ComponentProps<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>) {
+}: Readonly<ComponentProps<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>>) {
     return <LabelPrimitive.Root data-slot="label" className={cn(labelVariants({ variant, className }))} {...props} />;
 }
 

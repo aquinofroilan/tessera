@@ -1,5 +1,3 @@
-import type { IsoDate, IsoDateTime } from "../types";
-
 export type PurchaseRequestStatus =
     | "DRAFT"
     | "SUBMITTED"
@@ -34,8 +32,8 @@ export type ConvertPurchaseRequestLineCost = {
 export type ConvertPurchaseRequestRequest = {
     vendorId?: string | null;
     warehouseId?: string | null;
-    orderDate?: IsoDate | null;
-    expectedDate?: IsoDate | null;
+    orderDate?: string | null;
+    expectedDate?: string | null;
     lineCosts?: ConvertPurchaseRequestLineCost[] | null;
 };
 
@@ -61,9 +59,9 @@ export type PurchaseRequestResponse = {
     lines: PurchaseRequestLineResponse[];
     requestedBy: string;
     decidedBy: string | null;
-    decidedAt: IsoDateTime | null;
+    decidedAt: string | null;
     decisionReason: string | null;
     convertedPurchaseOrderId: string | null;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

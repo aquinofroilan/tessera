@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "DONE" | "CANCELLED";
 
 export const TASK_STATUSES: readonly TaskStatus[] = [
@@ -39,8 +37,8 @@ export type ProjectTaskResponse = {
     estimatedHours: string | null;
     status: TaskStatus;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
 
 export type ProjectTaskTreeNode = {

@@ -4,12 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@custom-variant data-checked {
-  &:where([data-state="checked"]),
-  &:where([data-checked]:not([data-checked="false"])) {
-    @slot;
-  }
-}
+@custom-variant data-checked (&:where([data-state="checked"], [data-checked]:not([data-checked="false"])));
 
 :root {
   /* Editorial palette — the source of truth for all product surfaces. */
@@ -272,10 +267,11 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
+  :root,
+  :root * {
+    animation: none;
+    transition: none;
+    scroll-behavior: auto;
   }
 }
 

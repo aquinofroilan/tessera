@@ -1,5 +1,3 @@
-import type { IsoDate, IsoDateTime } from "../types";
-
 export type LeaveRequestStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
 
 export const LEAVE_REQUEST_STATUSES: readonly LeaveRequestStatus[] = [
@@ -12,8 +10,8 @@ export const LEAVE_REQUEST_STATUSES: readonly LeaveRequestStatus[] = [
 export type CreateLeaveRequestRequest = {
     employeeId: string;
     leaveTypeId: string;
-    startDate: IsoDate;
-    endDate: IsoDate;
+    startDate: string;
+    endDate: string;
     reason?: string | null;
 };
 
@@ -25,18 +23,18 @@ export type LeaveRequestResponse = {
     id: string;
     employeeId: string;
     leaveTypeId: string;
-    startDate: IsoDate;
-    endDate: IsoDate;
+    startDate: string;
+    endDate: string;
     days: number;
     reason: string | null;
     status: LeaveRequestStatus;
     decisionReason: string | null;
     decidedBy: string | null;
-    decidedAt: IsoDateTime | null;
+    decidedAt: string | null;
     organizationId: string;
     requestedBy: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
 
 export type LeaveBalanceResponse = {

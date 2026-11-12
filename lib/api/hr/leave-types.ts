@@ -1,5 +1,3 @@
-import type { IsoDateTime } from "../types";
-
 export type CreateLeaveTypeRequest = {
     code: string;
     name: string;
@@ -21,6 +19,6 @@ export type LeaveTypeResponse = {
     defaultAnnualDays: number;
     organizationId: string;
     isActive: boolean;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

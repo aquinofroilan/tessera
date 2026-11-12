@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { IconCheck } from '@tabler/icons-react'
+import { IconCheck } from '@/components/ui/hugeicons'
 import { AuthLayout } from '@/src/features/auth/components/AuthLayout'
 import { LoginForm } from '@/src/features/auth/components/LoginForm'
 
@@ -26,8 +26,8 @@ export const LoginPage = () => (
                 to="/auth/signup"
                 className="inline-flex items-center gap-1.5 rounded-full border border-transparent px-3.5 py-2 text-[13px] text-(--ink-soft) transition-[border-color,background-color] duration-150 hover:border-(--rule) hover:bg-(--paper-2) focus-visible:ring-2 focus-visible:ring-(--ink) focus-visible:ring-offset-2 focus-visible:ring-offset-(--paper)"
             >
-                New to Tessera?
-                <strong className="ml-0.5 font-medium text-(--ink)">Sign up</strong>
+                <span>New to Tessera?</span>
+                <strong className="font-medium text-(--ink)">Sign up</strong>
             </Link>
         }
         editorialContent={
@@ -42,7 +42,7 @@ export const LoginPage = () => (
                     { ["Invoices & billing", "Cash flow clarity", "One connected workspace"].map( ( item ) => (
                         <span key={ item } className="flex items-center gap-2.5">
                             <span className="grid size-5.5 place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]">
-                                <IconCheck aria-hidden="true" size={ 12 } stroke={ 2.4 } />
+                                <IconCheck aria-hidden="true" size={ 12 } strokeWidth={ 2.4 } />
                             </span>
                             { item }
                         </span>
@@ -51,11 +51,11 @@ export const LoginPage = () => (
             </div>
         }
         editorialFooter={
-            <nav aria-label="Resources" className="flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.05em] text-(--muted)">
-                <a href="#" className="hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Status</a>
-                <a href="#" className="hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Security</a>
-                <a href="#" className="hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Docs</a>
-            </nav>
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.05em] text-(--muted)">
+                <span>Status</span>
+                <span>Security</span>
+                <span>Docs</span>
+            </div>
         }
     >
         <LoginForm />

@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { IconCheck } from '@tabler/icons-react'
+import { IconCheck } from '@/components/ui/hugeicons'
 import { AuthLayout } from '@/src/features/auth/components/AuthLayout'
 import { ForgotPasswordForm } from '@/src/features/auth/components/ForgotPasswordForm'
 
@@ -19,8 +19,8 @@ export const ForgotPasswordPage = () => (
         }
         headerAction={
             <Link to="/auth/signin" className="inline-flex items-center gap-1.5 rounded-full border border-transparent px-3.5 py-2 text-[13px] text-(--ink-soft) transition-[border-color,background-color] duration-150 hover:border-(--rule) hover:bg-(--paper-2) focus-visible:ring-2 focus-visible:ring-(--ink) focus-visible:ring-offset-2 focus-visible:ring-offset-(--paper)">
-                Remember it?
-                <strong className="ml-0.5 font-medium text-(--ink)">Log in</strong>
+                <span>Remember it?</span>
+                <strong className="font-medium text-(--ink)">Log in</strong>
             </Link>
         }
         editorialContent={
@@ -32,14 +32,14 @@ export const ForgotPasswordPage = () => (
                 <div className="grid gap-3 font-mono text-[11px] tracking-[0.05em] text-[rgb(246_241_230/65%)]">
                     { ["One secure reset link", "No changes to your workspace", "Back to work in a moment"].map( ( item ) => (
                         <span key={ item } className="flex items-center gap-2.5">
-                            <span className="grid size-5.5 place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]"><IconCheck aria-hidden="true" size={ 12 } stroke={ 2.4 } /></span>
+                            <span className="grid size-5.5 place-items-center rounded-full bg-[rgb(61_90_58/20%)] text-[#8FB58B]"><IconCheck aria-hidden="true" size={ 12 } strokeWidth={ 2.4 } /></span>
                             { item }
                         </span>
                     ) ) }
                 </div>
             </div>
         }
-        editorialFooter={ <nav aria-label="Resources" className="flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.05em] text-(--muted)"><a href="#" className="hover:text-(--ink)">Status</a><a href="#" className="hover:text-(--ink)">Security</a><a href="#" className="hover:text-(--ink)">Docs</a></nav> }
+        editorialFooter={ <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.05em] text-(--muted)"><span>Status</span><span>Security</span><span>Docs</span></div> }
     >
         <ForgotPasswordForm />
     </AuthLayout>

@@ -1,10 +1,8 @@
-import type { IsoDateTime, Money } from "../types";
-
 export type CreateVariantRequest = {
     skuSuffix: string;
     attributes: Record<string, string>;
-    salesPrice?: Money | null;
-    purchaseCost?: Money | null;
+    salesPrice?: string | null;
+    purchaseCost?: string | null;
 };
 
 export type VariantResponse = {
@@ -13,11 +11,11 @@ export type VariantResponse = {
     sku: string;
     skuSuffix: string;
     attributes: Record<string, string>;
-    salesPrice: Money | null;
-    purchaseCost: Money | null;
+    salesPrice: string | null;
+    purchaseCost: string | null;
     onHand: number;
     isActive: boolean;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };

@@ -1,19 +1,10 @@
-import type { EmployeeCompensationResponse } from "./compensation";
-import type { EmployeeResponse } from "./employees";
-import type { LeaveBalanceResponse, LeaveRequestResponse } from "./leave-requests";
-
-type IsoDate = string;
-
 export type SubmitSelfLeaveRequest = {
     leaveTypeId: string;
-    startDate: IsoDate;
-    endDate: IsoDate;
+    startDate: string;
+    endDate: string;
     reason?: string | null;
 };
 
-export type {
-    EmployeeResponse,
-    EmployeeCompensationResponse,
-    LeaveBalanceResponse,
-    LeaveRequestResponse,
-};
+export type { EmployeeCompensationResponse } from "./compensation";
+export type { EmployeeResponse } from "./employees";
+export type { LeaveBalanceResponse, LeaveRequestResponse } from "./leave-requests";

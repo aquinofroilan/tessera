@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { IconArrowUpRight, IconLifebuoy } from '@tabler/icons-react'
+import { IconLifebuoy } from '@/components/ui/hugeicons'
 import packageJson from '../../../../package.json'
 import { AuthLayout } from '@/src/features/auth/components/AuthLayout'
 import { SignupForm } from '@/src/features/auth/components/SignupForm'
@@ -37,8 +37,8 @@ export const SignupPage = () => (
                 to="/auth/signin"
                 className="inline-flex items-center gap-1.5 rounded-full border border-transparent px-3.5 py-2 text-[13px] text-(--ink-soft) transition-[border-color,background-color] duration-150 hover:border-(--rule) hover:bg-(--paper-2) focus-visible:ring-2 focus-visible:ring-(--ink) focus-visible:ring-offset-2 focus-visible:ring-offset-(--paper)"
             >
-                Already have an account?
-                <strong className="ml-0.5 font-medium text-(--ink)">Sign in</strong>
+                <span>Already have an account?</span>
+                <strong className="font-medium text-(--ink)">Sign in</strong>
             </Link>
         }
         editorialContent={
@@ -96,25 +96,21 @@ export const SignupPage = () => (
             { label: 'Cash position', value: '$491K' },
         ] }
         editorialFooter={
-            <nav aria-label="Resources" className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.05em] text-(--muted)">
-                <a href="#" className="transition-colors hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Status</a>
-                <a href="#" className="transition-colors hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Security</a>
-                <a href="#" className="transition-colors hover:text-(--ink) focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">Docs</a>
-            </nav>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-[11px] tracking-[0.05em] text-(--muted)">
+                <span>Status</span>
+                <span>Security</span>
+                <span>Docs</span>
+            </div>
         }
     >
         <SignupForm />
         <div className="mt-6 flex items-start gap-3 rounded-[10px] border border-dashed border-(--rule) bg-(--paper-2) p-3.5 text-[13px] leading-[1.45] text-(--ink-soft)">
             <span className="grid size-7.5 shrink-0 place-items-center rounded-[7px] bg-(--ink) text-(--paper)">
-                <IconLifebuoy aria-hidden="true" size={ 16 } stroke={ 1.8 } />
+                <IconLifebuoy aria-hidden="true" size={ 16 } strokeWidth={ 1.8 } />
             </span>
             <p className="min-w-0">
                 <strong className="font-medium text-(--ink)">Need help migrating?</strong>{ " " }
-                We can help you bring your data over.{ " " }
-                <a href="#" className="inline-flex items-center gap-0.5 font-medium text-(--accent) underline decoration-transparent underline-offset-2 transition-[text-decoration-color] hover:decoration-current focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)">
-                    Talk to us
-                    <IconArrowUpRight aria-hidden="true" size={ 13 } stroke={ 2 } />
-                </a>
+                We can help you bring your data over.
             </p>
         </div>
         <div className="text-center text-sm">

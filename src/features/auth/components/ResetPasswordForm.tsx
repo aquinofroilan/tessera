@@ -18,10 +18,9 @@ const resetPasswordSchema = z.object( {
 
 type ResetPasswordValues = z.infer<typeof resetPasswordSchema>
 
-interface ResetPasswordFormProps
-{
+type ResetPasswordFormProps = Readonly<{
     token: string
-}
+}>
 
 export const ResetPasswordForm = ( { token }: ResetPasswordFormProps ) =>
 {

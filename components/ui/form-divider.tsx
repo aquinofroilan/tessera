@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 
-type FormDividerProps = {
+type FormDividerProps = Readonly<{
     label: string;
     className?: string;
-};
+}>;
 
 export function FormDivider({ label, className }: FormDividerProps) {
     return (

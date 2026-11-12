@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@tanstack/react-router';
 
-type AuthLayoutProps = {
+type AuthLayoutProps = Readonly<{
     children: React.ReactNode;
     title: string;
     description?: string;
@@ -11,7 +11,7 @@ type AuthLayoutProps = {
     editorialContent?: React.ReactNode;
     editorialFooter?: React.ReactNode;
     editorialFloatingStats?: Array<{ label: string; value: string }>;
-};
+}>;
 
 export const AuthLayout = ({
     children,
@@ -34,7 +34,7 @@ export const AuthLayout = ({
                             aria-label="Tessera home"
                             className="inline-flex items-baseline gap-1 font-display text-[26px] font-medium tracking-[-0.02em] text-(--ink) italic"
                         >
-                            Tessera
+                            <span>Tessera</span>
                             <span
                                 aria-hidden="true"
                                 className="mb-0.75 size-1.5 self-center rounded-full bg-(--accent)"

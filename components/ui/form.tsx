@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useId, type ComponentProps } from "react";
+import { createContext, useContext, useId, useMemo, type ComponentProps } from "react";
 import type { Label as LabelPrimitive } from "radix-ui";
 import { Slot } from "radix-ui";
 import {
@@ -32,9 +32,11 @@ const FormField = <
     TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
     ...props
-}: ControllerProps<TFieldValues, TName>) => {
+}: Readonly<ControllerProps<TFieldValues, TName>>) => {
+    const contextValue = useMemo(() => ({ name: props.name }), [props.name]);
+
     return (
-        <FormFieldContext.Provider value={{ name: props.name }}>
+        <FormFieldContext.Provider value={contextValue}>
             <Controller {...props} />
         </FormFieldContext.Provider>
     );
@@ -72,17 +74,18 @@ type FormItemContextValue = {
 
 const FormItemContext = createContext<FormItemContextValue | null>(null);
 
-function FormItem({ className, ...props }: ComponentProps<"div">) {
+function FormItem({ className, ...props }: Readonly<ComponentProps<"div">>) {
     const id = useId();
+    const contextValue = useMemo(() => ({ id }), [id]);
 
     return (
-        <FormItemContext.Provider value={{ id }}>
+        <FormItemContext.Provider value={contextValue}>
             <div data-slot="form-item" className={cn("grid gap-2", className)} {...props} />
         </FormItemContext.Provider>
     );
 }
 
-function FormLabel({ className, ...props }: ComponentProps<typeof LabelPrimitive.Root>) {
+function FormLabel({ className, ...props }: Readonly<ComponentProps<typeof LabelPrimitive.Root>>) {
     const { error, formItemId } = useFormField();
 
     return (
@@ -97,7 +100,7 @@ function FormLabel({ className, ...props }: ComponentProps<typeof LabelPrimitive
     );
 }
 
-function FormControl({ ...props }: ComponentProps<typeof Slot.Root>) {
+function FormControl({ ...props }: Readonly<ComponentProps<typeof Slot.Root>>) {
     const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
 
     return (
@@ -111,7 +114,7 @@ function FormControl({ ...props }: ComponentProps<typeof Slot.Root>) {
     );
 }
 
-function FormDescription({ className, ...props }: ComponentProps<"p">) {
+function FormDescription({ className, ...props }: Readonly<ComponentProps<"p">>) {
     const { formDescriptionId } = useFormField();
 
     return (
@@ -126,7 +129,7 @@ function FormDescription({ className, ...props }: ComponentProps<"p">) {
 
 const formMessageClass = "font-mono text-[10px] tracking-[0.08em] text-destructive uppercase";
 
-function FormMessage({ className, ...props }: ComponentProps<"p">) {
+function FormMessage({ className, ...props }: Readonly<ComponentProps<"p">>) {
     const { error, formMessageId } = useFormField();
     const body = error ? String(error?.message ?? "") : props.children;
 

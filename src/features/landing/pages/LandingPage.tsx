@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Boxes, Check, CircleDollarSign, Cog, Grid2X2, MessageSquare, ShoppingCart, Users } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Boxes, Check, CircleDollarSign, Cog, Grid2X2, MessageSquare, ShoppingCart, Users } from '@/components/ui/hugeicons'
 import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
@@ -24,8 +24,13 @@ const mockTop = 'flex items-center gap-1.5 border-b border-(--rule) bg-(--paper-
 const mockDot = 'size-[9px] rounded-full bg-(--rule)'
 const mockSmall = 'block overflow-hidden text-[8px] text-(--muted) uppercase'
 const mockKpi = 'min-w-0 rounded-lg border border-(--rule) bg-(--paper) p-2.5 max-sm:p-1.5'
+const orderStatusStyles: Record<string, string> = {
+    Shipped: 'bg-(--moss-soft) text-(--moss)',
+    Packing: 'bg-(--ochre-soft) text-[#8a5c18]',
+    'On hold': 'bg-(--accent-soft) text-(--accent-deep)',
+}
 
-function CheckLine ( { children }: { children: string } ) {
+function CheckLine ( { children }: Readonly<{ children: string }> ) {
     return <li className="flex items-center gap-2.5 border-t border-(--rule) py-3 last:border-b"><span className="grid size-[22px] shrink-0 place-items-center rounded-full bg-(--moss) text-(--paper)"><Check size={ 13 } aria-hidden="true" /></span><span>{ children }</span></li>
 }
 
@@ -48,7 +53,7 @@ function DashboardMockup () {
                     </div>
                     <div className="overflow-hidden rounded-lg border border-(--rule) bg-(--paper)">
                         <div className="grid grid-cols-[minmax(0,1fr)_48px_48px_32px] gap-1 bg-(--paper-2) px-2 py-2 font-mono text-[7px] text-(--muted) uppercase"><span>Recent orders</span><span>Amount</span><span>Stage</span><span>PO#</span></div>
-                        { [ [ 'Hollis & Dray Millwork', '$4,280', 'Shipped', '#2841' ], [ 'Cascade Cycles', '$1,960', 'Packing', '#2840' ], [ 'Meridian Coffee Roasters', '$12,400', 'On hold', '#2839' ] ].map( ( row, i ) => <div className="grid grid-cols-[minmax(0,1fr)_48px_48px_32px] items-center gap-1 border-t border-(--rule) px-2 py-2 text-[8px]" key={ row[ 0 ] }><span className="truncate">{ row[ 0 ] }</span><span>{ row[ 1 ] }</span><span className={ `rounded-full px-1 py-0.5 text-center text-[7px] ${ i === 0 ? 'bg-(--moss-soft) text-(--moss)' : i === 1 ? 'bg-(--ochre-soft) text-[#8a5c18]' : 'bg-(--accent-soft) text-(--accent-deep)' }` }>{ row[ 2 ] }</span><span>{ row[ 3 ] }</span></div> ) }
+                        { [ [ 'Hollis & Dray Millwork', '$4,280', 'Shipped', '#2841' ], [ 'Cascade Cycles', '$1,960', 'Packing', '#2840' ], [ 'Meridian Coffee Roasters', '$12,400', 'On hold', '#2839' ] ].map( ( row ) => <div className="grid grid-cols-[minmax(0,1fr)_48px_48px_32px] items-center gap-1 border-t border-(--rule) px-2 py-2 text-[8px]" key={ row[ 0 ] }><span className="truncate">{ row[ 0 ] }</span><span>{ row[ 1 ] }</span><span className={ `rounded-full px-1 py-0.5 text-center text-[7px] ${ orderStatusStyles[ row[ 2 ] ] }` }>{ row[ 2 ] }</span><span>{ row[ 3 ] }</span></div> ) }
                     </div>
                 </div>
             </div>

@@ -1,5 +1,3 @@
-import type { IsoDateTime, Money } from "../types";
-
 export type ItemStatus = "ACTIVE" | "ARCHIVED";
 export type ItemKind = "STOCK" | "SERVICE" | "NON_STOCK";
 export type ValuationMethod = "FIFO" | "WEIGHTED_AVERAGE";
@@ -15,8 +13,8 @@ export type CreateItemRequest = {
     kind: ItemKind;
     unitOfMeasure: string;
     valuationMethod: ValuationMethod;
-    salesPrice?: Money | null;
-    purchaseCost?: Money | null;
+    salesPrice?: string | null;
+    purchaseCost?: string | null;
     inventoryAccountId?: string | null;
     cogsAccountId?: string | null;
     revenueAccountId?: string | null;
@@ -37,8 +35,8 @@ export type ItemResponse = {
     kind: ItemKind;
     unitOfMeasure: string;
     valuationMethod: ValuationMethod;
-    salesPrice: Money | null;
-    purchaseCost: Money | null;
+    salesPrice: string | null;
+    purchaseCost: string | null;
     inventoryAccountId: string | null;
     cogsAccountId: string | null;
     revenueAccountId: string | null;
@@ -47,11 +45,11 @@ export type ItemResponse = {
     currencyCode: string | null;
     status: ItemStatus;
     onHand: number;
-    onHandValue: Money;
+    onHandValue: string;
     hasMovements: boolean;
     organizationId: string;
-    createdAt: IsoDateTime | null;
-    updatedAt: IsoDateTime | null;
+    createdAt: string | null;
+    updatedAt: string | null;
 };
 
 export type ItemSummaryResponse = {
@@ -62,7 +60,7 @@ export type ItemSummaryResponse = {
     unitOfMeasure: string;
     status: ItemStatus;
     onHand: number;
-    onHandValue: Money;
+    onHandValue: string;
     reorderPoint: number | null;
     currencyCode: string | null;
 };

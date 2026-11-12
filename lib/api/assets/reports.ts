@@ -1,4 +1,3 @@
-import type { IsoDate, Money } from "../types";
 import type { AssetStatus, DepreciationMethod } from "./assets";
 
 export type AssetRegisterRow = {
@@ -7,11 +6,11 @@ export type AssetRegisterRow = {
     name: string;
     categoryCode: string | null;
     categoryName: string | null;
-    acquisitionDate: IsoDate;
-    acquisitionCost: Money;
-    salvageValue: Money;
-    accumulatedDepreciation: Money;
-    netBookValue: Money;
+    acquisitionDate: string;
+    acquisitionCost: string;
+    salvageValue: string;
+    accumulatedDepreciation: string;
+    netBookValue: string;
     usefulLifeMonths: number;
     depreciationMethod: DepreciationMethod;
     status: AssetStatus;
@@ -20,9 +19,9 @@ export type AssetRegisterRow = {
 
 export type AssetRegisterResponse = {
     rows: AssetRegisterRow[];
-    totalAcquisitionCost: Money;
-    totalAccumulatedDepreciation: Money;
-    totalNetBookValue: Money;
+    totalAcquisitionCost: string;
+    totalAccumulatedDepreciation: string;
+    totalNetBookValue: string;
 };
 
 export type DepreciationScheduleRow = {
@@ -30,9 +29,9 @@ export type DepreciationScheduleRow = {
     assetNumber: string;
     periodYear: number;
     periodMonth: number;
-    depreciationAmount: Money;
-    cumulativeDepreciation: Money;
-    netBookValue: Money;
+    depreciationAmount: string;
+    cumulativeDepreciation: string;
+    netBookValue: string;
 };
 
 export type DepreciationScheduleResponse = {
