@@ -11,3 +11,9 @@ export type TaxRateResponse = {
 }
 
 export type CreateTaxRateRequest = Pick<TaxRateResponse, 'name' | 'code' | 'percentage' | 'authority'>
+
+export type UpdateTaxRateRequest = Partial<Pick<TaxRateResponse, 'name' | 'percentage' | 'authority'>>
+
+export type DeactivateTaxRateResponse = {
+    message: string
+}

@@ -16,6 +16,7 @@ import { ProductDetailPage } from '@/src/features/inventory/pages/ProductDetailP
 import { ProductVariantDetailPage } from '@/src/features/inventory/pages/ProductVariantDetailPage';
 import { TaxGroupSettingsPage } from '@/src/features/finance/pages/TaxGroupSettingsPage';
 import { TaxGroupCreatePage } from '@/src/features/finance/pages/TaxGroupCreatePage';
+import { TaxRatesSettingsPage } from '@/src/features/finance/pages/TaxRatesSettingsPage';
 import { TaxRateCreatePage } from '@/src/features/finance/pages/TaxRateCreatePage';
 import { clearPendingRequestToasts } from '@/src/lib/axios';
 
@@ -65,6 +66,12 @@ const taxRateCreateRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/finance/tax/rates/new',
   component: TaxRateCreatePage,
+});
+
+const taxRatesSettingsRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/finance/tax/rates',
+  component: TaxRatesSettingsPage,
 });
 
 const productVariantDetailRoute = createRoute({
@@ -145,7 +152,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxRateCreateRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
 ]);
 
 export const router = createRouter({ routeTree });

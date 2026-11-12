@@ -170,7 +170,7 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                             active={ pathname.startsWith( '/finance/tax/rates' ) }
                                             onClick={ () => {
                                                 onClose()
-                                                navigate( { to: '/finance/tax/rates/new' } )
+                                                navigate( { to: '/finance/tax/rates' } )
                                             } }
                                         />
                                     </div>
