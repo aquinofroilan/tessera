@@ -41,7 +41,7 @@ const moduleNavigation = [
     { label: 'CRM', icon: <UserGroupIcon size={ 18 } /> },
     { label: 'Finance & Accounting', icon: <Wallet01Icon size={ 18 } /> },
     { label: 'Human Resources', icon: <UserShield01Icon size={ 18 } /> },
-    { label: 'Inventory', icon: <PackageIcon size={ 18 } />, badge: '24' },
+    { label: 'Inventory', icon: <PackageIcon size={ 18 } /> },
     { label: 'Manufacturing', icon: <ToolsIcon size={ 18 } /> },
     { label: 'Notifications', icon: <Notification01Icon size={ 18 } /> },
     { label: 'Organization Management', icon: <Building03Icon size={ 18 } /> },
@@ -53,20 +53,26 @@ const moduleNavigation = [
     { label: 'Workflow', icon: <WorkflowSquare01Icon size={ 18 } /> },
 ]
 
-const isModuleNavigationItemActive = ( label: string, pathname: string ) => {
-    if ( label === 'Inventory' ) {
-        return pathname === '/inventory' || pathname === '/inventory/products/new'
-    }
+const isRouteWithin = ( pathname: string, route: string ) => pathname === route || pathname.startsWith( `${ route }/` )
 
-    if ( label === 'Overview' ) {
-        return pathname === '/dashboard'
-    }
+const isInventoryProductSectionRoute = ( pathname: string ) => (
+    isRouteWithin( pathname, '/inventory/products' )
+    || ( pathname.startsWith( '/inventory/item/' ) && !pathname.includes( '/variant/' ) )
+)
 
-    if ( label === 'Finance & Accounting' ) {
-        return pathname.startsWith( '/finance' )
-    }
+const isInventoryVariantSectionRoute = ( pathname: string ) => (
+    isRouteWithin( pathname, '/inventory/variants' )
+    || ( pathname.includes( '/inventory/item/' ) && pathname.includes( '/variant/' ) )
+)
 
-    return false
+const getItemAriaCurrent = ( pathname: string, route: string ): 'page' | 'location' => (
+    pathname === route ? 'page' : 'location'
+)
+
+const getModuleSubnavId = ( label: string ) => {
+    if ( label === 'Inventory' ) return 'inventory-module-subnav'
+    if ( label === 'Finance & Accounting' ) return 'finance-module-subnav'
+    return undefined
 }
 
 export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => {
@@ -81,6 +87,8 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
 
     const displayName = user ? `${ user.firstName } ${ user.lastName }`.trim() : 'Your account'
     const initials = user ? `${ user.firstName[ 0 ] ?? '' }${ user.lastName[ 0 ] ?? '' }`.toUpperCase() : 'TA'
+    const isInventoryRoute = isRouteWithin( pathname, '/inventory' )
+    const isFinanceRoute = isRouteWithin( pathname, '/finance' )
 
     const handleLogout = () => {
         logout()
@@ -133,19 +141,53 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                             <div key={ item.label }>
                                 <DashboardNavItem
                                     { ...item }
-                                    active={ isModuleNavigationItemActive( item.label, pathname ) }
+                                    active={ item.label === 'Overview' && pathname === '/dashboard' }
+                                    expanded={ ( item.label === 'Inventory' && isInventoryRoute ) || ( item.label === 'Finance & Accounting' && isFinanceRoute ) }
+                                    hasSubmenu={ item.label === 'Inventory' || item.label === 'Finance & Accounting' }
+                                    ariaControls={ getModuleSubnavId( item.label ) }
                                     onClick={ () => {
                                         onClose()
                                         if ( item.label === 'Inventory' ) navigate( { to: '/inventory' } )
-                                        if ( item.label === 'Finance & Accounting' ) navigate( { to: '/finance/tax/groups' } )
+                                        if ( item.label === 'Finance & Accounting' ) navigate( { to: '/finance' } )
                                     } }
                                 />
-                                { item.label === 'Inventory' && pathname.startsWith( '/inventory' ) ? (
-                                    <div className="ml-5 border-l border-(--rule) pl-2">
+                                { item.label === 'Inventory' && isInventoryRoute ? (
+                                    <div id="inventory-module-subnav" className="ml-5 grid border-l border-(--rule) pl-2">
+                                        <DashboardNavItem
+                                            label="Overview"
+                                            icon={ <DashboardSquare01Icon size={ 17 } /> }
+                                            active={ pathname === '/inventory' }
+                                            ariaCurrent={ pathname === '/inventory' ? 'page' : undefined }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/inventory' } )
+                                            } }
+                                        />
+                                        <DashboardNavItem
+                                            label="Products"
+                                            icon={ <PackageIcon size={ 17 } /> }
+                                            active={ isInventoryProductSectionRoute( pathname ) }
+                                            ariaCurrent={ isInventoryProductSectionRoute( pathname ) ? getItemAriaCurrent( pathname, '/inventory/products' ) : undefined }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/inventory/products' } )
+                                            } }
+                                        />
+                                        <DashboardNavItem
+                                            label="Product variants"
+                                            icon={ <PackageIcon size={ 17 } /> }
+                                            active={ isInventoryVariantSectionRoute( pathname ) }
+                                            ariaCurrent={ isInventoryVariantSectionRoute( pathname ) ? getItemAriaCurrent( pathname, '/inventory/variants' ) : undefined }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/inventory/variants' } )
+                                            } }
+                                        />
                                         <DashboardNavItem
                                             label="Product categories"
                                             icon={ <Tag size={ 17 } /> }
-                                            active={ pathname === '/inventory/settings/product-categories' }
+                                            active={ isRouteWithin( pathname, '/inventory/settings/product-categories' ) }
+                                            ariaCurrent={ isRouteWithin( pathname, '/inventory/settings/product-categories' ) ? getItemAriaCurrent( pathname, '/inventory/settings/product-categories' ) : undefined }
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/inventory/settings/product-categories' } )
@@ -153,12 +195,22 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                         />
                                     </div>
                                 ) : null }
-                                { item.label === 'Finance & Accounting' && pathname.startsWith( '/finance' ) ? (
-                                    <div className="ml-5 grid border-l border-(--rule) pl-2">
+                                { item.label === 'Finance & Accounting' && isFinanceRoute ? (
+                                    <div id="finance-module-subnav" className="ml-5 grid border-l border-(--rule) pl-2">
                                         <DashboardNavItem
-                                            label="Tax settings"
+                                            label="Overview"
+                                            icon={ <DashboardSquare01Icon size={ 17 } /> }
+                                            active={ pathname === '/finance' }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/finance' } )
+                                            } }
+                                        />
+                                        <DashboardNavItem
+                                            label="Tax groups"
                                             icon={ <Tag size={ 17 } /> }
-                                            active={ pathname.startsWith( '/finance/tax/groups' ) }
+                                            active={ isRouteWithin( pathname, '/finance/tax/groups' ) }
+                                            ariaCurrent={ isRouteWithin( pathname, '/finance/tax/groups' ) ? getItemAriaCurrent( pathname, '/finance/tax/groups' ) : undefined }
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/finance/tax/groups' } )
@@ -167,7 +219,8 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                         <DashboardNavItem
                                             label="Tax rates"
                                             icon={ <Tag size={ 17 } /> }
-                                            active={ pathname.startsWith( '/finance/tax/rates' ) }
+                                            active={ isRouteWithin( pathname, '/finance/tax/rates' ) }
+                                            ariaCurrent={ isRouteWithin( pathname, '/finance/tax/rates' ) ? getItemAriaCurrent( pathname, '/finance/tax/rates' ) : undefined }
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/finance/tax/rates' } )

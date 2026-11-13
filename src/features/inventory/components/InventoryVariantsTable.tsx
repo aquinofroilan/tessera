@@ -6,12 +6,18 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useInventoryVariants } from '@/src/features/inventory/api/productVariants'
 import { useProducts } from '@/src/features/inventory/api/products'
-import type { InventoryPageProps } from '@/src/features/inventory/types/inventory'
+import type { InventorySearchParams } from '@/src/features/inventory/types/inventory'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
 import { getApiErrorMessage } from '@/src/lib/api-error'
 
-type InventoryVariantsTableProps = Pick<InventoryPageProps, 'searchParams' | 'clearSearchParams'>
+type InventoryVariantsTableProps = Readonly<{
+    searchParams?: InventorySearchParams
+    clearSearchParams?: () => void
+    showCategory?: boolean
+    showHeading?: boolean
+    className?: string
+}>
 
 function getVariantErrorMessage ( error: unknown ) {
     return getApiErrorMessage( error, 'Product variants could not be loaded. Check your connection and try again.', {
@@ -23,16 +29,16 @@ function getProductName ( product: ProductResponse | undefined, productId: strin
     return product?.name ?? `Product ${ productId.slice( 0, 8 ) }`
 }
 
-export function InventoryVariantsTable ( { searchParams, clearSearchParams }: InventoryVariantsTableProps ) {
-    const { search = '', categoryId = '', activeFilter = 'true' } = searchParams
+export function InventoryVariantsTable ( { searchParams = {}, clearSearchParams, showCategory = true, showHeading = true, className = 'mt-6' }: InventoryVariantsTableProps ) {
+    const { search = '', categoryId = '', activeFilter } = searchParams
     const variantsQuery = useInventoryVariants( {
         search: search.trim() || undefined,
         categoryId: categoryId || undefined,
-        isActive: activeFilter === 'true',
+        isActive: activeFilter === undefined ? undefined : activeFilter === 'true',
     } )
     const activeProductsQuery = useProducts( { isActive: true } )
     const inactiveProductsQuery = useProducts( { isActive: false } )
-    const categoriesQuery = useProductCategories( { activeOnly: false } )
+    const categoriesQuery = useProductCategories( { activeOnly: false }, showCategory )
 
     const productsById = new Map( [
         ...( activeProductsQuery.data ?? [] ),
@@ -40,13 +46,14 @@ export function InventoryVariantsTable ( { searchParams, clearSearchParams }: In
     ].map( product => [ product.id, product ] ) )
     const categoryNames = new Map( ( categoriesQuery.data ?? [] ).map( category => [ category.id, category.name ] ) )
 
-    const isLoading = variantsQuery.isPending || activeProductsQuery.isPending || inactiveProductsQuery.isPending || categoriesQuery.isPending
-    const hasFilters = Boolean( search.trim() || categoryId || activeFilter !== 'true' )
+    const isLoading = variantsQuery.isPending || activeProductsQuery.isPending || inactiveProductsQuery.isPending || ( showCategory && categoriesQuery.isPending )
+    const hasFilters = Boolean( search.trim() || categoryId || activeFilter !== undefined )
     const productLookupError = activeProductsQuery.isError ? activeProductsQuery.error : inactiveProductsQuery.error
-    const isError = variantsQuery.isError || activeProductsQuery.isError || inactiveProductsQuery.isError
+    const isError = variantsQuery.isError || activeProductsQuery.isError || inactiveProductsQuery.isError || ( showCategory && categoriesQuery.isError )
     const error = variantsQuery.error ?? productLookupError
     const retry = () => {
-        void Promise.all( [ variantsQuery.refetch(), activeProductsQuery.refetch(), inactiveProductsQuery.refetch(), categoriesQuery.refetch() ] )
+        void Promise.all( [ variantsQuery.refetch(), activeProductsQuery.refetch(), inactiveProductsQuery.refetch() ] )
+        if ( showCategory ) void categoriesQuery.refetch()
     }
 
     const renderTableContent = () => {
@@ -70,16 +77,16 @@ export function InventoryVariantsTable ( { searchParams, clearSearchParams }: In
 
         if ( variantsQuery.data?.length ) {
             return (
-                <Table>
+                <Table className={ showCategory ? 'min-w-[960px]' : 'min-w-[800px]' }>
                     <TableHeader>
                         <TableRow className="hover:bg-transparent">
-                            <TableHead>Code</TableHead>
-                            <TableHead>Variant</TableHead>
-                            <TableHead>SKU suffix</TableHead>
-                            <TableHead>Attributes</TableHead>
-                            <TableHead>Parent product</TableHead>
-                            <TableHead>Category</TableHead>
-                            <TableHead>Status</TableHead>
+                            <TableHead className="whitespace-nowrap">Code</TableHead>
+                            <TableHead className="whitespace-nowrap">Variant</TableHead>
+                            <TableHead className="whitespace-nowrap">SKU suffix</TableHead>
+                            <TableHead className="whitespace-nowrap">Attributes</TableHead>
+                            <TableHead className="whitespace-nowrap">Parent product</TableHead>
+                            { showCategory ? <TableHead className="whitespace-nowrap">Category</TableHead> : null }
+                            <TableHead className="whitespace-nowrap">Status</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -96,16 +103,16 @@ export function InventoryVariantsTable ( { searchParams, clearSearchParams }: In
                                             to="/inventory/item/$uuid/variant/$variantUuid"
                                             params={ { uuid: variant.productId, variantUuid: variant.id } }
                                             aria-label={ `View ${ variant.name } variant details` }
-                                            className="rounded-sm font-medium text-(--ink) underline decoration-transparent underline-offset-4 transition-colors hover:text-(--accent) hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                            className="whitespace-nowrap rounded-sm font-medium text-(--ink) underline decoration-transparent underline-offset-4 transition-colors hover:text-(--accent) hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
                                         >
                                             { variant.name }
                                         </Link>
                                     </TableCell>
-                                    <TableCell className="font-mono text-xs text-(--ink-soft)">{ variant.skuSuffix || '—' }</TableCell>
+                                    <TableCell className="whitespace-nowrap font-mono text-xs text-(--ink-soft)">{ variant.skuSuffix || '—' }</TableCell>
                                     <TableCell>
                                         { attributes.length ? (
                                             <div className="flex flex-wrap gap-1.5">
-                                                { attributes.map( ( [ key, value ] ) => <span key={ key } className="rounded-full bg-(--paper-2) px-2 py-0.5 text-[11px] text-(--ink-soft)">{ key }: { formatVariantAttribute( value ) }</span> ) }
+                                                { attributes.map( ( [ key, value ] ) => <span key={ key } className="shrink-0 whitespace-nowrap rounded-full bg-(--paper-2) px-2 py-0.5 text-[11px] text-(--ink-soft)">{ key }: { formatVariantAttribute( value ) }</span> ) }
                                             </div>
                                         ) : <span className="text-(--muted)">—</span> }
                                     </TableCell>
@@ -113,12 +120,12 @@ export function InventoryVariantsTable ( { searchParams, clearSearchParams }: In
                                         <Link
                                             to="/inventory/item/$uuid"
                                             params={ { uuid: variant.productId } }
-                                            className="rounded-sm font-medium text-(--ink) underline decoration-transparent underline-offset-4 transition-colors hover:text-(--accent) hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
+                                            className="whitespace-nowrap rounded-sm font-medium text-(--ink) underline decoration-transparent underline-offset-4 transition-colors hover:text-(--accent) hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--ink)"
                                         >
                                             { getProductName( product, variant.productId ) }
                                         </Link>
                                     </TableCell>
-                                    <TableCell className="text-(--ink-soft)">{ product?.categoryId ? categoryName ?? 'Category unavailable' : '—' }</TableCell>
+                                    { showCategory ? <TableCell className="whitespace-nowrap text-(--ink-soft)">{ product?.categoryId ? categoryName ?? 'Category unavailable' : '—' }</TableCell> : null }
                                     <TableCell>
                                         <span className={ `inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium ${ variant.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ variant.isActive ? 'Active' : 'Inactive' }</span>
                                     </TableCell>
@@ -134,21 +141,23 @@ export function InventoryVariantsTable ( { searchParams, clearSearchParams }: In
             <div className="px-5 py-12 text-center">
                 <h3 className="font-display text-xl">{ hasFilters ? 'No variants match these filters' : 'No variants yet' }</h3>
                 <p className="mt-2 text-sm text-(--muted)">{ hasFilters ? 'Try a different search or clear the filters to see more variants.' : 'Variants for products in this organization will appear here.' }</p>
-                { hasFilters ? <Button type="button" variant="pill-ghost" className="mt-4 border border-(--rule)" onClick={ clearSearchParams }>Clear filters</Button> : null }
+                { hasFilters && clearSearchParams ? <Button type="button" variant="pill-ghost" className="mt-4 border border-(--rule)" onClick={ clearSearchParams }>Clear filters</Button> : null }
             </div>
         )
     }
 
     return (
-        <section aria-labelledby="inventory-variants-heading" className="mt-6">
+        <section aria-label={ showHeading ? undefined : 'Product variants' } aria-labelledby={ showHeading ? 'inventory-variants-heading' : undefined } className={ className }>
             <Card className="overflow-hidden">
-                <div className="flex items-center justify-between gap-4 border-b border-(--rule) px-5 py-4 sm:px-6">
-                    <div>
-                        <p className="mb-1 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Catalog</p>
-                        <h2 id="inventory-variants-heading" className="font-display text-xl font-light">Product variants</h2>
+                { showHeading ? (
+                    <div className="flex items-center justify-between gap-4 border-b border-(--rule) px-5 py-4 sm:px-6">
+                        <div>
+                            <p className="mb-1 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory</p>
+                            <h2 id="inventory-variants-heading" className="font-display text-xl font-light">Product variants</h2>
+                        </div>
+                        { variantsQuery.data ? <span className="whitespace-nowrap font-mono text-xs text-(--muted)">{ variantsQuery.data.length } { variantsQuery.data.length === 1 ? 'variant' : 'variants' }</span> : null }
                     </div>
-                    { variantsQuery.data ? <span className="whitespace-nowrap font-mono text-xs text-(--muted)">{ variantsQuery.data.length } { variantsQuery.data.length === 1 ? 'variant' : 'variants' }</span> : null }
-                </div>
+                ) : null }
                 <CardContent className="p-0">{ renderTableContent() }</CardContent>
             </Card>
         </section>

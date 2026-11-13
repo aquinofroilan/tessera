@@ -10,11 +10,14 @@ import { invitationRoute } from '@/src/features/auth/routes/invitation';
 import { DashboardPage } from '@/src/features/dashboard/pages/DashboardPage';
 import { LandingPage } from '@/src/features/landing/pages/LandingPage';
 import { InventoryPage } from '@/src/features/inventory/pages/InventoryPage';
+import { InventoryVariantsPage } from '@/src/features/inventory/pages/InventoryVariantsPage';
+import { ProductsPage } from '@/src/features/inventory/pages/ProductsPage';
 import { ProductCategorySettingsPage } from '@/src/features/inventory/pages/ProductCategorySettingsPage';
 import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
 import { ProductDetailPage } from '@/src/features/inventory/pages/ProductDetailPage';
 import { ProductVariantDetailPage } from '@/src/features/inventory/pages/ProductVariantDetailPage';
 import { TaxGroupSettingsPage } from '@/src/features/finance/pages/TaxGroupSettingsPage';
+import { FinanceHomePage } from '@/src/features/finance/pages/FinanceHomePage';
 import { TaxGroupCreatePage } from '@/src/features/finance/pages/TaxGroupCreatePage';
 import { TaxGroupDetailPage } from '@/src/features/finance/pages/TaxGroupDetailPage';
 import { TaxRatesSettingsPage } from '@/src/features/finance/pages/TaxRatesSettingsPage';
@@ -38,6 +41,12 @@ export const dashboardRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/dashboard',
   component: DashboardPage,
+});
+
+const financeHomeRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/finance',
+  component: FinanceHomePage,
 });
 
 const productCreateRoute = createRoute({
@@ -118,16 +127,28 @@ const inventorySearchSchema = z.object({
 const inventoryRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/inventory',
-  validateSearch: inventorySearchSchema,
-  component: InventoryRouteComponent,
+  component: InventoryPage,
 });
 
-function InventoryRouteComponent() {
-  const search = inventoryRoute.useSearch();
-  const navigate = inventoryRoute.useNavigate();
+const productsRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/products',
+  validateSearch: inventorySearchSchema,
+  component: ProductsRouteComponent,
+});
+
+const inventoryVariantsRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/variants',
+  component: InventoryVariantsPage,
+});
+
+function ProductsRouteComponent() {
+  const search = productsRoute.useSearch();
+  const navigate = productsRoute.useNavigate();
 
   return (
-    <InventoryPage
+    <ProductsPage
       searchParams={search}
       updateSearchParams={(updates) =>
         navigate({
@@ -164,7 +185,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, inventoryRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxGroupDetailRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, financeHomeRoute, inventoryRoute, productsRoute, inventoryVariantsRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxGroupDetailRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
 ]);
 
 export const router = createRouter({ routeTree });
