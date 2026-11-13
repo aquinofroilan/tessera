@@ -4,13 +4,16 @@ import { toast } from 'sonner';
 
 const LONG_REQUEST_DELAY_MS = 1_500;
 const LONG_REQUEST_MESSAGE = "The request takes longer than expected. Please wait and don't refresh the page.";
+const LONG_REQUEST_TOAST_ID = 'long-request-pending';
 
 type PendingRequestToast = {
   timeoutId: ReturnType<typeof setTimeout>;
-  toastId?: string | number;
+  hasShownToast: boolean;
 };
 
 const pendingRequestToasts = new Map<InternalAxiosRequestConfig, PendingRequestToast>();
+let activeLongRequestCount = 0;
+let longRequestToastId: string | number | undefined;
 
 const clearPendingRequestToast = (config?: InternalAxiosRequestConfig) => {
   if (!config) return;
@@ -19,10 +22,17 @@ const clearPendingRequestToast = (config?: InternalAxiosRequestConfig) => {
   if (!pendingToast) return;
 
   clearTimeout(pendingToast.timeoutId);
-  if (pendingToast.toastId !== undefined) {
-    toast.dismiss(pendingToast.toastId);
+
+  if (pendingToast.hasShownToast) {
+    activeLongRequestCount = Math.max(0, activeLongRequestCount - 1);
   }
+
   pendingRequestToasts.delete(config);
+
+  if (activeLongRequestCount === 0 && longRequestToastId !== undefined) {
+    toast.dismiss(longRequestToastId);
+    longRequestToastId = undefined;
+  }
 };
 
 export const clearPendingRequestToasts = () => {
@@ -44,8 +54,19 @@ axios.interceptors.request.use(
     config.headers.Accept = 'application/json';
 
     const pendingToast: PendingRequestToast = {
+      hasShownToast: false,
       timeoutId: setTimeout(() => {
-        pendingToast.toastId = toast.info(LONG_REQUEST_MESSAGE, { duration: Infinity });
+        if (pendingRequestToasts.get(config) !== pendingToast) return;
+
+        pendingToast.hasShownToast = true;
+        activeLongRequestCount += 1;
+
+        if (longRequestToastId === undefined) {
+          longRequestToastId = toast.info(LONG_REQUEST_MESSAGE, {
+            id: LONG_REQUEST_TOAST_ID,
+            duration: Infinity,
+          });
+        }
       }, LONG_REQUEST_DELAY_MS),
     };
     pendingRequestToasts.set(config, pendingToast);

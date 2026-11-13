@@ -25,9 +25,10 @@ export const getProductCategories = async ( { activeOnly = true }: ProductCatego
     return categories.map( normalizeProductCategory )
 }
 
-export const useProductCategories = ( params: ProductCategoryListParams = {} ) => useQuery( {
+export const useProductCategories = ( params: ProductCategoryListParams = {}, enabled = true ) => useQuery( {
     queryKey: [ 'inventory', 'product-categories', params ],
     queryFn: () => getProductCategories( params ),
+    enabled,
 } )
 
 export const createProductCategory = async ( body: CreateProductCategoryRequest ): Promise<ProductCategoryResponse> => {

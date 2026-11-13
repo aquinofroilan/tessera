@@ -4,7 +4,7 @@ export type InventorySearchParams = {
     activeFilter?: 'true' | 'false'
 }
 
-export type InventoryPageProps = Readonly<{
+export type ProductCatalogPageProps = Readonly<{
     searchParams: InventorySearchParams
     updateSearchParams: ( updates: InventorySearchParams ) => void
     clearSearchParams: () => void

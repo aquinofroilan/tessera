@@ -49,7 +49,7 @@ export const DashboardPage = () => {
                 </div>
             </section>
 
-            <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
+            <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] gap-5">
                 { placeholderSlots.map( ( slot ) => (
                     <section key={ slot.label } className="min-h-[220px] rounded-xl border border-(--rule) bg-(--card) p-6 shadow-[0_1px_0_rgb(23_22_15_/_3%),0_10px_28px_-18px_rgb(23_22_15_/_22%)] transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:border-(--muted-2) hover:shadow-[0_1px_0_rgb(23_22_15_/_4%),0_16px_32px_-18px_rgb(23_22_15_/_25%)]">
                         <div className={ `grid size-10 place-items-center rounded-lg ring-1 ring-inset ring-black/5 ${ slot.tone === 'moss' ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--ochre-soft) text-(--ochre)' }` } aria-hidden="true">{ slot.icon }</div>

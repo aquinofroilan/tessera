@@ -1,4 +1,4 @@
-type StaticBreadcrumbRoute = '/dashboard' | '/inventory' | '/finance/tax/groups' | '/finance/tax/rates'
+type StaticBreadcrumbRoute = '/dashboard' | '/inventory' | '/inventory/products' | '/inventory/variants' | '/finance' | '/finance/tax/groups' | '/finance/tax/rates'
 
 type BreadcrumbTarget =
     | Readonly<{ to: StaticBreadcrumbRoute }>
@@ -14,9 +14,24 @@ const workspaceBreadcrumb: DashboardBreadcrumb = {
     target: { to: '/dashboard' },
 }
 
+const inventoryBreadcrumb: DashboardBreadcrumb = {
+    label: 'Inventory',
+    target: { to: '/inventory' },
+}
+
 const productsBreadcrumb: DashboardBreadcrumb = {
     label: 'Products',
-    target: { to: '/inventory' },
+    target: { to: '/inventory/products' },
+}
+
+const variantsBreadcrumb: DashboardBreadcrumb = {
+    label: 'Product variants',
+    target: { to: '/inventory/variants' },
+}
+
+const financeBreadcrumb: DashboardBreadcrumb = {
+    label: 'Finance & Accounting',
+    target: { to: '/finance' },
 }
 
 const taxGroupsBreadcrumb: DashboardBreadcrumb = {
@@ -41,22 +56,35 @@ export function getDashboardBreadcrumbs ( pathname: string ): DashboardBreadcrum
     }
 
     if ( pathname === '/inventory' ) {
-        return [ workspaceBreadcrumb, { label: 'Inventory' }, { label: 'Products' } ]
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, { label: 'Overview' } ]
+    }
+
+    if ( pathname === '/inventory/products' ) {
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, { label: 'Products' } ]
+    }
+
+    if ( pathname === '/inventory/variants' ) {
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, { label: 'Product variants' } ]
     }
 
     if ( pathname === '/inventory/products/new' ) {
-        return [ workspaceBreadcrumb, productsBreadcrumb, { label: 'New product' } ]
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, productsBreadcrumb, { label: 'New product' } ]
     }
 
     if ( pathname === '/inventory/settings/product-categories' ) {
-        return [ workspaceBreadcrumb, { label: 'Inventory', target: { to: '/inventory' } }, { label: 'Product categories' } ]
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, { label: 'Product categories' } ]
+    }
+
+    if ( pathname === '/finance' ) {
+        return [ workspaceBreadcrumb, financeBreadcrumb, { label: 'Overview' } ]
     }
 
     const variantMatch = pathname.match( /^\/inventory\/item\/([^/]+)\/variant\/[^/]+$/ )
     if ( variantMatch ) {
         return [
             workspaceBreadcrumb,
-            productsBreadcrumb,
+            inventoryBreadcrumb,
+            variantsBreadcrumb,
             {
                 label: 'Product',
                 target: { to: '/inventory/item/$uuid', params: { uuid: decodeURIComponent( variantMatch[ 1 ] ) } },
@@ -66,27 +94,27 @@ export function getDashboardBreadcrumbs ( pathname: string ): DashboardBreadcrum
     }
 
     if ( /^\/inventory\/item\/[^/]+$/.test( pathname ) ) {
-        return [ workspaceBreadcrumb, productsBreadcrumb, { label: 'Product details' } ]
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, productsBreadcrumb, { label: 'Product details' } ]
     }
 
     if ( pathname === '/finance/tax/groups' ) {
-        return [ workspaceBreadcrumb, { label: 'Finance & Accounting' }, { label: 'Tax groups' } ]
+        return [ workspaceBreadcrumb, financeBreadcrumb, { label: 'Tax groups' } ]
     }
 
     if ( pathname === '/finance/tax/groups/new' ) {
-        return [ workspaceBreadcrumb, { label: 'Finance & Accounting' }, taxGroupsBreadcrumb, { label: 'New tax group' } ]
+        return [ workspaceBreadcrumb, financeBreadcrumb, taxGroupsBreadcrumb, { label: 'New tax group' } ]
     }
 
     if ( /^\/finance\/tax\/groups\/[^/]+$/.test( pathname ) ) {
-        return [ workspaceBreadcrumb, { label: 'Finance & Accounting' }, taxGroupsBreadcrumb, { label: 'Tax group details' } ]
+        return [ workspaceBreadcrumb, financeBreadcrumb, taxGroupsBreadcrumb, { label: 'Tax group details' } ]
     }
 
     if ( pathname === '/finance/tax/rates' ) {
-        return [ workspaceBreadcrumb, { label: 'Finance & Accounting' }, { label: 'Tax rates' } ]
+        return [ workspaceBreadcrumb, financeBreadcrumb, { label: 'Tax rates' } ]
     }
 
     if ( pathname === '/finance/tax/rates/new' ) {
-        return [ workspaceBreadcrumb, { label: 'Finance & Accounting' }, taxRatesBreadcrumb, { label: 'New tax rate' } ]
+        return [ workspaceBreadcrumb, financeBreadcrumb, taxRatesBreadcrumb, { label: 'New tax rate' } ]
     }
 
     const lastSegment = pathname.split( '/' ).filter( Boolean ).at( -1 )
