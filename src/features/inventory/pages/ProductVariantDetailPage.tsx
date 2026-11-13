@@ -1,7 +1,6 @@
-import { Link } from '@tanstack/react-router'
 import { formatDistanceToNow } from 'date-fns'
 import type { ReactNode } from 'react'
-import { ArrowLeft, Tag } from '@/components/ui/hugeicons'
+import { Tag } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
@@ -34,7 +33,7 @@ export function ProductVariantDetailPage ( { productId, variantId }: ProductVari
             </div>
         )
     } else if ( variantQuery.isError ) {
-        content = <VariantErrorState status={ status } error={ variantQuery.error } productId={ productId } onRetry={ () => { void variantQuery.refetch() } } />
+        content = <VariantErrorState status={ status } error={ variantQuery.error } onRetry={ () => { void variantQuery.refetch() } } />
     } else if ( variantQuery.data ) {
         content = <VariantDetails productId={ productId } variant={ variantQuery.data } productName={ productName } productUnavailable={ productQuery.isError } />
     }
@@ -51,11 +50,10 @@ export function ProductVariantDetailPage ( { productId, variantId }: ProductVari
 type VariantErrorStateProps = Readonly<{
     status: number | undefined
     error: unknown
-    productId: string
     onRetry: () => void
 }>
 
-function VariantErrorState ( { status, error, productId, onRetry }: VariantErrorStateProps ) {
+function VariantErrorState ( { status, error, onRetry }: VariantErrorStateProps ) {
     const isNotFound = status === 404
     let title = 'Could not load variant'
     let description = getApiErrorMessage( error, 'Variant details could not be loaded. Check your connection and try again.' )
@@ -69,12 +67,11 @@ function VariantErrorState ( { status, error, productId, onRetry }: VariantError
         <div className="mx-auto max-w-xl py-12 text-center">
             <h1 className="font-display text-3xl font-light">{ title }</h1>
             <p className="mt-2 text-sm text-(--muted)">{ description }</p>
-            <div className="mt-5 flex justify-center gap-2">
-                { !isNotFound && <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ onRetry }>Retry</Button> }
-                <Button asChild variant="pill-ghost" className="bg-(--ink) text-(--paper) hover:bg-(--accent)">
-                    <Link to="/inventory/item/$uuid" params={ { uuid: productId } }><ArrowLeft size={ 15 } aria-hidden="true" />Back to product</Link>
-                </Button>
-            </div>
+            { !isNotFound ? (
+                <div className="mt-5 flex justify-center gap-2">
+                    <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ onRetry }>Retry</Button>
+                </div>
+            ) : null }
         </div>
     )
 }
@@ -104,9 +101,6 @@ function VariantDetails ( { productId, variant, productName, productUnavailable 
         <>
             <div className="mb-7 flex items-end justify-between gap-5 border-b border-(--rule) pb-6 max-sm:block">
                 <div className="min-w-0">
-                    <Button asChild variant="pill-ghost" size="sm" className="mb-4 -ml-2 text-(--ink-soft) hover:bg-(--paper-2)">
-                        <Link to="/inventory/item/$uuid" params={ { uuid: productId } }><ArrowLeft size={ 15 } aria-hidden="true" />{ productName }</Link>
-                    </Button>
                     <p className="font-mono text-sm text-(--ink-soft)">{ variant.code }</p>
                     <h1 className="mt-1 break-words font-display text-[clamp(34px,4vw,48px)] font-light leading-tight tracking-[-0.03em]">{ variant.name }</h1>
                 </div>

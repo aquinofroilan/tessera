@@ -129,7 +129,6 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
                 <SheetContent side="right" className="overflow-y-auto p-0 data-[side=right]:max-w-2xl" aria-describedby="variant-edit-description">
                     <form onSubmit={ submit } className="flex min-h-full flex-col">
                         <SheetHeader>
-                            <p className="font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory / Variant</p>
                             <SheetTitle>Edit variant</SheetTitle>
                             <SheetDescription id="variant-edit-description">Update variant details for { variant.name }.</SheetDescription>
                         </SheetHeader>

@@ -121,7 +121,6 @@ export function TaxGroupSettingsPage () {
             <div className="w-full">
                 <div className="mb-7 flex items-end justify-between gap-6 border-b border-(--rule) pb-6 max-sm:block">
                     <div>
-                        <p className="mb-3 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Finance &amp; Accounting</p>
                         <h1 className="font-display text-[clamp(36px,4vw,48px)] font-light leading-none tracking-[-0.03em]">Tax settings</h1>
                         <p className="mt-2.5 text-[15px] text-(--ink-soft)">Review the tax groups and rates configured for this organization.</p>
                     </div>

@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { formatDistanceToNow } from 'date-fns'
 import type { ReactNode } from 'react'
-import { ArrowLeft, CalendarClock, Package, Tag } from '@/components/ui/hugeicons'
+import { CalendarClock, Package, Tag } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
@@ -65,9 +65,6 @@ function ProductDetails ( { product }: Readonly<{ product: ProductResponse }> ) 
                 <div className="mt-5 flex shrink-0 flex-wrap gap-2 sm:mt-0">
                     <ProductEditSheet product={ product } />
                     { product.isActive ? <ProductDeactivateDialog productId={ product.id } productName={ product.name } /> : null }
-                    <Button asChild variant="pill-ghost" size="sm" className="rounded-lg border border-(--rule)">
-                        <Link to="/inventory"><ArrowLeft size={ 15 } aria-hidden="true" />Back to products</Link>
-                    </Button>
                 </div>
             </div>
 
@@ -76,7 +73,6 @@ function ProductDetails ( { product }: Readonly<{ product: ProductResponse }> ) 
                     <CardContent className="p-5 sm:p-6">
                         <div className="mb-5 flex items-start justify-between gap-4">
                             <div>
-                                <p className="mb-1 font-mono text-[10px] tracking-[0.12em] text-(--muted) uppercase">Product details</p>
                                 <h2 className="font-display text-2xl font-light">Master data</h2>
                             </div>
                             <span className={ `inline-flex shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium ${ product.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>
@@ -164,12 +160,11 @@ export const ProductDetailPage = ( { productId }: ProductDetailPageProps ) => {
             <div className="mx-auto max-w-xl py-12 text-center">
                 <h1 className="font-display text-3xl font-light">{ status === 404 ? 'Product not found' : 'Could not load product' }</h1>
                 <p className="mt-2 text-sm text-(--muted)">{ status === 404 ? 'This product may have been removed or may no longer be available in this workspace.' : getApiErrorMessage( productQuery.error, 'Product details could not be loaded. Check your connection and try again.' ) }</p>
-                <div className="mt-5 flex justify-center gap-2">
-                    { status !== 404 ? <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ () => { void productQuery.refetch() } }>Retry</Button> : null }
-                    <Button asChild variant="pill-ghost" className="bg-(--ink) text-(--paper) hover:bg-(--accent)">
-                        <Link to="/inventory"><ArrowLeft size={ 15 } aria-hidden="true" />Back to products</Link>
-                    </Button>
-                </div>
+                { status !== 404 ? (
+                    <div className="mt-5 flex justify-center gap-2">
+                        <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ () => { void productQuery.refetch() } }>Retry</Button>
+                    </div>
+                ) : null }
             </div>
         )
     } else if ( productQuery.data ) {

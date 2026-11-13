@@ -125,7 +125,6 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
                 <SheetContent side="right" className="overflow-y-auto p-0 data-[side=right]:max-w-2xl" aria-describedby="product-edit-description">
                     <form onSubmit={ submit } className="flex min-h-full flex-col">
                         <SheetHeader>
-                            <p className="font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory / Product</p>
                             <SheetTitle>Edit product</SheetTitle>
                             <SheetDescription id="product-edit-description">Update product master data for { product.name }.</SheetDescription>
                         </SheetHeader>

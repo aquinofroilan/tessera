@@ -74,7 +74,6 @@ export function TaxRateCreateForm () {
                 <Button type="button" variant="pill-ghost" size="sm" className="mb-5 -ml-2 text-(--ink-soft) hover:bg-(--paper-2)" onClick={ returnToPreviousPage }>
                     <ArrowLeft size={ 15 } />Back
                 </Button>
-                <p className="mb-2 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Finance &amp; Accounting / Tax settings / New rate</p>
                 <h1 className="font-display text-[clamp(34px,4vw,48px)] font-light leading-tight tracking-[-.035em]">Add a tax rate</h1>
                 <p className="mt-2 max-w-2xl text-sm text-(--ink-soft)">Create an organization tax rate that can be combined into a tax group.</p>
             </div>
