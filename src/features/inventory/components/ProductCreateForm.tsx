@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { z } from 'zod'
+import { toast } from 'sonner'
 import { Check, PackagePlus } from '@/components/ui/hugeicons'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
@@ -15,7 +16,7 @@ import { TaxGroupSelector } from '@/src/features/inventory/components/TaxGroupSe
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useCreateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 const productSchema = z.object( {
     sku: z.string().trim().min( 1, 'SKU is required' ).max( 64, 'SKU must be 64 characters or fewer' ),
@@ -53,6 +54,20 @@ export const ProductCreateForm = () => {
     const mutation = useCreateProduct()
     const categoriesQuery = useProductCategories()
     const [ createdProduct, setCreatedProduct ] = useState<ProductResponse | null>( null )
+
+    useEffect( () => {
+        const toastId = 'product-create-categories-error'
+
+        if ( categoriesQuery.isError ) {
+            toastApiError( categoriesQuery.error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to view product categories.' }, {
+                id: toastId,
+                action: { label: 'Retry', onClick: () => { void categoriesQuery.refetch() } },
+            } )
+        } else {
+            toast.dismiss( toastId )
+        }
+    }, [ categoriesQuery.error, categoriesQuery.isError, categoriesQuery.refetch ] )
+
     const form = useForm( {
         defaultValues,
         validators: {
@@ -78,6 +93,7 @@ export const ProductCreateForm = () => {
                     setCreatedProduct( product )
                     form.reset()
                 },
+                onError: error => toastApiError( error, 'The product could not be created. Check your connection and try again.', { 403: 'You do not have permission to create inventory products. Ask an administrator for inventory:write access.' } ),
             } )
         },
     } )
@@ -101,8 +117,6 @@ export const ProductCreateForm = () => {
                     <div><p className="font-medium">Product created</p><p className="mt-0.5">{ createdProduct.name } ({ createdProduct.sku }) is ready in your inventory.</p></div>
                 </div>
             ) : null }
-
-            { mutation.isError ? <div className="mb-5 rounded-xl border border-(--accent)/25 bg-(--accent-soft) p-4 text-sm text-(--accent-deep)" role="alert">{ getApiErrorMessage( mutation.error, 'The product could not be created. Check your connection and try again.', { 403: 'You do not have permission to create inventory products. Ask an administrator for inventory:write access.' } ) }</div> : null }
 
             <form
                 id="product-create-form"
@@ -160,7 +174,7 @@ export const ProductCreateForm = () => {
                                                     { categoriesQuery.data?.map( category => <SelectItem key={ category.id } value={ category.id }>{ category.name }</SelectItem> ) }
                                                 </SelectContent>
                                             </Select>
-                                            { categoriesQuery.isError ? <FieldDescription className="text-(--accent-deep)">Categories could not be loaded. <button type="button" className="underline underline-offset-2" onClick={ () => { void categoriesQuery.refetch() } }>Retry</button></FieldDescription> : null }
+                                            { categoriesQuery.isError ? <FieldDescription>Categories are unavailable. Use the notification to retry.</FieldDescription> : null }
                                             { !categoriesQuery.isPending && !categoriesQuery.isError && !categoriesQuery.data?.length ? <FieldDescription>No categories yet. <Link className="underline underline-offset-2" to="/inventory/settings/product-categories">Manage categories</Link></FieldDescription> : null }
                                             { isInvalid ? <FieldError errors={ field.state.meta.errors } /> : null }
                                         </Field>

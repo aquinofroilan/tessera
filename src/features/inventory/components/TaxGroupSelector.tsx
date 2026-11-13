@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { ArrowDown01Icon, Tick01Icon } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { FieldDescription } from '@/components/ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useTaxGroups } from '@/src/features/finance/api/taxGroups'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 import { cn } from '@/lib/utils'
 
 type TaxGroupSelectorProps = Readonly<{
@@ -25,6 +26,19 @@ export function TaxGroupSelector ( { id, value, onValueChange, onBlur, className
     const taxGroupsQuery = useTaxGroups()
     const taxGroups = taxGroupsQuery.data ?? []
     const selectedGroup = taxGroups.find( taxGroup => taxGroup.id === value )
+
+    useEffect( () => {
+        const toastId = 'product-tax-groups-error'
+
+        if ( taxGroupsQuery.isError ) {
+            toastApiError( taxGroupsQuery.error, 'Tax groups could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to read tax groups. Ask an administrator for tax:read access.' }, {
+                id: toastId,
+                action: { label: 'Retry', onClick: () => { void taxGroupsQuery.refetch() } },
+            } )
+        } else {
+            toast.dismiss( toastId )
+        }
+    }, [ taxGroupsQuery.error, taxGroupsQuery.isError, taxGroupsQuery.refetch ] )
 
     let selectedLabel = 'No tax group'
     if ( value && selectedGroup ) {
@@ -72,7 +86,6 @@ export function TaxGroupSelector ( { id, value, onValueChange, onBlur, className
                                     No tax group
                                 </CommandItem>
                                 { taxGroupsQuery.isPending ? <CommandItem value="Loading tax groups" disabled>Loading tax groups…</CommandItem> : null }
-                                { taxGroupsQuery.isError ? <CommandItem value="Tax groups unavailable" disabled>Tax groups are unavailable</CommandItem> : null }
                                 { taxGroups.map( taxGroup => (
                                     <CommandItem
                                         key={ taxGroup.id }
@@ -92,12 +105,6 @@ export function TaxGroupSelector ( { id, value, onValueChange, onBlur, className
             </Popover>
 
             { taxGroupsQuery.isPending ? <FieldDescription>Loading tax groups. You can continue without a tax group.</FieldDescription> : null }
-            { taxGroupsQuery.isError ? (
-                <FieldDescription className="text-(--accent-deep)">
-                    { getApiErrorMessage( taxGroupsQuery.error, 'Tax groups could not be loaded. You can continue without a tax group.', { 403: 'You do not have permission to read tax groups. Ask an administrator for tax:read access.' } ) }{' '}
-                    <button type="button" className="underline underline-offset-2" onClick={ () => { void taxGroupsQuery.refetch() } }>Retry</button>
-                </FieldDescription>
-            ) : null }
             { !taxGroupsQuery.isPending && !taxGroupsQuery.isError && !taxGroups.length ? <FieldDescription>No tax groups are available. You can continue without one.</FieldDescription> : null }
         </>
     )

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "@tanstack/react-router"
 import { useConsumeMagicLink } from "@/src/features/auth/api/magicLink"
 import { Button } from "@/components/ui/button"
+import { toastApiError } from "@/src/lib/api-error"
 
 type MagicLinkConsumeProps = Readonly<{
     token: string
@@ -11,7 +12,7 @@ export const MagicLinkConsume = ( { token }: MagicLinkConsumeProps ) =>
 {
     const navigate = useNavigate()
     const consumeMutation = useConsumeMagicLink()
-    const [errorMsg, setErrorMsg] = useState<string | null>( null )
+    const [hasFailed, setHasFailed] = useState( false )
 
     useEffect( () =>
     {
@@ -25,20 +26,18 @@ export const MagicLinkConsume = ( { token }: MagicLinkConsumeProps ) =>
                 },
                 onError: ( error: any ) =>
                 {
-                    setErrorMsg( error?.response?.data?.error || "This magic link is invalid or has expired." )
+                    toastApiError( error, "This magic link is invalid or has expired." )
+                    setHasFailed( true )
                 }
             }
         )
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token] )
 
-    if ( errorMsg )
+    if ( hasFailed )
     {
         return (
             <div className="text-center space-y-4">
-                <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
-                    { errorMsg }
-                </div>
                 <Button variant="outline" onClick={ () => navigate( { to: "/magic-link" } ) }>
                     Request a new link
                 </Button>

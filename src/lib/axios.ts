@@ -1,6 +1,8 @@
 import Axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'sonner';
+import { useAuthStore } from '@/src/features/auth/stores/authStore';
+import { markApiErrorToastHandled, toastApiError } from '@/src/lib/api-error';
 
 const LONG_REQUEST_DELAY_MS = 1_500;
 const LONG_REQUEST_MESSAGE = "The request takes longer than expected. Please wait and don't refresh the page.";
@@ -14,6 +16,12 @@ type PendingRequestToast = {
 const pendingRequestToasts = new Map<InternalAxiosRequestConfig, PendingRequestToast>();
 let activeLongRequestCount = 0;
 let longRequestToastId: string | number | undefined;
+let isRedirectingForUnauthorized = false;
+
+export const resetUnauthorizedRedirect = () => {
+  isRedirectingForUnauthorized = false;
+  toast.dismiss( 'unauthorized-session' );
+};
 
 const clearPendingRequestToast = (config?: InternalAxiosRequestConfig) => {
   if (!config) return;
@@ -85,8 +93,22 @@ axios.interceptors.response.use(
   },
   (error) => {
     clearPendingRequestToast(error?.config);
-    // We can handle global error notifications here (e.g., toast)
-    // if (error.response?.status === 401) { logout() }
+
+    const isAuthenticationRequest = Axios.isAxiosError( error ) && error.config?.url?.includes( '/api/v1/auth/' );
+
+    if ( Axios.isAxiosError( error ) && error.response?.status === 401 && typeof window !== 'undefined' && !isAuthenticationRequest ) {
+      if ( !isRedirectingForUnauthorized ) {
+        isRedirectingForUnauthorized = true;
+        useAuthStore.getState().logout();
+        toastApiError( error, 'Your session is unauthorized. Please sign in again.', {}, { id: 'unauthorized-session' } );
+        void import( '@/src/routes' ).then( ({ router }) => {
+          void router.navigate( { to: '/auth/signin', replace: true } );
+        } ).catch( () => window.location.replace( '/auth/signin' ) );
+      }
+
+      markApiErrorToastHandled( error );
+    }
+
     return Promise.reject(error);
   }
 );

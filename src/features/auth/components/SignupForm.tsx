@@ -12,6 +12,7 @@ import { FormDivider } from "@/components/ui/form-divider";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input";
+import { toastApiError } from "@/src/lib/api-error";
 
 const signupSchema = z.object({
     firstName: z.string().min(1, { message: "First name is required" }),
@@ -95,25 +96,14 @@ export const SignupForm = () => {
         registerMutation.mutate({
             ...values,
             orgFiscalYearStart: `${values.orgFiscalYearStart}T00:00:00`,
+        }, {
+            onError: error => toastApiError(error, "We couldn't create your account. Please try again."),
         });
     };
-
-    const registrationError =
-        registerMutation.error instanceof Error
-            ? registerMutation.error.message
-            : "We couldn't create your account. Please try again.";
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {registerMutation.isError && (
-                    <div
-                        role="alert"
-                        className="rounded-[10px] border border-(--accent) bg-(--accent-soft) px-3.5 py-3 text-[13px] leading-[1.45] text-(--accent-deep)"
-                    >
-                        {registrationError}
-                    </div>
-                )}
                 {step === 0 && (
                     <div className="space-y-4">
                         <FormDivider label="or with work email" className="mb-5" />

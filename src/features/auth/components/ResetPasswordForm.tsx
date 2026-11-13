@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -7,6 +6,7 @@ import { useResetPassword } from "@/src/features/auth/api/resetPassword"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input"
+import { toastApiError } from "@/src/lib/api-error"
 
 const resetPasswordSchema = z.object( {
     newPassword: z.string().min( 8, { message: "Password must be at least 8 characters" } ),
@@ -25,7 +25,6 @@ type ResetPasswordFormProps = Readonly<{
 export const ResetPasswordForm = ( { token }: ResetPasswordFormProps ) =>
 {
     const navigate = useNavigate()
-    const [errorMsg, setErrorMsg] = useState<string | null>( null )
     const resetPasswordMutation = useResetPassword()
 
     const form = useForm<ResetPasswordValues>( {
@@ -35,7 +34,6 @@ export const ResetPasswordForm = ( { token }: ResetPasswordFormProps ) =>
 
     const onSubmit = ( values: ResetPasswordValues ) =>
     {
-        setErrorMsg( null )
         resetPasswordMutation.mutate(
             { token, newPassword: values.newPassword },
             {
@@ -45,7 +43,7 @@ export const ResetPasswordForm = ( { token }: ResetPasswordFormProps ) =>
                 },
                 onError: ( error: any ) =>
                 {
-                    setErrorMsg( error?.response?.data?.error || "Failed to reset password. The link might be expired." )
+                    toastApiError( error, "Failed to reset password. The link might be expired." )
                 }
             }
         )
@@ -54,12 +52,6 @@ export const ResetPasswordForm = ( { token }: ResetPasswordFormProps ) =>
     return (
         <Form { ...form }>
             <form onSubmit={ form.handleSubmit( onSubmit ) } className="space-y-4">
-                { errorMsg && (
-                    <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
-                        { errorMsg }
-                    </div>
-                ) }
-
                 <FormField
                     control={ form.control }
                     name="newPassword"

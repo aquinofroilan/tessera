@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { toast } from 'sonner'
 import { Pencil } from '@/components/ui/hugeicons'
 import { Button } from '@/components/ui/button'
@@ -14,7 +14,7 @@ import { TaxGroupSelector } from '@/src/features/inventory/components/TaxGroupSe
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
 import { useUpdateProduct } from '@/src/features/inventory/api/products'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 type ProductEditSheetProps = Readonly<{
     product: ProductResponse
@@ -58,21 +58,31 @@ function getInitialValues ( product: ProductResponse ): ProductFormValues {
 export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
     const [ open, setOpen ] = useState( false )
     const [ values, setValues ] = useState( () => getInitialValues( product ) )
-    const [ validationError, setValidationError ] = useState<string | null>( null )
     const categoriesQuery = useProductCategories( { activeOnly: false } )
     const updateMutation = useUpdateProduct()
     const isPending = updateMutation.isPending
 
+    useEffect( () => {
+        const toastId = `product-edit-categories-error-${ product.id }`
+
+        if ( categoriesQuery.isError ) {
+            toastApiError( categoriesQuery.error, 'Product categories could not be loaded. The current category will be preserved.', {}, {
+                id: toastId,
+                action: { label: 'Retry', onClick: () => { void categoriesQuery.refetch() } },
+            } )
+        } else {
+            toast.dismiss( toastId )
+        }
+    }, [ categoriesQuery.error, categoriesQuery.isError, categoriesQuery.refetch, product.id ] )
+
     const openEditor = () => {
         setValues( getInitialValues( product ) )
-        setValidationError( null )
         updateMutation.reset()
         setOpen( true )
     }
 
     const updateValue = <K extends keyof ProductFormValues>( key: K, value: ProductFormValues[K] ) => {
         setValues( previous => ( { ...previous, [ key ]: value } ) )
-        setValidationError( null )
     }
 
     const submit = ( event: FormEvent<HTMLFormElement> ) => {
@@ -82,11 +92,11 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
         const listPrice = Number( values.listPrice )
 
         if ( !sku || !name ) {
-            setValidationError( 'SKU and product name are required.' )
+            toastApiError( new Error( 'SKU and product name are required.' ), 'SKU and product name are required.' )
             return
         }
         if ( !Number.isFinite( listPrice ) || listPrice < 0 ) {
-            setValidationError( 'Enter a valid list price of zero or more.' )
+            toastApiError( new Error( 'Enter a valid list price of zero or more.' ), 'Enter a valid list price of zero or more.' )
             return
         }
 
@@ -109,7 +119,7 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
                 toast.success( 'Product updated', { description: `${ updated.name } has been saved.` } )
                 setOpen( false )
             },
-            onError: error => toast.error( 'Could not update product', { description: getApiErrorMessage( error, 'Product changes could not be saved. Check your connection and try again.' ) } ),
+            onError: error => toastApiError( error, 'Product changes could not be saved. Check your connection and try again.' ),
         } )
     }
 
@@ -130,9 +140,6 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
                         </SheetHeader>
 
                         <div className="flex-1 space-y-5 p-6">
-                            { validationError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ validationError }</p> : null }
-                            { updateMutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getApiErrorMessage( updateMutation.error, 'Product changes could not be saved. Check your connection and try again.' ) }</p> : null }
-
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <Field className={ fieldClass }>
                                     <FieldLabel htmlFor="product-edit-sku">SKU <span className="text-(--accent)">*</span></FieldLabel>
@@ -157,7 +164,7 @@ export const ProductEditSheet = ( { product }: ProductEditSheetProps ) => {
                                             { availableCategories.map( category => <SelectItem key={ category.id } value={ category.id }>{ category.name }{ category.isActive ? '' : ' (Inactive)' }</SelectItem> ) }
                                         </SelectContent>
                                     </Select>
-                                    { categoriesQuery.isError ? <FieldDescription className="text-(--accent-deep)">Categories are unavailable. The current category will be preserved.</FieldDescription> : null }
+                                    { categoriesQuery.isError ? <FieldDescription>Category options are unavailable. The current category will be preserved; retry from the notification.</FieldDescription> : null }
                                 </Field>
                                 <Field className={ fieldClass }>
                                     <FieldLabel htmlFor="product-edit-image-url">Image URL</FieldLabel>

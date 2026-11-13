@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { IconArrowLeft, IconCheck } from "@/components/ui/hugeicons";
 import { Link } from "@tanstack/react-router";
+import { toastApiError } from "@/src/lib/api-error";
 
 const forgotPasswordSchema = z.object({
     email: z.string().email({ message: "Invalid email address" }),
@@ -30,6 +31,7 @@ export const ForgotPasswordForm = () => {
             onSuccess: () => {
                 setIsSubmitted(true);
             },
+            onError: error => toastApiError(error, "We couldn't send the reset link right now. Check your connection and try again."),
         });
     };
 
@@ -62,14 +64,6 @@ export const ForgotPasswordForm = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                {forgotPasswordMutation.isError && (
-                    <div
-                        role="alert"
-                        className="rounded-[10px] border border-(--accent) bg-(--accent-soft) px-3.5 py-3 text-[13px] leading-[1.45] text-(--accent-deep)"
-                    >
-                        We couldn&apos;t send the reset link right now. Check your connection and try again.
-                    </div>
-                )}
                 <FormField
                     control={form.control}
                     name="email"

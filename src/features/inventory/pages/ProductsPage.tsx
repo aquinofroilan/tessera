@@ -14,7 +14,7 @@ import { useProducts } from '@/src/features/inventory/api/products'
 import type { ProductCatalogPageProps } from '@/src/features/inventory/types/inventory'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { formatPrice } from '@/src/features/inventory/utils/formatPrice'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 const inputClass = 'h-10 rounded-[10px] border-(--rule) bg-(--card) text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
 
@@ -58,13 +58,9 @@ export const ProductsPage = ( { searchParams, updateSearchParams, clearSearchPar
         const toastId = 'inventory-products-fetch-error'
 
         if ( isError ) {
-            toast.error( 'Could not load products', {
+            toastApiError( error, 'Products could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to view inventory products. Ask an administrator for inventory:read access.' }, {
                 id: toastId,
-                description: getApiErrorMessage( error, 'Products could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to view inventory products. Ask an administrator for inventory:read access.' } ),
-                action: {
-                    label: 'Retry',
-                    onClick: () => { void refetch() },
-                },
+                action: { label: 'Retry', onClick: () => { void refetch() } },
             } )
         } else {
             toast.dismiss( toastId )
@@ -75,13 +71,9 @@ export const ProductsPage = ( { searchParams, updateSearchParams, clearSearchPar
         const toastId = 'inventory-product-categories-fetch-error'
 
         if ( categoriesQuery.isError ) {
-            toast.error( 'Could not load product categories', {
+            toastApiError( categoriesQuery.error, 'Category names and filters are unavailable. Check your connection and try again.', {}, {
                 id: toastId,
-                description: 'Category names and filters are unavailable. Check your connection and try again.',
-                action: {
-                    label: 'Retry',
-                    onClick: () => { void categoriesQuery.refetch() },
-                },
+                action: { label: 'Retry', onClick: () => { void categoriesQuery.refetch() } },
             } )
         } else {
             toast.dismiss( toastId )

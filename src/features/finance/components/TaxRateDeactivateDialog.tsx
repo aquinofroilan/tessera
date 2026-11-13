@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import { Spinner } from '@/components/ui/spinner'
 import { useDeactivateTaxRate } from '@/src/features/finance/api/taxRates'
 import type { TaxRateResponse } from '@/src/features/finance/types/taxRates'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 type TaxRateDeactivateDialogProps = Readonly<{
     rate: TaxRateResponse
@@ -21,7 +21,7 @@ export function TaxRateDeactivateDialog ( { rate, onOpenChange }: TaxRateDeactiv
                 toast.success( 'Tax rate deactivated', { description: `${ rate.name } is no longer available for new tax groups.` } )
                 onOpenChange( false )
             },
-            onError: error => toast.error( 'Could not deactivate tax rate', { description: getApiErrorMessage( error, 'The tax rate could not be deactivated. Check your connection and try again.', { 403: 'You do not have permission to deactivate tax rates. Ask an administrator for tax:delete access.' } ) } ),
+            onError: error => toastApiError( error, 'The tax rate could not be deactivated. Check your connection and try again.', { 403: 'You do not have permission to deactivate tax rates. Ask an administrator for tax:delete access.' } ),
         } )
     }
 

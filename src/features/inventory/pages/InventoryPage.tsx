@@ -5,8 +5,10 @@ import { Spinner } from '@/components/ui/spinner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { useProductCategories } from '@/src/features/inventory/api/productCategories'
+import { useUnitsOfMeasure } from '@/src/features/inventory/api/unitsOfMeasure'
 import { useProducts } from '@/src/features/inventory/api/products'
 import { InventoryVariantsTable } from '@/src/features/inventory/components/InventoryVariantsTable'
+import { UnitOfMeasureTable } from '@/src/features/inventory/components/UnitOfMeasureTable'
 import type { ProductCategoryResponse } from '@/src/features/inventory/types/productCategories'
 import type { ProductResponse } from '@/src/features/inventory/types/products'
 import { formatPrice } from '@/src/features/inventory/utils/formatPrice'
@@ -116,6 +118,7 @@ export function InventoryPage () {
     const activeProductsQuery = useProducts( { isActive: true } )
     const inactiveProductsQuery = useProducts( { isActive: false } )
     const categoriesQuery = useProductCategories( { activeOnly: false } )
+    const unitsQuery = useUnitsOfMeasure( { activeOnly: false } )
     const products = [ ...( activeProductsQuery.data ?? [] ), ...( inactiveProductsQuery.data ?? [] ) ]
         .sort( ( first, second ) => first.name.localeCompare( second.name ) )
     const isProductsLoading = activeProductsQuery.isPending || inactiveProductsQuery.isPending
@@ -129,7 +132,7 @@ export function InventoryPage () {
             <div className="w-full">
                 <header className="mb-7 border-b border-(--rule) pb-6">
                     <h1 className="font-display text-[clamp(36px,4vw,48px)] font-light leading-none tracking-[-0.03em]">Inventory</h1>
-                    <p className="mt-2.5 max-w-2xl text-[15px] text-(--ink-soft)">An organization-wide view of products, variants, and product categories.</p>
+                    <p className="mt-2.5 max-w-2xl text-[15px] text-(--ink-soft)">An organization-wide view of products, variants, categories, and units of measure.</p>
                 </header>
 
                 <section aria-labelledby="inventory-products-heading" className="mb-6 min-w-0">
@@ -185,6 +188,49 @@ export function InventoryPage () {
                         </Card>
                     </section>
                 </div>
+
+                <section aria-labelledby="inventory-uoms-heading" className="mt-6 min-w-0">
+                    <Card className="overflow-hidden">
+                        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-(--rule) px-5 py-4 sm:px-6">
+                            <div>
+                                <p className="mb-1 font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase">Inventory setup</p>
+                                <h2 id="inventory-uoms-heading" className="font-display text-xl font-light">Units of measure</h2>
+                                <p className="mt-1 text-sm text-(--ink-soft)">{ unitsQuery.isPending ? 'Loading units…' : unitsQuery.isError ? 'Unit count is unavailable.' : `${ unitsQuery.data?.length ?? 0 } ${ unitsQuery.data?.length === 1 ? 'unit' : 'units' } configured, including inactive units.` }</p>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <Button asChild variant="pill-ghost" size="sm" className="border border-(--rule)">
+                                    <Link to="/inventory/settings/uoms">Manage units</Link>
+                                </Button>
+                                <Button asChild variant="pill-ghost" size="sm" className="bg-(--ink) text-(--paper) hover:bg-(--accent)">
+                                    <Link to="/inventory/settings/uoms/new">Add unit</Link>
+                                </Button>
+                            </div>
+                        </div>
+                        <CardContent className="p-0">
+                            { unitsQuery.isError ? (
+                                <div className="flex flex-col items-start gap-3 p-5 sm:p-6" role="alert">
+                                    <p className="text-sm text-(--accent-deep)">{ getApiErrorMessage( unitsQuery.error, 'Units of measure could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to view units of measure. Ask an administrator for inventory:read access.' } ) }</p>
+                                    <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ () => { void unitsQuery.refetch() } }>Retry</Button>
+                                </div>
+                            ) : unitsQuery.isPending ? (
+                                <div className="flex items-center justify-center gap-2 p-8 text-sm text-(--muted)" aria-live="polite">
+                                    <Spinner className="size-4 text-(--accent)" aria-label="Loading units of measure" />
+                                    <span>Loading units of measure…</span>
+                                </div>
+                            ) : unitsQuery.data?.length ? (
+                                <UnitOfMeasureTable units={ [ ...unitsQuery.data ].sort( ( first, second ) => first.name.localeCompare( second.name ) ) } />
+                            ) : (
+                                <div className="px-5 py-12 text-center">
+                                    <h3 className="font-display text-xl">No units of measure yet</h3>
+                                    <p className="mt-2 text-sm text-(--muted)">Units configured for this organization will appear here.</p>
+                                    <Button asChild variant="pill-ghost" className="mt-4 bg-(--ink) text-(--paper) hover:bg-(--accent)">
+                                        <Link to="/inventory/settings/uoms/new">Create a unit</Link>
+                                    </Button>
+                                </div>
+                            ) }
+                        </CardContent>
+                    </Card>
+                </section>
             </div>
         </DashboardShell>
     )

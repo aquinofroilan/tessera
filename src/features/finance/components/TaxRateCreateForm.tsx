@@ -9,7 +9,7 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/c
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { useCreateTaxRate } from '@/src/features/finance/api/taxRates'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 const taxRateSchema = z.object( {
     name: z.string().trim().min( 1, 'Tax rate name is required' ),
@@ -28,12 +28,6 @@ const defaultValues: TaxRateFormValues = {
 }
 
 const textInputClass = 'h-11 rounded-[10px] border-(--rule) bg-(--card) px-3.5 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
-
-function getCreateErrorMessage ( error: unknown ) {
-    return getApiErrorMessage( error, 'The tax rate could not be created. Check your connection and try again.', {
-        403: 'You do not have permission to create tax rates. Ask an administrator for tax:create access.',
-    } )
-}
 
 export function TaxRateCreateForm () {
     const navigate = useNavigate()
@@ -55,6 +49,7 @@ export function TaxRateCreateForm () {
                     form.reset()
                     toast.success( 'Tax rate created', { description: `${ created.name } is ready to add to a tax group.` } )
                 },
+                onError: error => toastApiError( error, 'The tax rate could not be created. Check your connection and try again.', { 403: 'You do not have permission to create tax rates. Ask an administrator for tax:create access.' } ),
             } )
         },
     } )
@@ -77,12 +72,6 @@ export function TaxRateCreateForm () {
                 <h1 className="font-display text-[clamp(34px,4vw,48px)] font-light leading-tight tracking-[-.035em]">Add a tax rate</h1>
                 <p className="mt-2 max-w-2xl text-sm text-(--ink-soft)">Create an organization tax rate that can be combined into a tax group.</p>
             </div>
-
-            { createMutation.isError ? (
-                <div className="mb-5 rounded-xl border border-(--accent)/25 bg-(--accent-soft) p-4 text-sm text-(--accent-deep)" role="alert">
-                    { getCreateErrorMessage( createMutation.error ) }
-                </div>
-            ) : null }
 
             <form
                 onSubmit={ event => {
