@@ -10,7 +10,7 @@ import { Switch } from '@/components/ui/switch'
 import { useUpdateProductVariant } from '@/src/features/inventory/api/productVariants'
 import type { ProductVariantResponse } from '@/src/features/inventory/types/productVariants'
 import { formatVariantAttribute } from '@/src/features/inventory/utils/formatVariantAttribute'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 type ProductVariantEditSheetProps = Readonly<{
     productId: string
@@ -58,20 +58,17 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
     const [ open, setOpen ] = useState( false )
     const [ values, setValues ] = useState( () => getInitialValues( variant ) )
     const [ attributes, setAttributes ] = useState( () => getInitialAttributes( variant ) )
-    const [ validationError, setValidationError ] = useState<string | null>( null )
     const mutation = useUpdateProductVariant( productId, variant.id )
     const isPending = mutation.isPending
 
     const resetForm = () => {
         setValues( getInitialValues( variant ) )
         setAttributes( getInitialAttributes( variant ) )
-        setValidationError( null )
         mutation.reset()
     }
 
     const updateValue = <K extends keyof FormValues>( key: K, value: FormValues[K] ) => {
         setValues( previous => ( { ...previous, [ key ]: value } ) )
-        setValidationError( null )
     }
 
     const updateAttribute = ( id: number, key: 'key' | 'value', value: string ) => {
@@ -82,7 +79,6 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
             if ( key === 'value' ) updatedRow.valueChanged = true
             return updatedRow
         } ) )
-        setValidationError( null )
     }
 
     const submit = ( event: FormEvent<HTMLFormElement> ) => {
@@ -94,15 +90,15 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
         const keys = pairs.map( row => row.key )
 
         if ( !name ) {
-            setValidationError( 'Variant name is required.' )
+            toastApiError( new Error( 'Variant name is required.' ), 'Variant name is required.' )
             return
         }
         if ( pairs.some( row => !row.key || !row.value ) ) {
-            setValidationError( 'Enter both a name and value for each attribute, or remove the empty row.' )
+            toastApiError( new Error( 'Enter both a name and value for each attribute, or remove the empty row.' ), 'Enter both a name and value for each attribute, or remove the empty row.' )
             return
         }
         if ( new Set( keys ).size !== keys.length ) {
-            setValidationError( 'Attribute names must be unique.' )
+            toastApiError( new Error( 'Attribute names must be unique.' ), 'Attribute names must be unique.' )
             return
         }
 
@@ -116,7 +112,7 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
                 toast.success( 'Variant updated', { description: `${ updated.name } has been saved.` } )
                 setOpen( false )
             },
-            onError: error => toast.error( 'Could not update variant', { description: getApiErrorMessage( error, 'Variant changes could not be saved. Check your connection and try again.', { 403: 'You do not have permission to edit product variants. Ask an administrator for inventory:write access.' } ) } ),
+            onError: error => toastApiError( error, 'Variant changes could not be saved. Check your connection and try again.', { 403: 'You do not have permission to edit product variants. Ask an administrator for inventory:write access.' } ),
         } )
     }
 
@@ -134,9 +130,6 @@ export function ProductVariantEditSheet ( { productId, variant }: ProductVariant
                         </SheetHeader>
 
                         <div className="flex-1 space-y-5 p-6">
-                            { validationError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ validationError }</p> : null }
-                            { mutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getApiErrorMessage( mutation.error, 'Variant changes could not be saved. Check your connection and try again.', { 403: 'You do not have permission to edit product variants. Ask an administrator for inventory:write access.' } ) }</p> : null }
-
                             <Field className={ fieldClass }>
                                 <FieldLabel htmlFor="variant-edit-code">Code</FieldLabel>
                                 <Input id="variant-edit-code" value={ variant.code } className={ inputClass } readOnly aria-readonly="true" />

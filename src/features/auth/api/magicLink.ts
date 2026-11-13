@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { axios } from "@/src/lib/axios";
+import { axios, resetUnauthorizedRedirect } from "@/src/lib/axios";
 import type {
     RequestMagicLinkCredentials,
     ConsumeMagicLinkCredentials,
@@ -34,6 +34,7 @@ export const useConsumeMagicLink = ({ onSuccess }: UseConsumeMagicLinkOptions = 
             // Note: Since this is an authentication endpoint that issues a token,
             // we should store the access token securely, identical to a standard login.
             localStorage.setItem('tessera_token', data.access_token);
+            resetUnauthorizedRedirect();
             const user = data.user ?? await getUser();
             useAuthStore.getState().setUser(user);
             if (onSuccess) {

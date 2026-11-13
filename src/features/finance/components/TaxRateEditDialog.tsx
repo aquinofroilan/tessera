@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { useUpdateTaxRate } from '@/src/features/finance/api/taxRates'
 import type { TaxRateResponse } from '@/src/features/finance/types/taxRates'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 const taxRateSchema = z.object( {
     name: z.string().trim().min( 1, 'Tax rate name is required' ),
@@ -48,7 +48,7 @@ export function TaxRateEditDialog ( { rate, onOpenChange }: TaxRateEditDialogPro
                     toast.success( 'Tax rate updated', { description: `${ updated.name } has been saved.` } )
                     onOpenChange( false )
                 },
-                onError: error => toast.error( 'Could not update tax rate', { description: getApiErrorMessage( error, 'The tax rate could not be updated. Check your connection and try again.', { 403: 'You do not have permission to update tax rates. Ask an administrator for tax:create access.' } ) } ),
+                onError: error => toastApiError( error, 'The tax rate could not be updated. Check your connection and try again.', { 403: 'You do not have permission to update tax rates. Ask an administrator for tax:create access.' } ),
             } )
         },
     } )
@@ -61,11 +61,6 @@ export function TaxRateEditDialog ( { rate, onOpenChange }: TaxRateEditDialogPro
                     <DialogDescription>Update the rate details. Its code remains fixed after creation.</DialogDescription>
                 </div>
                 <form onSubmit={ event => { event.preventDefault(); event.stopPropagation(); void form.handleSubmit() } } className="grid gap-5">
-                    { updateMutation.isError ? (
-                        <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">
-                            { getApiErrorMessage( updateMutation.error, 'The tax rate could not be updated. Check your connection and try again.', { 403: 'You do not have permission to update tax rates. Ask an administrator for tax:create access.' } ) }
-                        </p>
-                    ) : null }
                     <FieldGroup className="grid gap-4">
                         <form.Field name="name">
                             { field => {

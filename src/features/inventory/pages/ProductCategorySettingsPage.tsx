@@ -15,7 +15,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { useCreateProductCategory, useDeactivateProductCategory, useProductCategories, useUpdateProductCategory } from '@/src/features/inventory/api/productCategories'
 import type { ProductCategoryResponse } from '@/src/features/inventory/types/productCategories'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { getApiErrorMessage, toastApiError } from '@/src/lib/api-error'
 
 const categorySchema = z.object( {
     name: z.string().trim().min( 1, 'Category name is required' ).max( 128, 'Category name must be 128 characters or fewer' ),
@@ -46,7 +46,7 @@ const ProductCategoryEditor = () => {
                     toast.success( 'Category created', { description: `${ created.name } is ready to use.` } )
                     form.reset()
                 },
-                onError: error => toast.error( 'Could not create category', { description: getApiErrorMessage( error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ) } ),
+                onError: error => toastApiError( error, 'The category could not be created. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ),
             } )
         },
     } )
@@ -133,7 +133,7 @@ const CategoryDetailsDialog = ( { category, onOpenChange }: CategoryDetailsDialo
                     toast.success( 'Category updated', { description: `${ updated.name } is ${ updated.isActive ? 'enabled' : 'disabled' }.` } )
                     onOpenChange( false )
                 },
-            onError: error => toast.error( 'Could not update category', { description: getApiErrorMessage( error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ) } ),
+            onError: error => toastApiError( error, 'The category could not be updated. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ),
             } )
         },
     } )
@@ -144,7 +144,7 @@ const CategoryDetailsDialog = ( { category, onOpenChange }: CategoryDetailsDialo
                 toast.success( 'Category deleted', { description: `${ category.name } is no longer available for new products.` } )
                 onOpenChange( false )
             },
-            onError: error => toast.error( 'Could not delete category', { description: getApiErrorMessage( error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ) } ),
+            onError: error => toastApiError( error, 'The category could not be deactivated. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ),
         } )
     }
 
@@ -220,9 +220,8 @@ export const ProductCategorySettingsPage = () => {
     useEffect( () => {
         const toastId = 'inventory-product-categories-management-fetch-error'
         if ( categoriesQuery.isError ) {
-            toast.error( 'Could not load product categories', {
+            toastApiError( categoriesQuery.error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' }, {
                 id: toastId,
-                description: getApiErrorMessage( categoriesQuery.error, 'Product categories could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to manage product categories. Ask an administrator for inventory:write access.' } ),
                 action: { label: 'Retry', onClick: () => { void categoriesQuery.refetch() } },
             } )
         } else {

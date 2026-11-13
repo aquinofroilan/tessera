@@ -1,4 +1,4 @@
-type StaticBreadcrumbRoute = '/dashboard' | '/inventory' | '/inventory/products' | '/inventory/variants' | '/finance' | '/finance/tax/groups' | '/finance/tax/rates'
+type StaticBreadcrumbRoute = '/dashboard' | '/inventory' | '/inventory/products' | '/inventory/variants' | '/inventory/settings/uoms' | '/finance' | '/finance/tax/groups' | '/finance/tax/rates'
 
 type BreadcrumbTarget =
     | Readonly<{ to: StaticBreadcrumbRoute }>
@@ -27,6 +27,11 @@ const productsBreadcrumb: DashboardBreadcrumb = {
 const variantsBreadcrumb: DashboardBreadcrumb = {
     label: 'Product variants',
     target: { to: '/inventory/variants' },
+}
+
+const unitsOfMeasureBreadcrumb: DashboardBreadcrumb = {
+    label: 'Units of measure',
+    target: { to: '/inventory/settings/uoms' },
 }
 
 const financeBreadcrumb: DashboardBreadcrumb = {
@@ -73,6 +78,18 @@ export function getDashboardBreadcrumbs ( pathname: string ): DashboardBreadcrum
 
     if ( pathname === '/inventory/settings/product-categories' ) {
         return [ workspaceBreadcrumb, inventoryBreadcrumb, { label: 'Product categories' } ]
+    }
+
+    if ( pathname === '/inventory/settings/uoms' ) {
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, { label: 'Units of measure' } ]
+    }
+
+    if ( pathname === '/inventory/settings/uoms/new' ) {
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, unitsOfMeasureBreadcrumb, { label: 'New unit' } ]
+    }
+
+    if ( /^\/inventory\/settings\/uoms\/[^/]+$/.test( pathname ) ) {
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, unitsOfMeasureBreadcrumb, { label: 'Unit details' } ]
     }
 
     if ( pathname === '/finance' ) {

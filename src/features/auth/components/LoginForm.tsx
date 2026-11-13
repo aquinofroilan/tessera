@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, Link } from "@tanstack/react-router";
 import { useLogin } from "@/src/features/auth/api/login";
+import { toastApiError } from "@/src/lib/api-error";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -35,17 +36,14 @@ export const LoginForm = () => {
     });
 
     const onSubmit = ({ email, password }: LoginValues) => {
-        loginMutation.mutate({ email, password });
+        loginMutation.mutate({ email, password }, {
+            onError: error => toastApiError(error, "Unable to sign in with those credentials. Please check your email and password and try again."),
+        });
     };
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {loginMutation.isError && (
-                    <div role="alert" className="rounded-[10px] border border-(--accent) bg-(--accent-soft) px-3.5 py-3 text-[13px] leading-[1.45] text-(--accent-deep)">
-                        Unable to sign in with those credentials. Please check your email and password and try again.
-                    </div>
-                )}
                 <FormField
                     control={form.control}
                     name="email"

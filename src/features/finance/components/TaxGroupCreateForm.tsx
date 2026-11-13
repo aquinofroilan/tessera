@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { useNavigate, Link } from '@tanstack/react-router'
 import { z } from 'zod'
@@ -11,7 +12,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { TaxRateCombobox } from '@/src/features/finance/components/TaxRateCombobox'
 import { useCreateTaxGroup } from '@/src/features/finance/api/taxGroups'
 import { useTaxRates } from '@/src/features/finance/api/taxRates'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 const taxGroupSchema = z.object( {
     name: z.string().trim().min( 1, 'Tax group name is required' ),
@@ -29,24 +30,25 @@ const defaultValues: TaxGroupFormValues = {
 
 const textInputClass = 'h-11 rounded-[10px] border-(--rule) bg-(--card) px-3.5 text-sm placeholder:text-(--muted-2) focus-visible:border-(--ink) focus-visible:ring-(--ink)/10'
 
-function getCreateErrorMessage ( error: unknown ) {
-    return getApiErrorMessage( error, 'The tax group could not be created. Check your connection and try again.', {
-        403: 'You do not have permission to create tax groups. Ask an administrator for tax:create access.',
-    } )
-}
-
-function getTaxRatesErrorMessage ( error: unknown ) {
-    return getApiErrorMessage( error, 'Tax rates could not be loaded. Check your connection and try again.', {
-        403: 'You do not have permission to read tax rates. Ask an administrator for tax:read access.',
-    } )
-}
-
 export function TaxGroupCreateForm () {
     const navigate = useNavigate()
     const createMutation = useCreateTaxGroup()
     const taxRatesQuery = useTaxRates( { activeOnly: true } )
     const isPending = createMutation.isPending
     const taxRates = taxRatesQuery.data ?? []
+
+    useEffect( () => {
+        const toastId = 'tax-group-create-rates-error'
+
+        if ( taxRatesQuery.isError ) {
+            toastApiError( taxRatesQuery.error, 'Tax rates could not be loaded. Check your connection and try again.', { 403: 'You do not have permission to read tax rates. Ask an administrator for tax:read access.' }, {
+                id: toastId,
+                action: { label: 'Retry', onClick: () => { void taxRatesQuery.refetch() } },
+            } )
+        } else {
+            toast.dismiss( toastId )
+        }
+    }, [ taxRatesQuery.error, taxRatesQuery.isError, taxRatesQuery.refetch ] )
 
     const form = useForm( {
         defaultValues,
@@ -63,6 +65,7 @@ export function TaxGroupCreateForm () {
                     toast.success( 'Tax group created', { description: `${ createdGroup.name } is ready to use.` } )
                     void navigate( { to: '/finance/tax/groups' } )
                 },
+                onError: error => toastApiError( error, 'The tax group could not be created. Check your connection and try again.', { 403: 'You do not have permission to create tax groups. Ask an administrator for tax:create access.' } ),
             } )
         },
     } )
@@ -73,12 +76,6 @@ export function TaxGroupCreateForm () {
                 <h1 className="font-display text-[clamp(34px,4vw,48px)] font-light leading-tight tracking-[-.035em]">Create a tax group</h1>
                 <p className="mt-2 max-w-2xl text-sm text-(--ink-soft)">Combine organization tax rates into a group for products and transactions.</p>
             </div>
-
-            { createMutation.isError ? (
-                <div className="mb-5 rounded-xl border border-(--accent)/25 bg-(--accent-soft) p-4 text-sm text-(--accent-deep)" role="alert">
-                    { getCreateErrorMessage( createMutation.error ) }
-                </div>
-            ) : null }
 
             <form
                 onSubmit={ event => {
@@ -135,10 +132,7 @@ export function TaxGroupCreateForm () {
                                 <span>Loading tax rates…</span>
                             </div>
                         ) : taxRatesQuery.isError ? (
-                            <div className="flex flex-col items-start gap-3 rounded-lg border border-(--accent)/20 bg-(--accent-soft)/50 p-4" role="alert">
-                                <p className="text-sm text-(--accent-deep)">{ getTaxRatesErrorMessage( taxRatesQuery.error ) }</p>
-                                <Button type="button" variant="pill-ghost" className="border border-(--rule)" onClick={ () => { void taxRatesQuery.refetch() } }>Retry</Button>
-                            </div>
+                            <p className="text-sm text-(--muted)">Tax rates are unavailable. Retry from the notification.</p>
                         ) : taxRates.length === 0 ? (
                             <div className="grid justify-items-start gap-3">
                                 <FieldDescription>No active tax rates are configured for this organization. Add a tax rate before creating a group.</FieldDescription>

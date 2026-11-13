@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Spinner } from '@/components/ui/spinner'
 import { useCreateProductVariant } from '@/src/features/inventory/api/productVariants'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 type ProductVariantCreateSheetProps = Readonly<{
     productId: string
@@ -32,24 +32,20 @@ export function ProductVariantCreateSheet ( { productId }: ProductVariantCreateS
     const [ open, setOpen ] = useState( false )
     const [ values, setValues ] = useState<FormValues>( { code: '', name: '', skuSuffix: '' } )
     const [ attributes, setAttributes ] = useState<AttributeRow[]>( [] )
-    const [ validationError, setValidationError ] = useState<string | null>( null )
     const mutation = useCreateProductVariant( productId )
 
     const resetForm = () => {
         setValues( { code: '', name: '', skuSuffix: '' } )
         setAttributes( [] )
-        setValidationError( null )
         mutation.reset()
     }
 
     const updateValue = ( key: keyof FormValues, value: string ) => {
         setValues( previous => ( { ...previous, [ key ]: value } ) )
-        setValidationError( null )
     }
 
     const updateAttribute = ( id: number, key: 'key' | 'value', value: string ) => {
         setAttributes( previous => previous.map( row => row.id === id ? { ...row, [ key ]: value } : row ) )
-        setValidationError( null )
     }
 
     const submit = ( event: FormEvent<HTMLFormElement> ) => {
@@ -62,15 +58,15 @@ export function ProductVariantCreateSheet ( { productId }: ProductVariantCreateS
         const keys = pairs.map( row => row.key )
 
         if ( !code || !name ) {
-            setValidationError( 'Code and name are required.' )
+            toastApiError( new Error( 'Code and name are required.' ), 'Code and name are required.' )
             return
         }
         if ( pairs.some( row => !row.key || !row.value ) ) {
-            setValidationError( 'Enter both a name and value for each attribute, or remove the empty row.' )
+            toastApiError( new Error( 'Enter both a name and value for each attribute, or remove the empty row.' ), 'Enter both a name and value for each attribute, or remove the empty row.' )
             return
         }
         if ( new Set( keys ).size !== keys.length ) {
-            setValidationError( 'Attribute names must be unique.' )
+            toastApiError( new Error( 'Attribute names must be unique.' ), 'Attribute names must be unique.' )
             return
         }
 
@@ -85,7 +81,7 @@ export function ProductVariantCreateSheet ( { productId }: ProductVariantCreateS
                 setOpen( false )
                 resetForm()
             },
-            onError: error => toast.error( 'Could not create variant', { description: getApiErrorMessage( error, 'The variant could not be created. Check your connection and try again.', { 403: 'You do not have permission to create product variants. Ask an administrator for inventory:write access.' } ) } ),
+            onError: error => toastApiError( error, 'The variant could not be created. Check your connection and try again.', { 403: 'You do not have permission to create product variants. Ask an administrator for inventory:write access.' } ),
         } )
     }
 
@@ -105,9 +101,6 @@ export function ProductVariantCreateSheet ( { productId }: ProductVariantCreateS
                         </SheetHeader>
 
                         <div className="flex-1 space-y-5 p-6">
-                            { validationError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ validationError }</p> : null }
-                            { mutation.isError ? <p role="alert" className="rounded-lg border border-(--accent)/25 bg-(--accent-soft) px-3.5 py-3 text-sm text-(--accent-deep)">{ getApiErrorMessage( mutation.error, 'The variant could not be created. Check your connection and try again.', { 403: 'You do not have permission to create product variants. Ask an administrator for inventory:write access.' } ) }</p> : null }
-
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <Field className={ fieldClass }>
                                     <FieldLabel htmlFor="variant-create-code">Code <span className="text-(--accent)">*</span></FieldLabel>

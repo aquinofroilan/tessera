@@ -65,6 +65,8 @@ const isInventoryVariantSectionRoute = ( pathname: string ) => (
     || ( pathname.includes( '/inventory/item/' ) && pathname.includes( '/variant/' ) )
 )
 
+const isInventoryUomRoute = ( pathname: string ) => isRouteWithin( pathname, '/inventory/settings/uoms' )
+
 const getItemAriaCurrent = ( pathname: string, route: string ): 'page' | 'location' => (
     pathname === route ? 'page' : 'location'
 )
@@ -191,6 +193,16 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/inventory/settings/product-categories' } )
+                                            } }
+                                        />
+                                        <DashboardNavItem
+                                            label="Units of measure"
+                                            icon={ <Tag size={ 17 } /> }
+                                            active={ isInventoryUomRoute( pathname ) }
+                                            ariaCurrent={ isInventoryUomRoute( pathname ) ? getItemAriaCurrent( pathname, '/inventory/settings/uoms' ) : undefined }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/inventory/settings/uoms' } )
                                             } }
                                         />
                                     </div>

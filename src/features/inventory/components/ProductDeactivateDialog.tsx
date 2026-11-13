@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { Spinner } from '@/components/ui/spinner'
 import { useDeactivateProduct } from '@/src/features/inventory/api/products'
-import { getApiErrorMessage } from '@/src/lib/api-error'
+import { toastApiError } from '@/src/lib/api-error'
 
 type ProductDeactivateDialogProps = Readonly<{
     productId: string
@@ -22,7 +22,7 @@ export function ProductDeactivateDialog ( { productId, productName }: ProductDea
                 toast.success( 'Product deactivated', { description: `${ product.name } is no longer active.` } )
                 setOpen( false )
             },
-            onError: error => toast.error( 'Could not deactivate product', { description: getApiErrorMessage( error, 'The product could not be deactivated. Check your connection and try again.', { 403: 'You do not have permission to deactivate products. Ask an administrator for inventory:write access.' } ) } ),
+            onError: error => toastApiError( error, 'The product could not be deactivated. Check your connection and try again.', { 403: 'You do not have permission to deactivate products. Ask an administrator for inventory:write access.' } ),
         } )
     }
 
