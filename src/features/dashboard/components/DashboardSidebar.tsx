@@ -66,6 +66,7 @@ const isInventoryVariantSectionRoute = ( pathname: string ) => (
 )
 
 const isInventoryUomRoute = ( pathname: string ) => isRouteWithin( pathname, '/inventory/settings/uoms' )
+const isInventoryWarehouseRoute = ( pathname: string ) => isRouteWithin( pathname, '/inventory/warehouses' )
 
 const getItemAriaCurrent = ( pathname: string, route: string ): 'page' | 'location' => (
     pathname === route ? 'page' : 'location'
@@ -203,6 +204,16 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/inventory/settings/uoms' } )
+                                            } }
+                                        />
+                                        <DashboardNavItem
+                                            label="Warehouses"
+                                            icon={ <Building01Icon size={ 17 } /> }
+                                            active={ isInventoryWarehouseRoute( pathname ) }
+                                            ariaCurrent={ isInventoryWarehouseRoute( pathname ) ? getItemAriaCurrent( pathname, '/inventory/warehouses' ) : undefined }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/inventory/warehouses' } )
                                             } }
                                         />
                                     </div>

@@ -15,6 +15,10 @@ import { ProductsPage } from '@/src/features/inventory/pages/ProductsPage';
 import { UnitOfMeasureCreatePage } from '@/src/features/inventory/pages/UnitOfMeasureCreatePage';
 import { UnitOfMeasureDetailPage } from '@/src/features/inventory/pages/UnitOfMeasureDetailPage';
 import { UnitOfMeasureSettingsPage } from '@/src/features/inventory/pages/UnitOfMeasureSettingsPage';
+import { WarehousesPage } from '@/src/features/inventory/pages/WarehousesPage';
+import { WarehouseCreatePage } from '@/src/features/inventory/pages/WarehouseCreatePage';
+import { WarehouseDetailPage } from '@/src/features/inventory/pages/WarehouseDetailPage';
+import type { WarehouseSearchParams } from '@/src/features/inventory/types/warehouses';
 import { ProductCategorySettingsPage } from '@/src/features/inventory/pages/ProductCategorySettingsPage';
 import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
 import { ProductDetailPage } from '@/src/features/inventory/pages/ProductDetailPage';
@@ -93,6 +97,23 @@ const unitOfMeasureDetailRoute = createRoute({
   component: UnitOfMeasureDetailRouteComponent,
 });
 
+const warehouseCreateRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/warehouses/new',
+  component: WarehouseCreatePage,
+});
+
+const warehouseDetailRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/warehouses/$warehouseId',
+  component: WarehouseDetailRouteComponent,
+});
+
+function WarehouseDetailRouteComponent() {
+  const { warehouseId } = warehouseDetailRoute.useParams();
+  return <WarehouseDetailPage warehouseId={warehouseId} />;
+}
+
 function UnitOfMeasureDetailRouteComponent() {
   const { uomId } = unitOfMeasureDetailRoute.useParams();
   return <UnitOfMeasureDetailPage unitId={uomId} />;
@@ -150,6 +171,11 @@ const inventorySearchSchema = z.object({
   activeFilter: z.enum(['true', 'false']).optional().catch(undefined),
 });
 
+const warehouseSearchSchema = z.object({
+  search: z.string().optional().catch(undefined),
+  activeFilter: z.enum(['true', 'false']).optional().catch(undefined),
+});
+
 const inventoryRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/inventory',
@@ -168,6 +194,31 @@ const inventoryVariantsRoute = createRoute({
   path: '/inventory/variants',
   component: InventoryVariantsPage,
 });
+
+const warehousesRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/warehouses',
+  validateSearch: warehouseSearchSchema,
+  component: WarehousesRouteComponent,
+});
+
+function WarehousesRouteComponent() {
+  const search = warehousesRoute.useSearch();
+  const navigate = warehousesRoute.useNavigate();
+
+  return (
+    <WarehousesPage
+      searchParams={search}
+      updateSearchParams={(updates: WarehouseSearchParams) =>
+        navigate({
+          replace: true,
+          search: (previous) => ({ ...previous, ...updates }),
+        })
+      }
+      clearSearchParams={() => navigate({ replace: true, search: {} })}
+    />
+  );
+}
 
 function ProductsRouteComponent() {
   const search = productsRoute.useSearch();
@@ -211,7 +262,7 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, financeHomeRoute, inventoryRoute, productsRoute, inventoryVariantsRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, unitOfMeasureSettingsRoute, unitOfMeasureCreateRoute, unitOfMeasureDetailRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxGroupDetailRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
+  protectedLayoutRoute.addChildren([dashboardRoute, financeHomeRoute, inventoryRoute, productsRoute, inventoryVariantsRoute, warehousesRoute, warehouseCreateRoute, warehouseDetailRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, unitOfMeasureSettingsRoute, unitOfMeasureCreateRoute, unitOfMeasureDetailRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxGroupDetailRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
 ]);
 
 export const router = createRouter({ routeTree });
