@@ -67,6 +67,7 @@ const isInventoryVariantSectionRoute = ( pathname: string ) => (
 
 const isInventoryUomRoute = ( pathname: string ) => isRouteWithin( pathname, '/inventory/settings/uoms' )
 const isInventoryWarehouseRoute = ( pathname: string ) => isRouteWithin( pathname, '/inventory/warehouses' )
+const isInventoryStockRoute = ( pathname: string ) => isRouteWithin( pathname, '/inventory/stock-movements' )
 
 const getItemAriaCurrent = ( pathname: string, route: string ): 'page' | 'location' => (
     pathname === route ? 'page' : 'location'
@@ -214,6 +215,16 @@ export const DashboardSidebar = ( { open, onClose }: DashboardSidebarProps ) => 
                                             onClick={ () => {
                                                 onClose()
                                                 navigate( { to: '/inventory/warehouses' } )
+                                            } }
+                                        />
+                                        <DashboardNavItem
+                                            label="Stock movements"
+                                            icon={ <PackageIcon size={ 17 } /> }
+                                            active={ isInventoryStockRoute( pathname ) }
+                                            ariaCurrent={ isInventoryStockRoute( pathname ) ? getItemAriaCurrent( pathname, '/inventory/stock-movements' ) : undefined }
+                                            onClick={ () => {
+                                                onClose()
+                                                navigate( { to: '/inventory/stock-movements' } )
                                             } }
                                         />
                                     </div>

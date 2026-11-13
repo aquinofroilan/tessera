@@ -1,4 +1,4 @@
-type StaticBreadcrumbRoute = '/dashboard' | '/inventory' | '/inventory/products' | '/inventory/variants' | '/inventory/settings/uoms' | '/inventory/warehouses' | '/finance' | '/finance/tax/groups' | '/finance/tax/rates'
+type StaticBreadcrumbRoute = '/dashboard' | '/inventory' | '/inventory/products' | '/inventory/variants' | '/inventory/stock-movements' | '/inventory/settings/uoms' | '/inventory/warehouses' | '/finance' | '/finance/tax/groups' | '/finance/tax/rates'
 
 type BreadcrumbTarget =
     | Readonly<{ to: StaticBreadcrumbRoute }>
@@ -39,6 +39,11 @@ const warehousesBreadcrumb: DashboardBreadcrumb = {
     target: { to: '/inventory/warehouses' },
 }
 
+const stockMovementsBreadcrumb: DashboardBreadcrumb = {
+    label: 'Stock movements',
+    target: { to: '/inventory/stock-movements' },
+}
+
 const financeBreadcrumb: DashboardBreadcrumb = {
     label: 'Finance & Accounting',
     target: { to: '/finance' },
@@ -75,6 +80,10 @@ export function getDashboardBreadcrumbs ( pathname: string ): DashboardBreadcrum
 
     if ( pathname === '/inventory/variants' ) {
         return [ workspaceBreadcrumb, inventoryBreadcrumb, { label: 'Product variants' } ]
+    }
+
+    if ( pathname === '/inventory/stock-movements' ) {
+        return [ workspaceBreadcrumb, inventoryBreadcrumb, stockMovementsBreadcrumb ]
     }
 
     if ( pathname === '/inventory/products/new' ) {
