@@ -34,14 +34,15 @@ export type UpdateWarehouseRequest = {
 
 export type WarehouseLocationType = 'ZONE' | 'AISLE' | 'RACK' | 'SHELF' | 'BIN'
 
-export type WarehouseLocationResponse = {
+export type WarehouseLocationResponse = Readonly<{
     id: string
     warehouseId: string
     parentLocationId: string | null
     code: string
     type: WarehouseLocationType
     barcode: string | null
-}
+    isActive: boolean
+}>
 
 export type CreateWarehouseLocationRequest = {
     warehouseId: string
@@ -50,6 +51,19 @@ export type CreateWarehouseLocationRequest = {
     type: WarehouseLocationType
     barcode?: string
 }
+
+export type UpdateWarehouseLocationRequest = {
+    code?: string
+    parentLocationId?: string | null
+    type?: WarehouseLocationType
+    barcode?: string | null
+    isActive?: boolean
+}
+
+export type WarehouseLocationListParams = Readonly<{
+    warehouseId: string
+    activeOnly?: boolean
+}>
 
 export type WarehouseListParams = {
     isActive?: boolean

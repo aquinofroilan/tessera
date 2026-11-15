@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { axios } from '@/src/lib/axios'
-import type { CreateWarehouseLocationRequest, CreateWarehouseRequest, UpdateWarehouseRequest, WarehouseListParams, WarehouseLocationResponse, WarehouseResponse } from '@/src/features/inventory/types/warehouses'
+import type { CreateWarehouseLocationRequest, CreateWarehouseRequest, UpdateWarehouseLocationRequest, UpdateWarehouseRequest, WarehouseListParams, WarehouseLocationListParams, WarehouseLocationResponse, WarehouseResponse } from '@/src/features/inventory/types/warehouses'
 
 const WAREHOUSES_ENDPOINT = '/api/v1/inventory/warehouses'
 const LOCATIONS_ENDPOINT = '/api/v1/inventory/locations'
@@ -22,11 +22,20 @@ export const updateWarehouse = ( id: string, body: UpdateWarehouseRequest ): Pro
 export const deactivateWarehouse = ( id: string ): Promise<WarehouseResponse> =>
     axios.delete( `${ WAREHOUSES_ENDPOINT }/${ encodeURIComponent( id ) }` )
 
-export const getWarehouseLocations = ( warehouseId: string ): Promise<WarehouseLocationResponse[]> =>
-    axios.get( LOCATIONS_ENDPOINT, { params: { warehouseId } } )
+export const getWarehouseLocations = ( { warehouseId, activeOnly = true }: WarehouseLocationListParams ): Promise<WarehouseLocationResponse[]> =>
+    axios.get( LOCATIONS_ENDPOINT, { params: { warehouseId, activeOnly } } )
+
+export const getWarehouseLocation = ( id: string ): Promise<WarehouseLocationResponse> =>
+    axios.get( `${ LOCATIONS_ENDPOINT }/${ encodeURIComponent( id ) }` )
 
 export const createWarehouseLocation = ( body: CreateWarehouseLocationRequest ): Promise<WarehouseLocationResponse> =>
     axios.post( LOCATIONS_ENDPOINT, body )
+
+export const updateWarehouseLocation = ( id: string, body: UpdateWarehouseLocationRequest ): Promise<WarehouseLocationResponse> =>
+    axios.patch( `${ LOCATIONS_ENDPOINT }/${ encodeURIComponent( id ) }`, body )
+
+export const deactivateWarehouseLocation = ( id: string ): Promise<WarehouseLocationResponse> =>
+    axios.delete( `${ LOCATIONS_ENDPOINT }/${ encodeURIComponent( id ) }` )
 
 export const useWarehouses = ( params: WarehouseListParams = {} ) => useQuery( {
     queryKey: [ ...WAREHOUSES_QUERY_KEY, params ],
@@ -41,10 +50,17 @@ export const useWarehouse = ( id: string ) => useQuery( {
     retry: false,
 } )
 
-export const useWarehouseLocations = ( warehouseId: string ) => useQuery( {
-    queryKey: [ ...LOCATIONS_QUERY_KEY, warehouseId ],
-    queryFn: () => getWarehouseLocations( warehouseId ),
+export const useWarehouseLocations = ( warehouseId: string, activeOnly = true ) => useQuery( {
+    queryKey: [ ...LOCATIONS_QUERY_KEY, warehouseId, { activeOnly } ],
+    queryFn: () => getWarehouseLocations( { warehouseId, activeOnly } ),
     enabled: Boolean( warehouseId ),
+    retry: false,
+} )
+
+export const useWarehouseLocation = ( id: string, enabled = true ) => useQuery( {
+    queryKey: [ ...LOCATIONS_QUERY_KEY, 'detail', id ],
+    queryFn: () => getWarehouseLocation( id ),
+    enabled: enabled && Boolean( id ),
     retry: false,
 } )
 
@@ -86,6 +102,30 @@ export const useCreateWarehouseLocation = () => {
 
     return useMutation( {
         mutationFn: createWarehouseLocation,
-        onSuccess: location => queryClient.invalidateQueries( { queryKey: [ ...LOCATIONS_QUERY_KEY, location.warehouseId ] } ),
+        onSuccess: location => queryClient.invalidateQueries( { queryKey: LOCATIONS_QUERY_KEY } ),
+    } )
+}
+
+export const useUpdateWarehouseLocation = ( id: string ) => {
+    const queryClient = useQueryClient()
+
+    return useMutation( {
+        mutationFn: ( body: UpdateWarehouseLocationRequest ) => updateWarehouseLocation( id, body ),
+        onSuccess: location => {
+            queryClient.setQueryData( [ ...LOCATIONS_QUERY_KEY, 'detail', id ], location )
+            void queryClient.invalidateQueries( { queryKey: LOCATIONS_QUERY_KEY } )
+        },
+    } )
+}
+
+export const useDeactivateWarehouseLocation = ( id: string ) => {
+    const queryClient = useQueryClient()
+
+    return useMutation( {
+        mutationFn: () => deactivateWarehouseLocation( id ),
+        onSuccess: location => {
+            queryClient.setQueryData( [ ...LOCATIONS_QUERY_KEY, 'detail', id ], location )
+            void queryClient.invalidateQueries( { queryKey: LOCATIONS_QUERY_KEY } )
+        },
     } )
 }

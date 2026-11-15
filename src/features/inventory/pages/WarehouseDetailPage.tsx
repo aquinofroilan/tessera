@@ -1,14 +1,16 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Spinner } from '@/components/ui/spinner'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Switch } from '@/components/ui/switch'
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell'
 import { WarehouseDeactivateDialog } from '@/src/features/inventory/components/WarehouseDeactivateDialog'
 import { WarehouseEditSheet } from '@/src/features/inventory/components/WarehouseEditSheet'
 import { WarehouseLocationCreateForm } from '@/src/features/inventory/components/WarehouseLocationCreateForm'
+import { WarehouseLocationManageSheet } from '@/src/features/inventory/components/WarehouseLocationManageSheet'
 import { useWarehouse, useWarehouseLocations } from '@/src/features/inventory/api/warehouses'
 import { toastApiError } from '@/src/lib/api-error'
 
@@ -26,8 +28,9 @@ function DetailItem ( { label, children }: Readonly<{ label: string, children: R
 }
 
 export function WarehouseDetailPage ( { warehouseId }: WarehouseDetailPageProps ) {
+    const [ includeInactiveLocations, setIncludeInactiveLocations ] = useState( false )
     const warehouseQuery = useWarehouse( warehouseId )
-    const locationsQuery = useWarehouseLocations( warehouseId )
+    const locationsQuery = useWarehouseLocations( warehouseId, !includeInactiveLocations )
     const warehouse = warehouseQuery.data
     const locations = [ ...( locationsQuery.data ?? [] ) ].sort( ( first, second ) => first.code.localeCompare( second.code ) )
     const locationsById = new Map( locations.map( location => [ location.id, location ] ) )
@@ -130,7 +133,14 @@ export function WarehouseDetailPage ( { warehouseId }: WarehouseDetailPageProps 
                                 <h2 id="warehouse-locations-heading" className="font-display text-xl font-light">Storage locations</h2>
                                 <p className="text-sm text-(--ink-soft)">{ locationsQuery.isPending ? 'Loading locations…' : locationsQuery.isError ? 'Location data is unavailable.' : `${ locations.length } ${ locations.length === 1 ? 'location' : 'locations' } in this warehouse.` }</p>
                             </CardHeader>
-                            <WarehouseLocationCreateForm warehouseId={ warehouse.id } locations={ locations } />
+                            <div className="flex items-center justify-between gap-4 border-b border-(--rule-soft) px-5 py-3 sm:px-6">
+                                <p className="text-xs text-(--muted)">{ includeInactiveLocations ? 'Active and inactive locations' : 'Active locations only' }</p>
+                                <label htmlFor="include-inactive-locations" className="flex items-center gap-2 text-sm text-(--ink-soft)">
+                                    Include inactive
+                                    <Switch id="include-inactive-locations" checked={ includeInactiveLocations } onCheckedChange={ setIncludeInactiveLocations } aria-label="Include inactive locations" />
+                                </label>
+                            </div>
+                            <WarehouseLocationCreateForm warehouseId={ warehouse.id } locations={ locations.filter( location => location.isActive ) } />
                             { locationsQuery.isError && !locationsQuery.data ? (
                                 <div className="p-8 text-center text-sm text-(--muted)">Location data is unavailable. Use the retry action in the notification to try again.</div>
                             ) : locationsQuery.isPending ? (
@@ -147,6 +157,8 @@ export function WarehouseDetailPage ( { warehouseId }: WarehouseDetailPageProps 
                                                 <TableHead>Type</TableHead>
                                                 <TableHead>Parent location</TableHead>
                                                 <TableHead>Barcode</TableHead>
+                                                <TableHead>Status</TableHead>
+                                                <TableHead />
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -156,6 +168,8 @@ export function WarehouseDetailPage ( { warehouseId }: WarehouseDetailPageProps 
                                                     <TableCell><span className="rounded-full bg-(--paper-2) px-2 py-0.5 font-mono text-[10px] tracking-wide text-(--ink-soft)">{ location.type }</span></TableCell>
                                                     <TableCell className="text-(--ink-soft)">{ location.parentLocationId ? locationsById.get( location.parentLocationId )?.code ?? `Location ${ location.parentLocationId.slice( 0, 8 ) }` : '—' }</TableCell>
                                                     <TableCell className="font-mono text-xs text-(--muted)">{ location.barcode || '—' }</TableCell>
+                                                    <TableCell><span className={ `rounded-full px-2 py-0.5 text-[11px] font-medium ${ location.isActive ? 'bg-(--moss-soft) text-(--moss)' : 'bg-(--paper-2) text-(--muted)' }` }>{ location.isActive ? 'Active' : 'Inactive' }</span></TableCell>
+                                                    <TableCell><WarehouseLocationManageSheet locationId={ location.id } locations={ locations } /></TableCell>
                                                 </TableRow>
                                             ) ) }
                                         </TableBody>
@@ -164,7 +178,7 @@ export function WarehouseDetailPage ( { warehouseId }: WarehouseDetailPageProps 
                             ) : (
                                 <div className="px-5 py-12 text-center">
                                     <h3 className="font-display text-xl">No locations yet</h3>
-                                    <p className="mt-2 text-sm text-(--muted)">Create the first location for this warehouse above.</p>
+                                    <p className="mt-2 text-sm text-(--muted)">{ includeInactiveLocations ? 'There are no locations for this warehouse.' : 'Create the first location for this warehouse above or include inactive locations.' }</p>
                                 </div>
                             ) }
                         </Card>
