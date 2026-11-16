@@ -1,16 +1,28 @@
 import Axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'sonner';
+import { useAuthStore } from '@/src/features/auth/stores/authStore';
+import { markApiErrorToastHandled, toastApiError } from '@/src/lib/api-error';
 
 const LONG_REQUEST_DELAY_MS = 1_500;
-const LONG_REQUEST_MESSAGE = "The request takes longer than expected. Please wait and don't refresh the page.";
+const LONG_REQUEST_MESSAGE =
+  "The request takes longer than expected. Please wait and don't refresh the page.";
+const LONG_REQUEST_TOAST_ID = 'long-request-pending';
 
 type PendingRequestToast = {
   timeoutId: ReturnType<typeof setTimeout>;
-  toastId?: string | number;
+  hasShownToast: boolean;
 };
 
 const pendingRequestToasts = new Map<InternalAxiosRequestConfig, PendingRequestToast>();
+let activeLongRequestCount = 0;
+let longRequestToastId: string | number | undefined;
+let isRedirectingForUnauthorized = false;
+
+export const resetUnauthorizedRedirect = () => {
+  isRedirectingForUnauthorized = false;
+  toast.dismiss('unauthorized-session');
+};
 
 const clearPendingRequestToast = (config?: InternalAxiosRequestConfig) => {
   if (!config) return;
@@ -19,10 +31,17 @@ const clearPendingRequestToast = (config?: InternalAxiosRequestConfig) => {
   if (!pendingToast) return;
 
   clearTimeout(pendingToast.timeoutId);
-  if (pendingToast.toastId !== undefined) {
-    toast.dismiss(pendingToast.toastId);
+
+  if (pendingToast.hasShownToast) {
+    activeLongRequestCount = Math.max(0, activeLongRequestCount - 1);
   }
+
   pendingRequestToasts.delete(config);
+
+  if (activeLongRequestCount === 0 && longRequestToastId !== undefined) {
+    toast.dismiss(longRequestToastId);
+    longRequestToastId = undefined;
+  }
 };
 
 export const clearPendingRequestToasts = () => {
@@ -44,8 +63,19 @@ axios.interceptors.request.use(
     config.headers.Accept = 'application/json';
 
     const pendingToast: PendingRequestToast = {
+      hasShownToast: false,
       timeoutId: setTimeout(() => {
-        pendingToast.toastId = toast.info(LONG_REQUEST_MESSAGE, { duration: Infinity });
+        if (pendingRequestToasts.get(config) !== pendingToast) return;
+
+        pendingToast.hasShownToast = true;
+        activeLongRequestCount += 1;
+
+        if (longRequestToastId === undefined) {
+          longRequestToastId = toast.info(LONG_REQUEST_MESSAGE, {
+            id: LONG_REQUEST_TOAST_ID,
+            duration: Infinity,
+          });
+        }
       }, LONG_REQUEST_DELAY_MS),
     };
     pendingRequestToasts.set(config, pendingToast);
@@ -54,7 +84,7 @@ axios.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
@@ -64,8 +94,31 @@ axios.interceptors.response.use(
   },
   (error) => {
     clearPendingRequestToast(error?.config);
-    // We can handle global error notifications here (e.g., toast)
-    // if (error.response?.status === 401) { logout() }
+
+    const isAuthenticationRequest =
+      Axios.isAxiosError(error) && error.config?.url?.includes('/api/v1/auth/');
+
+    if (
+      Axios.isAxiosError(error) &&
+      error.response?.status === 401 &&
+      typeof window !== 'undefined' &&
+      !isAuthenticationRequest
+    ) {
+      if (!isRedirectingForUnauthorized) {
+        isRedirectingForUnauthorized = true;
+        useAuthStore.getState().logout();
+        toastApiError(
+          error,
+          'Your session is unauthorized. Please sign in again.',
+          {},
+          { id: 'unauthorized-session' },
+        );
+        window.location.replace('/auth/signin');
+      }
+
+      markApiErrorToastHandled(error);
+    }
+
     return Promise.reject(error);
-  }
+  },
 );
