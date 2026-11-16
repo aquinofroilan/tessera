@@ -1,50 +1,50 @@
-export type TaskStatus = "TODO" | "IN_PROGRESS" | "DONE" | "CANCELLED";
+export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE' | 'CANCELLED';
 
 export const TASK_STATUSES: readonly TaskStatus[] = [
-    "TODO",
-    "IN_PROGRESS",
-    "DONE",
-    "CANCELLED",
+  'TODO',
+  'IN_PROGRESS',
+  'DONE',
+  'CANCELLED',
 ] as const;
 
 export type CreateProjectTaskRequest = {
-    name: string;
-    description?: string | null;
-    parentTaskId?: string | null;
-    assigneeEmployeeId?: string | null;
-    estimatedHours?: string | null;
+  name: string;
+  description?: string | null;
+  parentTaskId?: string | null;
+  assigneeEmployeeId?: string | null;
+  estimatedHours?: string | null;
 };
 
 export type UpdateProjectTaskRequest = {
-    name?: string | null;
-    description?: string | null;
-    assigneeEmployeeId?: string | null;
-    estimatedHours?: string | null;
-    status?: TaskStatus | null;
+  name?: string | null;
+  description?: string | null;
+  assigneeEmployeeId?: string | null;
+  estimatedHours?: string | null;
+  status?: TaskStatus | null;
 };
 
 export type SetTaskParentRequest = {
-    parentTaskId: string | null;
+  parentTaskId: string | null;
 };
 
 export type ProjectTaskResponse = {
-    id: string;
-    projectId: string;
-    parentTaskId: string | null;
-    name: string;
-    description: string | null;
-    assigneeEmployeeId: string | null;
-    estimatedHours: string | null;
-    status: TaskStatus;
-    organizationId: string;
-    createdAt: string | null;
-    updatedAt: string | null;
+  id: string;
+  projectId: string;
+  parentTaskId: string | null;
+  name: string;
+  description: string | null;
+  assigneeEmployeeId: string | null;
+  estimatedHours: string | null;
+  status: TaskStatus;
+  organizationId: string;
+  createdAt: string | null;
+  updatedAt: string | null;
 };
 
 export type ProjectTaskTreeNode = {
-    id: string;
-    name: string;
-    status: TaskStatus;
-    assigneeEmployeeId: string | null;
-    children: ProjectTaskTreeNode[];
+  id: string;
+  name: string;
+  status: TaskStatus;
+  assigneeEmployeeId: string | null;
+  children: ProjectTaskTreeNode[];
 };

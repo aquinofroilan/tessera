@@ -5,7 +5,8 @@ import { useAuthStore } from '@/src/features/auth/stores/authStore';
 import { markApiErrorToastHandled, toastApiError } from '@/src/lib/api-error';
 
 const LONG_REQUEST_DELAY_MS = 1_500;
-const LONG_REQUEST_MESSAGE = "The request takes longer than expected. Please wait and don't refresh the page.";
+const LONG_REQUEST_MESSAGE =
+  "The request takes longer than expected. Please wait and don't refresh the page.";
 const LONG_REQUEST_TOAST_ID = 'long-request-pending';
 
 type PendingRequestToast = {
@@ -20,7 +21,7 @@ let isRedirectingForUnauthorized = false;
 
 export const resetUnauthorizedRedirect = () => {
   isRedirectingForUnauthorized = false;
-  toast.dismiss( 'unauthorized-session' );
+  toast.dismiss('unauthorized-session');
 };
 
 const clearPendingRequestToast = (config?: InternalAxiosRequestConfig) => {
@@ -83,7 +84,7 @@ axios.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
@@ -94,21 +95,30 @@ axios.interceptors.response.use(
   (error) => {
     clearPendingRequestToast(error?.config);
 
-    const isAuthenticationRequest = Axios.isAxiosError( error ) && error.config?.url?.includes( '/api/v1/auth/' );
+    const isAuthenticationRequest =
+      Axios.isAxiosError(error) && error.config?.url?.includes('/api/v1/auth/');
 
-    if ( Axios.isAxiosError( error ) && error.response?.status === 401 && typeof window !== 'undefined' && !isAuthenticationRequest ) {
-      if ( !isRedirectingForUnauthorized ) {
+    if (
+      Axios.isAxiosError(error) &&
+      error.response?.status === 401 &&
+      typeof window !== 'undefined' &&
+      !isAuthenticationRequest
+    ) {
+      if (!isRedirectingForUnauthorized) {
         isRedirectingForUnauthorized = true;
         useAuthStore.getState().logout();
-        toastApiError( error, 'Your session is unauthorized. Please sign in again.', {}, { id: 'unauthorized-session' } );
-        void import( '@/src/routes' ).then( ({ router }) => {
-          void router.navigate( { to: '/auth/signin', replace: true } );
-        } ).catch( () => window.location.replace( '/auth/signin' ) );
+        toastApiError(
+          error,
+          'Your session is unauthorized. Please sign in again.',
+          {},
+          { id: 'unauthorized-session' },
+        );
+        window.location.replace('/auth/signin');
       }
 
-      markApiErrorToastHandled( error );
+      markApiErrorToastHandled(error);
     }
 
     return Promise.reject(error);
-  }
+  },
 );

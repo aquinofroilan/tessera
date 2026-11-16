@@ -1,24 +1,24 @@
 export type CreateLeaveTypeRequest = {
-    code: string;
-    name: string;
-    paid: boolean;
-    defaultAnnualDays: number;
+  code: string;
+  name: string;
+  paid: boolean;
+  defaultAnnualDays: number;
 };
 
 export type UpdateLeaveTypeRequest = {
-    name?: string | null;
-    paid?: boolean | null;
-    defaultAnnualDays?: number | null;
+  name?: string | null;
+  paid?: boolean | null;
+  defaultAnnualDays?: number | null;
 };
 
 export type LeaveTypeResponse = {
-    id: string;
-    code: string;
-    name: string;
-    paid: boolean;
-    defaultAnnualDays: number;
-    organizationId: string;
-    isActive: boolean;
-    createdAt: string | null;
-    updatedAt: string | null;
+  id: string;
+  code: string;
+  name: string;
+  paid: boolean;
+  defaultAnnualDays: number;
+  organizationId: string;
+  isActive: boolean;
+  createdAt: string | null;
+  updatedAt: string | null;
 };

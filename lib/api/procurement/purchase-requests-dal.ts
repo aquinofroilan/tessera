@@ -1,57 +1,55 @@
-import "server-only";
+import 'server-only';
 
-import { cache } from "react";
+import { cache } from 'react';
 
-import { apiCreate, apiGetOrNull, apiList } from "@/lib/api/dal";
-import { authHeaders, authed } from "@/lib/api/auth-helpers";
-import { serverClient } from "@/lib/http";
+import { apiCreate, apiGetOrNull, apiList } from '@/lib/api/dal';
+import { authHeaders, authed } from '@/lib/api/auth-helpers';
+import { serverClient } from '@/lib/http';
 import type {
-    ConvertPurchaseRequestRequest,
-    CreatePurchaseRequestRequest,
-    PurchaseRequestResponse,
-    PurchaseRequestStatus,
-    RejectPurchaseRequestRequest,
-} from "./purchase-requests";
+  ConvertPurchaseRequestRequest,
+  CreatePurchaseRequestRequest,
+  PurchaseRequestResponse,
+  PurchaseRequestStatus,
+  RejectPurchaseRequestRequest,
+} from './purchase-requests';
 
-const PATH = "/procurement/purchase-requests";
+const PATH = '/procurement/purchase-requests';
 
 type ListQuery = {
-    status?: PurchaseRequestStatus;
-    requestedBy?: string;
+  status?: PurchaseRequestStatus;
+  requestedBy?: string;
 };
 
 export const listPurchaseRequests = (query?: ListQuery): Promise<PurchaseRequestResponse[]> =>
-    apiList<PurchaseRequestResponse>(PATH, query);
+  apiList<PurchaseRequestResponse>(PATH, query);
 
 export const getPurchaseRequest = cache(
-    (id: string): Promise<PurchaseRequestResponse | null> =>
-        apiGetOrNull<PurchaseRequestResponse>(`${PATH}/${id}`),
+  (id: string): Promise<PurchaseRequestResponse | null> =>
+    apiGetOrNull<PurchaseRequestResponse>(`${PATH}/${id}`),
 );
 
 export const createPurchaseRequest = (
-    body: CreatePurchaseRequestRequest,
+  body: CreatePurchaseRequestRequest,
 ): Promise<PurchaseRequestResponse> => apiCreate<PurchaseRequestResponse>(PATH, body);
 
 const post = async <T>(path: string, body?: unknown): Promise<T> =>
-    authed(async () =>
-        serverClient.post<T>(path, body, { headers: await authHeaders() }),
-    );
+  authed(async () => serverClient.post<T>(path, body, { headers: await authHeaders() }));
 
 export const submitPurchaseRequest = (id: string): Promise<PurchaseRequestResponse> =>
-    post<PurchaseRequestResponse>(`${PATH}/${id}/submit`);
+  post<PurchaseRequestResponse>(`${PATH}/${id}/submit`);
 
 export const approvePurchaseRequest = (id: string): Promise<PurchaseRequestResponse> =>
-    post<PurchaseRequestResponse>(`${PATH}/${id}/approve`);
+  post<PurchaseRequestResponse>(`${PATH}/${id}/approve`);
 
 export const rejectPurchaseRequest = (
-    id: string,
-    body?: RejectPurchaseRequestRequest,
+  id: string,
+  body?: RejectPurchaseRequestRequest,
 ): Promise<PurchaseRequestResponse> => post<PurchaseRequestResponse>(`${PATH}/${id}/reject`, body);
 
 export const cancelPurchaseRequest = (id: string): Promise<PurchaseRequestResponse> =>
-    post<PurchaseRequestResponse>(`${PATH}/${id}/cancel`);
+  post<PurchaseRequestResponse>(`${PATH}/${id}/cancel`);
 
 export const convertPurchaseRequest = (
-    id: string,
-    body?: ConvertPurchaseRequestRequest,
+  id: string,
+  body?: ConvertPurchaseRequestRequest,
 ): Promise<unknown> => post<unknown>(`${PATH}/${id}/convert`, body);

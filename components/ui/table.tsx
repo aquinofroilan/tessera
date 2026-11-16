@@ -1,50 +1,55 @@
-import { type ComponentProps } from "react";
-import { cn } from "@/lib/utils";
+import { type ComponentProps } from 'react';
+import { cn } from '@/lib/utils';
 
-export function Table({ className, ...props }: Readonly<ComponentProps<"table">>) {
-    return (
-        <div className="w-full overflow-x-auto">
-            <table className={cn("w-full caption-bottom border-collapse text-sm", className)} {...props} />
-        </div>
-    );
+export function Table({ className, ...props }: Readonly<ComponentProps<'table'>>) {
+  return (
+    <div className="w-full overflow-x-auto">
+      <table
+        className={cn('w-full caption-bottom border-collapse text-sm', className)}
+        {...props}
+      />
+    </div>
+  );
 }
 
-export function TableHeader({ className, ...props }: Readonly<ComponentProps<"thead">>) {
-    return <thead className={cn("border-b border-(--rule)", className)} {...props} />;
+export function TableHeader({ className, ...props }: Readonly<ComponentProps<'thead'>>) {
+  return <thead className={cn('border-b border-(--rule)', className)} {...props} />;
 }
 
-export function TableBody({ className, ...props }: Readonly<ComponentProps<"tbody">>) {
-    return <tbody className={cn("[&_tr:last-child]:border-0", className)} {...props} />;
+export function TableBody({ className, ...props }: Readonly<ComponentProps<'tbody'>>) {
+  return <tbody className={cn('[&_tr:last-child]:border-0', className)} {...props} />;
 }
 
-export function TableRow({ className, ...props }: Readonly<ComponentProps<"tr">>) {
-    return (
-        <tr
-            className={cn(
-                "border-b border-(--rule-soft) transition-colors hover:bg-(--paper-2)/60 data-[state=selected]:bg-(--paper-2)",
-                className,
-            )}
-            {...props}
-        />
-    );
+export function TableRow({ className, ...props }: Readonly<ComponentProps<'tr'>>) {
+  return (
+    <tr
+      className={cn(
+        'border-b border-(--rule-soft) transition-colors hover:bg-(--paper-2)/60 data-[state=selected]:bg-(--paper-2)',
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-export function TableHead({ className, ...props }: Readonly<ComponentProps<"th">>) {
-    return (
-        <th
-            className={cn(
-                "h-11 px-5 text-left align-middle font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase",
-                className,
-            )}
-            {...props}
-        />
-    );
+export function TableHead({ className, ...props }: Readonly<ComponentProps<'th'>>) {
+  return (
+    <th
+      className={cn(
+        'h-11 px-5 text-left align-middle font-mono text-[10px] tracking-[0.14em] text-(--muted) uppercase',
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-export function TableCell({ className, ...props }: Readonly<ComponentProps<"td">>) {
-    return <td className={cn("h-14 px-5 align-middle text-(--ink) tabular-nums", className)} {...props} />;
+export function TableCell({ className, ...props }: Readonly<ComponentProps<'td'>>) {
+  return (
+    <td className={cn('h-14 px-5 align-middle text-(--ink) tabular-nums', className)} {...props} />
+  );
 }
 
-export function TableCaption({ className, ...props }: Readonly<ComponentProps<"caption">>) {
-    return <caption className={cn("mt-3 text-sm text-(--muted)", className)} {...props} />;
+export function TableCaption({ className, ...props }: Readonly<ComponentProps<'caption'>>) {
+  return <caption className={cn('mt-3 text-sm text-(--muted)', className)} {...props} />;
 }
