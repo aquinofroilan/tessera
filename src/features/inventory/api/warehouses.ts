@@ -22,8 +22,25 @@ export const updateWarehouse = ( id: string, body: UpdateWarehouseRequest ): Pro
 export const deactivateWarehouse = ( id: string ): Promise<WarehouseResponse> =>
     axios.delete( `${ WAREHOUSES_ENDPOINT }/${ encodeURIComponent( id ) }` )
 
-export const getWarehouseLocations = ( { warehouseId, activeOnly = true }: WarehouseLocationListParams ): Promise<WarehouseLocationResponse[]> =>
-    axios.get( LOCATIONS_ENDPOINT, { params: { warehouseId, activeOnly } } )
+type WarehouseLocationPageResponse = Readonly<{
+    content: readonly WarehouseLocationResponse[]
+}>
+
+function normalizeWarehouseLocations ( response: unknown ): WarehouseLocationResponse[] {
+    if ( Array.isArray( response ) ) return response as WarehouseLocationResponse[]
+    if ( typeof response === 'object' && response !== null && 'content' in response && Array.isArray( response.content ) ) {
+        return response.content as WarehouseLocationResponse[]
+    }
+    throw new Error( 'Unexpected warehouse locations response.' )
+}
+
+export const getWarehouseLocations = async ( { warehouseId, activeOnly = true }: WarehouseLocationListParams ): Promise<WarehouseLocationResponse[]> => {
+    const response: unknown = await axios.get<WarehouseLocationResponse[] | WarehouseLocationPageResponse>(
+        LOCATIONS_ENDPOINT,
+        { params: { warehouseId, activeOnly } },
+    )
+    return normalizeWarehouseLocations( response )
+}
 
 export const getWarehouseLocation = ( id: string ): Promise<WarehouseLocationResponse> =>
     axios.get( `${ LOCATIONS_ENDPOINT }/${ encodeURIComponent( id ) }` )
