@@ -1,91 +1,209 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { axios } from '@/src/lib/axios'
-import type { CreateWarehouseLocationRequest, CreateWarehouseRequest, UpdateWarehouseRequest, WarehouseListParams, WarehouseLocationResponse, WarehouseResponse } from '@/src/features/inventory/types/warehouses'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { axios } from '@/src/lib/axios';
+import type {
+  CreateWarehouseLocationRequest,
+  CreateWarehouseRequest,
+  UpdateWarehouseLocationRequest,
+  UpdateWarehouseRequest,
+  WarehouseListParams,
+  WarehouseLocationListParams,
+  WarehouseLocationPage,
+  WarehouseLocationResponse,
+  WarehouseResponse,
+} from '@/src/features/inventory/types/warehouses';
 
-const WAREHOUSES_ENDPOINT = '/api/v1/inventory/warehouses'
-const LOCATIONS_ENDPOINT = '/api/v1/inventory/locations'
-const WAREHOUSES_QUERY_KEY = [ 'inventory', 'warehouses' ] as const
-const LOCATIONS_QUERY_KEY = [ 'inventory', 'warehouse-locations' ] as const
+const WAREHOUSES_ENDPOINT = '/api/v1/inventory/warehouses';
+const LOCATIONS_ENDPOINT = '/api/v1/inventory/locations';
+const WAREHOUSES_QUERY_KEY = ['inventory', 'warehouses'] as const;
+const LOCATIONS_QUERY_KEY = ['inventory', 'warehouse-locations'] as const;
 
-export const getWarehouses = ( { isActive = true, search }: WarehouseListParams = {} ): Promise<WarehouseResponse[]> =>
-    axios.get( WAREHOUSES_ENDPOINT, { params: { isActive, search: search?.trim() || undefined } } )
+export const getWarehouses = ({ isActive = true, search }: WarehouseListParams = {}): Promise<
+  WarehouseResponse[]
+> => axios.get(WAREHOUSES_ENDPOINT, { params: { isActive, search: search?.trim() || undefined } });
 
-export const getWarehouse = ( id: string ): Promise<WarehouseResponse> =>
-    axios.get( `${ WAREHOUSES_ENDPOINT }/${ encodeURIComponent( id ) }` )
+export const getWarehouse = (id: string): Promise<WarehouseResponse> =>
+  axios.get(`${WAREHOUSES_ENDPOINT}/${encodeURIComponent(id)}`);
 
-export const createWarehouse = ( body: CreateWarehouseRequest ): Promise<WarehouseResponse> =>
-    axios.post( WAREHOUSES_ENDPOINT, body )
+export const createWarehouse = (body: CreateWarehouseRequest): Promise<WarehouseResponse> =>
+  axios.post(WAREHOUSES_ENDPOINT, body);
 
-export const updateWarehouse = ( id: string, body: UpdateWarehouseRequest ): Promise<WarehouseResponse> =>
-    axios.patch( `${ WAREHOUSES_ENDPOINT }/${ encodeURIComponent( id ) }`, body )
+export const updateWarehouse = (
+  id: string,
+  body: UpdateWarehouseRequest,
+): Promise<WarehouseResponse> =>
+  axios.patch(`${WAREHOUSES_ENDPOINT}/${encodeURIComponent(id)}`, body);
 
-export const deactivateWarehouse = ( id: string ): Promise<WarehouseResponse> =>
-    axios.delete( `${ WAREHOUSES_ENDPOINT }/${ encodeURIComponent( id ) }` )
+export const deactivateWarehouse = (id: string): Promise<WarehouseResponse> =>
+  axios.delete(`${WAREHOUSES_ENDPOINT}/${encodeURIComponent(id)}`);
 
-export const getWarehouseLocations = ( warehouseId: string ): Promise<WarehouseLocationResponse[]> =>
-    axios.get( LOCATIONS_ENDPOINT, { params: { warehouseId } } )
+function normalizeWarehouseLocations(response: unknown): WarehouseLocationPage {
+  if (Array.isArray(response)) {
+    const content = response as WarehouseLocationResponse[];
+    return {
+      content,
+      page: 0,
+      size: content.length,
+      totalElements: content.length,
+      totalPages: content.length ? 1 : 0,
+    };
+  }
+  if (
+    typeof response === 'object' &&
+    response !== null &&
+    'content' in response &&
+    Array.isArray(response.content)
+  ) {
+    const content = response.content as WarehouseLocationResponse[];
+    const page =
+      'page' in response && typeof response.page === 'number'
+        ? response.page
+        : 'number' in response && typeof response.number === 'number'
+          ? response.number
+          : 0;
+    const size =
+      'size' in response && typeof response.size === 'number' ? response.size : content.length;
+    const totalElements =
+      'totalElements' in response && typeof response.totalElements === 'number'
+        ? response.totalElements
+        : content.length;
+    const totalPages =
+      'totalPages' in response && typeof response.totalPages === 'number'
+        ? response.totalPages
+        : content.length
+          ? 1
+          : 0;
+    return { content, page, size, totalElements, totalPages };
+  }
+  throw new Error('Unexpected warehouse locations response.');
+}
 
-export const createWarehouseLocation = ( body: CreateWarehouseLocationRequest ): Promise<WarehouseLocationResponse> =>
-    axios.post( LOCATIONS_ENDPOINT, body )
+export const getWarehouseLocations = async ({
+  warehouseId,
+  activeOnly = true,
+  page = 0,
+  size = 100,
+}: WarehouseLocationListParams): Promise<WarehouseLocationPage> => {
+  const response: unknown = await axios.get<WarehouseLocationResponse[] | WarehouseLocationPage>(
+    LOCATIONS_ENDPOINT,
+    { params: { warehouseId, activeOnly, page, size } },
+  );
+  return normalizeWarehouseLocations(response);
+};
 
-export const useWarehouses = ( params: WarehouseListParams = {} ) => useQuery( {
-    queryKey: [ ...WAREHOUSES_QUERY_KEY, params ],
-    queryFn: () => getWarehouses( params ),
+export const getWarehouseLocation = (id: string): Promise<WarehouseLocationResponse> =>
+  axios.get(`${LOCATIONS_ENDPOINT}/${encodeURIComponent(id)}`);
+
+export const createWarehouseLocation = (
+  body: CreateWarehouseLocationRequest,
+): Promise<WarehouseLocationResponse> => axios.post(LOCATIONS_ENDPOINT, body);
+
+export const updateWarehouseLocation = (
+  id: string,
+  body: UpdateWarehouseLocationRequest,
+): Promise<WarehouseLocationResponse> =>
+  axios.patch(`${LOCATIONS_ENDPOINT}/${encodeURIComponent(id)}`, body);
+
+export const deactivateWarehouseLocation = (id: string): Promise<WarehouseLocationResponse> =>
+  axios.delete(`${LOCATIONS_ENDPOINT}/${encodeURIComponent(id)}`);
+
+export const useWarehouses = (params: WarehouseListParams = {}) =>
+  useQuery({
+    queryKey: [...WAREHOUSES_QUERY_KEY, params],
+    queryFn: () => getWarehouses(params),
     retry: false,
-} )
+  });
 
-export const useWarehouse = ( id: string ) => useQuery( {
-    queryKey: [ ...WAREHOUSES_QUERY_KEY, id ],
-    queryFn: () => getWarehouse( id ),
-    enabled: Boolean( id ),
+export const useWarehouse = (id: string) =>
+  useQuery({
+    queryKey: [...WAREHOUSES_QUERY_KEY, id],
+    queryFn: () => getWarehouse(id),
+    enabled: Boolean(id),
     retry: false,
-} )
+  });
 
-export const useWarehouseLocations = ( warehouseId: string ) => useQuery( {
-    queryKey: [ ...LOCATIONS_QUERY_KEY, warehouseId ],
-    queryFn: () => getWarehouseLocations( warehouseId ),
-    enabled: Boolean( warehouseId ),
+export const useWarehouseLocations = (
+  warehouseId: string,
+  activeOnly = true,
+  page = 0,
+  size = 100,
+) =>
+  useQuery({
+    queryKey: [...LOCATIONS_QUERY_KEY, warehouseId, { activeOnly, page, size }],
+    queryFn: () => getWarehouseLocations({ warehouseId, activeOnly, page, size }),
+    enabled: Boolean(warehouseId),
     retry: false,
-} )
+  });
+
+export const useWarehouseLocation = (id: string, enabled = true) =>
+  useQuery({
+    queryKey: [...LOCATIONS_QUERY_KEY, 'detail', id],
+    queryFn: () => getWarehouseLocation(id),
+    enabled: enabled && Boolean(id),
+    retry: false,
+  });
 
 export const useCreateWarehouse = () => {
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-    return useMutation( {
-        mutationFn: createWarehouse,
-        onSuccess: () => queryClient.invalidateQueries( { queryKey: WAREHOUSES_QUERY_KEY } ),
-    } )
-}
+  return useMutation({
+    mutationFn: createWarehouse,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: WAREHOUSES_QUERY_KEY }),
+  });
+};
 
-export const useUpdateWarehouse = ( id: string ) => {
-    const queryClient = useQueryClient()
+export const useUpdateWarehouse = (id: string) => {
+  const queryClient = useQueryClient();
 
-    return useMutation( {
-        mutationFn: ( body: UpdateWarehouseRequest ) => updateWarehouse( id, body ),
-        onSuccess: warehouse => {
-            queryClient.setQueryData( [ ...WAREHOUSES_QUERY_KEY, id ], warehouse )
-            queryClient.invalidateQueries( { queryKey: WAREHOUSES_QUERY_KEY } )
-        },
-    } )
-}
+  return useMutation({
+    mutationFn: (body: UpdateWarehouseRequest) => updateWarehouse(id, body),
+    onSuccess: (warehouse) => {
+      queryClient.setQueryData([...WAREHOUSES_QUERY_KEY, id], warehouse);
+      queryClient.invalidateQueries({ queryKey: WAREHOUSES_QUERY_KEY });
+    },
+  });
+};
 
-export const useDeactivateWarehouse = ( id: string ) => {
-    const queryClient = useQueryClient()
+export const useDeactivateWarehouse = (id: string) => {
+  const queryClient = useQueryClient();
 
-    return useMutation( {
-        mutationFn: () => deactivateWarehouse( id ),
-        onSuccess: warehouse => {
-            queryClient.setQueryData( [ ...WAREHOUSES_QUERY_KEY, id ], warehouse )
-            queryClient.invalidateQueries( { queryKey: WAREHOUSES_QUERY_KEY } )
-        },
-    } )
-}
+  return useMutation({
+    mutationFn: () => deactivateWarehouse(id),
+    onSuccess: (warehouse) => {
+      queryClient.setQueryData([...WAREHOUSES_QUERY_KEY, id], warehouse);
+      queryClient.invalidateQueries({ queryKey: WAREHOUSES_QUERY_KEY });
+    },
+  });
+};
 
 export const useCreateWarehouseLocation = () => {
-    const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-    return useMutation( {
-        mutationFn: createWarehouseLocation,
-        onSuccess: location => queryClient.invalidateQueries( { queryKey: [ ...LOCATIONS_QUERY_KEY, location.warehouseId ] } ),
-    } )
-}
+  return useMutation({
+    mutationFn: createWarehouseLocation,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: LOCATIONS_QUERY_KEY }),
+  });
+};
+
+export const useUpdateWarehouseLocation = (id: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (body: UpdateWarehouseLocationRequest) => updateWarehouseLocation(id, body),
+    onSuccess: (location) => {
+      queryClient.setQueryData([...LOCATIONS_QUERY_KEY, 'detail', id], location);
+      void queryClient.invalidateQueries({ queryKey: LOCATIONS_QUERY_KEY });
+    },
+  });
+};
+
+export const useDeactivateWarehouseLocation = (id: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => deactivateWarehouseLocation(id),
+    onSuccess: (location) => {
+      queryClient.setQueryData([...LOCATIONS_QUERY_KEY, 'detail', id], location);
+      void queryClient.invalidateQueries({ queryKey: LOCATIONS_QUERY_KEY });
+    },
+  });
+};

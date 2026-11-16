@@ -1,23 +1,29 @@
-import { useMutation } from "@tanstack/react-query";
-import { axios } from "@/src/lib/axios";
-import type { RegisterCredentials } from "@/src/features/auth/types";
+import { useMutation } from '@tanstack/react-query';
+import { axios } from '@/src/lib/axios';
+import type { RegisterCredentials } from '@/src/features/auth/types';
 
-export const registerWithEmailAndPassword = (data: RegisterCredentials): Promise<{ message: string, userId: string }> => {
-    const { termsAccepted: _termsAccepted, ...signupRequest } = data;
-    return axios.post('/api/v1/auth/signup', signupRequest);
+export const registerWithEmailAndPassword = (
+  data: RegisterCredentials,
+): Promise<{ message: string; userId: string }> => {
+  const { termsAccepted, ...signupRequest } = data;
+  if (!termsAccepted) {
+    throw new Error('Terms and conditions must be accepted before registering.');
+  }
+
+  return axios.post('/api/v1/auth/signup', signupRequest);
 };
 
 type UseRegisterOptions = {
-    onSuccess?: (data: { message: string, userId: string }) => void;
+  onSuccess?: (data: { message: string; userId: string }) => void;
 };
 
 export const useRegister = ({ onSuccess }: UseRegisterOptions = {}) => {
-    return useMutation({
-        mutationFn: registerWithEmailAndPassword,
-        onSuccess: (data) => {
-            if (onSuccess) {
-                onSuccess(data);
-            }
-        },
-    });
+  return useMutation({
+    mutationFn: registerWithEmailAndPassword,
+    onSuccess: (data) => {
+      if (onSuccess) {
+        onSuccess(data);
+      }
+    },
+  });
 };

@@ -1,4 +1,11 @@
-import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  lazyRouteComponent,
+  Outlet,
+  redirect,
+} from '@tanstack/react-router';
 import { z } from 'zod';
 import { ProtectedRoute } from '@/src/components/router/ProtectedRoute';
 import { loginRoute } from '@/src/features/auth/routes/login';
@@ -7,29 +14,97 @@ import { forgotPasswordRoute } from '@/src/features/auth/routes/forgotPassword';
 import { resetPasswordRoute } from '@/src/features/auth/routes/resetPassword';
 import { magicLinkRoute } from '@/src/features/auth/routes/magicLink';
 import { invitationRoute } from '@/src/features/auth/routes/invitation';
-import { DashboardPage } from '@/src/features/dashboard/pages/DashboardPage';
-import { LandingPage } from '@/src/features/landing/pages/LandingPage';
-import { InventoryPage } from '@/src/features/inventory/pages/InventoryPage';
-import { InventoryVariantsPage } from '@/src/features/inventory/pages/InventoryVariantsPage';
-import { ProductsPage } from '@/src/features/inventory/pages/ProductsPage';
-import { UnitOfMeasureCreatePage } from '@/src/features/inventory/pages/UnitOfMeasureCreatePage';
-import { UnitOfMeasureDetailPage } from '@/src/features/inventory/pages/UnitOfMeasureDetailPage';
-import { UnitOfMeasureSettingsPage } from '@/src/features/inventory/pages/UnitOfMeasureSettingsPage';
-import { WarehousesPage } from '@/src/features/inventory/pages/WarehousesPage';
-import { WarehouseCreatePage } from '@/src/features/inventory/pages/WarehouseCreatePage';
-import { WarehouseDetailPage } from '@/src/features/inventory/pages/WarehouseDetailPage';
 import type { WarehouseSearchParams } from '@/src/features/inventory/types/warehouses';
-import { ProductCategorySettingsPage } from '@/src/features/inventory/pages/ProductCategorySettingsPage';
-import { ProductCreatePage } from '@/src/features/inventory/pages/ProductCreatePage';
-import { ProductDetailPage } from '@/src/features/inventory/pages/ProductDetailPage';
-import { ProductVariantDetailPage } from '@/src/features/inventory/pages/ProductVariantDetailPage';
-import { TaxGroupSettingsPage } from '@/src/features/finance/pages/TaxGroupSettingsPage';
-import { FinanceHomePage } from '@/src/features/finance/pages/FinanceHomePage';
-import { TaxGroupCreatePage } from '@/src/features/finance/pages/TaxGroupCreatePage';
-import { TaxGroupDetailPage } from '@/src/features/finance/pages/TaxGroupDetailPage';
-import { TaxRatesSettingsPage } from '@/src/features/finance/pages/TaxRatesSettingsPage';
-import { TaxRateCreatePage } from '@/src/features/finance/pages/TaxRateCreatePage';
 import { clearPendingRequestToasts } from '@/src/lib/axios';
+
+const DashboardPage = lazyRouteComponent(
+  () => import('@/src/features/dashboard/pages/DashboardPage'),
+  'DashboardPage',
+);
+const LandingPage = lazyRouteComponent(
+  () => import('@/src/features/landing/pages/LandingPage'),
+  'LandingPage',
+);
+const InventoryPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/InventoryPage'),
+  'InventoryPage',
+);
+const InventoryVariantsPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/InventoryVariantsPage'),
+  'InventoryVariantsPage',
+);
+const StockMovementsPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/StockMovementsPage'),
+  'StockMovementsPage',
+);
+const ProductsPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/ProductsPage'),
+  'ProductsPage',
+);
+const ProductCreatePage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/ProductCreatePage'),
+  'ProductCreatePage',
+);
+const ProductDetailPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/ProductDetailPage'),
+  'ProductDetailPage',
+);
+const ProductVariantDetailPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/ProductVariantDetailPage'),
+  'ProductVariantDetailPage',
+);
+const ProductCategorySettingsPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/ProductCategorySettingsPage'),
+  'ProductCategorySettingsPage',
+);
+const UnitOfMeasureCreatePage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/UnitOfMeasureCreatePage'),
+  'UnitOfMeasureCreatePage',
+);
+const UnitOfMeasureDetailPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/UnitOfMeasureDetailPage'),
+  'UnitOfMeasureDetailPage',
+);
+const UnitOfMeasureSettingsPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/UnitOfMeasureSettingsPage'),
+  'UnitOfMeasureSettingsPage',
+);
+const WarehousesPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/WarehousesPage'),
+  'WarehousesPage',
+);
+const WarehouseCreatePage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/WarehouseCreatePage'),
+  'WarehouseCreatePage',
+);
+const WarehouseDetailPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/WarehouseDetailPage'),
+  'WarehouseDetailPage',
+);
+const FinanceHomePage = lazyRouteComponent(
+  () => import('@/src/features/finance/pages/FinanceHomePage'),
+  'FinanceHomePage',
+);
+const TaxGroupSettingsPage = lazyRouteComponent(
+  () => import('@/src/features/finance/pages/TaxGroupSettingsPage'),
+  'TaxGroupSettingsPage',
+);
+const TaxGroupCreatePage = lazyRouteComponent(
+  () => import('@/src/features/finance/pages/TaxGroupCreatePage'),
+  'TaxGroupCreatePage',
+);
+const TaxGroupDetailPage = lazyRouteComponent(
+  () => import('@/src/features/finance/pages/TaxGroupDetailPage'),
+  'TaxGroupDetailPage',
+);
+const TaxRatesSettingsPage = lazyRouteComponent(
+  () => import('@/src/features/finance/pages/TaxRatesSettingsPage'),
+  'TaxRatesSettingsPage',
+);
+const TaxRateCreatePage = lazyRouteComponent(
+  () => import('@/src/features/finance/pages/TaxRateCreatePage'),
+  'TaxRateCreatePage',
+);
 
 // Root route acts as the main layout wrapper
 export const rootRoute = createRootRoute({
@@ -195,6 +270,12 @@ const inventoryVariantsRoute = createRoute({
   component: InventoryVariantsPage,
 });
 
+const stockMovementsRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/stock-movements',
+  component: StockMovementsPage,
+});
+
 const warehousesRoute = createRoute({
   getParentRoute: () => protectedLayoutRoute,
   path: '/inventory/warehouses',
@@ -250,7 +331,7 @@ const indexRoute = createRoute({
   path: '/',
   beforeLoad: () => {
     throw redirect({ to: '/dashboard', replace: true });
-  }
+  },
 });
 
 const routeTree = rootRoute.addChildren([
@@ -262,7 +343,29 @@ const routeTree = rootRoute.addChildren([
   magicLinkRoute,
   invitationRoute,
   landingRoute,
-  protectedLayoutRoute.addChildren([dashboardRoute, financeHomeRoute, inventoryRoute, productsRoute, inventoryVariantsRoute, warehousesRoute, warehouseCreateRoute, warehouseDetailRoute, productCreateRoute, productDetailRoute, productVariantDetailRoute, productCategorySettingsRoute, unitOfMeasureSettingsRoute, unitOfMeasureCreateRoute, unitOfMeasureDetailRoute, taxGroupSettingsRoute, taxGroupCreateRoute, taxGroupDetailRoute, taxRatesSettingsRoute, taxRateCreateRoute]),
+  protectedLayoutRoute.addChildren([
+    dashboardRoute,
+    financeHomeRoute,
+    inventoryRoute,
+    productsRoute,
+    inventoryVariantsRoute,
+    stockMovementsRoute,
+    warehousesRoute,
+    warehouseCreateRoute,
+    warehouseDetailRoute,
+    productCreateRoute,
+    productDetailRoute,
+    productVariantDetailRoute,
+    productCategorySettingsRoute,
+    unitOfMeasureSettingsRoute,
+    unitOfMeasureCreateRoute,
+    unitOfMeasureDetailRoute,
+    taxGroupSettingsRoute,
+    taxGroupCreateRoute,
+    taxGroupDetailRoute,
+    taxRatesSettingsRoute,
+    taxRateCreateRoute,
+  ]),
 ]);
 
 export const router = createRouter({ routeTree });

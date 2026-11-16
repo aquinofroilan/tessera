@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -142,11 +142,15 @@
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    'Geist',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: "ss01", "cv11";
+  font-feature-settings: 'ss01', 'cv11';
 }
 
 .font-display {
@@ -161,7 +165,7 @@ body {
 }
 
 .landing-root::before {
-  content: "";
+  content: '';
   pointer-events: none;
   position: fixed;
   inset: 0;
@@ -245,7 +249,7 @@ body {
 }
 
 .dash-preview::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -253,17 +257,29 @@ body {
 }
 
 @keyframes drift1 {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes drift2 {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -319,7 +335,12 @@ body {
   html {
     @apply font-sans;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading tracking-tight;
   }
 }

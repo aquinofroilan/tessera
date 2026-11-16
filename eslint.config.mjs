@@ -1,30 +1,34 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
-import betterTailwind from "eslint-plugin-better-tailwindcss";
+import js from '@eslint/js';
+import { defineConfig, globalIgnores } from 'eslint/config';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import betterTailwind from 'eslint-plugin-better-tailwindcss';
+import tseslint from 'typescript-eslint';
 
-const eslintConfig = defineConfig([
-    ...nextVitals,
-    ...nextTs,
-    {
-        files: ["**/*.{ts,tsx,js,jsx}"],
-        plugins: { "better-tailwindcss": betterTailwind },
-        settings: {
-            "better-tailwindcss": {
-                entryPoint: "app/globals.css",
-            },
-        },
-        rules: {
-            "better-tailwindcss/enforce-shorthand-classes": "warn",
-            "better-tailwindcss/no-duplicate-classes": "warn",
-        },
+export default defineConfig([
+  globalIgnores(['dist/**', 'node_modules/**', 'build/**', 'coverage/**']),
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  reactHooks.configs.flat.recommended,
+  {
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
-    globalIgnores([
-        ".next/**",
-        "out/**",
-        "build/**",
-        "next-env.d.ts",
-    ]),
+    plugins: {
+      'better-tailwindcss': betterTailwind,
+    },
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: 'src/globals.css',
+      },
+    },
+    rules: {
+      'better-tailwindcss/enforce-shorthand-classes': 'warn',
+      'better-tailwindcss/no-duplicate-classes': 'warn',
+    },
+  },
 ]);
-
-export default eslintConfig;

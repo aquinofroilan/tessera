@@ -1,68 +1,92 @@
 export type WarehouseResponse = {
-    id: string
-    code: string
-    name: string
-    description: string | null
-    addressLine: string | null
-    city: string | null
-    country: string | null
-    allowNegativeStock: boolean
-    organizationId: string
-    isActive: boolean
-    createdAt: string
-    updatedAt: string | null
-}
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  addressLine: string | null;
+  city: string | null;
+  country: string | null;
+  allowNegativeStock: boolean;
+  organizationId: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string | null;
+};
 
 export type CreateWarehouseRequest = {
-    code: string
-    name: string
-    description?: string
-    addressLine?: string
-    city?: string
-    country?: string
-    allowNegativeStock?: boolean
-}
+  code: string;
+  name: string;
+  description?: string;
+  addressLine?: string;
+  city?: string;
+  country?: string;
+  allowNegativeStock?: boolean;
+};
 
 export type UpdateWarehouseRequest = {
-    name?: string
-    description?: string | null
-    addressLine?: string | null
-    city?: string | null
-    country?: string | null
-    allowNegativeStock?: boolean
-}
+  name?: string;
+  description?: string | null;
+  addressLine?: string | null;
+  city?: string | null;
+  country?: string | null;
+  allowNegativeStock?: boolean;
+};
 
-export type WarehouseLocationType = 'ZONE' | 'AISLE' | 'RACK' | 'SHELF' | 'BIN'
+export type WarehouseLocationType = 'ZONE' | 'AISLE' | 'RACK' | 'SHELF' | 'BIN';
 
-export type WarehouseLocationResponse = {
-    id: string
-    warehouseId: string
-    parentLocationId: string | null
-    code: string
-    type: WarehouseLocationType
-    barcode: string | null
-}
+export type WarehouseLocationResponse = Readonly<{
+  id: string;
+  warehouseId: string;
+  parentLocationId: string | null;
+  code: string;
+  type: WarehouseLocationType;
+  barcode: string | null;
+  isActive: boolean;
+}>;
 
 export type CreateWarehouseLocationRequest = {
-    warehouseId: string
-    parentLocationId?: string | null
-    code: string
-    type: WarehouseLocationType
-    barcode?: string
-}
+  warehouseId: string;
+  parentLocationId?: string | null;
+  code: string;
+  type: WarehouseLocationType;
+  barcode?: string;
+};
+
+export type UpdateWarehouseLocationRequest = {
+  code?: string;
+  parentLocationId?: string | null;
+  type?: WarehouseLocationType;
+  barcode?: string | null;
+  isActive?: boolean;
+};
+
+export type WarehouseLocationListParams = Readonly<{
+  warehouseId: string;
+  activeOnly?: boolean;
+  page?: number;
+  size?: number;
+}>;
+
+export type WarehouseLocationPage = Readonly<{
+  content: readonly WarehouseLocationResponse[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}>;
 
 export type WarehouseListParams = {
-    isActive?: boolean
-    search?: string
-}
+  isActive?: boolean;
+  search?: string;
+};
 
 export type WarehouseSearchParams = {
-    search?: string
-    activeFilter?: 'true' | 'false'
-}
+  search?: string;
+  activeFilter?: 'true' | 'false';
+};
 
 export type WarehouseListPageProps = Readonly<{
-    searchParams: WarehouseSearchParams
-    updateSearchParams: ( updates: WarehouseSearchParams ) => void
-    clearSearchParams: () => void
-}>
+  searchParams: WarehouseSearchParams;
+  updateSearchParams: (updates: WarehouseSearchParams) => void;
+  clearSearchParams: () => void;
+}>;

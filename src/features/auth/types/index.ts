@@ -1,89 +1,89 @@
 export interface User {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
 }
 
 export interface AuthResponse {
-    access_token: string;
-    refresh_token: string;
-    expires_in: number;
-    token_type: string;
-    user?: User;
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  token_type: string;
+  user?: User;
 }
 
 export interface SignInResponse {
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-    tokenType: string;
-    user?: User;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+  tokenType: string;
+  user?: User;
 }
 
 export type AuthenticatedResponse = AuthResponse & {
-    user: User;
+  user: User;
 };
 
 export type AuthenticatedSignInResponse = SignInResponse & {
-    user: User;
+  user: User;
 };
 
 export interface LoginCredentials {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export interface RegisterCredentials {
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string;
-    password: string;
-    orgName: string;
-    orgSlug: string;
-    orgBaseCurrency: string;
-    orgDescription?: string;
-    orgFiscalYearStart: string;
-    orgTimezone: string;
-    orgLegalName: string;
-    orgTradeName: string;
-    termsAccepted: boolean;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+  orgName: string;
+  orgSlug: string;
+  orgBaseCurrency: string;
+  orgDescription?: string;
+  orgFiscalYearStart: string;
+  orgTimezone: string;
+  orgLegalName: string;
+  orgTradeName: string;
+  termsAccepted: boolean;
 }
 
 export interface ForgotPasswordCredentials {
-    email: string;
+  email: string;
 }
 
 export interface ResetPasswordCredentials {
-    token: string;
-    newPassword: string;
+  token: string;
+  newPassword: string;
 }
 
 export interface RequestMagicLinkCredentials {
-    email: string;
+  email: string;
 }
 
 export interface ConsumeMagicLinkCredentials {
-    token: string;
+  token: string;
 }
 
 export interface ValidateInvitationCredentials {
-    token: string;
+  token: string;
 }
 
 export interface ValidateInvitationResponse {
-    email: string;
-    role: string;
-    organizationId: string;
-    existingUser: boolean;
+  email: string;
+  role: string;
+  organizationId: string;
+  existingUser: boolean;
 }
 
 export interface AcceptInvitationCredentials {
-    token: string;
-    username?: string;
-    password?: string;
-    firstName?: string;
-    lastName?: string;
+  token: string;
+  username?: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
 }
