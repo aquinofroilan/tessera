@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Pencil } from '@/components/ui/hugeicons';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -17,6 +19,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell';
+import { TaxGroupEditDialog } from '@/src/features/finance/components/TaxGroupEditDialog';
 import { useTaxGroup } from '@/src/features/finance/api/taxGroups';
 import { getApiErrorMessage, getApiErrorStatus } from '@/src/lib/api-error';
 
@@ -41,6 +44,7 @@ function StatusBadge({ isActive }: Readonly<{ isActive: boolean }>) {
 }
 
 export function TaxGroupDetailPage({ groupId }: TaxGroupDetailPageProps) {
+  const [isEditing, setIsEditing] = useState(false);
   const groupQuery = useTaxGroup(groupId);
   const group = groupQuery.data;
   const status = groupQuery.error ? getApiErrorStatus(groupQuery.error) : undefined;
@@ -96,7 +100,18 @@ export function TaxGroupDetailPage({ groupId }: TaxGroupDetailPageProps) {
                 </h1>
                 <p className="mt-2 font-mono text-sm text-(--ink-soft)">{group.code}</p>
               </div>
-              <StatusBadge isActive={group.isActive} />
+              <div className="flex items-center gap-2">
+                <StatusBadge isActive={group.isActive} />
+                <Button
+                  type="button"
+                  variant="pill-ghost"
+                  className="border border-(--rule)"
+                  onClick={() => setIsEditing(true)}
+                >
+                  <Pencil size={15} />
+                  Edit
+                </Button>
+              </div>
             </div>
 
             <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(220px,0.45fr)]">
@@ -193,6 +208,15 @@ export function TaxGroupDetailPage({ groupId }: TaxGroupDetailPageProps) {
           </>
         ) : null}
       </div>
+      {group && isEditing ? (
+        <TaxGroupEditDialog
+          key={group.id}
+          group={group}
+          onOpenChange={(open) => {
+            if (!open) setIsEditing(false);
+          }}
+        />
+      ) : null}
     </DashboardShell>
   );
 }

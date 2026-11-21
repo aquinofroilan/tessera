@@ -3,6 +3,7 @@ import { axios } from '@/src/lib/axios';
 import type {
   CreateTaxGroupRequest,
   TaxGroupResponse,
+  UpdateTaxGroupRequest,
 } from '@/src/features/finance/types/taxGroups';
 
 const TAX_GROUPS_ENDPOINT = '/api/v1/finance/tax/groups';
@@ -40,5 +41,27 @@ export const useCreateTaxGroup = () => {
   return useMutation({
     mutationFn: createTaxGroup,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['finance', 'tax-groups'] }),
+  });
+};
+
+export const updateTaxGroup = (
+  id: string,
+  body: UpdateTaxGroupRequest,
+): Promise<TaxGroupResponse> => axios.put(`${TAX_GROUPS_ENDPOINT}/${id}`, body);
+
+export const useUpdateTaxGroup = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: UpdateTaxGroupRequest }) =>
+      updateTaxGroup(id, body),
+    onSuccess: async (_updatedGroup, variables) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['finance', 'tax-groups'] }),
+        queryClient.invalidateQueries({
+          queryKey: ['finance', 'tax-groups', variables.id],
+        }),
+      ]);
+    },
   });
 };
