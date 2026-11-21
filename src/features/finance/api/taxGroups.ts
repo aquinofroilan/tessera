@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { axios } from '@/src/lib/axios';
 import type {
   CreateTaxGroupRequest,
+  DeactivateTaxGroupResponse,
   TaxGroupResponse,
   UpdateTaxGroupRequest,
 } from '@/src/features/finance/types/taxGroups';
@@ -61,6 +62,23 @@ export const useUpdateTaxGroup = () => {
         queryClient.invalidateQueries({
           queryKey: ['finance', 'tax-groups', variables.id],
         }),
+      ]);
+    },
+  });
+};
+
+export const deactivateTaxGroup = (id: string): Promise<DeactivateTaxGroupResponse> =>
+  axios.delete(`${TAX_GROUPS_ENDPOINT}/${id}`);
+
+export const useDeactivateTaxGroup = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deactivateTaxGroup,
+    onSuccess: async (_response, id) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['finance', 'tax-groups'] }),
+        queryClient.invalidateQueries({ queryKey: ['finance', 'tax-groups', id] }),
       ]);
     },
   });

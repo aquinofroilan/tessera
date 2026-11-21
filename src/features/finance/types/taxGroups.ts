@@ -24,3 +24,7 @@ export type UpdateTaxGroupRequest = {
   name: string;
   taxRateIds: string[];
 };
+
+export type DeactivateTaxGroupResponse = {
+  message: string;
+};
