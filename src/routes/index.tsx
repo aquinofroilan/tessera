@@ -81,6 +81,18 @@ const WarehouseDetailPage = lazyRouteComponent(
   () => import('@/src/features/inventory/pages/WarehouseDetailPage'),
   'WarehouseDetailPage',
 );
+const ReorderRulesPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/ReorderRulesPage'),
+  'ReorderRulesPage',
+);
+const ReorderRuleCreatePage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/ReorderRuleCreatePage'),
+  'ReorderRuleCreatePage',
+);
+const ReorderRuleDetailPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/ReorderRuleDetailPage'),
+  'ReorderRuleDetailPage',
+);
 const FinanceHomePage = lazyRouteComponent(
   () => import('@/src/features/finance/pages/FinanceHomePage'),
   'FinanceHomePage',
@@ -187,6 +199,29 @@ const warehouseDetailRoute = createRoute({
 function WarehouseDetailRouteComponent() {
   const { warehouseId } = warehouseDetailRoute.useParams();
   return <WarehouseDetailPage warehouseId={warehouseId} />;
+}
+
+const reorderRulesRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/reorder-rules',
+  component: ReorderRulesPage,
+});
+
+const reorderRuleCreateRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/reorder-rules/new',
+  component: ReorderRuleCreatePage,
+});
+
+const reorderRuleDetailRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/reorder-rules/$ruleId',
+  component: ReorderRuleDetailRouteComponent,
+});
+
+function ReorderRuleDetailRouteComponent() {
+  const { ruleId } = reorderRuleDetailRoute.useParams();
+  return <ReorderRuleDetailPage ruleId={ruleId} />;
 }
 
 function UnitOfMeasureDetailRouteComponent() {
@@ -353,6 +388,9 @@ const routeTree = rootRoute.addChildren([
     warehousesRoute,
     warehouseCreateRoute,
     warehouseDetailRoute,
+    reorderRulesRoute,
+    reorderRuleCreateRoute,
+    reorderRuleDetailRoute,
     productCreateRoute,
     productDetailRoute,
     productVariantDetailRoute,
