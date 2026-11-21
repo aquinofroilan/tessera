@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Plus } from '@/components/ui/hugeicons';
+import { Pencil, Plus } from '@/components/ui/hugeicons';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -20,6 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell';
+import { TaxGroupEditDialog } from '@/src/features/finance/components/TaxGroupEditDialog';
 import { useTaxGroups } from '@/src/features/finance/api/taxGroups';
 import type { TaxGroupResponse } from '@/src/features/finance/types/taxGroups';
 import { getApiErrorMessage } from '@/src/lib/api-error';
@@ -48,6 +49,7 @@ function getTaxGroupsErrorMessage(error: unknown) {
 
 export function TaxGroupSettingsPage() {
   const [statusFilter, setStatusFilter] = useState<TaxGroupStatusFilter>('all');
+  const [editingGroup, setEditingGroup] = useState<TaxGroupResponse | null>(null);
   const groupsQuery = useTaxGroups({ activeOnly: false });
 
   const isLoading = groupsQuery.isPending;
@@ -115,6 +117,7 @@ export function TaxGroupSettingsPage() {
             <TableHead>Tax rates</TableHead>
             <TableHead className="text-right">Combined rate</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -156,6 +159,20 @@ export function TaxGroupSettingsPage() {
                 >
                   {group.isActive ? 'Active' : 'Inactive'}
                 </span>
+              </TableCell>
+              <TableCell>
+                <div className="flex justify-end">
+                  <Button
+                    type="button"
+                    variant="pill-ghost"
+                    size="sm"
+                    onClick={() => setEditingGroup(group)}
+                    aria-label={`Edit ${group.name}`}
+                  >
+                    <Pencil size={14} />
+                    Edit
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
@@ -236,6 +253,15 @@ export function TaxGroupSettingsPage() {
           </Card>
         </section>
       </div>
+      {editingGroup ? (
+        <TaxGroupEditDialog
+          key={editingGroup.id}
+          group={editingGroup}
+          onOpenChange={(open) => {
+            if (!open) setEditingGroup(null);
+          }}
+        />
+      ) : null}
     </DashboardShell>
   );
 }

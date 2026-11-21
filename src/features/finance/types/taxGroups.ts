@@ -19,3 +19,8 @@ export type CreateTaxGroupRequest = {
   code: string;
   taxRateIds: string[];
 };
+
+export type UpdateTaxGroupRequest = {
+  name: string;
+  taxRateIds: string[];
+};
