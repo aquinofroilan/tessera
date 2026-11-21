@@ -77,6 +77,7 @@ const isInventoryWarehouseRoute = (pathname: string) =>
   isRouteWithin(pathname, '/inventory/warehouses');
 const isInventoryReorderRuleRoute = (pathname: string) =>
   isRouteWithin(pathname, '/inventory/reorder-rules');
+const isInventoryCountRoute = (pathname: string) => isRouteWithin(pathname, '/inventory/counts');
 const isInventoryStockRoute = (pathname: string) =>
   isRouteWithin(pathname, '/inventory/stock-movements');
 
@@ -294,6 +295,20 @@ export const DashboardSidebar = ({ open, onClose }: DashboardSidebarProps) => {
                       onClick={() => {
                         onClose();
                         navigate({ to: '/inventory/reorder-rules' });
+                      }}
+                    />
+                    <DashboardNavItem
+                      label="Inventory counts"
+                      icon={<PackageIcon size={17} />}
+                      active={isInventoryCountRoute(pathname)}
+                      ariaCurrent={
+                        isInventoryCountRoute(pathname)
+                          ? getItemAriaCurrent(pathname, '/inventory/counts')
+                          : undefined
+                      }
+                      onClick={() => {
+                        onClose();
+                        navigate({ to: '/inventory/counts' });
                       }}
                     />
                     <DashboardNavItem

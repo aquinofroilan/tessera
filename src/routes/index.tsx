@@ -93,6 +93,18 @@ const ReorderRuleDetailPage = lazyRouteComponent(
   () => import('@/src/features/inventory/pages/ReorderRuleDetailPage'),
   'ReorderRuleDetailPage',
 );
+const CountSessionsPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/CountSessionsPage'),
+  'CountSessionsPage',
+);
+const CountSessionCreatePage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/CountSessionCreatePage'),
+  'CountSessionCreatePage',
+);
+const CountSessionDetailPage = lazyRouteComponent(
+  () => import('@/src/features/inventory/pages/CountSessionDetailPage'),
+  'CountSessionDetailPage',
+);
 const FinanceHomePage = lazyRouteComponent(
   () => import('@/src/features/finance/pages/FinanceHomePage'),
   'FinanceHomePage',
@@ -222,6 +234,29 @@ const reorderRuleDetailRoute = createRoute({
 function ReorderRuleDetailRouteComponent() {
   const { ruleId } = reorderRuleDetailRoute.useParams();
   return <ReorderRuleDetailPage ruleId={ruleId} />;
+}
+
+const countsRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/counts',
+  component: CountSessionsPage,
+});
+
+const countCreateRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/counts/new',
+  component: CountSessionCreatePage,
+});
+
+const countDetailRoute = createRoute({
+  getParentRoute: () => protectedLayoutRoute,
+  path: '/inventory/counts/$countId',
+  component: CountSessionDetailRouteComponent,
+});
+
+function CountSessionDetailRouteComponent() {
+  const { countId } = countDetailRoute.useParams();
+  return <CountSessionDetailPage countId={countId} />;
 }
 
 function UnitOfMeasureDetailRouteComponent() {
@@ -391,6 +426,9 @@ const routeTree = rootRoute.addChildren([
     reorderRulesRoute,
     reorderRuleCreateRoute,
     reorderRuleDetailRoute,
+    countsRoute,
+    countCreateRoute,
+    countDetailRoute,
     productCreateRoute,
     productDetailRoute,
     productVariantDetailRoute,
