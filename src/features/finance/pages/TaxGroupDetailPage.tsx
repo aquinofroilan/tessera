@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pencil } from '@/components/ui/hugeicons';
+import { Pencil, Trash2 } from '@/components/ui/hugeicons';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -19,6 +19,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell';
+import { TaxGroupDeactivateDialog } from '@/src/features/finance/components/TaxGroupDeactivateDialog';
 import { TaxGroupEditDialog } from '@/src/features/finance/components/TaxGroupEditDialog';
 import { useTaxGroup } from '@/src/features/finance/api/taxGroups';
 import { getApiErrorMessage, getApiErrorStatus } from '@/src/lib/api-error';
@@ -45,6 +46,7 @@ function StatusBadge({ isActive }: Readonly<{ isActive: boolean }>) {
 
 export function TaxGroupDetailPage({ groupId }: TaxGroupDetailPageProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeactivating, setIsDeactivating] = useState(false);
   const groupQuery = useTaxGroup(groupId);
   const group = groupQuery.data;
   const status = groupQuery.error ? getApiErrorStatus(groupQuery.error) : undefined;
@@ -111,6 +113,17 @@ export function TaxGroupDetailPage({ groupId }: TaxGroupDetailPageProps) {
                   <Pencil size={15} />
                   Edit
                 </Button>
+                {group.isActive ? (
+                  <Button
+                    type="button"
+                    variant="pill-ghost"
+                    className="text-(--accent-deep) hover:bg-(--accent-soft)"
+                    onClick={() => setIsDeactivating(true)}
+                  >
+                    <Trash2 size={15} />
+                    Deactivate
+                  </Button>
+                ) : null}
               </div>
             </div>
 
@@ -214,6 +227,15 @@ export function TaxGroupDetailPage({ groupId }: TaxGroupDetailPageProps) {
           group={group}
           onOpenChange={(open) => {
             if (!open) setIsEditing(false);
+          }}
+        />
+      ) : null}
+      {group && isDeactivating ? (
+        <TaxGroupDeactivateDialog
+          key={group.id}
+          group={group}
+          onOpenChange={(open) => {
+            if (!open) setIsDeactivating(false);
           }}
         />
       ) : null}

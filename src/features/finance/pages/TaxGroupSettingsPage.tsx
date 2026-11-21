@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Pencil, Plus } from '@/components/ui/hugeicons';
+import { Pencil, Plus, Trash2 } from '@/components/ui/hugeicons';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -20,6 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { DashboardShell } from '@/src/features/dashboard/components/DashboardShell';
+import { TaxGroupDeactivateDialog } from '@/src/features/finance/components/TaxGroupDeactivateDialog';
 import { TaxGroupEditDialog } from '@/src/features/finance/components/TaxGroupEditDialog';
 import { useTaxGroups } from '@/src/features/finance/api/taxGroups';
 import type { TaxGroupResponse } from '@/src/features/finance/types/taxGroups';
@@ -50,6 +51,7 @@ function getTaxGroupsErrorMessage(error: unknown) {
 export function TaxGroupSettingsPage() {
   const [statusFilter, setStatusFilter] = useState<TaxGroupStatusFilter>('all');
   const [editingGroup, setEditingGroup] = useState<TaxGroupResponse | null>(null);
+  const [deactivatingGroup, setDeactivatingGroup] = useState<TaxGroupResponse | null>(null);
   const groupsQuery = useTaxGroups({ activeOnly: false });
 
   const isLoading = groupsQuery.isPending;
@@ -161,7 +163,7 @@ export function TaxGroupSettingsPage() {
                 </span>
               </TableCell>
               <TableCell>
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-1">
                   <Button
                     type="button"
                     variant="pill-ghost"
@@ -172,6 +174,19 @@ export function TaxGroupSettingsPage() {
                     <Pencil size={14} />
                     Edit
                   </Button>
+                  {group.isActive ? (
+                    <Button
+                      type="button"
+                      variant="pill-ghost"
+                      size="sm"
+                      className="text-(--accent-deep) hover:bg-(--accent-soft)"
+                      onClick={() => setDeactivatingGroup(group)}
+                      aria-label={`Deactivate ${group.name}`}
+                    >
+                      <Trash2 size={14} />
+                      Deactivate
+                    </Button>
+                  ) : null}
                 </div>
               </TableCell>
             </TableRow>
@@ -259,6 +274,15 @@ export function TaxGroupSettingsPage() {
           group={editingGroup}
           onOpenChange={(open) => {
             if (!open) setEditingGroup(null);
+          }}
+        />
+      ) : null}
+      {deactivatingGroup ? (
+        <TaxGroupDeactivateDialog
+          key={deactivatingGroup.id}
+          group={deactivatingGroup}
+          onOpenChange={(open) => {
+            if (!open) setDeactivatingGroup(null);
           }}
         />
       ) : null}

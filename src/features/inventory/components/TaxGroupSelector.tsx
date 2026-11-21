@@ -39,7 +39,7 @@ export function TaxGroupSelector({
 }: TaxGroupSelectorProps) {
   const [open, setOpen] = useState(false);
   const taxGroupsQuery = useTaxGroups();
-  const taxGroups = taxGroupsQuery.data ?? [];
+  const taxGroups = (taxGroupsQuery.data ?? []).filter((taxGroup) => taxGroup.isActive);
   const selectedGroup = taxGroups.find((taxGroup) => taxGroup.id === value);
 
   useEffect(() => {
